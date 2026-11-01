@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -24,20 +23,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
-import com.bc.beerworks.ui.components.SrmRangeSwatch
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
@@ -51,10 +50,33 @@ fun StyleDetailContent(
 ) {
     val scrollState = rememberScrollState()
 
+    val srmMin = style.srmMin ?: 2.0
+    val srmMax = style.srmMax ?: srmMin
+    val srmColorMax = SrmColorConverter.srmToColor(srmMax)
+    val isDarkBeer = ((srmMin + srmMax) / 2.0) >= 10.0
+    val accentTitleColor = if (isDarkBeer) MaterialTheme.colorScheme.primary else srmColorMax
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("${style.number} ${style.name}") },
+                title = {
+                    Column {
+                        Text(
+                            text = "${style.number} ${style.name}",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = style.category,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -70,9 +92,6 @@ fun StyleDetailContent(
                     }
                 }
             )
-        },
-        bottomBar = {
-            SrmBottomBanner(minSrm = style.srmMin, maxSrm = style.srmMax)
         }
     ) { innerPadding ->
         Box(
@@ -83,53 +102,43 @@ fun StyleDetailContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, end = 28.dp, top = 16.dp, bottom = 16.dp)
+                    .padding(start = 16.dp, end = 28.dp, top = 12.dp, bottom = 16.dp)
                     .verticalScroll(scrollState)
             ) {
-                // Category Header Card
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        SuggestionChip(
-                            onClick = {},
-                            label = { Text(text = style.number, fontWeight = FontWeight.Bold) }
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text(
-                                text = style.name,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = style.category,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
-                            )
-                        }
-                    }
+                if (style.overallImpression.isNotBlank()) {
+                    DetailSectionCard(title = "Overall Impression", contentText = style.overallImpression, titleColor = accentTitleColor)
+                }
+                if (style.aroma.isNotBlank()) {
+                    DetailSectionCard(title = "Aroma", contentText = style.aroma, titleColor = accentTitleColor)
+                }
+                if (style.appearance.isNotBlank()) {
+                    DetailSectionCard(title = "Appearance", contentText = style.appearance, titleColor = accentTitleColor)
+                }
+                if (style.flavor.isNotBlank()) {
+                    DetailSectionCard(title = "Flavor", contentText = style.flavor, titleColor = accentTitleColor)
+                }
+                if (style.mouthfeel.isNotBlank()) {
+                    DetailSectionCard(title = "Mouthfeel", contentText = style.mouthfeel, titleColor = accentTitleColor)
+                }
+                if (style.comments.isNotBlank()) {
+                    DetailSectionCard(title = "Comments", contentText = style.comments, titleColor = accentTitleColor)
+                }
+                if (style.history.isNotBlank()) {
+                    DetailSectionCard(title = "History", contentText = style.history, titleColor = accentTitleColor)
+                }
+                if (style.characteristicIngredients.isNotBlank()) {
+                    DetailSectionCard(title = "Characteristic Ingredients", contentText = style.characteristicIngredients, titleColor = accentTitleColor)
+                }
+                if (style.styleComparison.isNotBlank()) {
+                    DetailSectionCard(title = "Style Comparison", contentText = style.styleComparison, titleColor = accentTitleColor)
+                }
+                if (style.commercialExamples.isNotBlank()) {
+                    DetailSectionCard(title = "Commercial Examples", contentText = style.commercialExamples, titleColor = accentTitleColor)
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Vital Statistics Card
-                DetailSectionCard(title = "Vital Statistics") {
+                // Vital Statistics Card (moved below Commercial Examples)
+                DetailSectionCard(title = "Vital Statistics", titleColor = accentTitleColor) {
                     Column {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text("Color: ", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodyMedium)
-                            SrmRangeSwatch(minSrm = style.srmMin, maxSrm = style.srmMax)
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
                         StatRow("OG Range", formatRange(style.ogMin, style.ogMax, ""))
                         StatRow("FG Range", formatRange(style.fgMin, style.fgMax, ""))
                         StatRow("IBU Range", formatRange(style.ibuMin, style.ibuMax, " IBU"))
@@ -137,36 +146,14 @@ fun StyleDetailContent(
                     }
                 }
 
-                if (style.overallImpression.isNotBlank()) {
-                    DetailSectionCard(title = "Overall Impression", contentText = style.overallImpression)
-                }
-                if (style.aroma.isNotBlank()) {
-                    DetailSectionCard(title = "Aroma", contentText = style.aroma)
-                }
-                if (style.appearance.isNotBlank()) {
-                    DetailSectionCard(title = "Appearance", contentText = style.appearance)
-                }
-                if (style.flavor.isNotBlank()) {
-                    DetailSectionCard(title = "Flavor", contentText = style.flavor)
-                }
-                if (style.mouthfeel.isNotBlank()) {
-                    DetailSectionCard(title = "Mouthfeel", contentText = style.mouthfeel)
-                }
-                if (style.comments.isNotBlank()) {
-                    DetailSectionCard(title = "Comments", contentText = style.comments)
-                }
-                if (style.history.isNotBlank()) {
-                    DetailSectionCard(title = "History", contentText = style.history)
-                }
-                if (style.characteristicIngredients.isNotBlank()) {
-                    DetailSectionCard(title = "Characteristic Ingredients", contentText = style.characteristicIngredients)
-                }
-                if (style.styleComparison.isNotBlank()) {
-                    DetailSectionCard(title = "Style Comparison", contentText = style.styleComparison)
-                }
-                if (style.commercialExamples.isNotBlank()) {
-                    DetailSectionCard(title = "Commercial Examples", contentText = style.commercialExamples)
-                }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Full-width SRM Horizontal Color Range Banner at the end of the scrollable content
+                SrmBottomBanner(
+                    minSrm = style.srmMin,
+                    maxSrm = style.srmMax,
+                    modifier = Modifier.clip(CardDefaults.shape)
+                )
             }
 
             // Custom Vertical SRM Gradient Scrollbar with Foam Head Indicator
@@ -205,9 +192,9 @@ fun SrmBottomBanner(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(52.dp)
             .background(brush)
-            .border(width = 1.dp, color = Color.White.copy(alpha = 0.3f)),
+            .border(width = 1.dp, color = Color.White.copy(alpha = 0.3f), shape = CardDefaults.shape),
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -230,6 +217,7 @@ fun SrmBottomBanner(
 fun DetailSectionCard(
     title: String,
     contentText: String? = null,
+    titleColor: Color = MaterialTheme.colorScheme.primary,
     customContent: (@Composable () -> Unit)? = null
 ) {
     Card(
@@ -243,7 +231,7 @@ fun DetailSectionCard(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = titleColor
             )
             Spacer(modifier = Modifier.height(8.dp))
             if (contentText != null) {

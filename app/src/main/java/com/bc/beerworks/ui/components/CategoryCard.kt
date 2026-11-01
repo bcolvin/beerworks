@@ -1,7 +1,6 @@
 package com.bc.beerworks.ui.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,7 +26,6 @@ import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.ui.theme.BeerworksTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryCard(
     group: BaseStyleGroup,
@@ -39,10 +38,26 @@ fun CategoryCard(
         modifier = modifier
             .fillMaxWidth()
             .clip(CardDefaults.shape)
-            .combinedClickable(
-                onClick = onCategoryClick,
-                onLongClick = onToggleExpand
-            ),
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        val pressTime = System.currentTimeMillis()
+                        val released = tryAwaitRelease()
+                        val releaseTime = System.currentTimeMillis()
+                        val duration = releaseTime - pressTime
+
+                        if (released) {
+                            if (duration < 250) {
+                                // Short tap (<250ms) -> Expand / Collapse inline
+                                onToggleExpand()
+                            } else {
+                                // Normal / Held tap (>=250ms) -> Open category details page
+                                onCategoryClick()
+                            }
+                        }
+                    }
+                )
+            },
         colors = CardDefaults.cardColors(
             containerColor = if (isExpanded) {
                 MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
