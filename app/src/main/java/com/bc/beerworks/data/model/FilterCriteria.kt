@@ -1,5 +1,8 @@
 package com.bc.beerworks.data.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class FilterCriteria(
     val query: String = "",
     val minSrm: Double = 0.0,

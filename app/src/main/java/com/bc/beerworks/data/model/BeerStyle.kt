@@ -1,5 +1,8 @@
 package com.bc.beerworks.data.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class BeerStyle(
     val id: String,
     val name: String,

@@ -12,10 +12,12 @@ import com.bc.beerworks.data.model.BaseStyleGroup
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class BeerStyleRepository(
@@ -138,7 +140,7 @@ class BeerStyleRepository(
                     }
                 }
             }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
     fun getGroupedFilteredStyles(criteria: FilterCriteria): Flow<List<BaseStyleGroup>> {
@@ -152,7 +154,7 @@ class BeerStyleRepository(
                         guidelineType = groupStyles.firstOrNull()?.guidelineType ?: GuidelineType.BJCP_2021
                     )
                 }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
     fun getCategoryGroup(categoryNumber: String, guidelineType: GuidelineType): Flow<BaseStyleGroup?> {
@@ -168,7 +170,7 @@ class BeerStyleRepository(
                     guidelineType = guidelineType
                 )
             } else null
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -178,7 +180,7 @@ class BeerStyleRepository(
                 GuidelineType.BJCP_2021 -> bjcpStyleDao.getCategories()
                 GuidelineType.BA_2026 -> baStyleDao.getCategories()
             }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {
