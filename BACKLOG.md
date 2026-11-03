@@ -22,6 +22,11 @@ This backlog stores feature ideas, user requests, and future capabilities before
 - [ ] **Malt Profile Database & Flavor Characteristics**
   - Explore base & specialty malts, EBC/Lovi color ratings, and flavor profile notes.
 
+- [ ] **Side-by-Side Comparison Matrix (Beer Styles, Hops & Malts)**
+  - Compare 2–3 beer styles side-by-side across vital statistics (ABV, IBU, SRM), appearance, and sensory profiles.
+  - Compare 2–3 hop varieties side-by-side with overlaid/contrasting 8-axis sensory radar charts, alpha/beta acid ranges, and common beer styles.
+  - Future expansion: Compare 2–3 malt profiles side-by-side (color Lovibond/EBC, extraction %, flavor contributions).
+
 - [ ] **Digital BJCP & BA Scoresheet Entry**
   - Fill out shortform & longform scoresheets (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression).
   - Score calculations and automated BJCP category validation.
