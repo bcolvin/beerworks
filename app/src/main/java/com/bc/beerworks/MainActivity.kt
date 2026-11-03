@@ -30,11 +30,15 @@ import com.bc.beerworks.data.local.DatabaseInitializer
 import com.bc.beerworks.data.local.DefaultPreferencesManager
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.repository.BeerStyleRepository
+import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
 import com.bc.beerworks.ui.components.DrawerDestination
+import com.bc.beerworks.ui.hopdetail.HopDetailContent
+import com.bc.beerworks.ui.hopdetail.HopDetailViewModel
 import com.bc.beerworks.ui.hops.HopsContent
+import com.bc.beerworks.ui.hops.HopsViewModel
 import com.bc.beerworks.ui.malt.MaltContent
 import com.bc.beerworks.ui.reviewhistory.ReviewHistoryContent
 import com.bc.beerworks.ui.settings.SettingsContent
@@ -67,6 +71,7 @@ fun BeerworksApp() {
     val database = remember { BeerworksDatabase.getInstance(context) }
     val prefsManager = remember { DefaultPreferencesManager(context) }
     val repository = remember { BeerStyleRepository(database, prefsManager) }
+    val hopRepository = remember { HopRepository(database) }
 
     LaunchedEffect(Unit) {
         DatabaseInitializer.initializeIfNeeded(context, database)
@@ -174,7 +179,33 @@ fun BeerworksApp() {
             }
 
             composable("hops") {
+                val viewModel: HopsViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return HopsViewModel(hopRepository, repository) as T
+                        }
+                    }
+                )
+
+                val hops by viewModel.hops.collectAsState()
+                val criteria by viewModel.filterCriteria.collectAsState()
+                val origins by viewModel.origins.collectAsState()
+                val categories by viewModel.categories.collectAsState()
+
                 HopsContent(
+                    hops = hops,
+                    criteria = criteria,
+                    availableOrigins = origins,
+                    availableCategories = categories,
+                    onQueryChange = viewModel::onQueryChange,
+                    onPurposeSelected = viewModel::onPurposeSelected,
+                    onSensoryCategorySelected = viewModel::onSensoryCategorySelected,
+                    onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+                    onResetFilters = viewModel::resetFilters,
+                    onHopClick = { hop ->
+                        navController.navigate("hop_detail/${hop.id}")
+                    },
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -234,18 +265,64 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, hopRepository, styleId, guidelineType) as T
                         }
                     }
                 )
 
                 val style by viewModel.style.collectAsState()
+                val commonHops by viewModel.commonHops.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
                         style = beerStyle,
                         onBackClick = { navController.popBackStack() },
-                        onToggleFavorite = viewModel::toggleFavorite
+                        onToggleFavorite = viewModel::toggleFavorite,
+                        commonHops = commonHops,
+                        onHopClick = { hopId ->
+                            navController.navigate("hop_detail/$hopId")
+                        }
+                    )
+                }
+            }
+
+            composable(
+                route = "hop_detail/{hopId}",
+                arguments = listOf(
+                    navArgument("hopId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val hopId = backStackEntry.arguments?.getString("hopId") ?: ""
+
+                val viewModel: HopDetailViewModel = viewModel(
+                    key = "hop_$hopId",
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return HopDetailViewModel(hopRepository, repository, hopId) as T
+                        }
+                    }
+                )
+
+                val hop by viewModel.hop.collectAsState()
+                val childHops by viewModel.childHops.collectAsState()
+                val substituteHops by viewModel.substituteHops.collectAsState()
+                val commonStyles by viewModel.commonStyles.collectAsState()
+
+                hop?.let { hopVariety ->
+                    HopDetailContent(
+                        hop = hopVariety,
+                        childHops = childHops,
+                        substituteHops = substituteHops,
+                        commonStyles = commonStyles,
+                        onBackClick = { navController.popBackStack() },
+                        onHopClick = { targetHopId ->
+                            navController.navigate("hop_detail/$targetHopId")
+                        },
+                        onStyleClick = { style ->
+                            navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                        },
+                        onToggleStyleFavorite = viewModel::toggleStyleFavorite
                     )
                 }
             }

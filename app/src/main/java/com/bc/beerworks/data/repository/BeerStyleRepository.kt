@@ -12,6 +12,7 @@ import com.bc.beerworks.data.model.BaseStyleGroup
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -24,13 +25,19 @@ class BeerStyleRepository(
     private val bjcpStyleDao: BjcpStyleDao,
     private val baStyleDao: BaStyleDao,
     private val favoriteStyleDao: FavoriteStyleDao,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: PreferencesManager,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
-    constructor(database: BeerworksDatabase, preferencesManager: PreferencesManager) : this(
+    constructor(
+        database: BeerworksDatabase,
+        preferencesManager: PreferencesManager,
+        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    ) : this(
         database.bjcpStyleDao(),
         database.baStyleDao(),
         database.favoriteStyleDao(),
-        preferencesManager
+        preferencesManager,
+        defaultDispatcher
     )
 
     val selectedGuideline: Flow<GuidelineType> = preferencesManager.selectedGuideline
@@ -140,7 +147,7 @@ class BeerStyleRepository(
                     }
                 }
             }
-        }.flowOn(Dispatchers.Default)
+        }.flowOn(defaultDispatcher)
     }
 
     fun getGroupedFilteredStyles(criteria: FilterCriteria): Flow<List<BaseStyleGroup>> {
@@ -154,7 +161,7 @@ class BeerStyleRepository(
                         guidelineType = groupStyles.firstOrNull()?.guidelineType ?: GuidelineType.BJCP_2021
                     )
                 }
-        }.flowOn(Dispatchers.Default)
+        }.flowOn(defaultDispatcher)
     }
 
     fun getCategoryGroup(categoryNumber: String, guidelineType: GuidelineType): Flow<BaseStyleGroup?> {
@@ -170,7 +177,7 @@ class BeerStyleRepository(
                     guidelineType = guidelineType
                 )
             } else null
-        }.flowOn(Dispatchers.Default)
+        }.flowOn(defaultDispatcher)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -180,7 +187,7 @@ class BeerStyleRepository(
                 GuidelineType.BJCP_2021 -> bjcpStyleDao.getCategories()
                 GuidelineType.BA_2026 -> baStyleDao.getCategories()
             }
-        }.flowOn(Dispatchers.Default)
+        }.flowOn(defaultDispatcher)
     }
 
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {

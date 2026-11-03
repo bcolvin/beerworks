@@ -97,7 +97,13 @@ class BeerStyleRepositoryTest {
         val fakeFav = FakeFavDao()
         val prefsManager = FakePrefsManager()
 
-        val repository = BeerStyleRepository(fakeBjcp, fakeBa, fakeFav, prefsManager)
+        val repository = BeerStyleRepository(
+            fakeBjcp,
+            fakeBa,
+            fakeFav,
+            prefsManager,
+            kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler)
+        )
 
         val result = repository.getFilteredStyles(FilterCriteria()).first()
 

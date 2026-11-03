@@ -69,7 +69,8 @@ class StyleListViewModelTest {
             FakeBjcpDao(listOf(testEntity)),
             FakeBaDao(),
             FakeFavDao(),
-            FakePrefsManager()
+            FakePrefsManager(),
+            testDispatcher
         )
 
         val viewModel = StyleListViewModel(repository)
@@ -85,7 +86,8 @@ class StyleListViewModelTest {
             FakeBjcpDao(emptyList()),
             FakeBaDao(),
             FakeFavDao(),
-            FakePrefsManager()
+            FakePrefsManager(),
+            testDispatcher
         )
 
         val viewModel = StyleListViewModel(repository)
@@ -126,7 +128,8 @@ class StyleListViewModelTest {
             FakeBjcpDao(listOf(testEntity1, testEntity2)),
             FakeBaDao(),
             FakeFavDao(),
-            FakePrefsManager()
+            FakePrefsManager(),
+            testDispatcher
         )
 
         val viewModel = StyleListViewModel(repository)

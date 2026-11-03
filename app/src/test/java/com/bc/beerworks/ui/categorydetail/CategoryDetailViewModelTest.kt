@@ -50,7 +50,8 @@ class CategoryDetailViewModelTest {
             FakeBjcpDao(listOf(testEntity)),
             FakeBaDao(),
             FakeFavDao(),
-            FakePrefsManager()
+            FakePrefsManager(),
+            testDispatcher
         )
 
         val viewModel = CategoryDetailViewModel(repository, "1", GuidelineType.BJCP_2021)

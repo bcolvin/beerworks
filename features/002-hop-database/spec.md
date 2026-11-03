@@ -24,43 +24,43 @@ Provide an offline-first, visually rich reference database of global hop varieti
 ## 📋 Requirements & Acceptance Criteria
 
 ### 1. Data Pipeline & Persistence
-- [ ] **Bundled Asset (`hops.json`)**: Curate and bundle `app/src/main/assets/hops.json` (~80–100 prominent global cultivars) containing IDs, names, country/origin, purpose, alpha/beta acid ranges, sensory categories, aroma descriptors, descriptions, parent hop IDs, substitute IDs, common style IDs, and optional 8-axis radar profiles.
-- [ ] **Room Database Version 3**:
+- [x] **Bundled Asset (`hops.json`)**: Curate and bundle `app/src/main/assets/hops.json` (~80–100 prominent global cultivars) containing IDs, names, country/origin, purpose, alpha/beta acid ranges, sensory categories, aroma descriptors, descriptions, parent hop IDs, substitute IDs, common style IDs, and optional 8-axis radar profiles.
+- [x] **Room Database Version 3**:
   - `HopVarietyEntity`: Primary table storing complete hop metadata.
   - `HopVarietyFtsEntity`: SQLite FTS4 table for sub-millisecond full-text search over names, origins, descriptors, and descriptions.
   - `HopStyleCrossRef`: Many-to-many relational join table keyed on `(hopId, styleId, guidelineType)` for bidirectional querying.
-- [ ] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `hops.json` on first launch without main-thread blocking.
-- [ ] **Repository Layer (`HopRepository`)**: Expose distinct flows for catalog search/filtering, individual hop details, dynamic child descendants (`getChildHops`), and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `hops.json` on first launch without main-thread blocking.
+- [x] **Repository Layer (`HopRepository`)**: Expose distinct flows for catalog search/filtering, individual hop details, dynamic child descendants (`getChildHops`), and style cross-references, dispatched on `Dispatchers.Default`.
 
 ### 2. Hop Catalog List Screen (`HopsScreen`)
-- [ ] **Borderless Pill Search Bar**: Single-line search container with search icon, clear button, and IME search action. Focus auto-clears on list scroll or background tap.
-- [ ] **Quick-Filter Strip**: Horizontal scrollable chips for **Purpose** (`All`, `Aroma`, `Bittering`, `Dual-Purpose`) and **Sensory Categories** (`Citrus`, `Tropical Fruit`, `Floral`, `Herbal`, `Spicy`, `Pine/Resinous`, `Earthy/Woody`).
-- [ ] **Advanced Filter Sheet**: Bottom modal sheet with:
+- [x] **Borderless Pill Search Bar**: Single-line search container with search icon, clear button, and IME search action. Focus auto-clears on list scroll or background tap.
+- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Purpose** (`All`, `Aroma`, `Bittering`, `Dual-Purpose`) and **Sensory Categories** (`Citrus`, `Tropical Fruit`, `Floral`, `Herbal`, `Spicy`, `Pine/Resinous`, `Earthy/Woody`).
+- [x] **Advanced Filter Sheet**: Bottom modal sheet with:
   - Alpha Acid % range slider (0% to 20%).
   - Origin country multi-select chips.
   - Purpose selection chips.
   - Common Beer Styles multi-select based on **Base Style Categories** (e.g. Czech Lager, IPA, English Bitter).
-- [ ] **Glanceable `HopCard` Items**:
+- [x] **Glanceable `HopCard` Items**:
   - Hop name with bold typography.
   - Origin country tag/flag (🇺🇸 US, 🇩🇪 DE, 🇨🇿 CZ, 🇳🇿 NZ, 🇬🇧 UK, etc.).
   - Color-coded Purpose pill badge (Aroma = teal, Bittering = amber, Dual-Purpose = violet).
   - Alpha Acid range badge (`AA: 11.0–13.0%`).
   - Top 3 sensory descriptor chips.
   - Chevron indicator indicating clickable navigation to detail.
-- [ ] **Zero-Result Filter Recovery**: Friendly empty state with a single-tap "Reset Filters" action button when active queries return 0 results.
+- [x] **Zero-Result Filter Recovery**: Friendly empty state with a single-tap "Reset Filters" action button when active queries return 0 results.
 
 ### 3. Hop Detail Screen (`HopDetailScreen` / `hop_detail/{hopId}`)
-- [ ] **Acid Range Gauges**: Custom horizontal graphical range meters for Alpha Acid (warm amber gradient) and Beta Acid (sage green gradient) highlighting the min-max span against a standard scale.
-- [ ] **8-Axis Sensory Radar Chart**: Custom Jetpack Compose `Canvas` radial polygon plotting quantitative intensity (0.0–5.0) across *Citrus, Tropical, Floral, Herbal, Spicy, Piney, Earthy, Grassy*. Semi-transparent fill and labeled vertices.
-- [ ] **Graceful Radar Fallback**: When numeric radar profile data is absent for a hop, hide the radar chart and display sensory category chips alongside the full aroma descriptor cloud.
-- [ ] **Lineage & Genetics Section**: Displays parent hop chips and dynamically resolved child descendant chips. Tapping any lineage chip navigates directly to that hop's detail screen.
-- [ ] **Hop Substitutes Section**: Displays alternative hop chips with comparable brewing profiles. Tapping any substitute chip navigates directly to that hop's profile.
-- [ ] **Common Beer Styles Section**: Displays clickable style cards associated with the hop. Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
+- [x] **Acid Range Gauges**: Custom horizontal graphical range meters for Alpha Acid (warm amber gradient) and Beta Acid (sage green gradient) highlighting the min-max span against a standard scale.
+- [x] **8-Axis Sensory Radar Chart**: Custom Jetpack Compose `Canvas` radial polygon plotting quantitative intensity (0.0–5.0) across *Citrus, Tropical, Floral, Herbal, Spicy, Piney, Earthy, Grassy*. Semi-transparent fill and labeled vertices.
+- [x] **Graceful Radar Fallback**: When numeric radar profile data is absent for a hop, hide the radar chart and display sensory category chips alongside the full aroma descriptor cloud.
+- [x] **Lineage & Genetics Section**: Displays parent hop chips and dynamically resolved child descendant chips. Tapping any lineage chip navigates directly to that hop's detail screen.
+- [x] **Hop Substitutes Section**: Displays alternative hop chips with comparable brewing profiles. Tapping any substitute chip navigates directly to that hop's profile.
+- [x] **Common Beer Styles Section**: Displays clickable style cards associated with the hop. Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)
-- [ ] **Collapsible "Common Hops" Section**: On `StyleDetailScreen`, add a card titled `"Common Hops (N)"` below the guideline sensory sections.
-- [ ] **Collapsed by Default**: Starts collapsed by default to preserve the clean BJCP/BA guideline reading flow.
-- [ ] **Deep Linking**: Expanding the card displays interactive hop chips with purpose tags. Tapping any hop chip navigates directly to `hop_detail/{hopId}`.
+- [x] **Collapsible "Common Hops" Section**: On `StyleDetailScreen`, add a card titled `"Common Hops (N)"` below the guideline sensory sections.
+- [x] **Collapsed by Default**: Starts collapsed by default to preserve the clean BJCP/BA guideline reading flow.
+- [x] **Deep Linking**: Expanding the card displays interactive hop chips with purpose tags. Tapping any hop chip navigates directly to `hop_detail/{hopId}`.
 
 ---
 

@@ -15,7 +15,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
 
 ## 🎯 Planned Roadmap Items (For Future Breakdown)
 
-- [ ] **Hop Profile Database & Style Cross-Reference (Feature 002)**
+- [x] **Hop Profile Database & Style Cross-Reference (Feature 002)**
   - Search hops by name, origin, or flavor descriptor (citrus, dank, noble).
   - Cross-reference hop profiles directly with BJCP / BA style guidelines.
 
