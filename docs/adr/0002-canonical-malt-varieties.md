@@ -1,0 +1,3 @@
+# Canonical Malt Varieties with Commercial Brand Examples
+
+We modeled malts as canonical brewing grain varieties (e.g. *Special B*, *Pilsner Malt*, *Chocolate Malt*, *Maris Otter*) with embedded commercial maltster examples and brand aliases (e.g. Dingemans, Weyermann, Crisp, Briess) rather than creating separate database entities for thousands of individual maltster SKUs. This keeps the domain model focused on brewing science, recipe formulation roles, and beer style relationships while full-text indexing maltster brand names so brewers can discover grains by either generic cultivar or commercial trade name.

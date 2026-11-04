@@ -46,6 +46,44 @@ _Avoid_: Replacement hop, alternative variety
 The primary hop varieties traditionally, historically, or commercially associated with a specific beer style in brewing literature and competition guidelines.
 _Avoid_: Featured hops, style hops, associated hops
 
+### Malts & Fermentables
+
+**Malt Variety**:
+A distinct type of malted or unmalted brewing grain or fermentable characterized by specific malting/kilning processes, color rating, diastatic power, and organoleptic properties.
+_Avoid_: Malt type, grain variety
+
+**Malt Category**:
+A standardized classification of brewing grains based on production method and recipe function: Base Malt, Kilned & Toasted, Caramel & Crystal, Roasted & Dark, or Adjunct & Raw Grain.
+_Avoid_: Grain class, malt family
+
+**Diastatic Power**:
+The enzymatic capacity of malted grain to convert starches into fermentable sugars during mashing, measured in degrees Lintner or qualitative conversion levels.
+_Avoid_: Enzyme level, conversion strength
+
+**Extract Potential**:
+The laboratory yield of soluble extract obtained from grain under standardized fine-grind conditions (Dry Basis Fine Grind %), indicating gravity contribution per pound.
+_Avoid_: Sugar yield, PPG potential
+
+**Typical Usage**:
+The primary brewing application, recipe role, and maximum grist percentage recommended for a malt (e.g., base grist, foam stability, color adjustment, roasted notes).
+_Avoid_: Usage notes, recipe tips
+
+**Functional Usage Tag**:
+A standardized classification of a malt's specific physical or recipe contribution in brewing (e.g., Base Grist, Head Retention, Body & Mouthfeel, Color Adjustment, Caramel Sweetness, Toasty Aroma, Roast & Coffee, Haze & Cloudiness).
+_Avoid_: Brewing role, grain function
+
+**Malt Sensory Radar Chart**:
+An 8-axis radial polygon chart plotting quantitative sensory intensity (0–5) across primary malt flavor dimensions (Malty/Sweet, Bready/Biscuit, Toasty, Caramel/Toffee, Nutty, Chocolate, Roast/Coffee, Grainy/Husky).
+_Avoid_: Malt spider graph, grain wheel
+
+**Malt Substitute**:
+A malt product or combination of grains providing equivalent color, extract, and flavor characteristics that can be swapped into a grist formulation without altering style character.
+_Avoid_: Alternative malt, replacement grain
+
+**Commercial Malts**:
+Representative commercial brand offerings and notable maltster products (e.g., Weyermann Carafa, Briess Carapils, Dingemans Special B) exemplifying a canonical malt variety.
+_Avoid_: Malt brands, proprietary grains
+
 ### Beer Styles & Evaluation
 
 **Beer Style**:
