@@ -173,7 +173,7 @@ fun StyleDetailContent(
                 SrmBottomBanner(
                     minSrm = style.srmMin,
                     maxSrm = style.srmMax,
-                    modifier = Modifier.clip(CardDefaults.shape)
+                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
                 )
             }
 
@@ -215,7 +215,7 @@ fun SrmBottomBanner(
             .fillMaxWidth()
             .height(52.dp)
             .background(brush)
-            .border(width = 1.dp, color = Color.White.copy(alpha = 0.3f), shape = CardDefaults.shape),
+            .border(width = 1.dp, color = Color.White.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -248,6 +248,7 @@ fun CollapsibleCommonHopsCard(
             .fillMaxWidth()
             .padding(vertical = 6.dp)
             .clickable { expanded = !expanded },
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -308,6 +309,7 @@ fun DetailSectionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

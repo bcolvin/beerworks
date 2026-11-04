@@ -51,11 +51,12 @@ Provide an offline-first, visually rich reference database of canonical brewing 
 - [ ] **Repository Layer (`MaltRepository`)**: Expose distinct flows for catalog search/filtering, individual malt details, and style cross-references, dispatched on `Dispatchers.Default`.
 
 ### 2. Malt Catalog List Screen (`MaltScreen`)
-- [ ] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen`.
-- [ ] **Borderless Pill Search Bar**: Single-line search container with search icon, clear button, and IME action. Matches against malt name, origin, maltster brands, descriptors, and functional tags. Focus auto-clears on list scroll.
+- [ ] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `StyleListScreen`.
+- [ ] **Top App Bar**: TopAppBar with title `"Malt"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
+- [ ] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), placeholder text (`"Search malts, maltsters, descriptors..."`), and IME search action. Focus auto-clears on list scroll or background tap.
 - [ ] **Quick-Filter Strip**: Horizontal scrollable chips for **Malt Category**:
   - `All`, `Base Malt`, `Kilned & Toasted`, `Caramel & Crystal`, `Roasted & Dark`, `Adjunct`
-- [ ] **Advanced Filter Sheet (`MaltFilterSheet`)**: Bottom modal sheet with active filter badge and reset action, ordered as:
+- [ ] **Advanced Filter Sheet (`MaltFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Malts"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
   1. **Malt Category** (multi-select chips)
   2. **Grain Type** (multi-select: Barley, Wheat, Rye, Oats, Corn, Rice, Other)
   3. **Diastatic Power** (chips: All, High [≥100°L], Moderate [30–99°L], None [0°L])
@@ -63,6 +64,7 @@ Provide an offline-first, visually rich reference database of canonical brewing 
   5. **Functional Usage Tags** (multi-select chips: Base Grist, Head Retention, Body & Mouthfeel, etc.)
   6. **Associated Base Beer Styles** (multi-select based on base style groups)
 - [ ] **Glanceable `MaltCard` Items**:
+  - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation/container tint.
   - Malt name with bold typography.
   - Origin country flag & name tag (🇺🇸 US, 🇩🇪 DE, 🇬🇧 UK, 🇧🇪 BE, etc.).
   - Malt Category pill badge (color-coded).
@@ -71,10 +73,10 @@ Provide an offline-first, visually rich reference database of canonical brewing 
   - Diastatic Power badge (`High`, `Moderate`, or `None`).
   - Top 3 functional tags / flavor descriptors.
   - Chevron indicator indicating clickable navigation to detail.
-- [ ] **Zero-Result Filter Recovery**: Empty state with friendly copy and single-tap "Reset Filters" action button.
+- [ ] **Zero-Result Filter Recovery**: Centered empty state with grain icon (`Icons.Default.Grain`), bold headline `"No malts found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
 
 ### 3. Malt Detail Screen (`MaltDetailScreen` / `malt_detail/{maltId}`)
-Ordered precisely according to resolved design hierarchy:
+Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
 1. **Hero Header**:
    - Malt name, origin country flag and name tag, Malt Category pill badge, grain type chip.
    - Narrative overview description.

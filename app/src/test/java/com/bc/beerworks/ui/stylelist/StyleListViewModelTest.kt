@@ -145,4 +145,52 @@ class StyleListViewModelTest {
 
         collectJob.cancel()
     }
+
+    @Test
+    fun filterCriteria_isFilterActive_detectsActiveFiltersCorrectly() {
+        val defaultCriteria = com.bc.beerworks.data.model.FilterCriteria()
+        assertThat(defaultCriteria.isFilterActive).isFalse()
+
+        assertThat(defaultCriteria.copy(minSrm = 5.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(maxSrm = 30.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(minAbv = 4.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(maxAbv = 10.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(minIbu = 20.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(maxIbu = 80.0).isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(selectedCategory = "IPA").isFilterActive).isTrue()
+        assertThat(defaultCriteria.copy(favoritesOnly = true).isFilterActive).isTrue()
+    }
+
+    @Test
+    fun resetFilters_preservesQueryAndResetsOtherFilters() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager(),
+            testDispatcher
+        )
+
+        val viewModel = StyleListViewModel(repository)
+
+        viewModel.onQueryChange("IPA")
+        viewModel.onFilterCriteriaChange(
+            com.bc.beerworks.data.model.FilterCriteria(
+                query = "IPA",
+                minSrm = 10.0,
+                maxSrm = 25.0,
+                favoritesOnly = true
+            )
+        )
+
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isTrue()
+
+        viewModel.resetFilters()
+
+        assertThat(viewModel.filterCriteria.value.query).isEqualTo("IPA")
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isFalse()
+        assertThat(viewModel.filterCriteria.value.minSrm).isEqualTo(0.0)
+        assertThat(viewModel.filterCriteria.value.maxSrm).isEqualTo(40.0)
+        assertThat(viewModel.filterCriteria.value.favoritesOnly).isFalse()
+    }
 }

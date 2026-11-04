@@ -28,6 +28,7 @@ import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -76,15 +77,24 @@ fun FilterSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp)
+                .padding(horizontal = 20.dp, vertical = 8.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = "Filter Styles",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Filter Styles",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
+                )
+                TextButton(onClick = onReset) {
+                    Text("Reset All")
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -233,22 +243,14 @@ fun FilterSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Action Buttons
-            Row(modifier = Modifier.fillMaxWidth()) {
-                OutlinedButton(
-                    onClick = onReset,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Reset")
-                }
-                Spacer(modifier = Modifier.padding(8.dp))
-                Button(
-                    onClick = onDismiss,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Apply")
-                }
+            // Action Button
+            Button(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Apply Filters")
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

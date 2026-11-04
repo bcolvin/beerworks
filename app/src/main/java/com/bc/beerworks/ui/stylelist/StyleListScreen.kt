@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -19,6 +20,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SportsBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -107,6 +110,19 @@ fun StyleListContent(
                             Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
+                    actions = {
+                        IconButton(onClick = {
+                            focusManager.clearFocus()
+                            showFilterSheet = true
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.FilterList,
+                                contentDescription = "Filter",
+                                tint = if (criteria.isFilterActive) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.background
                     )
@@ -138,14 +154,10 @@ fun StyleListContent(
                                 IconButton(onClick = { onQueryChange("") }) {
                                     Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear")
                                 }
-                            } else {
-                                IconButton(onClick = {
-                                    focusManager.clearFocus()
-                                    showFilterSheet = true
-                                }) {
-                                    Icon(imageVector = Icons.Default.FilterList, contentDescription = "Filter")
-                                }
                             }
+                        },
+                        placeholder = {
+                            Text("Search styles, numbers, commercial examples...")
                         },
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
@@ -170,11 +182,34 @@ fun StyleListContent(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "No beer styles match your criteria.",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(32.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.SportsBar,
+                            contentDescription = null,
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "No beer styles found",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Try adjusting your search query or filters.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Button(onClick = onResetFilters) {
+                            Text("Reset Filters")
+                        }
+                    }
                 }
             } else {
                 LazyColumn(
