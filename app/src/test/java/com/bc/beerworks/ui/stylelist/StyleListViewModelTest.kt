@@ -193,4 +193,26 @@ class StyleListViewModelTest {
         assertThat(viewModel.filterCriteria.value.maxSrm).isEqualTo(40.0)
         assertThat(viewModel.filterCriteria.value.favoritesOnly).isFalse()
     }
+
+    @Test
+    fun onGuidelineChange_updatesSelectedGuideline() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager(),
+            testDispatcher
+        )
+
+        val viewModel = StyleListViewModel(repository)
+        val collectJob = backgroundScope.launch {
+            viewModel.selectedGuideline.collect {}
+        }
+
+        viewModel.onGuidelineChange(com.bc.beerworks.data.model.GuidelineType.BA_2026)
+        runCurrent()
+
+        assertThat(viewModel.selectedGuideline.value).isEqualTo(com.bc.beerworks.data.model.GuidelineType.BA_2026)
+        collectJob.cancel()
+    }
 }

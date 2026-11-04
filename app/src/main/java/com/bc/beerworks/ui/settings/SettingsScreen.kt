@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
@@ -23,15 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bc.beerworks.data.model.GuidelineType
-import com.bc.beerworks.ui.components.GuidelineSelector
 import com.bc.beerworks.ui.theme.BeerworksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsContent(
-    selectedGuideline: GuidelineType,
-    onGuidelineChange: (GuidelineType) -> Unit,
     onMenuClick: () -> Unit
 ) {
     Scaffold(
@@ -62,8 +59,9 @@ fun SettingsContent(
         ) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                 )
             ) {
                 Column(
@@ -72,22 +70,22 @@ fun SettingsContent(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Style Guidelines",
+                        text = "Beerworks Reference",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.primary
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "Select the default guideline organization for style references.",
+                        text = "Comprehensive offline reference for BJCP 2021, Brewers Association 2026, Hop varieties, and Malt profiles.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    GuidelineSelector(
-                        selectedGuideline = selectedGuideline,
-                        onGuidelineSelected = onGuidelineChange
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(
+                        text = "💡 Guideline Switching: Press and hold 'Style Guidelines' in the top header on the guidelines screen to quickly switch between BJCP and BA guidelines.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -100,8 +98,6 @@ fun SettingsContent(
 fun SettingsContentPreview() {
     BeerworksTheme {
         SettingsContent(
-            selectedGuideline = GuidelineType.BJCP_2021,
-            onGuidelineChange = {},
             onMenuClick = {}
         )
     }

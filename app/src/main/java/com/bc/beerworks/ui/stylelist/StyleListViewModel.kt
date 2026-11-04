@@ -80,6 +80,12 @@ class StyleListViewModel(
         _filterCriteria.value = FilterCriteria(query = _filterCriteria.value.query)
     }
 
+    fun onGuidelineChange(guidelineType: GuidelineType) {
+        viewModelScope.launch {
+            repository.setGuideline(guidelineType)
+        }
+    }
+
     fun toggleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             repository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

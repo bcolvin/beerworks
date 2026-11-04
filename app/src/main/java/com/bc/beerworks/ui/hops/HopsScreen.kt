@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,6 +79,13 @@ fun HopsContent(
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+    val listState = remember(criteria) { LazyListState(0, 0) }
+
+    LaunchedEffect(criteria, hops) {
+        if (hops.isNotEmpty()) {
+            listState.scrollToItem(0)
+        }
+    }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -151,7 +161,6 @@ fun HopsContent(
                                 }
                             }
                         },
-                        placeholder = { Text("Search hops, origins, flavors...") },
                         shape = CircleShape,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
@@ -170,7 +179,7 @@ fun HopsContent(
                         .padding(horizontal = 16.dp, vertical = 6.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    val quickPurposes = listOf("Aroma", "Bittering", "Dual-Purpose")
+                    val quickPurposes = listOf("Aroma", "Bittering")
                     quickPurposes.forEach { purpose ->
                         val isSelected = criteria.selectedPurpose == purpose
                         FilterChip(
@@ -234,6 +243,7 @@ fun HopsContent(
             }
         } else {
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),

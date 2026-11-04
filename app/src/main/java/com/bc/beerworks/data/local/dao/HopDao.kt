@@ -32,7 +32,7 @@ interface HopDao {
         """
         SELECT * FROM hops
         WHERE (:ftsQuery = '' OR rowid IN (SELECT rowid FROM hops_fts WHERE hops_fts MATCH :ftsQuery))
-          AND (:purpose IS NULL OR purpose = :purpose)
+          AND (:purpose IS NULL OR purpose = :purpose OR purpose = 'Dual-Purpose')
           AND (:sensoryCategory IS NULL OR sensoryCategories LIKE '%' || :sensoryCategory || '%')
           AND (:isAlphaFiltered = 0 OR (alphaAcidMax >= :minAlpha AND alphaAcidMin <= :maxAlpha))
           AND (:originCount = 0 OR origin IN (:origins))
@@ -41,7 +41,13 @@ interface HopDao {
               JOIN bjcp_styles ON hop_style_cross_ref.styleId = bjcp_styles.id 
               WHERE bjcp_styles.category = :baseCategory
           ))
-        ORDER BY name ASC
+        ORDER BY 
+          CASE 
+            WHEN :purpose IS NOT NULL AND purpose = :purpose THEN 0 
+            WHEN :purpose IS NOT NULL AND purpose = 'Dual-Purpose' THEN 1 
+            ELSE 2 
+          END ASC,
+          name ASC
         """
     )
     fun searchAndFilterHops(

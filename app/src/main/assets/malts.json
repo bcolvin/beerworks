@@ -1,0 +1,2918 @@
+[
+  {
+    "id": "two_row_pale",
+    "name": "2-Row Pale Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 1.7,
+    "colorMax": 2.2,
+    "diastaticPowerLintner": 140,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 100,
+    "description": "Clean, versatile workhorse base malt for American craft styles. Provides clean, mild malt sweetness with neutral grain character and very high diastatic power capable of converting high proportions of unmalted adjuncts.",
+    "typicalUsage": "Foundation grain for American IPAs, Pale Ales, Lagers, and Stouts. Provides reliable extract yield and high enzymatic conversion.",
+    "functionalTags": [
+      "Base Grist",
+      "High Enzymatic Power",
+      "Clean Sweetness"
+    ],
+    "descriptors": [
+      "Clean",
+      "Sweet",
+      "Mild Grain",
+      "Cracker"
+    ],
+    "commercialExamples": [
+      "Briess 2-Row Brewers Malt",
+      "Rahr 2-Row",
+      "Great Western Premium 2-Row",
+      "Canada Malting Superior 2-Row"
+    ],
+    "substituteIds": [
+      "six_row_pale",
+      "pilsner_malt",
+      "pale_ale_malt"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "18B",
+      "18A",
+      "1A",
+      "1B",
+      "1C",
+      "20A",
+      "20B",
+      "22A"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.0,
+      "breadyBiscuit": 2.0,
+      "toasty": 1.0,
+      "caramelToffee": 0.5,
+      "nutty": 1.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 2.0
+    }
+  },
+  {
+    "id": "six_row_pale",
+    "name": "6-Row Pale Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 1.8,
+    "colorMax": 2.4,
+    "diastaticPowerLintner": 160,
+    "extractPotentialDbfg": 78.5,
+    "maxGristPercentage": 100,
+    "description": "Traditional American barley malt with thick husks and exceptionally high protein and enzyme content. Imparts a more grainy, husky flavor than 2-row and possesses massive diastatic power for converting corn and rice adjuncts.",
+    "typicalUsage": "Historic American lagers, cream ales, and pre-prohibition styles using 20–40% corn or rice adjuncts.",
+    "functionalTags": [
+      "Base Grist",
+      "High Enzymatic Power",
+      "Adjunct Conversion"
+    ],
+    "descriptors": [
+      "Grainy",
+      "Husky",
+      "Crisp",
+      "Straw"
+    ],
+    "commercialExamples": [
+      "Briess Traditional 6-Row",
+      "Rahr 6-Row"
+    ],
+    "substituteIds": [
+      "two_row_pale",
+      "pilsner_malt"
+    ],
+    "commonStyleIds": [
+      "1A",
+      "1B",
+      "1C",
+      "27B",
+      "27F"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.5,
+      "breadyBiscuit": 1.5,
+      "toasty": 0.5,
+      "caramelToffee": 0.0,
+      "nutty": 0.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 4.0
+    }
+  },
+  {
+    "id": "pilsner_malt",
+    "name": "Pilsner Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Germany & Central Europe",
+    "countryCode": "DE",
+    "colorMin": 1.4,
+    "colorMax": 2.0,
+    "diastaticPowerLintner": 110,
+    "extractPotentialDbfg": 82.0,
+    "maxGristPercentage": 100,
+    "description": "The palest base malt available, gently kilned to preserve delicate malt aroma and high enzyme activity. Imparts clean, refreshing, sweet bread dough and fresh cracker notes without color contribution.",
+    "typicalUsage": "Standard base malt for continental lagers, Pilsners, Belgian ales, and delicate golden styles.",
+    "functionalTags": [
+      "Base Grist",
+      "Crisp Malt Sweetness",
+      "Pale Color"
+    ],
+    "descriptors": [
+      "Cracker",
+      "Bread Dough",
+      "Honey",
+      "Clean"
+    ],
+    "commercialExamples": [
+      "Weyermann Pilsner Malt",
+      "BestMalz Heidelberg Pilsen",
+      "Dingemans Pilsen",
+      "Castle Château Pilsen"
+    ],
+    "substituteIds": [
+      "barke_pilsner",
+      "two_row_pale",
+      "vienna_malt"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "3B",
+      "4A",
+      "5B",
+      "25A",
+      "26A",
+      "26C",
+      "25C",
+      "24A",
+      "23A"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.2,
+      "breadyBiscuit": 2.8,
+      "toasty": 0.5,
+      "caramelToffee": 0.5,
+      "nutty": 0.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.5
+    }
+  },
+  {
+    "id": "barke_pilsner",
+    "name": "Barke Pilsner Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 1.5,
+    "colorMax": 2.1,
+    "diastaticPowerLintner": 105,
+    "extractPotentialDbfg": 81.5,
+    "maxGristPercentage": 100,
+    "description": "Heritage Bavarian 2-row summer barley cultivar prized by Franconian brewers for intense malty aroma, full body, head retention, and pristine lautering properties.",
+    "typicalUsage": "Premium Bavarian and Bohemian lagers where an authentic deep bready backbone is desired without darkening.",
+    "functionalTags": [
+      "Base Grist",
+      "Head Retention",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Rich Malt",
+      "Fresh Bread",
+      "Honeyed Grain",
+      "Crisp"
+    ],
+    "commercialExamples": [
+      "Weyermann Barke Pilsner Malt"
+    ],
+    "substituteIds": [
+      "pilsner_malt",
+      "vienna_malt"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "3B",
+      "4A",
+      "4B",
+      "5C"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.8,
+      "breadyBiscuit": 3.2,
+      "toasty": 1.0,
+      "caramelToffee": 0.5,
+      "nutty": 1.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.2
+    }
+  },
+  {
+    "id": "vienna_malt",
+    "name": "Vienna Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Austria & Germany",
+    "countryCode": "AT",
+    "colorMin": 2.8,
+    "colorMax": 4.0,
+    "diastaticPowerLintner": 80,
+    "extractPotentialDbfg": 80.5,
+    "maxGristPercentage": 100,
+    "description": "Kilned slightly higher than Pilsner malt to develop rich golden-amber hues, soft bread crust character, and elegant toasty sweetness. Self-converting base malt that rounds out malt complexity.",
+    "typicalUsage": "Base or major grist contributor (20–100%) for Vienna Lagers, Märzen, Festbier, and amber ales.",
+    "functionalTags": [
+      "Base Grist",
+      "Bread Crust",
+      "Golden Color"
+    ],
+    "descriptors": [
+      "Toasted Bread",
+      "Bread Crust",
+      "Rich Malt",
+      "Almond"
+    ],
+    "commercialExamples": [
+      "Weyermann Vienna Malt",
+      "BestMalz Vienna",
+      "Dingemans Vienna",
+      "Briess Goldpils Vienna"
+    ],
+    "substituteIds": [
+      "munich_malt_light",
+      "pilsner_malt",
+      "melanoidin_malt"
+    ],
+    "commonStyleIds": [
+      "7A",
+      "6A",
+      "4B",
+      "19A",
+      "24B",
+      "2B"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.6,
+      "breadyBiscuit": 3.8,
+      "toasty": 2.5,
+      "caramelToffee": 1.0,
+      "nutty": 2.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "munich_malt_light",
+    "name": "Munich Malt (Light / Type I)",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 5.0,
+    "colorMax": 7.0,
+    "diastaticPowerLintner": 60,
+    "extractPotentialDbfg": 79.5,
+    "maxGristPercentage": 100,
+    "description": "Cured at elevated moisture and kilned higher to generate prominent melanoidins. Imparts rich, bready, malty depth, a luscious orange-amber color, and distinctive Bavarian malt character.",
+    "typicalUsage": "Core grist for Dunkel, Märzen, Doppelbock, and Bocks; used in smaller percentages (5–20%) to add depth to IPAs and pale ales.",
+    "functionalTags": [
+      "Base Grist",
+      "Melanoidin Richness",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Bready",
+      "Bread Crust",
+      "Caramel Hint",
+      "Grainy Sweet"
+    ],
+    "commercialExamples": [
+      "Weyermann Munich I",
+      "BestMalz Munich",
+      "Castle Château Munich Light",
+      "Briess Bonlander Munich"
+    ],
+    "substituteIds": [
+      "munich_malt_dark",
+      "vienna_malt",
+      "melanoidin_malt"
+    ],
+    "commonStyleIds": [
+      "6A",
+      "8A",
+      "9A",
+      "6C",
+      "4C",
+      "7B",
+      "19A"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.2,
+      "breadyBiscuit": 4.0,
+      "toasty": 2.8,
+      "caramelToffee": 1.5,
+      "nutty": 2.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "munich_malt_dark",
+    "name": "Munich Malt (Dark / Type II)",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 8.0,
+    "colorMax": 12.0,
+    "diastaticPowerLintner": 45,
+    "extractPotentialDbfg": 78.5,
+    "maxGristPercentage": 100,
+    "description": "Kilned more intensely than Type I, developing deep golden-brown colors, heavy crusty breadiness, and pronounced toffee-like melanoidin richness while still retaining self-converting enzymatic strength.",
+    "typicalUsage": "Up to 100% of grist in Munich Dunkel and Doppelbock; accent malt in porters, stouts, and dark lagers.",
+    "functionalTags": [
+      "Base Grist",
+      "Deep Bready Notes",
+      "Color Adjustment"
+    ],
+    "descriptors": [
+      "Dark Bread Crust",
+      "Toasted Graham",
+      "Toffee",
+      "Rich Malty"
+    ],
+    "commercialExamples": [
+      "Weyermann Munich II",
+      "BestMalz Munich Dark",
+      "Castle Château Munich Dark"
+    ],
+    "substituteIds": [
+      "munich_malt_light",
+      "melanoidin_malt",
+      "aromatic_malt"
+    ],
+    "commonStyleIds": [
+      "8A",
+      "9A",
+      "6C",
+      "7B",
+      "9B",
+      "3D"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.5,
+      "breadyBiscuit": 4.2,
+      "toasty": 3.5,
+      "caramelToffee": 2.2,
+      "nutty": 2.8,
+      "chocolate": 0.5,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "maris_otter",
+    "name": "Maris Otter Pale Ale Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 2.8,
+    "colorMax": 3.8,
+    "diastaticPowerLintner": 115,
+    "extractPotentialDbfg": 81.5,
+    "maxGristPercentage": 100,
+    "description": "The quintessential British heritage 2-row winter barley variety bred in Cambridge in 1966. Renowned globally for its deep, rich, bready, and distinctly nutty malt profile and superb brewhouse reliability.",
+    "typicalUsage": "The gold-standard base malt for British Bitters, English IPAs, Stouts, Porters, and Barleywines.",
+    "functionalTags": [
+      "Base Grist",
+      "Bready & Nutty",
+      "Brewhouse Reliability"
+    ],
+    "descriptors": [
+      "Bready",
+      "Nutty",
+      "Biscuity",
+      "Rich Malt",
+      "Crackers"
+    ],
+    "commercialExamples": [
+      "Crisp Maris Otter",
+      "Thomas Fawcett Maris Otter",
+      "Simpson's Maris Otter",
+      "Bairds Maris Otter"
+    ],
+    "substituteIds": [
+      "golden_promise",
+      "pale_ale_malt",
+      "two_row_pale"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "11C",
+      "12C",
+      "13A",
+      "13C",
+      "17A",
+      "17D",
+      "15B",
+      "16A"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.8,
+      "breadyBiscuit": 4.2,
+      "toasty": 2.2,
+      "caramelToffee": 1.0,
+      "nutty": 3.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.2
+    }
+  },
+  {
+    "id": "golden_promise",
+    "name": "Golden Promise Pale Ale Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Scotland / United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 2.1,
+    "colorMax": 3.0,
+    "diastaticPowerLintner": 100,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 100,
+    "description": "Traditional Scottish 2-row semi-dwarf spring barley cultivar yielding a soft, sweet, clean, slightly bready profile without cloying sweetness. Famous as the base for Scotch Ales and prized by modern hazy IPA brewers.",
+    "typicalUsage": "Base malt for Scottish Ales, Wee Heavies, British Bitters, and juicy/hazy IPAs.",
+    "functionalTags": [
+      "Base Grist",
+      "Soft Sweetness",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Soft Sweet",
+      "Honeyed Bread",
+      "Subtle Nutty",
+      "Clean"
+    ],
+    "commercialExamples": [
+      "Simpson's Golden Promise",
+      "Thomas Fawcett Golden Promise"
+    ],
+    "substituteIds": [
+      "maris_otter",
+      "pale_ale_malt",
+      "two_row_pale"
+    ],
+    "commonStyleIds": [
+      "14A",
+      "14B",
+      "14C",
+      "17C",
+      "21A",
+      "21C",
+      "11B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.0,
+      "breadyBiscuit": 3.5,
+      "toasty": 1.5,
+      "caramelToffee": 1.0,
+      "nutty": 2.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "pale_ale_malt",
+    "name": "Pale Ale Malt (British / Domestic)",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "United Kingdom & North America",
+    "countryCode": "GB",
+    "colorMin": 3.0,
+    "colorMax": 4.2,
+    "diastaticPowerLintner": 95,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 100,
+    "description": "Kilned slightly darker and longer than standard 2-row pale malt to mute grassy raw grain flavors and accentuate bready biscuit sweetness.",
+    "typicalUsage": "Base malt for English and American pale ales, IPAs, bitters, and amber ales.",
+    "functionalTags": [
+      "Base Grist",
+      "Biscuit Sweetness",
+      "Moderate Color"
+    ],
+    "descriptors": [
+      "Biscuit",
+      "Bready",
+      "Golden Syrup",
+      "Grainy"
+    ],
+    "commercialExamples": [
+      "Crisp Best Ale",
+      "Thomas Fawcett Pale Ale Malt",
+      "Briess Pale Ale Malt"
+    ],
+    "substituteIds": [
+      "maris_otter",
+      "two_row_pale",
+      "vienna_malt"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "11B",
+      "11C",
+      "19A",
+      "12A"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.7,
+      "breadyBiscuit": 3.9,
+      "toasty": 2.0,
+      "caramelToffee": 1.0,
+      "nutty": 2.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.2
+    }
+  },
+  {
+    "id": "biscuit_malt",
+    "name": "Biscuit Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "Belgium",
+    "countryCode": "BE",
+    "colorMin": 23.0,
+    "colorMax": 28.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 77.0,
+    "maxGristPercentage": 15,
+    "description": "Uniquely kilned Belgian specialty malt producing warm, roasted aroma and dry, savory warm-bread and toasted biscuit flavors without caramel sweetness.",
+    "typicalUsage": "5–15% of grist to impart crisp, warm biscuit notes and golden-amber tint in Belgian ales, bitters, and amber lagers.",
+    "functionalTags": [
+      "Toasty Aroma",
+      "Bready Character",
+      "Dry Finish"
+    ],
+    "descriptors": [
+      "Warm Bread",
+      "Fresh Biscuit",
+      "Toasted Cracker",
+      "Nutty"
+    ],
+    "commercialExamples": [
+      "Dingemans Biscuit Malt",
+      "Castle Château Biscuit"
+    ],
+    "substituteIds": [
+      "victory_malt",
+      "amber_malt",
+      "aromatic_malt"
+    ],
+    "commonStyleIds": [
+      "24B",
+      "25A",
+      "26B",
+      "11B",
+      "18B",
+      "19A"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.0,
+      "breadyBiscuit": 4.8,
+      "toasty": 3.8,
+      "caramelToffee": 0.5,
+      "nutty": 3.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.5
+    }
+  },
+  {
+    "id": "victory_malt",
+    "name": "Victory Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 25.0,
+    "colorMax": 30.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 75.0,
+    "maxGristPercentage": 15,
+    "description": "Lightly roasted American specialty malt characterized by distinctive toasted biscuit, baking bread, and nutty roasted peanut aroma without dark roast bitterness.",
+    "typicalUsage": "3–15% in American Browns, Ambers, Porters, and Nut Browns for toasted nut complexity and copper color.",
+    "functionalTags": [
+      "Toasty Aroma",
+      "Nutty Notes",
+      "Color Adjustment"
+    ],
+    "descriptors": [
+      "Toasted Bread",
+      "Baking Biscuit",
+      "Nutty",
+      "Popcorn"
+    ],
+    "commercialExamples": [
+      "Briess Victory Malt"
+    ],
+    "substituteIds": [
+      "biscuit_malt",
+      "amber_malt",
+      "aromatic_malt"
+    ],
+    "commonStyleIds": [
+      "19A",
+      "19C",
+      "20A",
+      "18B",
+      "13B"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.2,
+      "breadyBiscuit": 4.5,
+      "toasty": 4.0,
+      "caramelToffee": 0.8,
+      "nutty": 3.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.2
+    }
+  },
+  {
+    "id": "amber_malt",
+    "name": "Amber Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 30.0,
+    "colorMax": 45.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 75.0,
+    "maxGristPercentage": 20,
+    "description": "Historic British kilned malt toasted intensely on dry kiln floors. Delivers assertive, crisp, dry toasty biscuit and pie crust flavors with subtle coffee and woody undertones.",
+    "typicalUsage": "5–15% in English Porters, Milds, Bitters, and historic London Ales for authentic dry toast crunch.",
+    "functionalTags": [
+      "Toasty Aroma",
+      "Dry Finish",
+      "Crisp Texture"
+    ],
+    "descriptors": [
+      "Dry Toast",
+      "Pie Crust",
+      "Woody",
+      "Biscuity",
+      "Roasty Hint"
+    ],
+    "commercialExamples": [
+      "Crisp Amber Malt",
+      "Thomas Fawcett Amber Malt",
+      "Simpson's Amber Malt"
+    ],
+    "substituteIds": [
+      "brown_malt",
+      "biscuit_malt",
+      "victory_malt"
+    ],
+    "commonStyleIds": [
+      "13C",
+      "13A",
+      "11C",
+      "17A",
+      "27D"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.8,
+      "breadyBiscuit": 4.2,
+      "toasty": 4.6,
+      "caramelToffee": 0.5,
+      "nutty": 3.2,
+      "chocolate": 0.2,
+      "roastCoffee": 0.5,
+      "grainyHusky": 1.8
+    }
+  },
+  {
+    "id": "brown_malt",
+    "name": "Brown Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 55.0,
+    "colorMax": 75.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 73.0,
+    "maxGristPercentage": 15,
+    "description": "The historic heart of 18th-century London Porter. Hard-kilned over hardwood fires in antiquity, modern versions provide intense toasty, woody, dry espresso and bitter chocolate nuances without astringency.",
+    "typicalUsage": "5–15% in English Porters, Baltic Porters, Brown Ales, and historic recreations.",
+    "functionalTags": [
+      "Toasty Aroma",
+      "Roast & Coffee",
+      "Complex Bitterness"
+    ],
+    "descriptors": [
+      "Wood Smoke Hint",
+      "Burnt Toast",
+      "Dark Cocoa",
+      "Espresso",
+      "Dry"
+    ],
+    "commercialExamples": [
+      "Crisp Brown Malt",
+      "Thomas Fawcett Brown Malt",
+      "Simpson's Brown Malt"
+    ],
+    "substituteIds": [
+      "amber_malt",
+      "pale_chocolate_malt",
+      "chocolate_malt"
+    ],
+    "commonStyleIds": [
+      "13C",
+      "13B",
+      "9C",
+      "27D",
+      "17B"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.5,
+      "breadyBiscuit": 3.0,
+      "toasty": 4.8,
+      "caramelToffee": 0.8,
+      "nutty": 3.0,
+      "chocolate": 2.0,
+      "roastCoffee": 2.5,
+      "grainyHusky": 2.0
+    }
+  },
+  {
+    "id": "aromatic_malt",
+    "name": "Aromatic Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "Belgium & Germany",
+    "countryCode": "BE",
+    "colorMin": 18.0,
+    "colorMax": 25.0,
+    "diastaticPowerLintner": 20,
+    "extractPotentialDbfg": 78.0,
+    "maxGristPercentage": 20,
+    "description": "High-kilned Belgian malt with pronounced malt aroma and intense deep bread crust flavor. Imparts vibrant amber to reddish hues and robust malt backbone.",
+    "typicalUsage": "5–20% in Belgian Dubbels, Tripels, Bière de Garde, and dark abbey ales.",
+    "functionalTags": [
+      "Melanoidin Richness",
+      "Aroma Enhancement",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Heavy Bread Crust",
+      "Rich Malt",
+      "Syrupy Grain",
+      "Raisin Hint"
+    ],
+    "commercialExamples": [
+      "Dingemans Aromatic",
+      "Castle Château Arome",
+      "Weyermann Melanoidin"
+    ],
+    "substituteIds": [
+      "melanoidin_malt",
+      "munich_malt_dark",
+      "biscuit_malt"
+    ],
+    "commonStyleIds": [
+      "26B",
+      "24C",
+      "26D",
+      "25B",
+      "7B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.2,
+      "breadyBiscuit": 4.6,
+      "toasty": 3.8,
+      "caramelToffee": 2.0,
+      "nutty": 2.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "melanoidin_malt",
+    "name": "Melanoidin Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 25.0,
+    "colorMax": 35.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 78.5,
+    "maxGristPercentage": 20,
+    "description": "Specialty malt produced with controlled stewing and kilning to concentrate flavor-active melanoidin compounds. Simulates the deep, rounded malt complexity of traditional multi-step decoction mashing.",
+    "typicalUsage": "5–15% in German lagers, Bocks, and Scottish Ales to simulate decoction mash character.",
+    "functionalTags": [
+      "Decoction Simulation",
+      "Deep Bready Notes",
+      "Red Color"
+    ],
+    "descriptors": [
+      "Honeyed Bread Crust",
+      "Pumpernickel",
+      "Dried Fruit",
+      "Rich Malty"
+    ],
+    "commercialExamples": [
+      "Weyermann Melanoidin Malt",
+      "BestMalz Melanoidin"
+    ],
+    "substituteIds": [
+      "aromatic_malt",
+      "munich_malt_dark",
+      "vienna_malt"
+    ],
+    "commonStyleIds": [
+      "6A",
+      "9A",
+      "7A",
+      "6C",
+      "14C",
+      "17C"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.5,
+      "breadyBiscuit": 4.5,
+      "toasty": 3.6,
+      "caramelToffee": 2.2,
+      "nutty": 2.4,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.8
+    }
+  },
+  {
+    "id": "carapils_dextrin",
+    "name": "Carapils / Dextrin Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & Germany",
+    "countryCode": "US",
+    "colorMin": 1.2,
+    "colorMax": 2.5,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 76.0,
+    "maxGristPercentage": 10,
+    "description": "Very lightly stewed crystal malt containing glassy, unfermentable dextrins. Significantly enhances head retention, foam stability, and body without contributing flavor, aroma, or color.",
+    "typicalUsage": "3–10% in light lagers, pale ales, and IPAs for foam stability and fuller mouthfeel.",
+    "functionalTags": [
+      "Head Retention",
+      "Body & Mouthfeel",
+      "No Color Impact"
+    ],
+    "descriptors": [
+      "Neutral",
+      "Subtle Sweet",
+      "Clean",
+      "Light Grain"
+    ],
+    "commercialExamples": [
+      "Briess Carapils",
+      "Weyermann Carafoam",
+      "Dingemans Cara 8"
+    ],
+    "substituteIds": [
+      "flaked_barley",
+      "flaked_wheat",
+      "carafoam"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "18B",
+      "1A",
+      "1B",
+      "5D"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.0,
+      "breadyBiscuit": 1.0,
+      "toasty": 0.0,
+      "caramelToffee": 0.5,
+      "nutty": 0.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "crystal_20",
+    "name": "Caramel / Crystal 20L",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & UK",
+    "countryCode": "US",
+    "colorMin": 18.0,
+    "colorMax": 24.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 75.0,
+    "maxGristPercentage": 15,
+    "description": "Light caramel malt providing a gentle golden-amber hue, sweet honey, mild caramel, and slight candy sweetness with unfermentable body builders.",
+    "typicalUsage": "5–10% in Blonde Ales, Light Bitters, Pale Ales, and Session IPAs.",
+    "functionalTags": [
+      "Caramel Sweetness",
+      "Body & Mouthfeel",
+      "Golden Color"
+    ],
+    "descriptors": [
+      "Honey",
+      "Sweet Caramel",
+      "Candy Corn",
+      "Mild Bread"
+    ],
+    "commercialExamples": [
+      "Briess Caramel 20L",
+      "Simpson's Caramalt",
+      "Thomas Fawcett Crystal Pale"
+    ],
+    "substituteIds": [
+      "crystal_40",
+      "caravienne",
+      "carapils_dextrin"
+    ],
+    "commonStyleIds": [
+      "18A",
+      "18B",
+      "11A",
+      "12A",
+      "1C"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.5,
+      "breadyBiscuit": 2.0,
+      "toasty": 1.0,
+      "caramelToffee": 3.8,
+      "nutty": 1.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "crystal_40",
+    "name": "Caramel / Crystal 40L",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & UK",
+    "countryCode": "US",
+    "colorMin": 36.0,
+    "colorMax": 44.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 74.0,
+    "maxGristPercentage": 15,
+    "description": "Medium-light caramel malt delivering rich golden-copper color, sweet toffee, soft toasted marshmallow, and light toasted nut complexity.",
+    "typicalUsage": "5–15% in American Pale Ales, Ambers, IPAs, and English Bitters.",
+    "functionalTags": [
+      "Caramel Sweetness",
+      "Color Adjustment",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Caramel",
+      "Toffee",
+      "Marshmallow",
+      "Honey"
+    ],
+    "commercialExamples": [
+      "Briess Caramel 40L",
+      "Thomas Fawcett Crystal Malt 40L",
+      "Crisp Crystal 150"
+    ],
+    "substituteIds": [
+      "crystal_60",
+      "crystal_20",
+      "caraamber"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "19A",
+      "11B",
+      "21A",
+      "15A"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.6,
+      "breadyBiscuit": 2.2,
+      "toasty": 1.8,
+      "caramelToffee": 4.4,
+      "nutty": 1.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "crystal_60",
+    "name": "Caramel / Crystal 60L",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & UK",
+    "countryCode": "US",
+    "colorMin": 56.0,
+    "colorMax": 65.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 74.0,
+    "maxGristPercentage": 15,
+    "description": "The quintessential mid-range caramel malt. Imparts deep amber-red color, robust rich toffee, toasted caramel, and subtle raisin sweetness.",
+    "typicalUsage": "5–15% in American Amber Ales, Red Ales, IPAs, Porters, and Strong Bitters.",
+    "functionalTags": [
+      "Caramel Sweetness",
+      "Red Color",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Toffee",
+      "Rich Caramel",
+      "Subtle Dried Fruit",
+      "Toasted Sugar"
+    ],
+    "commercialExamples": [
+      "Briess Caramel 60L",
+      "Simpson's Crystal Medium",
+      "Thomas Fawcett Crystal Malt 60L"
+    ],
+    "substituteIds": [
+      "crystal_40",
+      "crystal_80",
+      "caramunich_two"
+    ],
+    "commonStyleIds": [
+      "19A",
+      "15A",
+      "11C",
+      "21A",
+      "20A",
+      "13C"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.8,
+      "breadyBiscuit": 2.0,
+      "toasty": 2.2,
+      "caramelToffee": 4.8,
+      "nutty": 2.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "crystal_80",
+    "name": "Caramel / Crystal 80L",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & UK",
+    "countryCode": "US",
+    "colorMin": 75.0,
+    "colorMax": 85.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 73.0,
+    "maxGristPercentage": 15,
+    "description": "Dark caramel malt imparting deep red to dark copper color, burnt sugar, dark toffee, and pronounced raisin and dried plum fruitiness.",
+    "typicalUsage": "3–10% in Dark Ales, Porters, Stouts, Barleywines, and Scottish Wee Heavies.",
+    "functionalTags": [
+      "Caramel Sweetness",
+      "Dark Fruit Notes",
+      "Color Adjustment"
+    ],
+    "descriptors": [
+      "Burnt Caramel",
+      "Dark Toffee",
+      "Raisin",
+      "Plum",
+      "Toasted Nut"
+    ],
+    "commercialExamples": [
+      "Briess Caramel 80L",
+      "Thomas Fawcett Crystal Dark",
+      "Simpson's Crystal Dark"
+    ],
+    "substituteIds": [
+      "crystal_60",
+      "crystal_120",
+      "special_b"
+    ],
+    "commonStyleIds": [
+      "19C",
+      "20A",
+      "22C",
+      "17C",
+      "17A",
+      "13B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.6,
+      "breadyBiscuit": 1.8,
+      "toasty": 2.6,
+      "caramelToffee": 4.6,
+      "nutty": 2.5,
+      "chocolate": 0.8,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "crystal_120",
+    "name": "Caramel / Crystal 120L",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "North America & UK",
+    "countryCode": "US",
+    "colorMin": 115.0,
+    "colorMax": 125.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 10,
+    "description": "Very dark crystal malt characterized by deep reddish-brown color, intense bittersweet burnt sugar, bitter toffee, prune, and dark fruit complexity.",
+    "typicalUsage": "3–10% in Imperial Stouts, Baltic Porters, Old Ales, and Barleywines.",
+    "functionalTags": [
+      "Dark Fruit Notes",
+      "Color Adjustment",
+      "Complex Bitterness"
+    ],
+    "descriptors": [
+      "Prune",
+      "Burnt Sugar",
+      "Fig",
+      "Roast Caramel",
+      "Molasses"
+    ],
+    "commercialExamples": [
+      "Briess Caramel 120L",
+      "Simpson's Crystal Extra Dark"
+    ],
+    "substituteIds": [
+      "special_b",
+      "crystal_80",
+      "caramunich_three"
+    ],
+    "commonStyleIds": [
+      "20A",
+      "20C",
+      "22C",
+      "17B",
+      "9C",
+      "26D"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.2,
+      "breadyBiscuit": 1.5,
+      "toasty": 3.0,
+      "caramelToffee": 4.5,
+      "nutty": 2.8,
+      "chocolate": 1.5,
+      "roastCoffee": 0.5,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "special_b",
+    "name": "Special B Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Belgium",
+    "countryCode": "BE",
+    "colorMin": 140.0,
+    "colorMax": 155.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 10,
+    "description": "Iconic, deeply stewed and double-roasted Belgian crystal malt. Legendary for imparting profound dark stone fruit, raisin, prune, plum, and dark brown sugar richness without roasted astringency.",
+    "typicalUsage": "3–10% in Belgian Dubbels, Dark Strong Ales, Quadrupels, and winter warmers.",
+    "functionalTags": [
+      "Dark Fruit Notes",
+      "Belgian Character",
+      "Color Adjustment"
+    ],
+    "descriptors": [
+      "Raisin",
+      "Prune",
+      "Dark Plum",
+      "Burnt Caramel",
+      "Brown Sugar"
+    ],
+    "commercialExamples": [
+      "Dingemans Special B",
+      "Castle Château Special B",
+      "Briess Extra Special Malt"
+    ],
+    "substituteIds": [
+      "crystal_120",
+      "crystal_80",
+      "caramunich_three"
+    ],
+    "commonStyleIds": [
+      "26B",
+      "26D",
+      "24C",
+      "20C",
+      "30C"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.5,
+      "breadyBiscuit": 1.5,
+      "toasty": 3.2,
+      "caramelToffee": 4.8,
+      "nutty": 2.5,
+      "chocolate": 1.8,
+      "roastCoffee": 0.5,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "caramunich_two",
+    "name": "Caramunich II",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 42.0,
+    "colorMax": 49.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 74.5,
+    "maxGristPercentage": 10,
+    "description": "Drum-roasted German caramel malt made from Bavarian 2-row barley. Delivers intense malt sweetness, dark amber to copper tones, and biscuit-caramel complexity.",
+    "typicalUsage": "5–10% in Märzen, Bocks, Dunkel, and Belgian ales.",
+    "functionalTags": [
+      "Caramel Sweetness",
+      "Body & Mouthfeel",
+      "Copper Color"
+    ],
+    "descriptors": [
+      "Rich Caramel",
+      "Biscuit",
+      "Toffee",
+      "Almond"
+    ],
+    "commercialExamples": [
+      "Weyermann Caramunich II",
+      "BestMalz Caramunich II"
+    ],
+    "substituteIds": [
+      "crystal_40",
+      "crystal_60",
+      "special_b"
+    ],
+    "commonStyleIds": [
+      "6A",
+      "9A",
+      "6C",
+      "7B",
+      "26B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.6,
+      "breadyBiscuit": 2.5,
+      "toasty": 2.4,
+      "caramelToffee": 4.2,
+      "nutty": 2.6,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "chocolate_malt",
+    "name": "Chocolate Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 350.0,
+    "colorMax": 450.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 70.0,
+    "maxGristPercentage": 10,
+    "description": "Roasted slowly in specialized roasting drums. Imparts rich dark chocolate, bittersweet cocoa, roasted espresso, and deep brown to mahogany hues without harsh acrid bitterness.",
+    "typicalUsage": "3–10% in English Porters, American Stouts, Brown Ales, and Black IPAs.",
+    "functionalTags": [
+      "Roast & Coffee",
+      "Dark Chocolate",
+      "Color Adjustment"
+    ],
+    "descriptors": [
+      "Dark Chocolate",
+      "Bittersweet Cocoa",
+      "Roasted Coffee",
+      "Nutty Roast"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Chocolate Malt",
+      "Crisp Chocolate Malt",
+      "Simpson's Chocolate Malt",
+      "Briess Chocolate Malt"
+    ],
+    "substituteIds": [
+      "pale_chocolate_malt",
+      "black_patent_malt",
+      "carafa_two"
+    ],
+    "commonStyleIds": [
+      "13C",
+      "20A",
+      "20B",
+      "13B",
+      "15B",
+      "16B",
+      "21B"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.2,
+      "breadyBiscuit": 1.0,
+      "toasty": 3.8,
+      "caramelToffee": 1.0,
+      "nutty": 3.0,
+      "chocolate": 4.8,
+      "roastCoffee": 4.0,
+      "grainyHusky": 1.5
+    }
+  },
+  {
+    "id": "pale_chocolate_malt",
+    "name": "Pale Chocolate Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 200.0,
+    "colorMax": 250.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 10,
+    "description": "Roasted gently to an intermediate dark brown color. Legendary for producing smooth milk chocolate, roasted hazelnut, and mellow mocha notes with none of the harshness of darker grains.",
+    "typicalUsage": "3–10% in Milds, Porters, Brown Ales, and Session Stouts.",
+    "functionalTags": [
+      "Dark Chocolate",
+      "Smooth Roast",
+      "Nutty Notes"
+    ],
+    "descriptors": [
+      "Milk Chocolate",
+      "Mocha",
+      "Hazelnut",
+      "Mellow Cocoa"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Pale Chocolate",
+      "Crisp Pale Chocolate"
+    ],
+    "substituteIds": [
+      "chocolate_malt",
+      "brown_malt",
+      "carafa_one"
+    ],
+    "commonStyleIds": [
+      "13A",
+      "13B",
+      "13C",
+      "20A",
+      "16A"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.0,
+      "breadyBiscuit": 1.5,
+      "toasty": 4.0,
+      "caramelToffee": 1.2,
+      "nutty": 3.6,
+      "chocolate": 4.5,
+      "roastCoffee": 3.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "roasted_barley",
+    "name": "Roasted Barley (Unmalted)",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "United Kingdom & Ireland",
+    "countryCode": "IE",
+    "colorMin": 450.0,
+    "colorMax": 550.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 68.0,
+    "maxGristPercentage": 10,
+    "description": "Unmalted raw barley roasted to extreme temperatures. Imparts the defining dry, assertive, bittersweet espresso, charcoal, and coffee roast characteristic of authentic Irish Dry Stouts. Aids dense foam stability.",
+    "typicalUsage": "5–10% in Irish Dry Stouts, Export Stouts, and Imperial Stouts.",
+    "functionalTags": [
+      "Roast & Coffee",
+      "Head Retention",
+      "Dry Finish"
+    ],
+    "descriptors": [
+      "Espresso",
+      "Dark Cocoa",
+      "Charcoal",
+      "Dry Bitter",
+      "Ash"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Roasted Barley",
+      "Crisp Roasted Barley",
+      "Briess Roasted Barley",
+      "Simpson's Roasted Barley"
+    ],
+    "substituteIds": [
+      "black_patent_malt",
+      "chocolate_malt",
+      "carafa_three"
+    ],
+    "commonStyleIds": [
+      "15B",
+      "15C",
+      "20B",
+      "20C",
+      "16D"
+    ],
+    "radarProfile": {
+      "maltySweet": 0.5,
+      "breadyBiscuit": 0.5,
+      "toasty": 3.0,
+      "caramelToffee": 0.2,
+      "nutty": 2.0,
+      "chocolate": 3.5,
+      "roastCoffee": 5.0,
+      "grainyHusky": 2.5
+    }
+  },
+  {
+    "id": "black_patent_malt",
+    "name": "Black Patent Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "United Kingdom & North America",
+    "countryCode": "GB",
+    "colorMin": 500.0,
+    "colorMax": 600.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 66.0,
+    "maxGristPercentage": 5,
+    "description": "Heavily roasted malt invented in 1817 by Daniel Wheeler. Provides jet black color, sharp dry roasty bitterness, and intense charcoal/smoky nuances.",
+    "typicalUsage": "1–5% for deep black color adjustment in Porters and Stouts; used sparingly.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Roast & Coffee",
+      "Sharp Bitterness"
+    ],
+    "descriptors": [
+      "Charcoal",
+      "Burnt Toast",
+      "Sharp Roast",
+      "Bitter Cocoa"
+    ],
+    "commercialExamples": [
+      "Briess Black Malt",
+      "Crisp Black Malt",
+      "Thomas Fawcett Black Malt"
+    ],
+    "substituteIds": [
+      "roasted_barley",
+      "chocolate_malt",
+      "carafa_three"
+    ],
+    "commonStyleIds": [
+      "20A",
+      "20B",
+      "13C",
+      "20C"
+    ],
+    "radarProfile": {
+      "maltySweet": 0.2,
+      "breadyBiscuit": 0.2,
+      "toasty": 2.8,
+      "caramelToffee": 0.0,
+      "nutty": 1.5,
+      "chocolate": 3.0,
+      "roastCoffee": 4.8,
+      "grainyHusky": 3.0
+    }
+  },
+  {
+    "id": "carafa_special_three",
+    "name": "Carafa Special III (De-husked)",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 470.0,
+    "colorMax": 530.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 68.0,
+    "maxGristPercentage": 5,
+    "description": "Carefully de-husked dark roasted malt from Weyermann. Delivers rich, pitch-black color, subtle coffee aroma, and dark beer body with almost none of the harsh astringency or acrid bitterness of husked grains.",
+    "typicalUsage": "1–5% in German Schwarzbier, Baltic Porters, Black IPAs, and Dunkel for black color with smooth drinkability.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Smooth Roast",
+      "Low Astringency"
+    ],
+    "descriptors": [
+      "Smooth Roast",
+      "Dark Chocolate",
+      "Mild Espresso",
+      "Clean"
+    ],
+    "commercialExamples": [
+      "Weyermann Carafa Special III"
+    ],
+    "substituteIds": [
+      "blackprinz",
+      "midnight_wheat",
+      "chocolate_malt"
+    ],
+    "commonStyleIds": [
+      "8B",
+      "9C",
+      "3D",
+      "21B",
+      "27E"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.0,
+      "breadyBiscuit": 0.8,
+      "toasty": 3.2,
+      "caramelToffee": 0.5,
+      "nutty": 2.2,
+      "chocolate": 4.2,
+      "roastCoffee": 3.8,
+      "grainyHusky": 0.4
+    }
+  },
+  {
+    "id": "midnight_wheat",
+    "name": "Midnight Wheat Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Wheat",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 500.0,
+    "colorMax": 550.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 70.0,
+    "maxGristPercentage": 5,
+    "description": "Huskless roasted wheat malt from Briess. Because wheat lacks an outer husk, it can be roasted to extreme darkness without releasing harsh phenolic tannins or bitter bite.",
+    "typicalUsage": "1–5% for deep black color in Black IPAs, Schwarzbiers, Porters, and smooth dark ales.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Smooth Roast",
+      "Low Astringency"
+    ],
+    "descriptors": [
+      "Subtle Cocoa",
+      "Smooth Dark",
+      "Neutral",
+      "Mild Bread"
+    ],
+    "commercialExamples": [
+      "Briess Midnight Wheat"
+    ],
+    "substituteIds": [
+      "carafa_special_three",
+      "blackprinz",
+      "chocolate_malt"
+    ],
+    "commonStyleIds": [
+      "21B",
+      "8B",
+      "20A",
+      "19C"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.2,
+      "breadyBiscuit": 1.0,
+      "toasty": 3.0,
+      "caramelToffee": 0.5,
+      "nutty": 2.0,
+      "chocolate": 4.0,
+      "roastCoffee": 3.2,
+      "grainyHusky": 0.2
+    }
+  },
+  {
+    "id": "flaked_oats",
+    "name": "Flaked Oats",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Oats",
+    "origin": "Global",
+    "countryCode": "US",
+    "colorMin": 1.0,
+    "colorMax": 2.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 30,
+    "description": "Pre-gelatinized rolled oat flakes rich in beta-glucans, lipids, and soluble proteins. Imparts a luxurious, silky-smooth creaminess, full velvety mouthfeel, and stable persistent haze.",
+    "typicalUsage": "10–30% in Oatmeal Stouts, Hazy/New England IPAs, and Belgian Witbiers.",
+    "functionalTags": [
+      "Body & Mouthfeel",
+      "Haze & Cloudiness",
+      "Head Retention"
+    ],
+    "descriptors": [
+      "Silky",
+      "Creamy",
+      "Oatmeal",
+      "Soft Grain"
+    ],
+    "commercialExamples": [
+      "Briess Flaked Oats",
+      "Quaker Rolled Oats"
+    ],
+    "substituteIds": [
+      "malted_oats",
+      "flaked_barley",
+      "flaked_wheat"
+    ],
+    "commonStyleIds": [
+      "16B",
+      "21C",
+      "24A",
+      "20B",
+      "18B"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.0,
+      "breadyBiscuit": 2.5,
+      "toasty": 0.5,
+      "caramelToffee": 0.0,
+      "nutty": 2.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.8
+    }
+  },
+  {
+    "id": "pale_wheat_malt",
+    "name": "Pale Wheat Malt",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Wheat",
+    "origin": "Germany & North America",
+    "countryCode": "DE",
+    "colorMin": 1.8,
+    "colorMax": 2.8,
+    "diastaticPowerLintner": 130,
+    "extractPotentialDbfg": 83.0,
+    "maxGristPercentage": 70,
+    "description": "Malted wheat kernel lacking an outer husk. Features very high protein content contributing thick rocky meringue-like foam, soft doughy mouthfeel, and tart crisp graininess.",
+    "typicalUsage": "50–70% in German Weissbier; 5–20% in American ales and lagers for head retention.",
+    "functionalTags": [
+      "Head Retention",
+      "Body & Mouthfeel",
+      "High Enzymatic Power"
+    ],
+    "descriptors": [
+      "Bready Dough",
+      "Light Flour",
+      "Tart Wheat",
+      "Crackers"
+    ],
+    "commercialExamples": [
+      "Weyermann Pale Wheat",
+      "BestMalz Wheat",
+      "Briess White Wheat"
+    ],
+    "substituteIds": [
+      "white_wheat_malt",
+      "torrefied_wheat",
+      "flaked_wheat"
+    ],
+    "commonStyleIds": [
+      "10A",
+      "10B",
+      "10C",
+      "1D",
+      "23A",
+      "24A",
+      "23G"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.0,
+      "breadyBiscuit": 3.8,
+      "toasty": 0.8,
+      "caramelToffee": 0.2,
+      "nutty": 1.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "malted_rye",
+    "name": "Malted Rye",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Rye",
+    "origin": "Germany & North America",
+    "countryCode": "DE",
+    "colorMin": 3.0,
+    "colorMax": 4.5,
+    "diastaticPowerLintner": 105,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 30,
+    "description": "Malted rye grains containing high levels of beta-glucans. Contributes a distinctive dry, spicy, peppery, pumpernickel-bread crispness and rich viscous body.",
+    "typicalUsage": "10–30% in Rye IPAs, Roggenbier, and Farmhouse ales.",
+    "functionalTags": [
+      "Body & Mouthfeel",
+      "Spicy Crispness",
+      "Head Retention"
+    ],
+    "descriptors": [
+      "Black Pepper",
+      "Spicy Rye",
+      "Pumpernickel",
+      "Earthy"
+    ],
+    "commercialExamples": [
+      "Weyermann Rye Malt",
+      "Briess Rye Malt"
+    ],
+    "substituteIds": [
+      "flaked_rye",
+      "pale_wheat_malt"
+    ],
+    "commonStyleIds": [
+      "27H",
+      "21B",
+      "25B",
+      "19A"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.5,
+      "breadyBiscuit": 3.5,
+      "toasty": 2.2,
+      "caramelToffee": 0.5,
+      "nutty": 2.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 2.8
+    }
+  },
+  {
+    "id": "flaked_barley",
+    "name": "Flaked Barley",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Barley",
+    "origin": "United Kingdom & Ireland",
+    "countryCode": "GB",
+    "colorMin": 1.2,
+    "colorMax": 2.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 20,
+    "description": "Unmalted rolled barley providing unfermentable proteins and glucans that build exceptional head retention and a creamy, dry graininess characteristic of Irish stouts.",
+    "typicalUsage": "5–20% in Dry Stouts, Porters, and Milds for foam stability and body.",
+    "functionalTags": [
+      "Head Retention",
+      "Body & Mouthfeel",
+      "Dry Graininess"
+    ],
+    "descriptors": [
+      "Raw Grain",
+      "Creamy",
+      "Dry Bread",
+      "Cereal"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Flaked Barley",
+      "Crisp Flaked Barley",
+      "Briess Flaked Barley"
+    ],
+    "substituteIds": [
+      "flaked_oats",
+      "carapils_dextrin"
+    ],
+    "commonStyleIds": [
+      "15B",
+      "15C",
+      "13C",
+      "20B"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.5,
+      "breadyBiscuit": 2.0,
+      "toasty": 0.5,
+      "caramelToffee": 0.0,
+      "nutty": 1.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 2.5
+    }
+  },
+  {
+    "id": "flaked_corn_maize",
+    "name": "Flaked Corn (Maize)",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Corn",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 0.8,
+    "colorMax": 1.5,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 84.0,
+    "maxGristPercentage": 40,
+    "description": "Pre-gelatinized flaked maize grain. Imparts high fermentable sugar content to lighten beer body, decrease malt haze, and add a subtle sweet corn sweetness.",
+    "typicalUsage": "10–40% in American Lagers, Cream Ales, and Pre-Prohibition styles.",
+    "functionalTags": [
+      "Lighten Body",
+      "Crisp Texture",
+      "Pale Color"
+    ],
+    "descriptors": [
+      "Sweet Corn",
+      "Neutral",
+      "Crisp",
+      "Light Cereal"
+    ],
+    "commercialExamples": [
+      "Briess Yellow Flaked Corn"
+    ],
+    "substituteIds": [
+      "flaked_rice",
+      "six_row_pale"
+    ],
+    "commonStyleIds": [
+      "1A",
+      "1B",
+      "1C",
+      "27B",
+      "27F"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.5,
+      "breadyBiscuit": 1.0,
+      "toasty": 0.0,
+      "caramelToffee": 0.0,
+      "nutty": 0.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "flaked_rice",
+    "name": "Flaked Rice",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Rice",
+    "origin": "Global",
+    "countryCode": "US",
+    "colorMin": 0.5,
+    "colorMax": 1.2,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 83.0,
+    "maxGristPercentage": 40,
+    "description": "Pre-gelatinized rolled rice flakes yielding the absolute cleanest, driest, most neutral fermentable sugar source. Lightens beer body and color with zero residual grain sweetness.",
+    "typicalUsage": "10–40% in Japanese Dry Lagers, American Light Lagers, and Brut IPAs.",
+    "functionalTags": [
+      "Lighten Body",
+      "Dry Finish",
+      "Pale Color"
+    ],
+    "descriptors": [
+      "Ultra Clean",
+      "Crisp",
+      "Neutral",
+      "Dry"
+    ],
+    "commercialExamples": [
+      "Briess Flaked Rice"
+    ],
+    "substituteIds": [
+      "flaked_corn_maize"
+    ],
+    "commonStyleIds": [
+      "1A",
+      "1B",
+      "2A"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.0,
+      "breadyBiscuit": 0.5,
+      "toasty": 0.0,
+      "caramelToffee": 0.0,
+      "nutty": 0.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "acidulated_malt",
+    "name": "Acidulated Malt (Sauermalz)",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 2.0,
+    "colorMax": 4.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 76.0,
+    "maxGristPercentage": 10,
+    "description": "Pilsner malt naturally fermented with lactic acid bacteria (*Lactobacillus*) to 1–2% natural lactic acid. Traditionally used in Germany to lower mash pH in compliance with the Reinheitsgebot.",
+    "typicalUsage": "1–5% for mash pH adjustment; 5–10% in Gose and Berliner Weisse for tart acidity.",
+    "functionalTags": [
+      "pH Adjustment",
+      "Tart Acidity",
+      "Mash Optimization"
+    ],
+    "descriptors": [
+      "Lactic Tart",
+      "Crisp",
+      "Sour Grain",
+      "Clean Acid"
+    ],
+    "commercialExamples": [
+      "Weyermann Acidulated Malt",
+      "BestMalz Acidulated"
+    ],
+    "substituteIds": [
+      "pilsner_malt"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "23A",
+      "23G",
+      "4A"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.5,
+      "breadyBiscuit": 1.8,
+      "toasty": 0.5,
+      "caramelToffee": 0.0,
+      "nutty": 0.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.5
+    }
+  },
+  {
+    "id": "smoked_malt_rauchmalt",
+    "name": "Smoked Malt (Rauchmalt)",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 2.5,
+    "colorMax": 4.5,
+    "diastaticPowerLintner": 95,
+    "extractPotentialDbfg": 80.0,
+    "maxGristPercentage": 100,
+    "description": "Pilsner-grade barley malt dried over flaming cured beechwood logs in Bamberg kilns. Infuses a rich, savory, campfire, bacon, and wood-smoke aroma while retaining full diastatic conversion power.",
+    "typicalUsage": "Up to 100% in Bamberg Rauchbier, smoked porters, and specialty lagers.",
+    "functionalTags": [
+      "Base Grist",
+      "Smoke & Campfire",
+      "Savory Character"
+    ],
+    "descriptors": [
+      "Beechwood Smoke",
+      "Savory Bacon",
+      "Campfire",
+      "Rich Malt"
+    ],
+    "commercialExamples": [
+      "Weyermann Beechwood Smoked Malt",
+      "BestMalz Smoked"
+    ],
+    "substituteIds": [
+      "pilsner_malt",
+      "vienna_malt"
+    ],
+    "commonStyleIds": [
+      "6B",
+      "32A",
+      "27C",
+      "32B"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.5,
+      "breadyBiscuit": 3.0,
+      "toasty": 4.5,
+      "caramelToffee": 1.0,
+      "nutty": 2.0,
+      "chocolate": 0.5,
+      "roastCoffee": 1.0,
+      "grainyHusky": 2.0
+    }
+  },
+  {
+    "id": "bohemian_pilsner",
+    "name": "Floor-Malted Bohemian Pilsner",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "Czech Republic",
+    "countryCode": "CZ",
+    "colorMin": 1.6,
+    "colorMax": 2.3,
+    "diastaticPowerLintner": 100,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 100,
+    "description": "Traditional Moravian 2-row barley steeped and germinated on cool stone floors in the traditional Bohemian method. Imparts unmatched rich maltiness, honeyed bread, and authentic Czech lager character.",
+    "typicalUsage": "Single base malt for Czech Premium Pale Lager (Bohemian Pilsner) and Czech dark and amber lagers.",
+    "functionalTags": [
+      "Base Grist",
+      "Floor Malted",
+      "Traditional Czech"
+    ],
+    "descriptors": [
+      "Honeyed Bread",
+      "Rustic Malt",
+      "Sweet Dough",
+      "Hay"
+    ],
+    "commercialExamples": [
+      "Weyermann Bohemian Floor-Malted Pilsner",
+      "BestMalz Czech Pilsen"
+    ],
+    "substituteIds": [
+      "pilsner_malt",
+      "barke_pilsner"
+    ],
+    "commonStyleIds": [
+      "3B",
+      "3A",
+      "3C",
+      "3D"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.0,
+      "breadyBiscuit": 3.6,
+      "toasty": 1.0,
+      "caramelToffee": 0.8,
+      "nutty": 1.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.8
+    }
+  },
+  {
+    "id": "halcyon",
+    "name": "Halcyon Pale Ale Malt",
+    "category": "Base Malt",
+    "grainType": "Barley",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 2.5,
+    "colorMax": 3.5,
+    "diastaticPowerLintner": 110,
+    "extractPotentialDbfg": 81.5,
+    "maxGristPercentage": 100,
+    "description": "Traditional British 2-row winter barley cultivar, bred from Maris Otter. Imparts a bright, clean, crisp biscuity flavor slightly drier than Maris Otter.",
+    "typicalUsage": "Base malt for English Pale Ales, IPAs, Bitters, and Golden Ales.",
+    "functionalTags": [
+      "Base Grist",
+      "Crisp Biscuit",
+      "Bright Character"
+    ],
+    "descriptors": [
+      "Crisp Biscuit",
+      "Nutty",
+      "Light Toasty",
+      "Clean"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Halcyon",
+      "Crisp Halcyon"
+    ],
+    "substituteIds": [
+      "maris_otter",
+      "golden_promise",
+      "pale_ale_malt"
+    ],
+    "commonStyleIds": [
+      "11B",
+      "12C",
+      "12A",
+      "11C"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.4,
+      "breadyBiscuit": 4.0,
+      "toasty": 2.2,
+      "caramelToffee": 0.8,
+      "nutty": 3.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.2
+    }
+  },
+  {
+    "id": "red_x",
+    "name": "Best Red X Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 11.0,
+    "colorMax": 14.0,
+    "diastaticPowerLintner": 65,
+    "extractPotentialDbfg": 79.0,
+    "maxGristPercentage": 100,
+    "description": "Proprietary specialty German malt kilned to produce a brilliant, luminous fiery red beer color when brewed up to 100% of the grist, without requiring crystal or roasted malts.",
+    "typicalUsage": "Up to 100% of grist for Irish Red Ales, Red IPAs, Amber Ales, and Märzen for fiery ruby hues.",
+    "functionalTags": [
+      "Red Color",
+      "Base Grist",
+      "Melanoidin Richness"
+    ],
+    "descriptors": [
+      "Bready",
+      "Mild Caramel",
+      "Honey Toast",
+      "Full Malt"
+    ],
+    "commercialExamples": [
+      "BestMalz Red X"
+    ],
+    "substituteIds": [
+      "vienna_malt",
+      "melanoidin_malt",
+      "crystal_40"
+    ],
+    "commonStyleIds": [
+      "15A",
+      "19A",
+      "21B",
+      "6A"
+    ],
+    "radarProfile": {
+      "maltySweet": 3.8,
+      "breadyBiscuit": 3.8,
+      "toasty": 2.6,
+      "caramelToffee": 2.0,
+      "nutty": 2.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.0
+    }
+  },
+  {
+    "id": "abbey_malt",
+    "name": "Abbey Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "Germany & Belgium",
+    "countryCode": "DE",
+    "colorMin": 16.0,
+    "colorMax": 20.0,
+    "diastaticPowerLintner": 15,
+    "extractPotentialDbfg": 77.0,
+    "maxGristPercentage": 25,
+    "description": "Deeply kilned European specialty malt imparting intense cooked bread crust, biscuit, and rich dark fruit nuances along with a deep warm copper tone.",
+    "typicalUsage": "5–25% in Belgian Dubbels, Trappist ales, and strong abbey beers.",
+    "functionalTags": [
+      "Belgian Character",
+      "Bready Character",
+      "Copper Color"
+    ],
+    "descriptors": [
+      "Toasted Bread Crust",
+      "Cooked Honey",
+      "Biscuit",
+      "Plum"
+    ],
+    "commercialExamples": [
+      "Weyermann Abbey Malt",
+      "Castle Château Abbey"
+    ],
+    "substituteIds": [
+      "aromatic_malt",
+      "biscuit_malt",
+      "melanoidin_malt"
+    ],
+    "commonStyleIds": [
+      "26B",
+      "26D",
+      "25B",
+      "24B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.0,
+      "breadyBiscuit": 4.6,
+      "toasty": 3.5,
+      "caramelToffee": 2.2,
+      "nutty": 2.6,
+      "chocolate": 0.2,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.8
+    }
+  },
+  {
+    "id": "special_roast",
+    "name": "Special Roast Malt",
+    "category": "Kilned & Toasted",
+    "grainType": "Barley",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 45.0,
+    "colorMax": 55.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 73.0,
+    "maxGristPercentage": 10,
+    "description": "Drum-roasted American specialty malt providing complex warm sourdough, toasted bran, and tangy deep biscuit flavors with a deep red-orange color.",
+    "typicalUsage": "3–10% in Nut Browns, Amber Ales, Porters, and ESBs for sourdough complexity.",
+    "functionalTags": [
+      "Toasty Aroma",
+      "Red Color",
+      "Sourdough Tang"
+    ],
+    "descriptors": [
+      "Sourdough Bread",
+      "Toasted Bran",
+      "Nutty",
+      "Tangy"
+    ],
+    "commercialExamples": [
+      "Briess Special Roast"
+    ],
+    "substituteIds": [
+      "amber_malt",
+      "biscuit_malt",
+      "brown_malt"
+    ],
+    "commonStyleIds": [
+      "19A",
+      "19C",
+      "11C",
+      "13B"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.4,
+      "breadyBiscuit": 4.4,
+      "toasty": 4.2,
+      "caramelToffee": 1.0,
+      "nutty": 3.4,
+      "chocolate": 0.2,
+      "roastCoffee": 0.2,
+      "grainyHusky": 1.6
+    }
+  },
+  {
+    "id": "honey_malt",
+    "name": "Honey Malt (Gambrinus)",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Canada",
+    "countryCode": "CA",
+    "colorMin": 20.0,
+    "colorMax": 30.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 78.0,
+    "maxGristPercentage": 10,
+    "description": "Unique European-style brumalt produced by Gambrinus Malting in British Columbia. Imparts an intense, natural floral wildflower honey sweetness and rich golden hue.",
+    "typicalUsage": "2–8% in Blonde Ales, IPAs, and Wheat beers for distinct honey sweetness.",
+    "functionalTags": [
+      "Floral Honey",
+      "Intense Sweetness",
+      "Golden Color"
+    ],
+    "descriptors": [
+      "Wildflower Honey",
+      "Sweet Floral",
+      "Graham Cracker",
+      "Rich Sugar"
+    ],
+    "commercialExamples": [
+      "Gambrinus Honey Malt"
+    ],
+    "substituteIds": [
+      "crystal_20",
+      "caramunich_one",
+      "carafoam"
+    ],
+    "commonStyleIds": [
+      "18A",
+      "21A",
+      "1D",
+      "18B"
+    ],
+    "radarProfile": {
+      "maltySweet": 5.0,
+      "breadyBiscuit": 2.8,
+      "toasty": 1.0,
+      "caramelToffee": 3.5,
+      "nutty": 1.2,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.2
+    }
+  },
+  {
+    "id": "carafoam",
+    "name": "Carafoam Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 1.5,
+    "colorMax": 2.9,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 76.5,
+    "maxGristPercentage": 15,
+    "description": "Drum-cooked German dextrin malt designed specifically to enhance beer foam volume, lace stability, and body without contributing sweetness or color.",
+    "typicalUsage": "5–15% in German Pilsners, Helles, and Festbiers for dense, rocky foam.",
+    "functionalTags": [
+      "Head Retention",
+      "Body & Mouthfeel",
+      "No Color Impact"
+    ],
+    "descriptors": [
+      "Neutral",
+      "Clean",
+      "Light Dough",
+      "Soft"
+    ],
+    "commercialExamples": [
+      "Weyermann Carafoam"
+    ],
+    "substituteIds": [
+      "carapils_dextrin",
+      "flaked_barley"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "4A",
+      "4B",
+      "5C"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.8,
+      "breadyBiscuit": 1.2,
+      "toasty": 0.0,
+      "caramelToffee": 0.2,
+      "nutty": 0.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "caraamber",
+    "name": "Caraamber Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 23.0,
+    "colorMax": 31.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 75.0,
+    "maxGristPercentage": 20,
+    "description": "Drum-roasted German caramel malt imparting glowing red and amber hues, soft toffee, warm biscuit, and rounded malt body.",
+    "typicalUsage": "5–15% in Red Ales, Bocks, and Amber Lagers.",
+    "functionalTags": [
+      "Red Color",
+      "Caramel Sweetness",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Toffee",
+      "Warm Bread",
+      "Red Berries Hint",
+      "Caramel"
+    ],
+    "commercialExamples": [
+      "Weyermann Caraamber"
+    ],
+    "substituteIds": [
+      "crystal_30",
+      "crystal_40",
+      "caravienne"
+    ],
+    "commonStyleIds": [
+      "15A",
+      "19A",
+      "6A",
+      "7A"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.5,
+      "breadyBiscuit": 3.0,
+      "toasty": 1.8,
+      "caramelToffee": 4.0,
+      "nutty": 1.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "carared",
+    "name": "Carared Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 16.0,
+    "colorMax": 23.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 76.0,
+    "maxGristPercentage": 25,
+    "description": "German caramel malt specifically engineered to promote a vibrant ruby-red shine in beer while providing soft honey, cereal, and caramel notes.",
+    "typicalUsage": "5–20% in Red Ales, Altbier, and Scottish Ales.",
+    "functionalTags": [
+      "Red Color",
+      "Caramel Sweetness",
+      "Head Retention"
+    ],
+    "descriptors": [
+      "Honeyed Caramel",
+      "Biscuit",
+      "Red Berry",
+      "Sweet Cereal"
+    ],
+    "commercialExamples": [
+      "Weyermann Carared"
+    ],
+    "substituteIds": [
+      "caraamber",
+      "crystal_20",
+      "melanoidin_malt"
+    ],
+    "commonStyleIds": [
+      "15A",
+      "7B",
+      "14B",
+      "19A"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.4,
+      "breadyBiscuit": 2.8,
+      "toasty": 1.4,
+      "caramelToffee": 3.8,
+      "nutty": 1.5,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "caravienne",
+    "name": "Caravienne Malt",
+    "category": "Caramel & Crystal",
+    "grainType": "Barley",
+    "origin": "Belgium",
+    "countryCode": "BE",
+    "colorMin": 19.0,
+    "colorMax": 24.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 75.0,
+    "maxGristPercentage": 15,
+    "description": "Light Belgian crystal malt with high levels of unfermentable sugars. Provides golden hues, warm caramel, toffee sweetness, and rich bready fullness.",
+    "typicalUsage": "5–15% in Belgian Blondes, Tripels, Saison, and Abbey ales.",
+    "functionalTags": [
+      "Belgian Character",
+      "Caramel Sweetness",
+      "Body & Mouthfeel"
+    ],
+    "descriptors": [
+      "Toffee",
+      "Golden Honey",
+      "Light Caramel",
+      "Bread"
+    ],
+    "commercialExamples": [
+      "Dingemans Caravienne",
+      "Castle Château Cara Clair"
+    ],
+    "substituteIds": [
+      "crystal_20",
+      "caraamber",
+      "carared"
+    ],
+    "commonStyleIds": [
+      "25A",
+      "26C",
+      "24B",
+      "25B"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.3,
+      "breadyBiscuit": 3.2,
+      "toasty": 1.5,
+      "caramelToffee": 3.9,
+      "nutty": 1.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "carafa_special_one",
+    "name": "Carafa Special I (De-husked)",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 300.0,
+    "colorMax": 340.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 70.0,
+    "maxGristPercentage": 5,
+    "description": "Lightest de-husked roasted malt from Weyermann. Delivers rich dark brown color, smooth coffee notes, and milk chocolate without sharp astringency.",
+    "typicalUsage": "1–5% in Dunkel, Altbier, and Milds for dark color with gentle finish.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Smooth Roast",
+      "Low Astringency"
+    ],
+    "descriptors": [
+      "Milk Chocolate",
+      "Light Coffee",
+      "Smooth",
+      "Bread Crust"
+    ],
+    "commercialExamples": [
+      "Weyermann Carafa Special I"
+    ],
+    "substituteIds": [
+      "pale_chocolate_malt",
+      "carafa_special_two"
+    ],
+    "commonStyleIds": [
+      "8A",
+      "7B",
+      "13A",
+      "3D"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.5,
+      "breadyBiscuit": 1.2,
+      "toasty": 3.2,
+      "caramelToffee": 0.8,
+      "nutty": 2.5,
+      "chocolate": 4.0,
+      "roastCoffee": 2.8,
+      "grainyHusky": 0.5
+    }
+  },
+  {
+    "id": "carafa_special_two",
+    "name": "Carafa Special II (De-husked)",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 410.0,
+    "colorMax": 450.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 69.0,
+    "maxGristPercentage": 5,
+    "description": "Medium-dark de-husked roasted malt providing deep ebony color, dark chocolate, and roasted hazelnut with ultra-smooth drinkability.",
+    "typicalUsage": "1–5% in Schwarzbier, Baltic Porters, and Black IPAs.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Dark Chocolate",
+      "Smooth Roast"
+    ],
+    "descriptors": [
+      "Dark Chocolate",
+      "Mellow Espresso",
+      "Hazelnut",
+      "Smooth Roast"
+    ],
+    "commercialExamples": [
+      "Weyermann Carafa Special II"
+    ],
+    "substituteIds": [
+      "carafa_special_three",
+      "chocolate_malt",
+      "blackprinz"
+    ],
+    "commonStyleIds": [
+      "8B",
+      "9C",
+      "21B",
+      "20A"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.2,
+      "breadyBiscuit": 1.0,
+      "toasty": 3.4,
+      "caramelToffee": 0.6,
+      "nutty": 2.4,
+      "chocolate": 4.5,
+      "roastCoffee": 3.5,
+      "grainyHusky": 0.4
+    }
+  },
+  {
+    "id": "blackprinz",
+    "name": "Blackprinz Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Barley",
+    "origin": "North America",
+    "countryCode": "US",
+    "colorMin": 475.0,
+    "colorMax": 525.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 68.0,
+    "maxGristPercentage": 5,
+    "description": "De-husked hull-less black barley malt from Briess. Yields intense black color with almost no roasted bitterness or astringency, perfect for smooth dark beers.",
+    "typicalUsage": "1–5% for color adjustment in Black IPAs, Stouts, and Porters.",
+    "functionalTags": [
+      "Color Adjustment",
+      "Smooth Roast",
+      "Low Astringency"
+    ],
+    "descriptors": [
+      "Smooth Roast",
+      "Subtle Dark Cocoa",
+      "Clean",
+      "Neutral"
+    ],
+    "commercialExamples": [
+      "Briess Blackprinz"
+    ],
+    "substituteIds": [
+      "carafa_special_three",
+      "midnight_wheat"
+    ],
+    "commonStyleIds": [
+      "21B",
+      "8B",
+      "20A",
+      "19C"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.0,
+      "breadyBiscuit": 0.8,
+      "toasty": 3.0,
+      "caramelToffee": 0.4,
+      "nutty": 2.0,
+      "chocolate": 4.0,
+      "roastCoffee": 3.2,
+      "grainyHusky": 0.3
+    }
+  },
+  {
+    "id": "torrefied_wheat",
+    "name": "Torrefied Wheat",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Wheat",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 1.5,
+    "colorMax": 2.5,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 78.0,
+    "maxGristPercentage": 20,
+    "description": "Heat-puffed raw wheat grains that require no pre-cooking. Greatly improves head retention, foam density, and body in traditional British ales.",
+    "typicalUsage": "5–15% in British Bitters, IPAs, and Milds for head retention.",
+    "functionalTags": [
+      "Head Retention",
+      "Body & Mouthfeel",
+      "Crisp Texture"
+    ],
+    "descriptors": [
+      "Puffed Wheat",
+      "Light Cracker",
+      "Dry Cereal",
+      "Clean"
+    ],
+    "commercialExamples": [
+      "Crisp Torrefied Wheat",
+      "Thomas Fawcett Torrefied Wheat"
+    ],
+    "substituteIds": [
+      "flaked_wheat",
+      "pale_wheat_malt",
+      "carapils_dextrin"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "11C",
+      "12C",
+      "13A"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.8,
+      "breadyBiscuit": 2.6,
+      "toasty": 0.8,
+      "caramelToffee": 0.0,
+      "nutty": 1.0,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 1.5
+    }
+  },
+  {
+    "id": "malted_oats",
+    "name": "Malted Oats",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Oats",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 2.0,
+    "colorMax": 3.5,
+    "diastaticPowerLintner": 40,
+    "extractPotentialDbfg": 70.0,
+    "maxGristPercentage": 30,
+    "description": "Fully malted whole oat grain with intact husks. Provides silky smooth body and stable haze without the lautering stickiness of flaked oats, thanks to the filtering husks.",
+    "typicalUsage": "10–30% in New England/Hazy IPAs, Oatmeal Stouts, and Farmhouse ales.",
+    "functionalTags": [
+      "Body & Mouthfeel",
+      "Haze & Cloudiness",
+      "Easy Lautering"
+    ],
+    "descriptors": [
+      "Silky Oat",
+      "Bready Cereal",
+      "Nutty",
+      "Creamy"
+    ],
+    "commercialExamples": [
+      "Thomas Fawcett Malted Oats",
+      "Simpson's Malted Oats"
+    ],
+    "substituteIds": [
+      "flaked_oats",
+      "golden_naked_oats"
+    ],
+    "commonStyleIds": [
+      "21C",
+      "16B",
+      "25B"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.5,
+      "breadyBiscuit": 3.0,
+      "toasty": 1.2,
+      "caramelToffee": 0.2,
+      "nutty": 2.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 2.2
+    }
+  },
+  {
+    "id": "golden_naked_oats",
+    "name": "Golden Naked Oats (Crystal Oat Malt)",
+    "category": "Caramel & Crystal",
+    "grainType": "Oats",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "colorMin": 8.0,
+    "colorMax": 15.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 15,
+    "description": "De-husked oat kernels stewed and crystal-roasted by Simpsons. Delivers intense toasted nutty, creamy toffee, and toasted oatmeal sweetness with lush body.",
+    "typicalUsage": "5–15% in Hazy IPAs, English Bitters, Stouts, and Brown Ales.",
+    "functionalTags": [
+      "Nutty Notes",
+      "Body & Mouthfeel",
+      "Caramel Sweetness"
+    ],
+    "descriptors": [
+      "Toasted Hazelnut",
+      "Creamy Toffee",
+      "Sweet Oatmeal",
+      "Berry"
+    ],
+    "commercialExamples": [
+      "Simpson's Golden Naked Oats"
+    ],
+    "substituteIds": [
+      "malted_oats",
+      "crystal_20",
+      "flaked_oats"
+    ],
+    "commonStyleIds": [
+      "21C",
+      "16B",
+      "11B",
+      "19C"
+    ],
+    "radarProfile": {
+      "maltySweet": 4.2,
+      "breadyBiscuit": 3.2,
+      "toasty": 2.8,
+      "caramelToffee": 3.8,
+      "nutty": 4.8,
+      "chocolate": 0.0,
+      "roastCoffee": 0.0,
+      "grainyHusky": 0.4
+    }
+  },
+  {
+    "id": "chocolate_rye",
+    "name": "Chocolate Rye Malt",
+    "category": "Roasted & Dark",
+    "grainType": "Rye",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "colorMin": 220.0,
+    "colorMax": 280.0,
+    "diastaticPowerLintner": 0,
+    "extractPotentialDbfg": 72.0,
+    "maxGristPercentage": 5,
+    "description": "Drum-roasted rye grain from Weyermann. Combines rich roasted coffee and dark cocoa with the spicy, peppery, pumpernickel bite of rye.",
+    "typicalUsage": "1–5% in Roggenbier, Dark Lagers, Stouts, and Rye Porters.",
+    "functionalTags": [
+      "Roast & Coffee",
+      "Spicy Crispness",
+      "Dark Chocolate"
+    ],
+    "descriptors": [
+      "Dark Chocolate",
+      "Spicy Pepper",
+      "Roasted Coffee",
+      "Pumpernickel"
+    ],
+    "commercialExamples": [
+      "Weyermann Chocolate Rye"
+    ],
+    "substituteIds": [
+      "pale_chocolate_malt",
+      "chocolate_malt",
+      "malted_rye"
+    ],
+    "commonStyleIds": [
+      "27H",
+      "20A",
+      "20B",
+      "21B"
+    ],
+    "radarProfile": {
+      "maltySweet": 1.2,
+      "breadyBiscuit": 1.2,
+      "toasty": 3.5,
+      "caramelToffee": 0.5,
+      "nutty": 2.8,
+      "chocolate": 4.4,
+      "roastCoffee": 3.6,
+      "grainyHusky": 2.2
+    }
+  },
+  {
+    "id": "peated_malt",
+    "name": "Peated Distilling Malt",
+    "category": "Adjunct & Raw Grain",
+    "grainType": "Barley",
+    "origin": "Scotland",
+    "countryCode": "GB",
+    "colorMin": 2.0,
+    "colorMax": 3.5,
+    "diastaticPowerLintner": 100,
+    "extractPotentialDbfg": 81.0,
+    "maxGristPercentage": 5,
+    "description": "Barley malt kilned over smoking Scottish peat bogs. Infuses potent medicinal, smoky, phenolic, earthy iodine notes. Must be used with great caution in brewing.",
+    "typicalUsage": "0.5–3% in Scottish Wee Heavies, Smoked Porters, and experimental beers.",
+    "functionalTags": [
+      "Smoke & Campfire",
+      "Phenolic Character",
+      "Extreme Intensity"
+    ],
+    "descriptors": [
+      "Peat Smoke",
+      "Iodine",
+      "Earthy Bog",
+      "Medicinal Smoke"
+    ],
+    "commercialExamples": [
+      "Simpson's Peated Malt",
+      "Bairds Heavy Peated"
+    ],
+    "substituteIds": [
+      "smoked_malt_rauchmalt"
+    ],
+    "commonStyleIds": [
+      "17C",
+      "32B",
+      "34C"
+    ],
+    "radarProfile": {
+      "maltySweet": 2.5,
+      "breadyBiscuit": 2.0,
+      "toasty": 4.0,
+      "caramelToffee": 0.5,
+      "nutty": 1.5,
+      "chocolate": 0.2,
+      "roastCoffee": 0.8,
+      "grainyHusky": 3.5
+    }
+  }
+]

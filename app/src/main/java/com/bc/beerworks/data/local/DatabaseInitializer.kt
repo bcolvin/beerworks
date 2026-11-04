@@ -5,10 +5,45 @@ import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
+import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
+import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+data class JsonMaltRadarRaw(
+    val maltySweet: Float?,
+    val breadyBiscuit: Float?,
+    val toasty: Float?,
+    val caramelToffee: Float?,
+    val nutty: Float?,
+    val chocolate: Float?,
+    val roastCoffee: Float?,
+    val grainyHusky: Float?
+)
+
+data class JsonMaltRaw(
+    val id: String?,
+    val name: String?,
+    val category: String?,
+    val grainType: String?,
+    val origin: String?,
+    val countryCode: String?,
+    val colorMin: Double?,
+    val colorMax: Double?,
+    val diastaticPowerLintner: Int?,
+    val extractPotentialDbfg: Double?,
+    val maxGristPercentage: Int?,
+    val description: String?,
+    val typicalUsage: String?,
+    val functionalTags: List<String>?,
+    val descriptors: List<String>?,
+    val commercialExamples: List<String>?,
+    val substituteIds: List<String>?,
+    val commonStyleIds: List<String>?,
+    val radarProfile: JsonMaltRadarRaw?
+)
 
 data class JsonHopRadarRaw(
     val citrus: Float?,
@@ -201,6 +236,64 @@ object DatabaseInitializer {
             }
             if (crossRefEntities.isNotEmpty()) {
                 crossRefDao.insertAll(crossRefEntities)
+            }
+        }
+
+        val maltDao = database.maltDao()
+        val maltCrossRefDao = database.maltStyleCrossRefDao()
+
+        val maltsJson = runCatching {
+            context.assets.open("malts.json").bufferedReader().use { it.readText() }
+        }.getOrNull()
+
+        if (!maltsJson.isNullOrBlank()) {
+            val maltType = object : TypeToken<List<JsonMaltRaw>>() {}.type
+            val rawMalts: List<JsonMaltRaw> = gson.fromJson(maltsJson, maltType)
+
+            val maltEntities = rawMalts.map { raw ->
+                val id = raw.id ?: raw.name?.lowercase()?.replace(" ", "_") ?: "unknown"
+                MaltVarietyEntity(
+                    id = id,
+                    name = raw.name ?: "",
+                    category = raw.category ?: "Base Malt",
+                    grainType = raw.grainType ?: "Barley",
+                    origin = raw.origin ?: "",
+                    countryCode = raw.countryCode ?: "",
+                    colorMin = raw.colorMin ?: 2.0,
+                    colorMax = raw.colorMax ?: 2.0,
+                    diastaticPowerLintner = raw.diastaticPowerLintner ?: 0,
+                    extractPotentialDbfg = raw.extractPotentialDbfg ?: 75.0,
+                    maxGristPercentage = raw.maxGristPercentage ?: 100,
+                    description = raw.description ?: "",
+                    typicalUsage = raw.typicalUsage ?: "",
+                    functionalTags = raw.functionalTags?.joinToString(",") ?: "",
+                    descriptors = raw.descriptors?.joinToString(",") ?: "",
+                    commercialExamples = raw.commercialExamples?.joinToString(",") ?: "",
+                    substituteIds = raw.substituteIds?.joinToString(",") ?: "",
+                    radarSweet = raw.radarProfile?.maltySweet,
+                    radarBiscuit = raw.radarProfile?.breadyBiscuit,
+                    radarToasty = raw.radarProfile?.toasty,
+                    radarCaramel = raw.radarProfile?.caramelToffee,
+                    radarNutty = raw.radarProfile?.nutty,
+                    radarChocolate = raw.radarProfile?.chocolate,
+                    radarRoast = raw.radarProfile?.roastCoffee,
+                    radarHusky = raw.radarProfile?.grainyHusky
+                )
+            }
+            maltDao.insertAll(maltEntities)
+
+            val crossRefEntities = rawMalts.flatMap { raw ->
+                val maltId = raw.id ?: raw.name?.lowercase()?.replace(" ", "_") ?: "unknown"
+                (raw.commonStyleIds ?: emptyList()).map { styleId ->
+                    MaltStyleCrossRef(
+                        maltId = maltId,
+                        styleId = styleId,
+                        guidelineType = "BJCP_2021"
+                    )
+                }
+            }
+            if (crossRefEntities.isNotEmpty()) {
+                maltCrossRefDao.insertAll(crossRefEntities)
             }
         }
     }

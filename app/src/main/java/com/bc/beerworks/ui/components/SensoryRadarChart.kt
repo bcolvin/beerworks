@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bc.beerworks.data.model.MaltSensoryProfile
 import com.bc.beerworks.data.model.SensoryRadarProfile
 import kotlin.math.PI
 import kotlin.math.cos
@@ -28,7 +29,7 @@ import kotlin.math.sin
 
 @Composable
 fun SensoryRadarChart(
-    profile: SensoryRadarProfile,
+    axisData: List<Pair<String, Float>>,
     modifier: Modifier = Modifier,
     fillColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f),
     strokeColor: Color = MaterialTheme.colorScheme.primary,
@@ -36,7 +37,6 @@ fun SensoryRadarChart(
     labelColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val textMeasurer = rememberTextMeasurer()
-    val axisData = remember(profile) { profile.toAxisMap() }
 
     Box(
         modifier = modifier.size(280.dp),
@@ -148,4 +148,44 @@ fun SensoryRadarChart(
             }
         }
     }
+}
+
+@Composable
+fun SensoryRadarChart(
+    profile: SensoryRadarProfile,
+    modifier: Modifier = Modifier,
+    fillColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f),
+    strokeColor: Color = MaterialTheme.colorScheme.primary,
+    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+    labelColor: Color = MaterialTheme.colorScheme.onSurface
+) {
+    val axisData = remember(profile) { profile.toAxisMap() }
+    SensoryRadarChart(
+        axisData = axisData,
+        modifier = modifier,
+        fillColor = fillColor,
+        strokeColor = strokeColor,
+        gridColor = gridColor,
+        labelColor = labelColor
+    )
+}
+
+@Composable
+fun SensoryRadarChart(
+    profile: MaltSensoryProfile,
+    modifier: Modifier = Modifier,
+    fillColor: Color = Color(0xFFD97706).copy(alpha = 0.35f),
+    strokeColor: Color = Color(0xFFD97706),
+    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+    labelColor: Color = MaterialTheme.colorScheme.onSurface
+) {
+    val axisData = remember(profile) { profile.toAxisMap() }
+    SensoryRadarChart(
+        axisData = axisData,
+        modifier = modifier,
+        fillColor = fillColor,
+        strokeColor = strokeColor,
+        gridColor = gridColor,
+        labelColor = labelColor
+    )
 }

@@ -41,7 +41,7 @@ fun HopFilterSheet(
     onReset: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     var currentCriteria by remember(criteria) { mutableStateOf(criteria) }
 
@@ -82,7 +82,7 @@ fun HopFilterSheet(
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            val purposes = listOf("All", "Aroma", "Bittering", "Dual-Purpose")
+            val purposes = listOf("All", "Aroma", "Bittering")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {

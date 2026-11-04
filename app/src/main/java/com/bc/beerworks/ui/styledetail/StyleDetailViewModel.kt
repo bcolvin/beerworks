@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopVariety
+import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HopRepository
+import com.bc.beerworks.data.repository.MaltRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +19,7 @@ import kotlinx.coroutines.launch
 class StyleDetailViewModel(
     private val repository: BeerStyleRepository,
     private val hopRepository: HopRepository? = null,
+    private val maltRepository: MaltRepository? = null,
     private val styleId: String,
     private val guidelineType: GuidelineType
 ) : ViewModel() {
@@ -26,6 +29,16 @@ class StyleDetailViewModel(
 
     val commonHops: StateFlow<List<HopVariety>> = if (hopRepository != null) {
         hopRepository.getCommonHopsForStyle(styleId, guidelineType).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+    } else {
+        MutableStateFlow(emptyList())
+    }
+
+    val commonMalts: StateFlow<List<MaltVariety>> = if (maltRepository != null) {
+        maltRepository.getCommonMaltsForStyle(styleId, guidelineType).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()

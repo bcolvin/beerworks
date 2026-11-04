@@ -19,7 +19,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Search hops by name, origin, or flavor descriptor (citrus, dank, noble).
   - Cross-reference hop profiles directly with BJCP / BA style guidelines.
 
-- [ ] **Malt Profile Database & Flavor Characteristics (Feature 003 - Specified)**
+- [x] **Malt Profile Database & Flavor Characteristics (Feature 003)**
   - Explore base & specialty malts, EBC/Lovibond color ratings, extract potential, and diastatic power.
   - Typical usage roles, functional tags, and 8-axis malt flavor radar chart.
   - Notable maltsters & commercial examples (Briess, Weyermann, Crisp, Dingemans, etc.).

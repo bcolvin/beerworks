@@ -44,7 +44,11 @@ class FakeHopDao(
     ): Flow<List<HopVarietyEntity>> {
         var filtered = hops
         if (purpose != null) {
-            filtered = filtered.filter { it.purpose == purpose }
+            filtered = filtered.filter { it.purpose == purpose || it.purpose == "Dual-Purpose" }
+                .sortedWith(
+                    compareBy<HopVarietyEntity> { if (it.purpose == purpose) 0 else 1 }
+                        .thenBy { it.name }
+                )
         }
         if (sensoryCategory != null) {
             filtered = filtered.filter { it.sensoryCategories.contains(sensoryCategory) }
@@ -162,8 +166,8 @@ class HopRepositoryTest {
         val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
 
         val aromaHops = repository.getFilteredHops(HopFilterCriteria(selectedPurpose = "Aroma")).first()
-        assertThat(aromaHops).hasSize(1)
-        assertThat(aromaHops[0].id).isEqualTo("cascade")
+        assertThat(aromaHops).hasSize(2)
+        assertThat(aromaHops.map { it.id }).containsExactlyInAnyOrder("cascade", "citra")
 
         val tropicalHops = repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Tropical Fruit")).first()
         assertThat(tropicalHops).hasSize(1)

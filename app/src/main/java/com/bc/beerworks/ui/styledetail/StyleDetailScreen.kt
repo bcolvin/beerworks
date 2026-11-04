@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -49,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopVariety
+import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
@@ -60,7 +63,9 @@ fun StyleDetailContent(
     onBackClick: () -> Unit,
     onToggleFavorite: () -> Unit,
     commonHops: List<HopVariety> = emptyList(),
-    onHopClick: (String) -> Unit = {}
+    onHopClick: (String) -> Unit = {},
+    commonMalts: List<MaltVariety> = emptyList(),
+    onMaltClick: (String) -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
 
@@ -160,6 +165,13 @@ fun StyleDetailContent(
                     }
                 }
 
+                if (commonMalts.isNotEmpty()) {
+                    CollapsibleCommonMaltsCard(
+                        commonMalts = commonMalts,
+                        onMaltClick = onMaltClick
+                    )
+                }
+
                 if (commonHops.isNotEmpty()) {
                     CollapsibleCommonHopsCard(
                         commonHops = commonHops,
@@ -230,6 +242,81 @@ fun SrmBottomBanner(
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CollapsibleCommonMaltsCard(
+    commonMalts: List<MaltVariety>,
+    onMaltClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .clickable { expanded = !expanded },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Common Malts & Grains (${commonMalts.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            if (expanded) {
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    commonMalts.forEach { malt ->
+                        val swatchColor = SrmColorConverter.srmToColor(malt.averageColor)
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                                .clickable { onMaltClick(malt.id) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(10.dp)
+                                        .clip(CircleShape)
+                                        .background(swatchColor)
+                                        .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
+                                )
+                                Spacer(modifier = Modifier.size(6.dp))
+                                Text(
+                                    text = "${malt.countryFlag} ${malt.name} (${malt.category})",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

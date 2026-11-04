@@ -31,6 +31,7 @@ import com.bc.beerworks.data.local.DefaultPreferencesManager
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HopRepository
+import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
@@ -40,6 +41,9 @@ import com.bc.beerworks.ui.hopdetail.HopDetailViewModel
 import com.bc.beerworks.ui.hops.HopsContent
 import com.bc.beerworks.ui.hops.HopsViewModel
 import com.bc.beerworks.ui.malt.MaltContent
+import com.bc.beerworks.ui.malt.MaltViewModel
+import com.bc.beerworks.ui.maltdetail.MaltDetailScreen
+import com.bc.beerworks.ui.maltdetail.MaltDetailViewModel
 import com.bc.beerworks.ui.reviewhistory.ReviewHistoryContent
 import com.bc.beerworks.ui.settings.SettingsContent
 import com.bc.beerworks.ui.settings.SettingsViewModel
@@ -72,6 +76,7 @@ fun BeerworksApp() {
     val prefsManager = remember { DefaultPreferencesManager(context) }
     val repository = remember { BeerStyleRepository(database, prefsManager) }
     val hopRepository = remember { HopRepository(database) }
+    val maltRepository = remember { MaltRepository(database) }
 
     LaunchedEffect(Unit) {
         DatabaseInitializer.initializeIfNeeded(context, database)
@@ -118,12 +123,15 @@ fun BeerworksApp() {
                 val expandedCategoryNumber by viewModel.expandedCategoryNumber.collectAsState()
                 val criteria by viewModel.filterCriteria.collectAsState()
                 val categories by viewModel.categories.collectAsState()
+                val selectedGuideline by viewModel.selectedGuideline.collectAsState()
 
                 StyleListContent(
                     groupedStyles = groupedStyles,
                     expandedCategoryNumber = expandedCategoryNumber,
                     criteria = criteria,
                     categories = categories,
+                    selectedGuideline = selectedGuideline,
+                    onGuidelineChange = viewModel::onGuidelineChange,
                     onQueryChange = viewModel::onQueryChange,
                     onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
                     onResetFilters = viewModel::resetFilters,
@@ -213,7 +221,36 @@ fun BeerworksApp() {
             }
 
             composable("malt") {
+                val viewModel: MaltViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return MaltViewModel(maltRepository, repository) as T
+                        }
+                    }
+                )
+
+                val malts by viewModel.malts.collectAsState()
+                val criteria by viewModel.filterCriteria.collectAsState()
+                val categories by viewModel.categories.collectAsState()
+                val grainTypes by viewModel.grainTypes.collectAsState()
+                val functionalTags by viewModel.functionalTags.collectAsState()
+                val baseCategories by viewModel.baseCategories.collectAsState()
+
                 MaltContent(
+                    malts = malts,
+                    criteria = criteria,
+                    categories = categories,
+                    grainTypes = grainTypes,
+                    functionalTags = functionalTags,
+                    baseCategories = baseCategories,
+                    onQueryChange = viewModel::onQueryChange,
+                    onCategorySelected = viewModel::onCategorySelected,
+                    onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+                    onResetFilters = viewModel::resetFilters,
+                    onMaltClick = { maltId ->
+                        navController.navigate("malt_detail/$maltId")
+                    },
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -229,20 +266,7 @@ fun BeerworksApp() {
             }
 
             composable("settings") {
-                val viewModel: SettingsViewModel = viewModel(
-                    factory = object : ViewModelProvider.Factory {
-                        @Suppress("UNCHECKED_CAST")
-                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return SettingsViewModel(repository) as T
-                        }
-                    }
-                )
-
-                val selectedGuideline by viewModel.selectedGuideline.collectAsState()
-
                 SettingsContent(
-                    selectedGuideline = selectedGuideline,
-                    onGuidelineChange = viewModel::onGuidelineChange,
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -265,13 +289,14 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, hopRepository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, hopRepository, maltRepository, styleId, guidelineType) as T
                         }
                     }
                 )
 
                 val style by viewModel.style.collectAsState()
                 val commonHops by viewModel.commonHops.collectAsState()
+                val commonMalts by viewModel.commonMalts.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
@@ -281,6 +306,10 @@ fun BeerworksApp() {
                         commonHops = commonHops,
                         onHopClick = { hopId ->
                             navController.navigate("hop_detail/$hopId")
+                        },
+                        commonMalts = commonMalts,
+                        onMaltClick = { maltId ->
+                            navController.navigate("malt_detail/$maltId")
                         }
                     )
                 }
@@ -325,6 +354,36 @@ fun BeerworksApp() {
                         onToggleStyleFavorite = viewModel::toggleStyleFavorite
                     )
                 }
+            }
+
+            composable(
+                route = "malt_detail/{maltId}",
+                arguments = listOf(
+                    navArgument("maltId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val maltId = backStackEntry.arguments?.getString("maltId") ?: ""
+
+                val viewModel: MaltDetailViewModel = viewModel(
+                    key = "malt_$maltId",
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return MaltDetailViewModel(maltRepository, repository, maltId) as T
+                        }
+                    }
+                )
+
+                MaltDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onMaltClick = { targetMaltId ->
+                        navController.navigate("malt_detail/$targetMaltId")
+                    },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
             }
         }
     }

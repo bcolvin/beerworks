@@ -9,6 +9,8 @@ import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
+import com.bc.beerworks.data.local.dao.MaltDao
+import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BaStyleFtsEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
@@ -17,6 +19,9 @@ import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.HopVarietyFtsEntity
+import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
+import com.bc.beerworks.data.local.entity.MaltVarietyEntity
+import com.bc.beerworks.data.local.entity.MaltVarietyFtsEntity
 
 @Database(
     entities = [
@@ -27,9 +32,12 @@ import com.bc.beerworks.data.local.entity.HopVarietyFtsEntity
         FavoriteStyleEntity::class,
         HopVarietyEntity::class,
         HopVarietyFtsEntity::class,
-        HopStyleCrossRef::class
+        HopStyleCrossRef::class,
+        MaltVarietyEntity::class,
+        MaltVarietyFtsEntity::class,
+        MaltStyleCrossRef::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -38,6 +46,8 @@ abstract class BeerworksDatabase : RoomDatabase() {
     abstract fun favoriteStyleDao(): FavoriteStyleDao
     abstract fun hopDao(): HopDao
     abstract fun hopStyleCrossRefDao(): HopStyleCrossRefDao
+    abstract fun maltDao(): MaltDao
+    abstract fun maltStyleCrossRefDao(): MaltStyleCrossRefDao
 
     companion object {
         @Volatile
