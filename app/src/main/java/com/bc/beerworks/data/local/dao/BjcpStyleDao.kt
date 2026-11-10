@@ -60,7 +60,19 @@ interface BjcpStyleDao {
         AND (:isAbvActive = 0 OR (abvMax IS NOT NULL AND abvMin IS NOT NULL AND abvMax >= :minAbv AND abvMin <= :maxAbv))
         AND (:isIbuActive = 0 OR (ibuMax IS NOT NULL AND ibuMin IS NOT NULL AND ibuMax >= :minIbu AND ibuMin <= :maxIbu))
         AND (:category IS NULL OR bjcp_styles.category = :category)
-        ORDER BY CAST(bjcp_styles.categoryNumber AS INTEGER), bjcp_styles.number
+        ORDER BY (
+            (CASE WHEN bjcp_styles.name LIKE :likeQuery OR bjcp_styles.number LIKE :likeQuery THEN 10 ELSE 0 END) +
+            (CASE WHEN bjcp_styles.overallImpression LIKE :likeQuery THEN 5 ELSE 0 END) +
+            (CASE WHEN bjcp_styles.commercialExamples LIKE :likeQuery THEN 5 ELSE 0 END) +
+            (CASE WHEN (
+                bjcp_styles.aroma LIKE :likeQuery OR
+                bjcp_styles.flavor LIKE :likeQuery OR
+                bjcp_styles.comments LIKE :likeQuery OR
+                bjcp_styles.characteristicIngredients LIKE :likeQuery OR
+                bjcp_styles.tags LIKE :likeQuery OR
+                bjcp_styles.category LIKE :likeQuery
+            ) THEN 1 ELSE 0 END)
+        ) DESC, CAST(bjcp_styles.categoryNumber AS INTEGER), bjcp_styles.number
     """)
     fun searchAndFilterStyles(
         ftsQuery: String,

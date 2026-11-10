@@ -26,7 +26,7 @@ Provide an offline-first, visually rich reference database of canonical brewing 
 ## 📋 Requirements & Acceptance Criteria
 
 ### 1. Data Pipeline & Persistence
-- [ ] **Bundled Asset (`malts.json`)**: Curate and bundle `app/src/main/assets/malts.json` (~70–90 prominent canonical malts across American, British, German, Belgian, and global traditions) containing:
+- [x] **Bundled Asset (`malts.json`)**: Curate and bundle `app/src/main/assets/malts.json` (~70–90 prominent canonical malts across American, British, German, Belgian, and global traditions) containing:
   - `id`, `name`, `category` (Base Malt, Kilned & Toasted, Caramel & Crystal, Roasted & Dark, Adjunct & Raw Grain)
   - `grainType` (Barley, Wheat, Rye, Oats, Corn, Rice, Other)
   - `origin`, `countryCode`
@@ -42,28 +42,28 @@ Provide an offline-first, visually rich reference database of canonical brewing 
   - `substituteIds` (interchangeable alternative malt IDs)
   - `commonStyleIds` (associated BJCP/BA beer style IDs)
   - `radarProfile` (8 organoleptic dimensions: Malty/Sweet, Bready/Biscuit, Toasty, Caramel/Toffee, Nutty, Chocolate, Roast/Coffee, Grainy/Husky)
-- [ ] **Room Database Version 4**:
+- [x] **Room Database Version 4**:
   - `MaltVarietyEntity`: Primary table storing complete malt attributes.
   - `MaltVarietyFtsEntity`: SQLite FTS4 virtual table indexing `name`, `origin`, `description`, `typicalUsage`, `functionalTags`, `descriptors`, and `commercialExamples` for sub-millisecond full-text queries.
   - `MaltStyleCrossRef`: Relational join table keyed on `(maltId, styleId, guidelineType)` with composite index for bidirectional style queries.
-- [ ] **Room Database Migration (v3 -> v4)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/favorites data.
-- [ ] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `malts.json` on startup in the background without main-thread blocking.
-- [ ] **Repository Layer (`MaltRepository`)**: Expose distinct flows for catalog search/filtering, individual malt details, and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Room Database Migration (v3 -> v4)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/favorites data.
+- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `malts.json` on startup in the background without main-thread blocking.
+- [x] **Repository Layer (`MaltRepository`)**: Expose distinct flows for catalog search/filtering, individual malt details, and style cross-references, dispatched on `Dispatchers.Default`.
 
 ### 2. Malt Catalog List Screen (`MaltScreen`)
-- [ ] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `StyleListScreen`.
-- [ ] **Top App Bar**: TopAppBar with title `"Malt"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
-- [ ] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), placeholder text (`"Search malts, maltsters, descriptors..."`), and IME search action. Focus auto-clears on list scroll or background tap.
-- [ ] **Quick-Filter Strip**: Horizontal scrollable chips for **Malt Category**:
+- [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `StyleListScreen`.
+- [x] **Top App Bar**: TopAppBar with title `"Malt"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
+- [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), placeholder text (`"Search malts, maltsters, descriptors..."`), and IME search action. Focus auto-clears on list scroll or background tap.
+- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Malt Category**:
   - `All`, `Base Malt`, `Kilned & Toasted`, `Caramel & Crystal`, `Roasted & Dark`, `Adjunct`
-- [ ] **Advanced Filter Sheet (`MaltFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Malts"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
+- [x] **Advanced Filter Sheet (`MaltFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Malts"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
   1. **Malt Category** (multi-select chips)
   2. **Grain Type** (multi-select: Barley, Wheat, Rye, Oats, Corn, Rice, Other)
   3. **Diastatic Power** (chips: All, High [≥100°L], Moderate [30–99°L], None [0°L])
   4. **Color Range** (segmented Lovibond tiers: Pale <10°L, Amber 10–50°L, Brown 50–150°L, Dark >150°L)
   5. **Functional Usage Tags** (multi-select chips: Base Grist, Head Retention, Body & Mouthfeel, etc.)
   6. **Associated Base Beer Styles** (multi-select based on base style groups)
-- [ ] **Glanceable `MaltCard` Items**:
+- [x] **Glanceable `MaltCard` Items**:
   - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation/container tint.
   - Malt name with bold typography.
   - Origin country flag & name tag (🇺🇸 US, 🇩🇪 DE, 🇬🇧 UK, 🇧🇪 BE, etc.).
@@ -73,7 +73,7 @@ Provide an offline-first, visually rich reference database of canonical brewing 
   - Diastatic Power badge (`High`, `Moderate`, or `None`).
   - Top 3 functional tags / flavor descriptors.
   - Chevron indicator indicating clickable navigation to detail.
-- [ ] **Zero-Result Filter Recovery**: Centered empty state with grain icon (`Icons.Default.Grain`), bold headline `"No malts found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
+- [x] **Zero-Result Filter Recovery**: Centered empty state with grain icon (`Icons.Default.Grain`), bold headline `"No malts found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
 
 ### 3. Malt Detail Screen (`MaltDetailScreen` / `malt_detail/{maltId}`)
 Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
@@ -99,12 +99,12 @@ Ordered precisely according to resolved design hierarchy using standardized `Rou
    - Clickable beer style cards where this malt is a signature ingredient. Tapping navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)
-- [ ] **Collapsible "Common Malts & Grains" Section**: On `StyleDetailScreen`, add an expansion card titled `"Common Malts & Grains (N)"` below guidelines and next to "Common Hops".
-- [ ] **Collapsed by Default**: Starts collapsed to preserve reading flow.
-- [ ] **Deep Linking**: Expanding displays malt chips with color swatches and category tags. Tapping any malt navigates directly to `malt_detail/{maltId}`.
+- [x] **Collapsible "Common Malts & Grains" Section**: On `StyleDetailScreen`, add an expansion card titled `"Common Malts & Grains (N)"` below guidelines and next to "Common Hops".
+- [x] **Collapsed by Default**: Starts collapsed to preserve reading flow.
+- [x] **Deep Linking**: Expanding displays malt chips with color swatches and category tags. Tapping any malt navigates directly to `malt_detail/{maltId}`.
 
 ### 5. Reusable Component Generalization
-- [ ] **Generalized `SensoryRadarChart`**: Refactor `SensoryRadarChart.kt` to accept generic dimension labels, normalized values (0.0 to 5.0), and configurable theme colors (warm malt amber/copper for malts, herbal green for hops) to eliminate duplication.
+- [x] **Generalized `SensoryRadarChart`**: Refactor `SensoryRadarChart.kt` to accept generic dimension labels, normalized values (0.0 to 5.0), and configurable theme colors (warm malt amber/copper for malts, herbal green for hops) to eliminate duplication.
 
 ---
 

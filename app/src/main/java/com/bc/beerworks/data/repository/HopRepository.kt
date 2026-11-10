@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
+import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopFilterCriteria
@@ -23,7 +24,8 @@ class HopRepository(
     private val hopStyleCrossRefDao: HopStyleCrossRefDao,
     private val bjcpStyleDao: BjcpStyleDao,
     private val baStyleDao: BaStyleDao,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val meadStyleDao: MeadStyleDao? = null
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -33,7 +35,8 @@ class HopRepository(
         database.hopStyleCrossRefDao(),
         database.bjcpStyleDao(),
         database.baStyleDao(),
-        defaultDispatcher
+        defaultDispatcher,
+        database.meadStyleDao()
     )
 
     fun getFilteredHops(criteria: HopFilterCriteria): Flow<List<HopVariety>> {
@@ -103,6 +106,10 @@ class HopRepository(
                         val idSet = styleIds.toSet()
                         allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
                     }
+                    GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles()?.map { allStyles ->
+                        val idSet = styleIds.toSet()
+                        allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
+                    } ?: flowOf(emptyList())
                 }
             }
         }.flowOn(defaultDispatcher)

@@ -7,10 +7,39 @@ import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
 import com.bc.beerworks.data.local.entity.MaltVarietyEntity
+import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+data class JsonMeadStyleRaw(
+    val id: String?,
+    val name: String?,
+    val number: String?,
+    val category: String?,
+    val categorynumber: String?,
+    val overallimpression: String?,
+    val aroma: String?,
+    val appearance: String?,
+    val flavor: String?,
+    val mouthfeel: String?,
+    val comments: String?,
+    val history: String?,
+    val characteristicingredients: String?,
+    val stylecomparison: String?,
+    val ogmin: String?,
+    val ogmax: String?,
+    val fgmin: String?,
+    val fgmax: String?,
+    val abvmin: String?,
+    val abvmax: String?,
+    val commercialexamples: String?,
+    val tags: String?,
+    val sweetness: String?,
+    val carbonation: String?,
+    val strength: String?
+)
 
 data class JsonMaltRadarRaw(
     val maltySweet: Float?,
@@ -295,6 +324,62 @@ object DatabaseInitializer {
             if (crossRefEntities.isNotEmpty()) {
                 maltCrossRefDao.insertAll(crossRefEntities)
             }
+        }
+
+        val meadDao = database.meadStyleDao()
+        val meadJson = runCatching {
+            context.assets.open("mead_styles.json").bufferedReader().use { it.readText() }
+        }.getOrNull()
+
+        if (!meadJson.isNullOrBlank()) {
+            val meadType = object : TypeToken<List<JsonMeadStyleRaw>>() {}.type
+            val rawMeads: List<JsonMeadStyleRaw> = gson.fromJson(meadJson, meadType)
+
+            val meadEntities = rawMeads.map { raw ->
+                val id = raw.id ?: raw.number ?: "unknown"
+                MeadStyleEntity(
+                    id = id,
+                    name = raw.name ?: "",
+                    category = raw.category ?: "",
+                    categoryNumber = raw.categorynumber ?: "",
+                    number = raw.number ?: "",
+                    overallImpression = raw.overallimpression ?: "",
+                    aroma = raw.aroma ?: "",
+                    appearance = raw.appearance ?: "",
+                    flavor = raw.flavor ?: "",
+                    mouthfeel = raw.mouthfeel ?: "",
+                    comments = raw.comments ?: "",
+                    history = raw.history ?: "",
+                    characteristicIngredients = raw.characteristicingredients ?: "",
+                    styleComparison = raw.stylecomparison ?: "",
+                    ogMin = raw.ogmin?.toDoubleOrNull(),
+                    ogMax = raw.ogmax?.toDoubleOrNull(),
+                    fgMin = raw.fgmin?.toDoubleOrNull(),
+                    fgMax = raw.fgmax?.toDoubleOrNull(),
+                    abvMin = raw.abvmin?.toDoubleOrNull(),
+                    abvMax = raw.abvmax?.toDoubleOrNull(),
+                    sweetness = raw.sweetness ?: "",
+                    carbonation = raw.carbonation ?: "",
+                    strength = raw.strength ?: "",
+                    commercialExamples = raw.commercialexamples ?: "",
+                    tags = raw.tags ?: ""
+                )
+            }
+            meadDao.insertAll(meadEntities)
+
+            // Seed Braggot cross references (M4A)
+            val braggotHops = listOf("cascade", "centennial", "hallertau_mittelfruh", "east_kent_goldings")
+            val braggotMalts = listOf("pale_ale_malt", "pilsner_malt", "munich_malt", "caramel_malt_60l")
+
+            val hopCrossRefs = braggotHops.map { hopId ->
+                HopStyleCrossRef(hopId = hopId, styleId = "M4A", guidelineType = "BJCP_MEAD")
+            }
+            crossRefDao.insertAll(hopCrossRefs)
+
+            val maltCrossRefs = braggotMalts.map { maltId ->
+                MaltStyleCrossRef(maltId = maltId, styleId = "M4A", guidelineType = "BJCP_MEAD")
+            }
+            maltCrossRefDao.insertAll(maltCrossRefs)
         }
     }
 }

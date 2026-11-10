@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -44,6 +45,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,7 +68,10 @@ fun StyleDetailContent(
     commonHops: List<HopVariety> = emptyList(),
     onHopClick: (String) -> Unit = {},
     commonMalts: List<MaltVariety> = emptyList(),
-    onMaltClick: (String) -> Unit = {}
+    onMaltClick: (String) -> Unit = {},
+    nextStyle: BeerStyle? = null,
+    onSwipeForward: () -> Unit = {},
+    onSwipeBack: () -> Unit = onBackClick
 ) {
     val scrollState = rememberScrollState()
 
@@ -74,6 +80,10 @@ fun StyleDetailContent(
     val srmColorMax = SrmColorConverter.srmToColor(srmMax)
     val isDarkBeer = ((srmMin + srmMax) / 2.0) >= 10.0
     val accentTitleColor = if (isDarkBeer) MaterialTheme.colorScheme.primary else srmColorMax
+
+    var totalDragX by remember { mutableStateOf(0f) }
+    val density = LocalDensity.current
+    val swipeThresholdPx = with(density) { 72.dp.toPx() }
 
     Scaffold(
         topBar = {
@@ -117,6 +127,24 @@ fun StyleDetailContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .pointerInput(nextStyle) {
+                    detectHorizontalDragGestures(
+                        onDragStart = { totalDragX = 0f },
+                        onDragEnd = {
+                            if (totalDragX < -swipeThresholdPx && nextStyle != null) {
+                                onSwipeForward()
+                            } else if (totalDragX > swipeThresholdPx) {
+                                onSwipeBack()
+                            }
+                            totalDragX = 0f
+                        },
+                        onDragCancel = { totalDragX = 0f },
+                        onHorizontalDrag = { change, dragAmount ->
+                            change.consume()
+                            totalDragX += dragAmount
+                        }
+                    )
+                }
         ) {
             Column(
                 modifier = Modifier
@@ -160,8 +188,16 @@ fun StyleDetailContent(
                     Column {
                         StatRow("OG Range", formatRange(style.ogMin, style.ogMax, ""))
                         StatRow("FG Range", formatRange(style.fgMin, style.fgMax, ""))
-                        StatRow("IBU Range", formatRange(style.ibuMin, style.ibuMax, " IBU"))
+                        if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+                            StatRow("IBU Range", formatRange(style.ibuMin, style.ibuMax, " IBU"))
+                            StatRow("SRM Range", formatRange(style.srmMin, style.srmMax, " SRM"))
+                        }
                         StatRow("ABV Range", formatRange(style.abvMin, style.abvMax, "%"))
+                        if (style.guidelineType == GuidelineType.BJCP_MEAD) {
+                            style.sweetness?.let { if (it.isNotBlank()) StatRow("Sweetness", it) }
+                            style.carbonation?.let { if (it.isNotBlank()) StatRow("Carbonation", it) }
+                            style.strength?.let { if (it.isNotBlank()) StatRow("Strength", it) }
+                        }
                     }
                 }
 
@@ -179,26 +215,30 @@ fun StyleDetailContent(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                // Full-width SRM Horizontal Color Range Banner at the end of the scrollable content
-                SrmBottomBanner(
-                    minSrm = style.srmMin,
-                    maxSrm = style.srmMax,
-                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
-                )
+                    // Full-width SRM Horizontal Color Range Banner at the end of the scrollable content
+                    SrmBottomBanner(
+                        minSrm = style.srmMin,
+                        maxSrm = style.srmMax,
+                        modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                    )
+                }
             }
 
             // Custom Vertical SRM Gradient Scrollbar with Foam Head Indicator
-            SrmVerticalScrollbar(
-                scrollState = scrollState,
-                minSrm = style.srmMin,
-                maxSrm = style.srmMax,
-                headDescription = style.appearance,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(top = 8.dp, bottom = 8.dp, end = 2.dp)
-            )
+            if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+                SrmVerticalScrollbar(
+                    scrollState = scrollState,
+                    minSrm = style.srmMin,
+                    maxSrm = style.srmMax,
+                    headDescription = style.appearance,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(top = 8.dp, bottom = 8.dp, end = 2.dp)
+                )
+            }
         }
     }
 }

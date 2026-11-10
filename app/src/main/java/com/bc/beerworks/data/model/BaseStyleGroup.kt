@@ -18,4 +18,6 @@ data class BaseStyleGroup(
     val ibuMax: Double? get() = styles.mapNotNull { it.ibuMax }.maxOrNull()
     val srmMin: Double? get() = styles.mapNotNull { it.srmMin }.minOrNull()
     val srmMax: Double? get() = styles.mapNotNull { it.srmMax }.maxOrNull()
+    val fgMin: Double? get() = styles.mapNotNull { it.fgMin }.minOrNull()
+    val fgMax: Double? get() = styles.mapNotNull { it.fgMax }.maxOrNull()
 }

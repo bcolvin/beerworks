@@ -27,6 +27,9 @@ class StyleDetailViewModel(
     private val _style = MutableStateFlow<BeerStyle?>(null)
     val style: StateFlow<BeerStyle?> = _style.asStateFlow()
 
+    private val _nextStyle = MutableStateFlow<BeerStyle?>(null)
+    val nextStyle: StateFlow<BeerStyle?> = _nextStyle.asStateFlow()
+
     val commonHops: StateFlow<List<HopVariety>> = if (hopRepository != null) {
         hopRepository.getCommonHopsForStyle(styleId, guidelineType).stateIn(
             scope = viewModelScope,
@@ -54,6 +57,7 @@ class StyleDetailViewModel(
     fun loadStyle() {
         viewModelScope.launch {
             _style.value = repository.getStyleById(styleId, guidelineType)
+            _nextStyle.value = repository.getNextStyle(styleId, guidelineType)
         }
     }
 

@@ -43,3 +43,13 @@ This backlog stores feature ideas, user requests, and future capabilities before
 
 - [ ] **Social Judge Comparison & Flight Consensus**
   - Compare scoring sheets side-by-side with co-judges during competition flights.
+
+- [x] **BJCP Mead Style Guidelines Support (Feature 004)**
+  - Incorporate the official BJCP Mead Guidelines (Categories M1–M4: Traditional Mead, Fruit Mead, Spiced Mead, Specialty Mead).
+  - Support mead-specific attributes: sweetness (Dry, Semi-Sweet, Sweet), carbonation (Still, Pétillant, Sparkling), and strength (Hydromel, Standard, Sack).
+  - Integrate into guideline switching alongside BJCP 2021 Beer and BA 2026 Beer with dynamic discipline icons.
+
+- [ ] **BJCP Cider Style Guidelines Support**
+  - Incorporate the official BJCP Cider Guidelines (Categories C1–C2: Standard Cider & Perry, Specialty Cider & Perry).
+  - Support cider-specific attributes (sweetness levels, carbonation, apple/pear varieties, ABV).
+  - Integrate into guideline switching alongside Beer and Mead.

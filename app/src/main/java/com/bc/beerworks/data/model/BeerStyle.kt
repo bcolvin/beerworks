@@ -31,5 +31,8 @@ data class BeerStyle(
     val commercialExamples: String,
     val tags: List<String>,
     val guidelineType: GuidelineType,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val sweetness: String? = null,
+    val carbonation: String? = null,
+    val strength: String? = null
 )

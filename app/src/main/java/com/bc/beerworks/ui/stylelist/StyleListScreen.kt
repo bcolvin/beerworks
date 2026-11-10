@@ -1,6 +1,7 @@
 package com.bc.beerworks.ui.stylelist
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,6 +60,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -69,8 +72,11 @@ import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.ui.components.CategoryCard
 import com.bc.beerworks.ui.components.FilterSheet
+import com.bc.beerworks.ui.components.MAX_OVERALL_IMPRESSION_LINES
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,11 +98,58 @@ fun StyleListContent(
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+    val density = LocalDensity.current
+    val bottomPaddingPx = remember(density) { with(density) { 16.dp.roundToPx() } }
+    val spacingPx = remember(density) { with(density) { 10.dp.roundToPx() } }
     val listState = remember(criteria) { LazyListState(0, 0) }
 
     LaunchedEffect(criteria, groupedStyles) {
         if (groupedStyles.isNotEmpty()) {
             listState.scrollToItem(0)
+        }
+    }
+
+    LaunchedEffect(expandedCategoryNumber) {
+        val targetCatNum = expandedCategoryNumber ?: return@LaunchedEffect
+        val targetGroup = groupedStyles.firstOrNull { it.categoryNumber == targetCatNum } ?: return@LaunchedEffect
+        if (targetGroup.styles.isEmpty()) return@LaunchedEffect
+
+        // Wait until LazyColumn layout reflects the newly expanded category
+        snapshotFlow { listState.layoutInfo }
+            .filter { info ->
+                val catIndex = calculateCategoryItemIndex(
+                    groupedStyles = groupedStyles,
+                    targetCategoryNumber = targetCatNum,
+                    expandedCategoryNumber = targetCatNum,
+                    searchQuery = criteria.query
+                )
+                if (catIndex < 0) return@filter false
+
+                val sub0Index = catIndex + 1
+                val hasSubCardLaidOut = info.visibleItemsInfo.any { it.index == sub0Index }
+                val catItem = info.visibleItemsInfo.firstOrNull { it.index == catIndex }
+                hasSubCardLaidOut || (catItem != null && catItem.index == info.visibleItemsInfo.lastOrNull()?.index)
+            }
+            .first()
+
+        val catIndex = calculateCategoryItemIndex(
+            groupedStyles = groupedStyles,
+            targetCategoryNumber = targetCatNum,
+            expandedCategoryNumber = targetCatNum,
+            searchQuery = criteria.query
+        )
+
+        if (catIndex >= 0) {
+            val scrollDelta = calculateAutoScrollDelta(
+                categoryIndex = catIndex,
+                subStylesCount = targetGroup.styles.size,
+                layoutInfo = listState.layoutInfo,
+                spacing = spacingPx,
+                bottomPadding = bottomPaddingPx
+            )
+            if (scrollDelta > 0f) {
+                listState.animateScrollBy(scrollDelta)
+            }
         }
     }
 
@@ -141,7 +194,7 @@ fun StyleListContent(
                                 style = MaterialTheme.typography.titleMedium
                             )
                             Text(
-                                text = selectedGuideline.displayName,
+                                text = "${selectedGuideline.displayName} ${com.bc.beerworks.ui.components.getDisciplineEmoji(selectedGuideline)}",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -274,14 +327,14 @@ fun StyleListContent(
                         modifier = Modifier.padding(32.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.SportsBar,
+                            imageVector = com.bc.beerworks.ui.components.getDisciplineIcon(selectedGuideline),
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "No beer styles found",
+                            text = if (selectedGuideline == GuidelineType.BJCP_MEAD) "No mead styles found" else "No styles found",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -326,6 +379,7 @@ fun StyleListContent(
                                     StyleCard(
                                         style = style,
                                         searchQuery = criteria.query,
+                                        maxOverallImpressionLines = MAX_OVERALL_IMPRESSION_LINES,
                                         onClick = { onStyleClick(style) },
                                         onToggleFavorite = { onToggleFavorite(style) }
                                     )
@@ -340,6 +394,7 @@ fun StyleListContent(
                 FilterSheet(
                     criteria = criteria,
                     categories = categories,
+                    selectedGuideline = selectedGuideline,
                     onCriteriaChange = onFilterCriteriaChange,
                     onReset = onResetFilters,
                     onDismiss = { showFilterSheet = false }

@@ -112,21 +112,32 @@ fun CategoryDetailContent(
                                     Spacer(modifier = Modifier.width(8.dp))
                                 }
                             }
-                            group.ibuMin?.let { min ->
-                                group.ibuMax?.let { max ->
-                                    StatChip(
-                                        label = "IBU",
-                                        value = String.format(Locale.US, "%.0f - %.0f", min, max)
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
+                            if (group.guidelineType != GuidelineType.BJCP_MEAD) {
+                                group.ibuMin?.let { min ->
+                                    group.ibuMax?.let { max ->
+                                        StatChip(
+                                            label = "IBU",
+                                            value = String.format(Locale.US, "%.0f - %.0f", min, max)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                    }
                                 }
-                            }
-                            group.srmMin?.let { min ->
-                                group.srmMax?.let { max ->
-                                    StatChip(
-                                        label = "SRM",
-                                        value = String.format(Locale.US, "%.0f - %.0f", min, max)
-                                    )
+                                group.srmMin?.let { min ->
+                                    group.srmMax?.let { max ->
+                                        StatChip(
+                                            label = "SRM",
+                                            value = String.format(Locale.US, "%.0f - %.0f", min, max)
+                                        )
+                                    }
+                                }
+                            } else {
+                                group.fgMin?.let { min ->
+                                    group.fgMax?.let { max ->
+                                        StatChip(
+                                            label = "FG",
+                                            value = String.format(Locale.US, "%.3f - %.3f", min, max)
+                                        )
+                                    }
                                 }
                             }
                         }

@@ -97,3 +97,29 @@ _Avoid_: Supercategory, broad style
 **Side-by-Side Comparison**:
 A concurrent comparative evaluation of two or three beer styles, hop varieties, or malt profiles aligning technical parameters, sensory radars, and flavor descriptors in a multi-column matrix.
 _Avoid_: Diff view, duel mode
+
+### Mead & Alternative Guidelines
+
+**Beverage Discipline**:
+The high-level category of fermented craft beverage supported in the reference suite: Beer (BJCP 2021, Brewers Association 2026), Mead (BJCP Mead Guidelines), and Cider (BJCP Cider Guidelines).
+_Avoid_: Beverage type, guide category
+
+**Mead Style**:
+A distinct recognized category of mead specified by honey varietal character, fruit/spice ingredients, sweetness level, carbonation, and strength in official BJCP Mead Guidelines (Categories M1–M4).
+_Avoid_: Honey wine, mead recipe
+
+**Mead Sweetness Classification**:
+The sensory perception and target final gravity of residual sugar in a finished mead: Dry (1.000–1.010 FG), Semi-Sweet (1.010–1.025 FG), or Sweet (1.025–1.050+ FG).
+_Avoid_: Sugar level, sweetness rating
+
+**Mead Carbonation Classification**:
+The carbonation and effervescence level of mead: Still (no bubbles), Pétillant (light effervescence), or Sparkling (lively, champagne-like carbonation).
+_Avoid_: Bubble level, fizz level
+
+**Mead Strength Classification**:
+The classification of mead by alcohol strength: Hydromel (3.5–7.5% ABV), Standard (7.5–12.5% ABV), or Sack (12.5–14.0%+ ABV).
+_Avoid_: Alcohol tier, mead ABV class
+
+**Discipline Icon**:
+A contextual visual glyph in the navigation drawer and headers that automatically adapts to the currently active beverage discipline (a beer mug for Beer, a bee for Mead, an apple for Cider).
+_Avoid_: Guide logo, beverage avatar

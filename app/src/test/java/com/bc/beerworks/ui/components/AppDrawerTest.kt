@@ -19,4 +19,11 @@ class AppDrawerTest {
             "settings"
         )
     }
+
+    @Test
+    fun getDisciplineIcon_and_emoji_returnsCorrectGlyphs() {
+        assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BJCP_2021)).isEqualTo("🍺")
+        assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BA_2026)).isEqualTo("🍺")
+        assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BJCP_MEAD)).isEqualTo("🐝")
+    }
 }

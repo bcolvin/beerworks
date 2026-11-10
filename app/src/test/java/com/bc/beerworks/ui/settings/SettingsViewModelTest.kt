@@ -66,6 +66,51 @@ class SettingsViewModelTest {
         runCurrent()
 
         assertThat(viewModel.selectedGuideline.value).isEqualTo(GuidelineType.BA_2026)
+
+        viewModel.onGuidelineChange(GuidelineType.BJCP_MEAD)
+        runCurrent()
+
+        assertThat(viewModel.selectedGuideline.value).isEqualTo(GuidelineType.BJCP_MEAD)
+        collectJob.cancel()
+    }
+
+    @Test
+    fun keepScreenOn_defaultsToFalse() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager()
+        )
+
+        val viewModel = SettingsViewModel(repository)
+
+        assertThat(viewModel.keepScreenOn.value).isFalse()
+    }
+
+    @Test
+    fun onKeepScreenOnChange_updatesKeepScreenOn() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager()
+        )
+
+        val viewModel = SettingsViewModel(repository)
+        val collectJob = backgroundScope.launch {
+            viewModel.keepScreenOn.collect {}
+        }
+
+        viewModel.onKeepScreenOnChange(true)
+        runCurrent()
+
+        assertThat(viewModel.keepScreenOn.value).isTrue()
+
+        viewModel.onKeepScreenOnChange(false)
+        runCurrent()
+
+        assertThat(viewModel.keepScreenOn.value).isFalse()
         collectJob.cancel()
     }
 }

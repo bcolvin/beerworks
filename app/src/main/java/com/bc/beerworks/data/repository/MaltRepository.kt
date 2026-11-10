@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
+import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.MaltFilterCriteria
@@ -23,7 +24,8 @@ class MaltRepository(
     private val maltStyleCrossRefDao: MaltStyleCrossRefDao,
     private val bjcpStyleDao: BjcpStyleDao,
     private val baStyleDao: BaStyleDao,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val meadStyleDao: MeadStyleDao? = null
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -33,7 +35,8 @@ class MaltRepository(
         database.maltStyleCrossRefDao(),
         database.bjcpStyleDao(),
         database.baStyleDao(),
-        defaultDispatcher
+        defaultDispatcher,
+        database.meadStyleDao()
     )
 
     fun getFilteredMalts(criteria: MaltFilterCriteria): Flow<List<MaltVariety>> {
@@ -111,6 +114,10 @@ class MaltRepository(
                         val idSet = styleIds.toSet()
                         allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
                     }
+                    GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles()?.map { allStyles ->
+                        val idSet = styleIds.toSet()
+                        allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
+                    } ?: flowOf(emptyList())
                 }
             }
         }.flowOn(defaultDispatcher)

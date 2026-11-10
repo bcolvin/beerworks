@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
+import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
@@ -17,16 +18,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class BeerStyleRepository(
     private val bjcpStyleDao: BjcpStyleDao,
     private val baStyleDao: BaStyleDao,
     private val favoriteStyleDao: FavoriteStyleDao,
     private val preferencesManager: PreferencesManager,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val meadStyleDao: MeadStyleDao? = null
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -37,13 +42,20 @@ class BeerStyleRepository(
         database.baStyleDao(),
         database.favoriteStyleDao(),
         preferencesManager,
-        defaultDispatcher
+        defaultDispatcher,
+        database.meadStyleDao()
     )
 
     val selectedGuideline: Flow<GuidelineType> = preferencesManager.selectedGuideline
 
     suspend fun setGuideline(guidelineType: GuidelineType) {
         preferencesManager.setGuideline(guidelineType)
+    }
+
+    val keepScreenOn: Flow<Boolean> = preferencesManager.keepScreenOn
+
+    suspend fun setKeepScreenOn(enabled: Boolean) {
+        preferencesManager.setKeepScreenOn(enabled)
     }
 
     fun getFavoriteIds(): Flow<List<String>> = favoriteStyleDao.getAllFavoriteIds()
@@ -107,8 +119,17 @@ class BeerStyleRepository(
                         )
                     }
                     flow.combine(getFavoriteIds()) { entities, _ ->
-                        entities.map { it.toDomainModel(favSet.contains(it.id)) }
+                        val domainStyles = entities.map { it.toDomainModel(favSet.contains(it.id)) }
                             .filter { !criteria.favoritesOnly || favSet.contains(it.id) }
+                        if (isSearchActive) {
+                            domainStyles.sortedWith(
+                                compareByDescending<BeerStyle> { calculateStyleSearchScore(it, rawQuery) }
+                                    .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                                    .thenBy { it.number }
+                            )
+                        } else {
+                            domainStyles
+                        }
                     }
                 }
                 GuidelineType.BA_2026 -> {
@@ -142,8 +163,64 @@ class BeerStyleRepository(
                         )
                     }
                     flow.combine(getFavoriteIds()) { entities, _ ->
-                        entities.map { it.toDomainModel(favSet.contains(it.id)) }
+                        val domainStyles = entities.map { it.toDomainModel(favSet.contains(it.id)) }
                             .filter { !criteria.favoritesOnly || favSet.contains(it.id) }
+                        if (isSearchActive) {
+                            domainStyles.sortedWith(
+                                compareByDescending<BeerStyle> { calculateStyleSearchScore(it, rawQuery) }
+                                    .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                                    .thenBy { it.number }
+                            )
+                        } else {
+                            domainStyles
+                        }
+                    }
+                }
+                GuidelineType.BJCP_MEAD -> {
+                    val meadDao = meadStyleDao
+                    if (meadDao == null) {
+                        flowOf(emptyList())
+                    } else {
+                        val flow = if (!isSearchActive) {
+                            meadDao.filterStyles(
+                                isAbvActive = isAbvActive,
+                                minAbv = criteria.minAbv,
+                                maxAbv = criteria.maxAbv,
+                                category = criteria.selectedCategory
+                            )
+                        } else {
+                            meadDao.searchAndFilterStyles(
+                                ftsQuery = ftsQuery,
+                                likeQuery = likeQuery,
+                                isAbvActive = isAbvActive,
+                                minAbv = criteria.minAbv,
+                                maxAbv = criteria.maxAbv,
+                                category = criteria.selectedCategory
+                            )
+                        }
+                        flow.combine(getFavoriteIds()) { entities, _ ->
+                            val domainStyles = entities.map { it.toDomainModel(favSet.contains(it.id)) }
+                                .filter { !criteria.favoritesOnly || favSet.contains(it.id) }
+                                .filter { style ->
+                                    val matchesSweetness = criteria.selectedSweetness.isEmpty() ||
+                                            criteria.selectedSweetness.any { style.sweetness?.contains(it, ignoreCase = true) == true }
+                                    val matchesCarbonation = criteria.selectedCarbonation.isEmpty() ||
+                                            criteria.selectedCarbonation.any { style.carbonation?.contains(it, ignoreCase = true) == true }
+                                    val matchesStrength = criteria.selectedStrength.isEmpty() ||
+                                            criteria.selectedStrength.any { style.strength?.contains(it, ignoreCase = true) == true }
+                                    matchesSweetness && matchesCarbonation && matchesStrength
+                                }
+
+                            if (isSearchActive) {
+                                domainStyles.sortedWith(
+                                    compareByDescending<BeerStyle> { calculateStyleSearchScore(it, rawQuery) }
+                                        .thenBy { it.categoryNumber }
+                                        .thenBy { it.number }
+                                )
+                            } else {
+                                domainStyles
+                            }
+                        }
                     }
                 }
             }
@@ -151,16 +228,43 @@ class BeerStyleRepository(
     }
 
     fun getGroupedFilteredStyles(criteria: FilterCriteria): Flow<List<BaseStyleGroup>> {
+        val rawQuery = criteria.query.trim()
+        val isSearchActive = rawQuery.isNotBlank()
+
         return getFilteredStyles(criteria).map { styles ->
-            styles.groupBy { Pair(it.categoryNumber, it.category) }
+            val grouped = styles.groupBy { Pair(it.categoryNumber, it.category) }
                 .map { (key, groupStyles) ->
-                    BaseStyleGroup(
-                        categoryNumber = key.first,
-                        categoryName = key.second,
-                        styles = groupStyles,
-                        guidelineType = groupStyles.firstOrNull()?.guidelineType ?: GuidelineType.BJCP_2021
+                    val sortedStyles = if (isSearchActive) {
+                        groupStyles.sortedWith(
+                            compareByDescending<BeerStyle> { calculateStyleSearchScore(it, rawQuery) }
+                                .thenBy { it.number }
+                        )
+                    } else {
+                        groupStyles
+                    }
+                    val groupMaxScore = if (isSearchActive) {
+                        sortedStyles.maxOfOrNull { calculateStyleSearchScore(it, rawQuery) } ?: 0
+                    } else 0
+
+                    Pair(
+                        groupMaxScore,
+                        BaseStyleGroup(
+                            categoryNumber = key.first,
+                            categoryName = key.second,
+                            styles = sortedStyles,
+                            guidelineType = sortedStyles.firstOrNull()?.guidelineType ?: GuidelineType.BJCP_2021
+                        )
                     )
                 }
+
+            if (isSearchActive) {
+                grouped.sortedWith(
+                    compareByDescending<Pair<Int, BaseStyleGroup>> { it.first }
+                        .thenBy { it.second.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                ).map { it.second }
+            } else {
+                grouped.map { it.second }
+            }
         }.flowOn(defaultDispatcher)
     }
 
@@ -186,14 +290,32 @@ class BeerStyleRepository(
             when (guideline) {
                 GuidelineType.BJCP_2021 -> bjcpStyleDao.getCategories()
                 GuidelineType.BA_2026 -> baStyleDao.getCategories()
+                GuidelineType.BJCP_MEAD -> meadStyleDao?.getCategories() ?: flowOf(emptyList())
             }
         }.flowOn(defaultDispatcher)
     }
 
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {
+        val isFav = favoriteStyleDao.isFavorite(id).first()
         return when (guidelineType) {
-            GuidelineType.BJCP_2021 -> bjcpStyleDao.getStyleById(id)?.toDomainModel(false)
-            GuidelineType.BA_2026 -> baStyleDao.getStyleById(id)?.toDomainModel(false)
+            GuidelineType.BJCP_2021 -> bjcpStyleDao.getStyleById(id)?.toDomainModel(isFav)
+            GuidelineType.BA_2026 -> baStyleDao.getStyleById(id)?.toDomainModel(isFav)
+            GuidelineType.BJCP_MEAD -> meadStyleDao?.getStyleById(id)?.toDomainModel(isFav)
+        }
+    }
+
+    suspend fun getNextStyle(currentStyleId: String, guidelineType: GuidelineType): BeerStyle? = withContext(defaultDispatcher) {
+        val isFav = favoriteStyleDao.isFavorite(currentStyleId).first()
+        val styles = when (guidelineType) {
+            GuidelineType.BJCP_2021 -> bjcpStyleDao.getAllStyles().first().map { it.toDomainModel(isFav) }
+            GuidelineType.BA_2026 -> baStyleDao.getAllStyles().first().map { it.toDomainModel(isFav) }
+            GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles()?.first()?.map { it.toDomainModel(isFav) } ?: emptyList()
+        }
+        val currentIndex = styles.indexOfFirst { it.id == currentStyleId }
+        if (currentIndex != -1 && currentIndex + 1 < styles.size) {
+            styles[currentIndex + 1]
+        } else {
+            null
         }
     }
 

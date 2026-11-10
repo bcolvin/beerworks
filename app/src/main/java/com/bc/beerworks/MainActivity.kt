@@ -1,6 +1,8 @@
 package com.bc.beerworks
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +11,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -72,11 +75,26 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BeerworksApp() {
     val context = LocalContext.current
+    val activity = context as? Activity
     val database = remember { BeerworksDatabase.getInstance(context) }
     val prefsManager = remember { DefaultPreferencesManager(context) }
     val repository = remember { BeerStyleRepository(database, prefsManager) }
     val hopRepository = remember { HopRepository(database) }
     val maltRepository = remember { MaltRepository(database) }
+
+    val keepScreenOn by prefsManager.keepScreenOn.collectAsState(initial = false)
+    val selectedGuideline by repository.selectedGuideline.collectAsState(initial = GuidelineType.BJCP_2021)
+
+    DisposableEffect(keepScreenOn, activity) {
+        if (keepScreenOn) {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+        onDispose {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 
     LaunchedEffect(Unit) {
         DatabaseInitializer.initializeIfNeeded(context, database)
@@ -93,6 +111,11 @@ fun BeerworksApp() {
         drawerContent = {
             AppDrawer(
                 currentRoute = currentRoute,
+                selectedGuideline = selectedGuideline,
+                keepScreenOn = keepScreenOn,
+                onKeepScreenOnChange = { enabled ->
+                    scope.launch { prefsManager.setKeepScreenOn(enabled) }
+                },
                 onNavigate = { destination ->
                     scope.launch { drawerState.close() }
                     if (currentRoute != destination.route) {
@@ -266,7 +289,22 @@ fun BeerworksApp() {
             }
 
             composable("settings") {
+                val settingsViewModel: SettingsViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return SettingsViewModel(repository) as T
+                        }
+                    }
+                )
+                val isScreenOn by settingsViewModel.keepScreenOn.collectAsState()
+                val activeGuideline by settingsViewModel.selectedGuideline.collectAsState()
+
                 SettingsContent(
+                    selectedGuideline = activeGuideline,
+                    onGuidelineChange = settingsViewModel::onGuidelineChange,
+                    keepScreenOn = isScreenOn,
+                    onKeepScreenOnChange = settingsViewModel::onKeepScreenOnChange,
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -295,6 +333,7 @@ fun BeerworksApp() {
                 )
 
                 val style by viewModel.style.collectAsState()
+                val nextStyle by viewModel.nextStyle.collectAsState()
                 val commonHops by viewModel.commonHops.collectAsState()
                 val commonMalts by viewModel.commonMalts.collectAsState()
 
@@ -310,7 +349,14 @@ fun BeerworksApp() {
                         commonMalts = commonMalts,
                         onMaltClick = { maltId ->
                             navController.navigate("malt_detail/$maltId")
-                        }
+                        },
+                        nextStyle = nextStyle,
+                        onSwipeForward = {
+                            nextStyle?.let { next ->
+                                navController.navigate("style_detail/${next.id}/${next.guidelineType.name}")
+                            }
+                        },
+                        onSwipeBack = { navController.popBackStack() }
                     )
                 }
             }

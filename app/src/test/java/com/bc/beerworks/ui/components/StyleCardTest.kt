@@ -65,4 +65,21 @@ class StyleCardTest {
         assertThat(snippet?.categoryLabel).isEqualTo("Ingredient")
         assertThat(snippet?.snippetText?.text).contains("corn")
     }
+
+    @Test
+    fun getMaxOverallImpressionLines_returnsTenForActiveSearchQuery() {
+        assertThat(getMaxOverallImpressionLines("IPA")).isEqualTo(10)
+        assertThat(getMaxOverallImpressionLines("lager")).isEqualTo(10)
+    }
+
+    @Test
+    fun getMaxOverallImpressionLines_returnsTenEvenForBlankOrWhitespaceQuery() {
+        assertThat(getMaxOverallImpressionLines("")).isEqualTo(10)
+        assertThat(getMaxOverallImpressionLines("   ")).isEqualTo(10)
+    }
+
+    @Test
+    fun maxOverallImpressionLines_constantIsTen() {
+        assertThat(MAX_OVERALL_IMPRESSION_LINES).isEqualTo(10)
+    }
 }

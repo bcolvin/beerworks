@@ -96,13 +96,20 @@ fun getSearchMatchSnippet(
     return null
 }
 
+const val MAX_OVERALL_IMPRESSION_LINES = 10
+
+fun getMaxOverallImpressionLines(searchQuery: String = ""): Int {
+    return MAX_OVERALL_IMPRESSION_LINES
+}
+
 @Composable
 fun StyleCard(
     style: BeerStyle,
     onClick: () -> Unit,
     onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier,
-    searchQuery: String = ""
+    searchQuery: String = "",
+    maxOverallImpressionLines: Int = MAX_OVERALL_IMPRESSION_LINES
 ) {
     val primaryColor = MaterialTheme.colorScheme.primary
     val matchSnippet = remember(style, searchQuery, primaryColor) {
@@ -162,44 +169,77 @@ fun StyleCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Overall Impression Preview
+            // Overall Impression Preview / Full text in search results
             if (style.overallImpression.isNotBlank()) {
                 Text(
                     text = style.overallImpression,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-                    maxLines = 2,
+                    maxLines = maxOverallImpressionLines,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            // Vital Stats Summary Row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                SrmRangeSwatch(minSrm = style.srmMin, maxSrm = style.srmMax)
+            if (style.guidelineType == GuidelineType.BJCP_MEAD) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val meadChips = listOfNotNull(
+                        style.sweetness?.let { "🍯 $it" },
+                        style.strength?.let { "⚡ $it" }
+                    ).joinToString("  •  ")
 
-                val abvText = when {
-                    style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
-                    style.abvMin != null -> "${style.abvMin}% ABV"
-                    else -> "N/A ABV"
+                    Text(
+                        text = meadChips.ifBlank { "Traditional Mead" },
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+
+                    val abvText = when {
+                        style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
+                        style.abvMin != null -> "${style.abvMin}% ABV"
+                        else -> "N/A ABV"
+                    }
+
+                    Text(
+                        text = abvText,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
+            } else {
+                // Vital Stats Summary Row (Beer)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SrmRangeSwatch(minSrm = style.srmMin, maxSrm = style.srmMax)
 
-                val ibuText = when {
-                    style.ibuMin != null && style.ibuMax != null -> "${style.ibuMin.toInt()}–${style.ibuMax.toInt()} IBU"
-                    style.ibuMin != null -> "${style.ibuMin.toInt()} IBU"
-                    else -> "N/A IBU"
+                    val abvText = when {
+                        style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
+                        style.abvMin != null -> "${style.abvMin}% ABV"
+                        else -> "N/A ABV"
+                    }
+
+                    val ibuText = when {
+                        style.ibuMin != null && style.ibuMax != null -> "${style.ibuMin.toInt()}–${style.ibuMax.toInt()} IBU"
+                        style.ibuMin != null -> "${style.ibuMin.toInt()} IBU"
+                        else -> "N/A IBU"
+                    }
+
+                    Text(
+                        text = "$abvText  •  $ibuText",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
-
-                Text(
-                    text = "$abvText  •  $ibuText",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontWeight = FontWeight.SemiBold
-                )
             }
 
             // Match Context Snippet Chip

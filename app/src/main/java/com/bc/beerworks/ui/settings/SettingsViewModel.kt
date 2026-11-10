@@ -19,9 +19,21 @@ class SettingsViewModel(
         initialValue = GuidelineType.BJCP_2021
     )
 
+    val keepScreenOn: StateFlow<Boolean> = repository.keepScreenOn.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
     fun onGuidelineChange(guidelineType: GuidelineType) {
         viewModelScope.launch {
             repository.setGuideline(guidelineType)
+        }
+    }
+
+    fun onKeepScreenOnChange(enabled: Boolean) {
+        viewModelScope.launch {
+            repository.setKeepScreenOn(enabled)
         }
     }
 }
