@@ -33,12 +33,17 @@ import com.bc.beerworks.data.local.DatabaseInitializer
 import com.bc.beerworks.data.local.DefaultPreferencesManager
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.repository.BeerStyleRepository
+import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
 import com.bc.beerworks.ui.components.DrawerDestination
+import com.bc.beerworks.ui.honey.HoneyContent
+import com.bc.beerworks.ui.honey.HoneyViewModel
+import com.bc.beerworks.ui.honeydetail.HoneyDetailScreen
+import com.bc.beerworks.ui.honeydetail.HoneyDetailViewModel
 import com.bc.beerworks.ui.hopdetail.HopDetailContent
 import com.bc.beerworks.ui.hopdetail.HopDetailViewModel
 import com.bc.beerworks.ui.hops.HopsContent
@@ -81,6 +86,7 @@ fun BeerworksApp() {
     val repository = remember { BeerStyleRepository(database, prefsManager) }
     val hopRepository = remember { HopRepository(database) }
     val maltRepository = remember { MaltRepository(database) }
+    val honeyRepository = remember { HoneyRepository(database) }
 
     val keepScreenOn by prefsManager.keepScreenOn.collectAsState(initial = false)
     val selectedGuideline by repository.selectedGuideline.collectAsState(initial = GuidelineType.BJCP_2021)
@@ -280,6 +286,43 @@ fun BeerworksApp() {
                 )
             }
 
+            composable("honey") {
+                val viewModel: HoneyViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return HoneyViewModel(honeyRepository, repository) as T
+                        }
+                    }
+                )
+
+                val honeys by viewModel.honeys.collectAsState()
+                val criteria by viewModel.filterCriteria.collectAsState()
+                val classifications by viewModel.classifications.collectAsState()
+                val usdaColors by viewModel.usdaColors.collectAsState()
+                val flavorIntensities by viewModel.flavorIntensities.collectAsState()
+                val crystallizationTendencies by viewModel.crystallizationTendencies.collectAsState()
+
+                HoneyContent(
+                    honeys = honeys,
+                    criteria = criteria,
+                    classifications = classifications,
+                    usdaColors = usdaColors,
+                    flavorIntensities = flavorIntensities,
+                    crystallizationTendencies = crystallizationTendencies,
+                    onQueryChange = viewModel::onQueryChange,
+                    onClassificationSelected = viewModel::onClassificationSelected,
+                    onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+                    onResetFilters = viewModel::resetFilters,
+                    onHoneyClick = { honeyId ->
+                        navController.navigate("honey_detail/$honeyId")
+                    },
+                    onMenuClick = {
+                        scope.launch { drawerState.open() }
+                    }
+                )
+            }
+
             composable("review_history") {
                 ReviewHistoryContent(
                     onMenuClick = {
@@ -324,7 +367,7 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, hopRepository, maltRepository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, styleId, guidelineType) as T
                         }
                     }
                 )
@@ -333,6 +376,7 @@ fun BeerworksApp() {
                 val nextStyle by viewModel.nextStyle.collectAsState()
                 val commonHops by viewModel.commonHops.collectAsState()
                 val commonMalts by viewModel.commonMalts.collectAsState()
+                val commonHoneys by viewModel.commonHoneys.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
@@ -346,6 +390,10 @@ fun BeerworksApp() {
                         commonMalts = commonMalts,
                         onMaltClick = { maltId ->
                             navController.navigate("malt_detail/$maltId")
+                        },
+                        commonHoneys = commonHoneys,
+                        onHoneyClick = { honeyId ->
+                            navController.navigate("honey_detail/$honeyId")
                         },
                         nextStyle = nextStyle,
                         onSwipeForward = {
@@ -422,6 +470,36 @@ fun BeerworksApp() {
                     onBackClick = { navController.popBackStack() },
                     onMaltClick = { targetMaltId ->
                         navController.navigate("malt_detail/$targetMaltId")
+                    },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
+            }
+
+            composable(
+                route = "honey_detail/{honeyId}",
+                arguments = listOf(
+                    navArgument("honeyId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val honeyId = backStackEntry.arguments?.getString("honeyId") ?: ""
+
+                val viewModel: HoneyDetailViewModel = viewModel(
+                    key = "honey_$honeyId",
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return HoneyDetailViewModel(honeyRepository, repository, honeyId) as T
+                        }
+                    }
+                )
+
+                HoneyDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onHoneyClick = { targetHoneyId ->
+                        navController.navigate("honey_detail/$targetHoneyId")
                     },
                     onStyleClick = { style ->
                         navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")

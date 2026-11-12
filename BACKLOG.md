@@ -54,7 +54,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Support cider-specific attributes (5-tier sweetness levels, carbonation, strength tiers, apple/pear varieties, ABV).
   - Integrate into guideline switching alongside Beer and Mead with dynamic discipline icon (🍏 / Nature).
 
-- [ ] **Honey Profile Database & Varietal Sensory Profiles (Feature 006)**
+- [x] **Honey Profile Database & Varietal Sensory Profiles (Feature 006)**
   - Comprehensive reference of canonical varietal honeys (Orange Blossom, Clover, Tupelo, Meadowfoam, Buckwheat, etc.).
   - Pfund scale (mm) and USDA color classifications (Water White to Dark Amber) with visual color swatches.
   - Fructose/Glucose ratios, crystallization tendencies (Slow, Moderate, Rapid), moisture %, and gravity yields.

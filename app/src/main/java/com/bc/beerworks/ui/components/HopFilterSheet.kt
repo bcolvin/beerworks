@@ -82,20 +82,16 @@ fun HopFilterSheet(
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            val purposes = listOf("All", "Aroma", "Bittering")
+            val purposes = listOf("Aroma", "Bittering", "Dual-Purpose")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 purposes.forEach { purposeOption ->
-                    val isSelected = if (purposeOption == "All") {
-                        currentCriteria.selectedPurpose == null
-                    } else {
-                        currentCriteria.selectedPurpose == purposeOption
-                    }
+                    val isSelected = currentCriteria.selectedPurpose == purposeOption
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            val newPurpose = if (purposeOption == "All") null else purposeOption
+                            val newPurpose = if (isSelected) null else purposeOption
                             currentCriteria = currentCriteria.copy(selectedPurpose = newPurpose)
                         },
                         label = { Text(purposeOption) }

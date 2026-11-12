@@ -4,6 +4,8 @@ import android.content.Context
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.CiderStyleEntity
+import com.bc.beerworks.data.local.entity.HoneyStyleCrossRef
+import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
 import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
@@ -73,6 +75,41 @@ data class JsonMaltRaw(
     val substituteIds: List<String>?,
     val commonStyleIds: List<String>?,
     val radarProfile: JsonMaltRadarRaw?
+)
+
+data class JsonHoneyRadarRaw(
+    val floral: Float?,
+    val fruity: Float?,
+    val herbalFresh: Float?,
+    val spicyWarm: Float?,
+    val sweetConfectionary: Float?,
+    val nuttyWoody: Float?,
+    val earthyMineral: Float?,
+    val animalPungent: Float?
+)
+
+data class JsonHoneyRaw(
+    val id: String?,
+    val name: String?,
+    val floralClassification: String?,
+    val botanicalSource: String?,
+    val origin: String?,
+    val countryCode: String?,
+    val pfundMin: Double?,
+    val pfundMax: Double?,
+    val usdaColor: String?,
+    val moistureTypicalPercent: Double?,
+    val fgRatio: Double?,
+    val crystallizationTendency: String?,
+    val extractPotentialSg: Double?,
+    val flavorIntensity: String?,
+    val description: String?,
+    val fermentationBehavior: String?,
+    val pairingNotes: String?,
+    val descriptors: List<String>?,
+    val substituteIds: List<String>?,
+    val commonStyleIds: List<String>?,
+    val radarProfile: JsonHoneyRadarRaw?
 )
 
 data class JsonHopRadarRaw(
@@ -423,6 +460,70 @@ object DatabaseInitializer {
                 )
             }
             ciderDao.insertAll(ciderEntities)
+        }
+
+        val honeyDao = database.honeyDao()
+        val honeyCrossRefDao = database.honeyStyleCrossRefDao()
+        val honeyJson = runCatching {
+            context.assets.open("honeys.json").bufferedReader().use { it.readText() }
+        }.getOrNull()
+
+        if (!honeyJson.isNullOrBlank()) {
+            val honeyType = object : TypeToken<List<JsonHoneyRaw>>() {}.type
+            val rawHoneys: List<JsonHoneyRaw> = gson.fromJson(honeyJson, honeyType)
+
+            val honeyEntities = rawHoneys.map { raw ->
+                val id = raw.id ?: "unknown"
+                HoneyVarietyEntity(
+                    id = id,
+                    name = raw.name ?: "",
+                    floralClassification = raw.floralClassification ?: "Monofloral",
+                    botanicalSource = raw.botanicalSource ?: "",
+                    origin = raw.origin ?: "",
+                    countryCode = raw.countryCode ?: "US",
+                    pfundMin = raw.pfundMin ?: 15.0,
+                    pfundMax = raw.pfundMax ?: 30.0,
+                    usdaColor = raw.usdaColor ?: "White",
+                    moistureTypicalPercent = raw.moistureTypicalPercent ?: 17.0,
+                    fgRatio = raw.fgRatio ?: 1.15,
+                    crystallizationTendency = raw.crystallizationTendency ?: "Moderate",
+                    extractPotentialSg = raw.extractPotentialSg ?: 1.037,
+                    flavorIntensity = raw.flavorIntensity ?: "Moderate",
+                    description = raw.description ?: "",
+                    fermentationBehavior = raw.fermentationBehavior ?: "",
+                    pairingNotes = raw.pairingNotes ?: "",
+                    descriptors = raw.descriptors?.joinToString(",") ?: "",
+                    substituteIds = raw.substituteIds?.joinToString(",") ?: "",
+                    radarFloral = raw.radarProfile?.floral,
+                    radarFruity = raw.radarProfile?.fruity,
+                    radarHerbal = raw.radarProfile?.herbalFresh,
+                    radarSpicy = raw.radarProfile?.spicyWarm,
+                    radarSweet = raw.radarProfile?.sweetConfectionary,
+                    radarWoody = raw.radarProfile?.nuttyWoody,
+                    radarEarthy = raw.radarProfile?.earthyMineral,
+                    radarPungent = raw.radarProfile?.animalPungent
+                )
+            }
+            honeyDao.insertAll(honeyEntities)
+
+            val honeyCrossRefs = rawHoneys.flatMap { raw ->
+                val honeyId = raw.id ?: return@flatMap emptyList()
+                (raw.commonStyleIds ?: emptyList()).map { styleId ->
+                    val guidelineType = when {
+                        styleId.startsWith("M") -> "BJCP_MEAD"
+                        styleId.startsWith("C") -> "BJCP_CIDER"
+                        else -> "BJCP_2021"
+                    }
+                    HoneyStyleCrossRef(
+                        honeyId = honeyId,
+                        styleId = styleId,
+                        guidelineType = guidelineType
+                    )
+                }
+            }
+            if (honeyCrossRefs.isNotEmpty()) {
+                honeyCrossRefDao.insertAll(honeyCrossRefs)
+            }
         }
     }
 }

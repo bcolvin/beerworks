@@ -92,15 +92,13 @@ fun MaltFilterSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val allCategories = listOf("All") + categories
-                allCategories.forEach { category ->
-                    val isSelected = if (category == "All") currentCriteria.selectedCategory == null
-                    else currentCriteria.selectedCategory == category
+                categories.forEach { category ->
+                    val isSelected = currentCriteria.selectedCategory == category
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             currentCriteria = currentCriteria.copy(
-                                selectedCategory = if (category == "All" || isSelected) null else category
+                                selectedCategory = if (isSelected) null else category
                             )
                         },
                         label = { Text(category) }
@@ -122,15 +120,13 @@ fun MaltFilterSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val allGrains = listOf("All") + grainTypes
-                allGrains.forEach { grain ->
-                    val isSelected = if (grain == "All") currentCriteria.selectedGrainType == null
-                    else currentCriteria.selectedGrainType == grain
+                grainTypes.forEach { grain ->
+                    val isSelected = currentCriteria.selectedGrainType == grain
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             currentCriteria = currentCriteria.copy(
-                                selectedGrainType = if (grain == "All" || isSelected) null else grain
+                                selectedGrainType = if (isSelected) null else grain
                             )
                         },
                         label = { Text(grain) }
@@ -153,7 +149,6 @@ fun MaltFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val tiers = listOf(
-                    "All" to null,
                     "High (≥100°L)" to "High",
                     "Moderate (30–99°L)" to "Moderate",
                     "None (0°L)" to "None"
@@ -187,7 +182,6 @@ fun MaltFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val colorTiers = listOf(
-                    "All" to null,
                     "Pale (<10°L)" to "Pale (<10°L)",
                     "Amber (10–50°L)" to "Amber (10–50°L)",
                     "Brown (50–150°L)" to "Brown (50–150°L)",
@@ -252,15 +246,13 @@ fun MaltFilterSheet(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    val allBase = listOf("All") + baseCategories
-                    allBase.forEach { cat ->
-                        val isSelected = if (cat == "All") currentCriteria.selectedBaseCategory == null
-                        else currentCriteria.selectedBaseCategory == cat
+                    baseCategories.forEach { cat ->
+                        val isSelected = currentCriteria.selectedBaseCategory == cat
                         FilterChip(
                             selected = isSelected,
                             onClick = {
                                 currentCriteria = currentCriteria.copy(
-                                    selectedBaseCategory = if (cat == "All" || isSelected) null else cat
+                                    selectedBaseCategory = if (isSelected) null else cat
                                 )
                             },
                             label = { Text(cat) }

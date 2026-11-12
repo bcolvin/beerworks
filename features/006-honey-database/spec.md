@@ -27,7 +27,7 @@ Provide an offline-first, visually rich reference database of canonical varietal
 ## 📋 Requirements & Acceptance Criteria
 
 ### 1. Data Pipeline & Persistence
-- [ ] **Bundled Asset (`honeys.json`)**: Curate and bundle `app/src/main/assets/honeys.json` (~35–45 canonical honey varieties across North American, European, Oceanic, and global origins) containing:
+- [x] **Bundled Asset (`honeys.json`)**: Curate and bundle `app/src/main/assets/honeys.json` (~35–45 canonical honey varieties across North American, European, Oceanic, and global origins) containing:
   - `id`, `name`, `floralClassification` (`Monofloral`, `Polyfloral`, `Honeydew`)
   - `botanicalSource` (Latin genus/species, e.g. *Citrus sinensis*, *Trifolium repens*, *Nyssa ogeche*, *Limnanthes alba*, *Fagopyrum esculentum*)
   - `origin`, `countryCode` (e.g. `US`, `FR`, `NZ`, `ES`, `CA`, `DE`, `AU`)
@@ -45,27 +45,26 @@ Provide an offline-first, visually rich reference database of canonical varietal
   - `substituteIds` (interchangeable alternative honey IDs with similar profile)
   - `commonStyleIds` (associated BJCP Mead styles: e.g. `M1A`, `M1B`, `M1C`, `M2A`, `M2E`, `M3A`, `M4A`, `C2B`)
   - `radarProfile` (8 organoleptic dimensions: Floral, Fruity, Herbal/Fresh, Spicy/Warm, Sweet/Confectionary, Nutty/Woody, Earthy/Mineral, Animal/Pungent rated 0.0 – 5.0)
-- [ ] **Room Database Version 7**:
+- [x] **Room Database Version 7**:
   - `HoneyVarietyEntity`: Primary table storing complete honey attributes.
   - `HoneyVarietyFtsEntity`: SQLite FTS4 virtual table indexing `name`, `botanicalSource`, `origin`, `description`, `fermentationBehavior`, `descriptors`, and `pairingNotes` for sub-millisecond full-text search.
   - `HoneyStyleCrossRef`: Relational join table keyed on `(honeyId, styleId, guidelineType)` with composite index for bidirectional style queries.
-- [ ] **Room Database Migration (v6 -> v7)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/favorites data.
-- [ ] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `honeys.json` on startup in the background without main-thread blocking.
-- [ ] **Repository Layer (`HoneyRepository`)**: Expose distinct flows for catalog search/filtering, individual honey details, and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Room Database Migration (v6 -> v7)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/favorites data.
+- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `honeys.json` on startup in the background without main-thread blocking.
+- [x] **Repository Layer (`HoneyRepository`)**: Expose distinct flows for catalog search/filtering, individual honey details, and style cross-references, dispatched on `Dispatchers.Default`.
 
 ### 2. Honey Catalog List Screen (`HoneyScreen` / route: `"honey"`)
-- [ ] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `MaltScreen`.
-- [ ] **Top App Bar**: TopAppBar with title `"Honey"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
-- [ ] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), placeholder text (`"Search honeys, floral sources, descriptors..."`), and IME search action. Focus auto-clears on list scroll or background tap.
-- [ ] **Quick-Filter Strip**: Horizontal scrollable chips for **Floral Classification**:
-  - `All`, `Monofloral`, `Polyfloral`, `Honeydew`
-- [ ] **Advanced Filter Sheet (`HoneyFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Honeys"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
-  1. **Floral Classification** (multi-select chips)
-  2. **USDA Color Tier** (multi-select chips: Water White, Extra White, White, Extra Light Amber, Light Amber, Amber, Dark Amber)
-  3. **Flavor Intensity** (chips: All, Delicate, Moderate, Robust)
-  4. **Crystallization Tendency** (chips: All, Slow, Moderate, Rapid)
-  5. **Associated Mead / Beverage Styles** (multi-select based on base mead/beer/cider styles)
-- [ ] **Glanceable `HoneyCard` Items**:
+- [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `MaltScreen`.
+- [x] **Top App Bar**: TopAppBar with title `"Honey"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
+- [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), and IME search action without placeholder hint text. Focus auto-clears on list scroll or background tap.
+- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Floral Classification** (toggle on/off without 'All' chip):
+  - `Monofloral`, `Polyfloral`, `Honeydew`
+- [x] **Advanced Filter Sheet (`HoneyFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Honeys"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
+  1. **Floral Classification** (toggle chips: Monofloral, Polyfloral, Honeydew)
+  2. **Color** (multi-select chips: Water White, Extra White, White, Extra Light Amber, Light Amber, Amber, Dark Amber)
+  3. **Flavor Intensity** (toggle chips: Delicate, Moderate, Robust)
+  4. **Crystallization Tendency** (toggle chips: Slow, Moderate, Rapid)
+- [x] **Glanceable `HoneyCard` Items**:
   - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation and container tint.
   - Honey name with bold typography.
   - Botanical source (*italicized Latin name*).
@@ -74,8 +73,8 @@ Provide an offline-first, visually rich reference database of canonical varietal
   - Color swatch pill with Pfund range and USDA color tier (e.g., `15–30 mm (White)`).
   - Flavor Intensity indicator badge (`Delicate`, `Moderate`, or `Robust`).
   - Top 3 flavor descriptors.
-  - Chevron indicator indicating clickable navigation to detail.
-- [ ] **Zero-Result Filter Recovery**: Centered empty state with honeycomb icon (`Icons.Default.Hive`), bold headline `"No honeys found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
+  - Standard card clickability to detail without trailing navigation arrow.
+- [x] **Zero-Result Filter Recovery**: Centered empty state with honeycomb icon (`Icons.Default.Hive`), bold headline `"No honeys found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
 
 ### 3. Honey Detail Screen (`HoneyDetailScreen` / `honey_detail/{honeyId}`)
 Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
@@ -100,13 +99,13 @@ Ordered precisely according to resolved design hierarchy using standardized `Rou
    - Clickable cards showing mead (and cider/beer) styles where this honey is traditionally or ideally featured (e.g., Orange Blossom in M1A Dry Mead / M1B Semi-Sweet Mead, Buckwheat in M1C Sweet Mead / M4A Braggot). Tapping navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)
-- [ ] **Collapsible "Recommended Honeys" Section**: On `StyleDetailScreen`, add an expansion card titled `"Recommended Honeys (N)"` below guidelines for Mead styles (and applicable Cider/Beer styles such as Braggots).
-- [ ] **Collapsed by Default**: Starts collapsed to preserve reading flow.
-- [ ] **Deep Linking**: Expanding displays honey chips with color swatches and classification tags. Tapping any honey navigates directly to `honey_detail/{honeyId}`.
+- [x] **Collapsible "Recommended Honeys" Section**: On `StyleDetailScreen`, add an expansion card titled `"Recommended Honeys (N)"` below guidelines for Mead styles (and applicable Cider/Beer styles such as Braggots).
+- [x] **Collapsed by Default**: Starts collapsed to preserve reading flow.
+- [x] **Deep Linking**: Expanding displays honey chips with color swatches and classification tags. Tapping any honey navigates directly to `honey_detail/{honeyId}`.
 
 ### 5. Navigation Drawer Integration (`AppDrawer`)
-- [ ] **Drawer Destination**: Add `DrawerDestination.Honey("honey", "Honey", Icons.Default.Hive)` between `Malt` and `ReviewHistory` in `AppDrawer.kt`.
-- [ ] **Navigation Handling**: Update `MainActivity.kt` with composable routes for `"honey"` and `"honey_detail/{honeyId}"`.
+- [x] **Drawer Destination**: Add `DrawerDestination.Honey("honey", "Honey", Icons.Default.Hive)` between `Malt` and `ReviewHistory` in `AppDrawer.kt`.
+- [x] **Navigation Handling**: Update `MainActivity.kt` with composable routes for `"honey"` and `"honey_detail/{honeyId}"`.
 
 ---
 

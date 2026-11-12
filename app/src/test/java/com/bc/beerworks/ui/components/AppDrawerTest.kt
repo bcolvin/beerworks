@@ -9,12 +9,13 @@ class AppDrawerTest {
     fun drawerDestinationItems_areNonNullAndContainsAllDestinations() {
         val items = DrawerDestination.items
 
-        assertThat(items).hasSize(5)
+        assertThat(items).hasSize(6)
         assertThat(items).doesNotContainNull()
         assertThat(items.map { it.route }).containsExactly(
             "style_list",
             "hops",
             "malt",
+            "honey",
             "review_history",
             "settings"
         )

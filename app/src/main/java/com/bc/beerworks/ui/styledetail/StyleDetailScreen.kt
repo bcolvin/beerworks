@@ -53,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.data.model.isBeer
@@ -70,6 +71,8 @@ fun StyleDetailContent(
     onHopClick: (String) -> Unit = {},
     commonMalts: List<MaltVariety> = emptyList(),
     onMaltClick: (String) -> Unit = {},
+    commonHoneys: List<HoneyVariety> = emptyList(),
+    onHoneyClick: (String) -> Unit = {},
     nextStyle: BeerStyle? = null,
     onSwipeForward: () -> Unit = {},
     onSwipeBack: () -> Unit = onBackClick
@@ -213,6 +216,13 @@ fun StyleDetailContent(
                     CollapsibleCommonHopsCard(
                         commonHops = commonHops,
                         onHopClick = onHopClick
+                    )
+                }
+
+                if (commonHoneys.isNotEmpty()) {
+                    CollapsibleCommonHoneysCard(
+                        commonHoneys = commonHoneys,
+                        onHoneyClick = onHoneyClick
                     )
                 }
 
@@ -418,6 +428,80 @@ fun CollapsibleCommonHopsCard(
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.primary
                             )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CollapsibleCommonHoneysCard(
+    commonHoneys: List<HoneyVariety>,
+    onHoneyClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .clickable { expanded = !expanded },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Recommended Honeys (${commonHoneys.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            if (expanded) {
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    commonHoneys.forEach { honey ->
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                                .clickable { onHoneyClick(honey.id) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(10.dp)
+                                        .clip(CircleShape)
+                                        .background(honey.color)
+                                        .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
+                                )
+                                Spacer(modifier = Modifier.size(6.dp))
+                                Text(
+                                    text = "${honey.countryFlag} ${honey.name} (${honey.floralClassification})",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                     }
                 }
