@@ -333,8 +333,13 @@ fun StyleListContent(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
+                        val emptyText = when (selectedGuideline) {
+                            GuidelineType.BJCP_MEAD -> "No mead styles found"
+                            GuidelineType.BJCP_CIDER -> "No cider styles found"
+                            else -> "No styles found"
+                        }
                         Text(
-                            text = if (selectedGuideline == GuidelineType.BJCP_MEAD) "No mead styles found" else "No styles found",
+                            text = emptyText,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface

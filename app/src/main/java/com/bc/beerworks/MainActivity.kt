@@ -298,11 +298,8 @@ fun BeerworksApp() {
                     }
                 )
                 val isScreenOn by settingsViewModel.keepScreenOn.collectAsState()
-                val activeGuideline by settingsViewModel.selectedGuideline.collectAsState()
 
                 SettingsContent(
-                    selectedGuideline = activeGuideline,
-                    onGuidelineChange = settingsViewModel::onGuidelineChange,
                     keepScreenOn = isScreenOn,
                     onKeepScreenOnChange = settingsViewModel::onKeepScreenOnChange,
                     onMenuClick = {

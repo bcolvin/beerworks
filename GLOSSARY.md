@@ -120,6 +120,22 @@ _Avoid_: Bubble level, fizz level
 The classification of mead by alcohol strength: Hydromel (3.5–7.5% ABV), Standard (7.5–12.5% ABV), or Sack (12.5–14.0%+ ABV).
 _Avoid_: Alcohol tier, mead ABV class
 
+**Cider Style**:
+A distinct recognized category of fermented apple or pear beverage specified by culinary/bittersweet apple varietals, fruit/spice adjuncts, sweetness tier, carbonation, and strength in official BJCP Cider Guidelines (Categories C1–C2).
+_Avoid_: Hard cider recipe, apple drink
+
+**Cider Sweetness Classification**:
+The 5-tier classification of residual sweetness and final gravity in a finished cider: Dry (< 1.000 FG), Medium-Dry (1.000–1.005 FG), Medium (1.005–1.010 FG), Medium-Sweet (1.010–1.020 FG), or Sweet (> 1.020 FG).
+_Avoid_: Sugar level, cider sweetness scale
+
+**Cider Carbonation Classification**:
+The carbonation and effervescence level of cider or perry: Still (no bubbles), Pétillant (light effervescence), or Sparkling (lively effervescence).
+_Avoid_: Bubble level, fizz level
+
+**Cider Strength Classification**:
+The classification of cider by alcohol strength: Session (3.0–4.5% ABV), Standard (4.5–7.5% ABV), or High Gravity (7.5–13.0%+ ABV).
+_Avoid_: Alcohol tier, cider gravity tier
+
 **Discipline Icon**:
 A contextual visual glyph in the navigation drawer and headers that automatically adapts to the currently active beverage discipline (a beer mug for Beer, a bee for Mead, an apple for Cider).
 _Avoid_: Guide logo, beverage avatar

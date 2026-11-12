@@ -55,6 +55,7 @@ import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
@@ -188,12 +189,12 @@ fun StyleDetailContent(
                     Column {
                         StatRow("OG Range", formatRange(style.ogMin, style.ogMax, ""))
                         StatRow("FG Range", formatRange(style.fgMin, style.fgMax, ""))
-                        if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+                        if (style.guidelineType.isBeer) {
                             StatRow("IBU Range", formatRange(style.ibuMin, style.ibuMax, " IBU"))
                             StatRow("SRM Range", formatRange(style.srmMin, style.srmMax, " SRM"))
                         }
                         StatRow("ABV Range", formatRange(style.abvMin, style.abvMax, "%"))
-                        if (style.guidelineType == GuidelineType.BJCP_MEAD) {
+                        if (!style.guidelineType.isBeer) {
                             style.sweetness?.let { if (it.isNotBlank()) StatRow("Sweetness", it) }
                             style.carbonation?.let { if (it.isNotBlank()) StatRow("Carbonation", it) }
                             style.strength?.let { if (it.isNotBlank()) StatRow("Strength", it) }
@@ -215,7 +216,7 @@ fun StyleDetailContent(
                     )
                 }
 
-                if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+                if (style.guidelineType.isBeer) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Full-width SRM Horizontal Color Range Banner at the end of the scrollable content
@@ -228,7 +229,7 @@ fun StyleDetailContent(
             }
 
             // Custom Vertical SRM Gradient Scrollbar with Foam Head Indicator
-            if (style.guidelineType != GuidelineType.BJCP_MEAD) {
+            if (style.guidelineType.isBeer) {
                 SrmVerticalScrollbar(
                     scrollState = scrollState,
                     minSrm = style.srmMin,

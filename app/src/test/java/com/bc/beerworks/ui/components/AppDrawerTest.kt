@@ -25,5 +25,7 @@ class AppDrawerTest {
         assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BJCP_2021)).isEqualTo("🍺")
         assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BA_2026)).isEqualTo("🍺")
         assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BJCP_MEAD)).isEqualTo("🐝")
+        assertThat(getDisciplineEmoji(com.bc.beerworks.data.model.GuidelineType.BJCP_CIDER)).isEqualTo("🍏")
+        assertThat(getDisciplineIcon(com.bc.beerworks.data.model.GuidelineType.BJCP_CIDER)).isNotNull()
     }
 }

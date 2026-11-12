@@ -110,6 +110,7 @@ class HopRepository(
                         val idSet = styleIds.toSet()
                         allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
                     } ?: flowOf(emptyList())
+                    GuidelineType.BJCP_CIDER -> flowOf(emptyList())
                 }
             }
         }.flowOn(defaultDispatcher)

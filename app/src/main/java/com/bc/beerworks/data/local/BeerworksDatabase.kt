@@ -8,6 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
+import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
@@ -18,6 +19,8 @@ import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BaStyleFtsEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleFtsEntity
+import com.bc.beerworks.data.local.entity.CiderStyleEntity
+import com.bc.beerworks.data.local.entity.CiderStyleFtsEntity
 import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
@@ -71,6 +74,49 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
     }
 }
 
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `cider_styles` (
+                `id` TEXT NOT NULL,
+                `name` TEXT NOT NULL,
+                `category` TEXT NOT NULL,
+                `categoryNumber` TEXT NOT NULL,
+                `number` TEXT NOT NULL,
+                `overallImpression` TEXT NOT NULL,
+                `aroma` TEXT NOT NULL,
+                `appearance` TEXT NOT NULL,
+                `flavor` TEXT NOT NULL,
+                `mouthfeel` TEXT NOT NULL,
+                `comments` TEXT NOT NULL,
+                `history` TEXT NOT NULL,
+                `characteristicIngredients` TEXT NOT NULL,
+                `styleComparison` TEXT NOT NULL,
+                `ogMin` REAL,
+                `ogMax` REAL,
+                `fgMin` REAL,
+                `fgMax` REAL,
+                `abvMin` REAL,
+                `abvMax` REAL,
+                `sweetness` TEXT NOT NULL,
+                `carbonation` TEXT NOT NULL,
+                `strength` TEXT NOT NULL,
+                `commercialExamples` TEXT NOT NULL,
+                `tags` TEXT NOT NULL,
+                PRIMARY KEY(`id`)
+            )
+        """)
+        db.execSQL("""
+            CREATE VIRTUAL TABLE IF NOT EXISTS `cider_styles_fts` USING FTS4(
+                `number`, `name`, `category`, `overallImpression`, `aroma`, `appearance`,
+                `flavor`, `mouthfeel`, `comments`, `characteristicIngredients`,
+                `commercialExamples`, `tags`, `sweetness`, `carbonation`, `strength`,
+                content=`cider_styles`
+            )
+        """)
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -85,9 +131,11 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         MaltVarietyFtsEntity::class,
         MaltStyleCrossRef::class,
         MeadStyleEntity::class,
-        MeadStyleFtsEntity::class
+        MeadStyleFtsEntity::class,
+        CiderStyleEntity::class,
+        CiderStyleFtsEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -99,6 +147,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
     abstract fun maltDao(): MaltDao
     abstract fun maltStyleCrossRefDao(): MaltStyleCrossRefDao
     abstract fun meadStyleDao(): MeadStyleDao
+    abstract fun ciderStyleDao(): CiderStyleDao
 
     companion object {
         @Volatile
@@ -111,7 +160,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

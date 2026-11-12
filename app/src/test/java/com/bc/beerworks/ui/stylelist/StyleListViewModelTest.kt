@@ -213,6 +213,11 @@ class StyleListViewModelTest {
         runCurrent()
 
         assertThat(viewModel.selectedGuideline.value).isEqualTo(com.bc.beerworks.data.model.GuidelineType.BA_2026)
+
+        viewModel.onGuidelineChange(com.bc.beerworks.data.model.GuidelineType.BJCP_CIDER)
+        runCurrent()
+
+        assertThat(viewModel.selectedGuideline.value).isEqualTo(com.bc.beerworks.data.model.GuidelineType.BJCP_CIDER)
         collectJob.cancel()
     }
 }

@@ -3,6 +3,7 @@ package com.bc.beerworks.data.local
 import android.content.Context
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
+import com.bc.beerworks.data.local.entity.CiderStyleEntity
 import com.bc.beerworks.data.local.entity.HopStyleCrossRef
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
@@ -380,6 +381,48 @@ object DatabaseInitializer {
                 MaltStyleCrossRef(maltId = maltId, styleId = "M4A", guidelineType = "BJCP_MEAD")
             }
             maltCrossRefDao.insertAll(maltCrossRefs)
+        }
+
+        val ciderDao = database.ciderStyleDao()
+        val ciderJson = runCatching {
+            context.assets.open("cider_styles.json").bufferedReader().use { it.readText() }
+        }.getOrNull()
+
+        if (!ciderJson.isNullOrBlank()) {
+            val ciderType = object : TypeToken<List<JsonMeadStyleRaw>>() {}.type
+            val rawCiders: List<JsonMeadStyleRaw> = gson.fromJson(ciderJson, ciderType)
+
+            val ciderEntities = rawCiders.map { raw ->
+                val id = raw.id ?: raw.number ?: "unknown"
+                CiderStyleEntity(
+                    id = id,
+                    name = raw.name ?: "",
+                    category = raw.category ?: "",
+                    categoryNumber = raw.categorynumber ?: "",
+                    number = raw.number ?: "",
+                    overallImpression = raw.overallimpression ?: "",
+                    aroma = raw.aroma ?: "",
+                    appearance = raw.appearance ?: "",
+                    flavor = raw.flavor ?: "",
+                    mouthfeel = raw.mouthfeel ?: "",
+                    comments = raw.comments ?: "",
+                    history = raw.history ?: "",
+                    characteristicIngredients = raw.characteristicingredients ?: "",
+                    styleComparison = raw.stylecomparison ?: "",
+                    ogMin = raw.ogmin?.toDoubleOrNull(),
+                    ogMax = raw.ogmax?.toDoubleOrNull(),
+                    fgMin = raw.fgmin?.toDoubleOrNull(),
+                    fgMax = raw.fgmax?.toDoubleOrNull(),
+                    abvMin = raw.abvmin?.toDoubleOrNull(),
+                    abvMax = raw.abvmax?.toDoubleOrNull(),
+                    sweetness = raw.sweetness ?: "",
+                    carbonation = raw.carbonation ?: "",
+                    strength = raw.strength ?: "",
+                    commercialExamples = raw.commercialexamples ?: "",
+                    tags = raw.tags ?: ""
+                )
+            }
+            ciderDao.insertAll(ciderEntities)
         }
     }
 }

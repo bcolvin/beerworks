@@ -181,23 +181,22 @@ fun StyleCard(
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            if (style.guidelineType == GuidelineType.BJCP_MEAD) {
+            if (style.guidelineType == GuidelineType.BJCP_CIDER) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = if (!style.strength.isNullOrBlank()) Arrangement.SpaceBetween else Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val meadChips = listOfNotNull(
-                        style.sweetness?.let { "🍯 $it" },
-                        style.strength?.let { "⚡ $it" }
-                    ).joinToString("  •  ")
-
-                    Text(
-                        text = meadChips.ifBlank { "Traditional Mead" },
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    if (!style.strength.isNullOrBlank()) {
+                        Text(
+                            text = "⚡ ${style.strength}",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
 
                     val abvText = when {
                         style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
@@ -212,7 +211,7 @@ fun StyleCard(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
-            } else {
+            } else if (style.guidelineType != GuidelineType.BJCP_MEAD) {
                 // Vital Stats Summary Row (Beer)
                 Row(
                     modifier = Modifier.fillMaxWidth(),

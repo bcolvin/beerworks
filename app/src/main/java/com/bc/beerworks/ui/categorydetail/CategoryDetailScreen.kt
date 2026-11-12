@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BaseStyleGroup
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import java.util.Locale
@@ -112,7 +113,7 @@ fun CategoryDetailContent(
                                     Spacer(modifier = Modifier.width(8.dp))
                                 }
                             }
-                            if (group.guidelineType != GuidelineType.BJCP_MEAD) {
+                            if (group.guidelineType.isBeer) {
                                 group.ibuMin?.let { min ->
                                     group.ibuMax?.let { max ->
                                         StatChip(

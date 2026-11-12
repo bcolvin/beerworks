@@ -1,6 +1,6 @@
 # Feature Spec: 005 - BJCP Cider Style Guidelines
 
-Provide an offline-first reference viewer for the official BJCP Cider Style Guidelines (Categories C1–C2), with discipline-specific sensory indicators (5-tier Sweetness, Carbonation, Strength), dynamic beverage discipline iconography (Apple glyph 🍏 / `Icons.Default.Eco`), multi-select filter toggles, and streamlined guideline switching.
+Provide an offline-first reference viewer for the official BJCP Cider Style Guidelines (Categories C1–C2), with discipline-specific sensory indicators (5-tier Sweetness, Carbonation, Strength), dynamic beverage discipline iconography (Apple glyph 🍏 / `Icons.Default.Nature`), multi-select filter toggles, and streamlined guideline switching.
 
 ---
 
@@ -19,41 +19,41 @@ Allow cider judges, cidermakers, and brewers to reference the complete BJCP Cide
 ## 📋 Requirements & Acceptance Criteria
 
 ### Data & Persistence
-- [ ] **Curated Asset (`cider_styles.json`)**: Bundle all 11 canonical BJCP cider styles across 2 categories:
+- [x] **Curated Asset (`cider_styles.json`)**: Bundle all 11 canonical BJCP cider styles across 2 categories:
   - **C1. Standard Cider and Perry**: *C1A New World Cider*, *C1B English Cider*, *C1C French Cider*, *C1D New World Perry*, *C1E Traditional Perry*
   - **C2. Specialty Cider and Perry**: *C2A New England Cider*, *C2B Cider with Other Fruit*, *C2C Applewine*, *C2D Ice Cider*, *C2E Cider with Herbs/Spices*, *C2F Specialty Cider/Perry*
-- [ ] **Room Database Version 6**: Introduce `CiderStyleEntity` and FTS4 virtual table `cider_styles_fts`, managed by `CiderStyleDao`.
-- [ ] **Automated Room Migration (v5 -> v6)**: Create `MIGRATION_5_6` for seamless upgrade without data loss.
-- [ ] **Background Preloading**: `DatabaseInitializer` seeds `cider_styles` from `cider_styles.json` on initial launch.
-- [ ] **Relational Independence**: Do not link ciders to hops or malts (dedicated apple/fruit/honey databases deferred to future phases).
+- [x] **Room Database Version 6**: Introduce `CiderStyleEntity` and FTS4 virtual table `cider_styles_fts`, managed by `CiderStyleDao`.
+- [x] **Automated Room Migration (v5 -> v6)**: Create `MIGRATION_5_6` for seamless upgrade without data loss.
+- [x] **Background Preloading**: `DatabaseInitializer` seeds `cider_styles` from `cider_styles.json` on initial launch.
+- [x] **Relational Independence**: Do not link ciders to hops or malts (dedicated apple/fruit/honey databases deferred to future phases).
 
 ### Domain & Guideline Switching
-- [ ] **Guideline Type Enum**: Add `BJCP_CIDER("BJCP Cider")` to `GuidelineType` with `discipline = "Cider"` and helper `isCider`.
-- [ ] **Header Quick Switcher**: Long-pressing or tapping the top-level style guide header reveals `BJCP Cider` alongside `BJCP 2021`, `Brewers Association 2026`, and `BJCP Mead`.
-- [ ] **Settings Screen Streamlining**: Remove the "Active Style Guideline" radio card completely from `SettingsScreen`, making the header selector the single unified guideline picker.
-- [ ] **Contextual Dynamic Discipline Icon**:
+- [x] **Guideline Type Enum**: Add `BJCP_CIDER("BJCP Cider")` to `GuidelineType` with `discipline = "Cider"` and helper `isCider`.
+- [x] **Header Quick Switcher**: Long-pressing or tapping the top-level style guide header reveals `BJCP Cider` alongside `BJCP 2021`, `Brewers Association 2026`, and `BJCP Mead`.
+- [x] **Settings Screen Streamlining**: Remove the "Active Style Guideline" radio card completely from `SettingsScreen`, making the header selector the single unified guideline picker.
+- [x] **Contextual Dynamic Discipline Icon**:
   - Beer (BJCP 2021, BA 2026): Beer mug (`Icons.Default.SportsBar` / 🍺)
   - Mead (BJCP Mead): Bee glyph (`Icons.Default.EmojiNature` / 🐝)
-  - Cider (BJCP Cider): Eco / Fruit leaf glyph (`Icons.Default.Eco` / 🍏)
+  - Cider (BJCP Cider): Eco / Fruit leaf glyph (`Icons.Default.Nature` / 🍏)
   - Reflected dynamically on the **Style Guide drawer item**, the **top app bar subtitle badge**, and the **zero-results empty state**.
 
 ### Style List & Category Presentation
-- [ ] **Base Style Grouping**: Categories displayed as `C1. Standard Cider and Perry` and `C2. Specialty Cider and Perry` with inline accordion expansion.
-- [ ] **Category Summary Specs**: Show **ABV Range** and **Final Gravity Range** (e.g., `0.995–1.020 FG`), suppressing IBU and SRM bars.
-- [ ] **StyleCard Cider Indicators**: On cider cards, replace SRM swatch and IBU text with indicator chips for:
+- [x] **Base Style Grouping**: Categories displayed as `C1. Standard Cider and Perry` and `C2. Specialty Cider and Perry` with inline accordion expansion.
+- [x] **Category Summary Specs**: Show **ABV Range** and **Final Gravity Range** (e.g., `0.995–1.020 FG`), suppressing IBU and SRM bars.
+- [x] **StyleCard Cider Indicators**: On cider cards, replace SRM swatch and IBU text with indicator chips for:
   - **Sweetness**: *Dry*, *Medium-Dry*, *Medium*, *Medium-Sweet*, *Sweet*
   - **Carbonation**: *Still*, *Pétillant*, *Sparkling*
   - **Strength**: *Session*, *Standard*, *High Gravity*
-- [ ] **Auto-Scroll on Expansion**: Maintain the rule ensuring at least 1.5 sub-cards are visible when expanding cider categories.
+- [x] **Auto-Scroll on Expansion**: Maintain the rule ensuring at least 1.5 sub-cards are visible when expanding cider categories.
 
 ### Filtering & Search
-- [ ] **Multi-Select Toggle Filter Chips**: On `FilterSheet`, when cider is active, replace SRM/IBU sliders with multi-select toggle chips for Cider Sweetness (5 tiers), Carbonation (3 tiers), and Strength (3 tiers).
-- [ ] **Weighted Relevance Search**: Leverage search ranking weighting Style Name/Number (10), Overall Impression and Commercial Examples (5), and other sensory fields (1).
+- [x] **Multi-Select Toggle Filter Chips**: On `FilterSheet`, when cider is active, replace SRM/IBU sliders with multi-select toggle chips for Cider Sweetness (5 tiers), Carbonation (3 tiers), and Strength (3 tiers).
+- [x] **Weighted Relevance Search**: Leverage search ranking weighting Style Name/Number (10), Overall Impression and Commercial Examples (5), and other sensory fields (1).
 
 ### Style Detail Screen
-- [ ] **Cider Detail View**: Display full sensory sections (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression, Ingredients, Commercial Examples).
-- [ ] **Suppress Beer Visualizers**: Hide vertical SRM scrollbar and bottom SRM banner for cider styles.
-- [ ] **Ingredient Cross-References Suppressed**: Omit hop and malt cross-reference cards for cider styles.
+- [x] **Cider Detail View**: Display full sensory sections (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression, Ingredients, Commercial Examples).
+- [x] **Suppress Beer Visualizers**: Hide vertical SRM scrollbar and bottom SRM banner for cider styles.
+- [x] **Ingredient Cross-References Suppressed**: Omit hop and malt cross-reference cards for cider styles.
 
 ---
 

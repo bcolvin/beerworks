@@ -3,10 +3,12 @@ package com.bc.beerworks.data.repository
 import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
+import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
+import com.bc.beerworks.data.local.entity.CiderStyleEntity
 import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.model.FilterCriteria
@@ -58,6 +60,19 @@ class FakeMeadDao(private val list: List<MeadStyleEntity> = emptyList()) : MeadS
     override fun searchAndFilterStyles(
         ftsQuery: String, likeQuery: String, isAbvActive: Int, minAbv: Double, maxAbv: Double, category: String?
     ): Flow<List<MeadStyleEntity>> = flowOf(list)
+}
+
+class FakeCiderDao(private val list: List<CiderStyleEntity> = emptyList()) : CiderStyleDao {
+    override suspend fun insertAll(styles: List<CiderStyleEntity>) {}
+    override fun getAllStyles(): Flow<List<CiderStyleEntity>> = flowOf(list)
+    override suspend fun getStyleById(id: String): CiderStyleEntity? = list.find { it.id == id }
+    override fun getCategories(): Flow<List<String>> = flowOf(list.map { it.category }.distinct())
+    override fun filterStyles(
+        isAbvActive: Int, minAbv: Double, maxAbv: Double, category: String?
+    ): Flow<List<CiderStyleEntity>> = flowOf(list)
+    override fun searchAndFilterStyles(
+        ftsQuery: String, likeQuery: String, isAbvActive: Int, minAbv: Double, maxAbv: Double, category: String?
+    ): Flow<List<CiderStyleEntity>> = flowOf(list)
 }
 
 class FakeFavDao : FavoriteStyleDao {
@@ -267,5 +282,57 @@ class BeerStyleRepositoryTest {
         val sweetOnly = repository.getFilteredStyles(FilterCriteria(selectedSweetness = setOf("Sweet"))).first()
         assertThat(sweetOnly).hasSize(1)
         assertThat(sweetOnly[0].id).isEqualTo("M1C")
+    }
+
+    @Test
+    fun getFilteredStyles_bjcpCider_filtersBySweetnessAndStrength() = runTest {
+        val newWorldCider = CiderStyleEntity(
+            id = "C1A", name = "New World Cider", category = "Standard Cider and Perry", categoryNumber = "C1", number = "C1A",
+            overallImpression = "A refreshing, crisp drink", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "", ogMin = 1.045, ogMax = 1.065,
+            fgMin = 0.995, fgMax = 1.020, abvMin = 4.5, abvMax = 8.0, sweetness = "Dry, Medium-Dry, Medium, Medium-Sweet, Sweet",
+            carbonation = "Still, Pétillant, Sparkling", strength = "Standard", commercialExamples = "", tags = "standard-cider"
+        )
+        val iceCider = CiderStyleEntity(
+            id = "C2D", name = "Ice Cider", category = "Specialty Cider and Perry", categoryNumber = "C2", number = "C2D",
+            overallImpression = "A luscious dessert cider", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "", ogMin = 1.130, ogMax = 1.180,
+            fgMin = 1.060, fgMax = 1.085, abvMin = 7.0, abvMax = 13.0, sweetness = "Sweet",
+            carbonation = "Still, Pétillant", strength = "High Gravity", commercialExamples = "", tags = "specialty-cider"
+        )
+
+        val prefs = FakePrefsManager()
+        prefs.setGuideline(GuidelineType.BJCP_CIDER)
+
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(emptyList()),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = FakeFavDao(),
+            preferencesManager = prefs,
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler),
+            ciderStyleDao = FakeCiderDao(listOf(newWorldCider, iceCider))
+        )
+
+        val allCiders = repository.getFilteredStyles(FilterCriteria()).first()
+        assertThat(allCiders).hasSize(2)
+        assertThat(allCiders[0].guidelineType).isEqualTo(GuidelineType.BJCP_CIDER)
+        assertThat(allCiders[0].ibuMin).isNull()
+        assertThat(allCiders[0].srmMin).isNull()
+
+        val highGravityOnly = repository.getFilteredStyles(FilterCriteria(selectedStrength = setOf("High Gravity"))).first()
+        assertThat(highGravityOnly).hasSize(1)
+        assertThat(highGravityOnly[0].id).isEqualTo("C2D")
+        assertThat(highGravityOnly[0].strength).isEqualTo("High Gravity")
+
+        val mediumDryOnly = repository.getFilteredStyles(FilterCriteria(selectedSweetness = setOf("Medium-Dry"))).first()
+        assertThat(mediumDryOnly).hasSize(1)
+        assertThat(mediumDryOnly[0].id).isEqualTo("C1A")
+
+        // Style lookup and next navigation
+        val fetchedStyle = repository.getStyleById("C1A", GuidelineType.BJCP_CIDER)
+        assertThat(fetchedStyle?.name).isEqualTo("New World Cider")
+
+        val nextStyle = repository.getNextStyle("C1A", GuidelineType.BJCP_CIDER)
+        assertThat(nextStyle?.id).isEqualTo("C2D")
     }
 }

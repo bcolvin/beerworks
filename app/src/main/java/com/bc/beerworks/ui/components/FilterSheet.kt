@@ -41,6 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.isBeer
+import com.bc.beerworks.data.model.isCider
+import com.bc.beerworks.data.model.isMead
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
 import kotlin.math.roundToInt
@@ -88,8 +91,13 @@ fun FilterSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val titleText = when {
+                    selectedGuideline.isMead -> "Filter Meads"
+                    selectedGuideline.isCider -> "Filter Ciders"
+                    else -> "Filter Styles"
+                }
                 Text(
-                    text = if (selectedGuideline == GuidelineType.BJCP_MEAD) "Filter Meads" else "Filter Styles",
+                    text = titleText,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
@@ -136,6 +144,51 @@ fun FilterSheet(
                 MeadFilterChipSection(
                     title = "Strength",
                     options = listOf("Hydromel", "Standard", "Sack"),
+                    selectedOptions = criteria.selectedStrength,
+                    onToggle = { option ->
+                        val next = if (criteria.selectedStrength.contains(option)) {
+                            criteria.selectedStrength - option
+                        } else {
+                            criteria.selectedStrength + option
+                        }
+                        onCriteriaChange(criteria.copy(selectedStrength = next))
+                    }
+                )
+            } else if (selectedGuideline.isCider) {
+                // Sweetness Toggle Chips
+                MeadFilterChipSection(
+                    title = "Sweetness",
+                    options = listOf("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet"),
+                    selectedOptions = criteria.selectedSweetness,
+                    onToggle = { option ->
+                        val next = if (criteria.selectedSweetness.contains(option)) {
+                            criteria.selectedSweetness - option
+                        } else {
+                            criteria.selectedSweetness + option
+                        }
+                        onCriteriaChange(criteria.copy(selectedSweetness = next))
+                    }
+                )
+
+                // Carbonation Toggle Chips
+                MeadFilterChipSection(
+                    title = "Carbonation",
+                    options = listOf("Still", "Pétillant", "Sparkling"),
+                    selectedOptions = criteria.selectedCarbonation,
+                    onToggle = { option ->
+                        val next = if (criteria.selectedCarbonation.contains(option)) {
+                            criteria.selectedCarbonation - option
+                        } else {
+                            criteria.selectedCarbonation + option
+                        }
+                        onCriteriaChange(criteria.copy(selectedCarbonation = next))
+                    }
+                )
+
+                // Strength Toggle Chips
+                MeadFilterChipSection(
+                    title = "Strength",
+                    options = listOf("Session", "Standard", "High Gravity"),
                     selectedOptions = criteria.selectedStrength,
                     onToggle = { option ->
                         val next = if (criteria.selectedStrength.contains(option)) {
@@ -249,7 +302,7 @@ fun FilterSheet(
                 valueRange = 0f..20f
             )
 
-            if (selectedGuideline != GuidelineType.BJCP_MEAD) {
+            if (selectedGuideline.isBeer) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // IBU Bitterness Range Slider
