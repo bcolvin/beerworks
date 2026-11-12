@@ -64,6 +64,8 @@ class FakeHopDao(
 
     override fun getHopsForStyle(styleId: String, guidelineType: String): Flow<List<HopVarietyEntity>> =
         flowOf(hops)
+
+    override suspend fun getHopCount(): Int = hops.size
 }
 
 class FakeHopStyleCrossRefDao(

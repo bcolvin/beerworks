@@ -72,6 +72,8 @@ class FakeMaltDao(
 
     override fun getMaltsForStyle(styleId: String, guidelineType: String): Flow<List<MaltVarietyEntity>> =
         flowOf(malts)
+
+    override suspend fun getMaltCount(): Int = malts.size
 }
 
 class FakeMaltStyleCrossRefDao(

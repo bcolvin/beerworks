@@ -69,4 +69,7 @@ interface MaltDao {
         """
     )
     fun getMaltsForStyle(styleId: String, guidelineType: String): Flow<List<MaltVarietyEntity>>
+
+    @Query("SELECT COUNT(*) FROM malts")
+    suspend fun getMaltCount(): Int
 }

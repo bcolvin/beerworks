@@ -7,12 +7,12 @@ import java.util.Locale
 
 @Immutable
 data class HoneyVariety(
-    val id: String,
-    val name: String,
+    override val id: String,
+    override val name: String,
     val floralClassification: String, // Monofloral, Polyfloral, Honeydew
     val botanicalSource: String, // Latin genus/species or botanical origin
-    val origin: String,
-    val countryCode: String,
+    override val origin: String,
+    override val countryCode: String,
     val pfundMin: Double,
     val pfundMax: Double,
     val usdaColor: String, // Water White, Extra White, White, Extra Light Amber, Light Amber, Amber, Dark Amber
@@ -21,15 +21,15 @@ data class HoneyVariety(
     val crystallizationTendency: String, // Slow, Moderate, Rapid
     val extractPotentialSg: Double, // e.g. 1.037
     val flavorIntensity: String, // Delicate, Moderate, Robust
-    val description: String,
+    override val description: String,
     val fermentationBehavior: String,
     val pairingNotes: String,
-    val descriptors: List<String> = emptyList(),
-    val substituteIds: List<String> = emptyList(),
+    override val descriptors: List<String> = emptyList(),
+    override val substituteIds: List<String> = emptyList(),
     val commonStyleIds: List<String> = emptyList(),
     val radarProfile: HoneySensoryProfile? = null
-) {
-    val countryFlag: String
+) : Ingredient {
+    override val countryFlag: String
         get() {
             if (countryCode.length != 2) return "🌍"
             val upper = countryCode.uppercase()

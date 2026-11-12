@@ -71,4 +71,7 @@ interface HopDao {
         """
     )
     fun getHopsForStyle(styleId: String, guidelineType: String): Flow<List<HopVarietyEntity>>
+
+    @Query("SELECT COUNT(*) FROM hops")
+    suspend fun getHopCount(): Int
 }

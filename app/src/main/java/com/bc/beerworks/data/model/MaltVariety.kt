@@ -5,26 +5,26 @@ import java.util.Locale
 
 @Immutable
 data class MaltVariety(
-    val id: String,
-    val name: String,
+    override val id: String,
+    override val name: String,
     val category: String, // Base Malt, Kilned & Toasted, Caramel & Crystal, Roasted & Dark, Adjunct & Raw Grain
     val grainType: String, // Barley, Wheat, Rye, Oats, Corn, Rice, Other
-    val origin: String,
-    val countryCode: String,
+    override val origin: String,
+    override val countryCode: String,
     val colorMin: Double,
     val colorMax: Double,
     val diastaticPowerLintner: Int,
     val extractPotentialDbfg: Double,
     val maxGristPercentage: Int,
-    val description: String,
+    override val description: String,
     val typicalUsage: String,
     val functionalTags: List<String> = emptyList(),
-    val descriptors: List<String> = emptyList(),
+    override val descriptors: List<String> = emptyList(),
     val commercialExamples: List<String> = emptyList(),
-    val substituteIds: List<String> = emptyList(),
+    override val substituteIds: List<String> = emptyList(),
     val radarProfile: MaltSensoryProfile? = null
-) {
-    val countryFlag: String
+) : Ingredient {
+    override val countryFlag: String
         get() {
             if (countryCode.length != 2) return "🌍"
             val upper = countryCode.uppercase()

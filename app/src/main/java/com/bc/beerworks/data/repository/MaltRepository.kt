@@ -3,29 +3,35 @@ package com.bc.beerworks.data.repository
 import com.bc.beerworks.data.local.BeerworksDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
+import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
+import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.MaltFilterCriteria
 import com.bc.beerworks.data.model.MaltVariety
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class MaltRepository(
     private val maltDao: MaltDao,
     private val maltStyleCrossRefDao: MaltStyleCrossRefDao,
-    private val bjcpStyleDao: BjcpStyleDao,
-    private val baStyleDao: BaStyleDao,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    private val meadStyleDao: MeadStyleDao? = null
+    bjcpStyleDao: BjcpStyleDao,
+    baStyleDao: BaStyleDao,
+    defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    meadStyleDao: MeadStyleDao? = null,
+    ciderStyleDao: CiderStyleDao? = null
+) : BaseIngredientRepository<MaltVarietyEntity, MaltVariety, MaltFilterCriteria>(
+    bjcpStyleDao,
+    baStyleDao,
+    meadStyleDao,
+    ciderStyleDao,
+    defaultDispatcher
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -36,19 +42,12 @@ class MaltRepository(
         database.bjcpStyleDao(),
         database.baStyleDao(),
         defaultDispatcher,
-        database.meadStyleDao()
+        database.meadStyleDao(),
+        database.ciderStyleDao()
     )
 
-    fun getFilteredMalts(criteria: MaltFilterCriteria): Flow<List<MaltVariety>> {
-        val cleanQuery = criteria.query.trim()
-        val ftsQuery = if (cleanQuery.isNotEmpty()) {
-            val terms = cleanQuery.split("\\s+".toRegex()).filter { it.isNotBlank() }
-            terms.joinToString(" ") { "$it*" }
-        } else {
-            ""
-        }
-
-        // Color tier conversion for query
+    override fun performSearch(criteria: MaltFilterCriteria): Flow<List<MaltVarietyEntity>> {
+        val ftsQuery = buildFtsQuery(criteria.query)
         val colorTier = when (criteria.selectedColorTier) {
             "Pale (<10°L)" -> "Pale"
             "Amber (10–50°L)" -> "Amber"
@@ -65,65 +64,38 @@ class MaltRepository(
             colorTier = colorTier,
             baseCategory = criteria.selectedBaseCategory
         ).map { entities ->
-            var domainList = entities.map { it.toDomainModel() }
-
-            // Filter by functional tags if any are selected
             if (criteria.selectedFunctionalTags.isNotEmpty()) {
-                domainList = domainList.filter { malt ->
+                entities.filter { entity ->
+                    val domain = entity.toDomainModel()
                     criteria.selectedFunctionalTags.all { selectedTag ->
-                        malt.functionalTags.any { it.equals(selectedTag, ignoreCase = true) }
+                        domain.functionalTags.any { it.equals(selectedTag, ignoreCase = true) }
                     }
                 }
-            }
-
-            domainList
-        }.flowOn(defaultDispatcher)
-    }
-
-    fun getMaltById(id: String): Flow<MaltVariety?> {
-        return maltDao.getMaltById(id).map { it?.toDomainModel() }.flowOn(defaultDispatcher)
-    }
-
-    suspend fun getMaltByIdDirect(id: String): MaltVariety? {
-        return maltDao.getMaltByIdDirect(id)?.toDomainModel()
-    }
-
-    fun getSubstituteMalts(substituteIds: List<String>): Flow<List<MaltVariety>> {
-        if (substituteIds.isEmpty()) return flowOf(emptyList())
-        return maltDao.getAllMalts().map { allMalts ->
-            val subSet = substituteIds.toSet()
-            allMalts.filter { subSet.contains(it.id) }.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getCommonStylesForMalt(
-        maltId: String,
-        guidelineType: GuidelineType = GuidelineType.BJCP_2021
-    ): Flow<List<BeerStyle>> {
-        return maltStyleCrossRefDao.getStyleIdsForMalt(maltId, guidelineType.name).flatMapLatest { styleIds ->
-            if (styleIds.isEmpty()) {
-                flowOf<List<BeerStyle>>(emptyList())
             } else {
-                when (guidelineType) {
-                    GuidelineType.BJCP_2021 -> bjcpStyleDao.getAllStyles().map { allStyles ->
-                        val idSet = styleIds.toSet()
-                        allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
-                    }
-                    GuidelineType.BA_2026 -> baStyleDao.getAllStyles().map { allStyles ->
-                        val idSet = styleIds.toSet()
-                        allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
-                    }
-                    GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles()?.map { allStyles ->
-                        val idSet = styleIds.toSet()
-                        allStyles.filter { idSet.contains(it.id) }.map { it.toDomainModel(false) }
-                    } ?: flowOf(emptyList())
-                    GuidelineType.BJCP_CIDER -> flowOf(emptyList())
-                }
+                entities
             }
-        }.flowOn(defaultDispatcher)
+        }
     }
 
+    override fun fetchById(id: String): Flow<MaltVarietyEntity?> = maltDao.getMaltById(id)
+    override suspend fun fetchByIdDirect(id: String): MaltVarietyEntity? = maltDao.getMaltByIdDirect(id)
+    override fun fetchAll(): Flow<List<MaltVarietyEntity>> = maltDao.getAllMalts()
+    override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
+        maltStyleCrossRefDao.getStyleIdsForMalt(id, guidelineType)
+    override suspend fun fetchCount(): Int = maltDao.getMaltCount()
+    override fun getEntityId(entity: MaltVarietyEntity): String = entity.id
+    override fun MaltVarietyEntity.toDomain(): MaltVariety = this.toDomainModel()
+
+    // Domain alias methods for complete source-compatibility
+    fun getFilteredMalts(criteria: MaltFilterCriteria): Flow<List<MaltVariety>> = getFilteredItems(criteria)
+    fun getMaltById(id: String): Flow<MaltVariety?> = getItemById(id)
+    suspend fun getMaltByIdDirect(id: String): MaltVariety? = getItemByIdDirect(id)
+    fun getSubstituteMalts(substituteIds: List<String>): Flow<List<MaltVariety>> = getSubstitutes(substituteIds)
+    fun getCommonStylesForMalt(maltId: String, guidelineType: GuidelineType = GuidelineType.BJCP_2021): Flow<List<BeerStyle>> =
+        getCommonStylesForItem(maltId, guidelineType)
+    suspend fun getMaltCount(): Int = getItemCount()
+
+    // Malt-specific methods
     fun getCommonMaltsForStyle(
         styleId: String,
         guidelineType: GuidelineType = GuidelineType.BJCP_2021
@@ -133,76 +105,6 @@ class MaltRepository(
         }.flowOn(defaultDispatcher)
     }
 
-    fun getAllCategories(): Flow<List<String>> {
-        return maltDao.getAllCategories().flowOn(defaultDispatcher)
-    }
-
-    fun getAllGrainTypes(): Flow<List<String>> {
-        return maltDao.getAllGrainTypes().flowOn(defaultDispatcher)
-    }
-
-    private fun String.normalizeIpa(): String =
-        this.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
-
-    private fun com.bc.beerworks.data.local.entity.BjcpStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name.normalizeIpa(),
-        category = category.normalizeIpa(),
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = ibuMin,
-        ibuMax = ibuMax,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        srmMin = srmMin,
-        srmMax = srmMax,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotBlank() },
-        isFavorite = isFavorite,
-        guidelineType = GuidelineType.BJCP_2021
-    )
-
-    private fun com.bc.beerworks.data.local.entity.BaStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name.normalizeIpa(),
-        category = category.normalizeIpa(),
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = ibuMin,
-        ibuMax = ibuMax,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        srmMin = srmMin,
-        srmMax = srmMax,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotBlank() },
-        isFavorite = isFavorite,
-        guidelineType = GuidelineType.BA_2026
-    )
+    fun getAllCategories(): Flow<List<String>> = maltDao.getAllCategories().flowOn(defaultDispatcher)
+    fun getAllGrainTypes(): Flow<List<String>> = maltDao.getAllGrainTypes().flowOn(defaultDispatcher)
 }

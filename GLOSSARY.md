@@ -4,6 +4,12 @@ Domain terminology for beer style reference guidelines, hop varieties, and senso
 
 ## Language
 
+### Core Ingredient Architecture
+
+**Ingredient**:
+A canonical botanical, grain, or fermentable ingredient (Hops, Malts, Honey, or Pomes) providing flavor, aroma, color, or fermentable sugars, sharing common catalog attributes (identity, botanical provenance, geographic origin, descriptors, sensory profiles, and beverage style pairings).
+_Avoid_: Raw material, brewing component, supply item
+
 ### Hops & Ingredients
 
 **Hop Variety**:

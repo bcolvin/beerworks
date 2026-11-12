@@ -4,23 +4,23 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class HopVariety(
-    val id: String,
-    val name: String,
-    val origin: String,
-    val countryCode: String,
+    override val id: String,
+    override val name: String,
+    override val origin: String,
+    override val countryCode: String,
     val purpose: String,
     val alphaAcidMin: Double,
     val alphaAcidMax: Double,
     val betaAcidMin: Double,
     val betaAcidMax: Double,
     val sensoryCategories: List<String> = emptyList(),
-    val descriptors: List<String> = emptyList(),
-    val description: String = "",
+    override val descriptors: List<String> = emptyList(),
+    override val description: String = "",
     val parentHopIds: List<String> = emptyList(),
-    val substituteIds: List<String> = emptyList(),
+    override val substituteIds: List<String> = emptyList(),
     val radarProfile: SensoryRadarProfile? = null
-) {
-    val countryFlag: String
+) : Ingredient {
+    override val countryFlag: String
         get() {
             if (countryCode.length != 2) return "🌍"
             val upper = countryCode.uppercase()
