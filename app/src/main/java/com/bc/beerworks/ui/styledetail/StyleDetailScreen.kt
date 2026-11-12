@@ -56,6 +56,7 @@ import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.PomeVariety
 import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
@@ -73,6 +74,8 @@ fun StyleDetailContent(
     onMaltClick: (String) -> Unit = {},
     commonHoneys: List<HoneyVariety> = emptyList(),
     onHoneyClick: (String) -> Unit = {},
+    commonPomes: List<PomeVariety> = emptyList(),
+    onPomeClick: (String) -> Unit = {},
     nextStyle: BeerStyle? = null,
     onSwipeForward: () -> Unit = {},
     onSwipeBack: () -> Unit = onBackClick
@@ -223,6 +226,13 @@ fun StyleDetailContent(
                     CollapsibleCommonHoneysCard(
                         commonHoneys = commonHoneys,
                         onHoneyClick = onHoneyClick
+                    )
+                }
+
+                if (commonPomes.isNotEmpty()) {
+                    CollapsibleCommonPomesCard(
+                        commonPomes = commonPomes,
+                        onPomeClick = onPomeClick
                     )
                 }
 
@@ -502,6 +512,70 @@ fun CollapsibleCommonHoneysCard(
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CollapsibleCommonPomesCard(
+    commonPomes: List<PomeVariety>,
+    onPomeClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .clickable { expanded = !expanded },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Associated Pomes & Varieties (${commonPomes.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            if (expanded) {
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    commonPomes.forEach { pome ->
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                                .clickable { onPomeClick(pome.id) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "${pome.countryFlag} ${pome.name} (${pome.classification})",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
                         }
                     }
                 }

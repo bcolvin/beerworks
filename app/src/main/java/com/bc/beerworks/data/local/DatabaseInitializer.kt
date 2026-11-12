@@ -11,6 +11,8 @@ import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltStyleCrossRef
 import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
+import com.bc.beerworks.data.local.entity.PomeStyleCrossRef
+import com.bc.beerworks.data.local.entity.PomeVarietyEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -110,6 +112,42 @@ data class JsonHoneyRaw(
     val substituteIds: List<String>?,
     val commonStyleIds: List<String>?,
     val radarProfile: JsonHoneyRadarRaw?
+)
+
+data class JsonPomeRadarRaw(
+    val aciditySharpness: Float?,
+    val tanninBitterness: Float?,
+    val freshFruit: Float?,
+    val bakedFruit: Float?,
+    val citrusTropical: Float?,
+    val floralHerbal: Float?,
+    val earthyFarmhouse: Float?,
+    val sweetConfectionary: Float?
+)
+
+data class JsonPomeRaw(
+    val id: String?,
+    val name: String?,
+    val fruitType: String?,
+    val classification: String?,
+    val fruitUse: String?,
+    val botanicalName: String?,
+    val origin: String?,
+    val countryCode: String?,
+    val acidityMalicPercent: Double?,
+    val tanninPolyphenolPercent: Double?,
+    val tanninLevel: String?,
+    val sgMin: Double?,
+    val sgMax: Double?,
+    val harvestSeason: String?,
+    val sorbitolGramsPerLiter: Double?,
+    val description: String?,
+    val blendingGuidance: String?,
+    val pressingCharacteristics: String?,
+    val descriptors: List<String>?,
+    val substituteIds: List<String>?,
+    val commonStyleIds: List<String>?,
+    val radarProfile: JsonPomeRadarRaw?
 )
 
 data class JsonHopRadarRaw(
@@ -526,6 +564,71 @@ object DatabaseInitializer {
             }
             if (honeyCrossRefs.isNotEmpty()) {
                 honeyCrossRefDao.insertAll(honeyCrossRefs)
+            }
+        }
+
+        val pomeDao = database.pomeDao()
+        val pomeCrossRefDao = database.pomeStyleCrossRefDao()
+        val pomeJson = runCatching {
+            context.assets.open("pomes.json").bufferedReader().use { it.readText() }
+        }.getOrNull()
+
+        if (!pomeJson.isNullOrBlank()) {
+            val pomeType = object : TypeToken<List<JsonPomeRaw>>() {}.type
+            val rawPomes: List<JsonPomeRaw> = gson.fromJson(pomeJson, pomeType)
+
+            val pomeEntities = rawPomes.map { raw ->
+                val id = raw.id ?: "unknown"
+                PomeVarietyEntity(
+                    id = id,
+                    name = raw.name ?: "",
+                    fruitType = raw.fruitType ?: "Apple",
+                    classification = raw.classification ?: "Bittersweet",
+                    fruitUse = raw.fruitUse ?: "Heritage Cider/Perry",
+                    botanicalName = raw.botanicalName ?: "Malus domestica",
+                    origin = raw.origin ?: "",
+                    countryCode = raw.countryCode ?: "GB",
+                    acidityMalicPercent = raw.acidityMalicPercent ?: 0.30,
+                    tanninPolyphenolPercent = raw.tanninPolyphenolPercent ?: 0.25,
+                    tanninLevel = raw.tanninLevel ?: "Medium",
+                    sgMin = raw.sgMin ?: 1.050,
+                    sgMax = raw.sgMax ?: 1.060,
+                    harvestSeason = raw.harvestSeason ?: "Mid",
+                    sorbitolGramsPerLiter = raw.sorbitolGramsPerLiter,
+                    description = raw.description ?: "",
+                    blendingGuidance = raw.blendingGuidance ?: "",
+                    pressingCharacteristics = raw.pressingCharacteristics ?: "",
+                    descriptors = raw.descriptors?.joinToString(",") ?: "",
+                    substituteIds = raw.substituteIds?.joinToString(",") ?: "",
+                    radarAcidity = raw.radarProfile?.aciditySharpness,
+                    radarTannin = raw.radarProfile?.tanninBitterness,
+                    radarFreshFruit = raw.radarProfile?.freshFruit,
+                    radarBakedFruit = raw.radarProfile?.bakedFruit,
+                    radarCitrus = raw.radarProfile?.citrusTropical,
+                    radarFloral = raw.radarProfile?.floralHerbal,
+                    radarEarthy = raw.radarProfile?.earthyFarmhouse,
+                    radarSweet = raw.radarProfile?.sweetConfectionary
+                )
+            }
+            pomeDao.insertAll(pomeEntities)
+
+            val pomeCrossRefs = rawPomes.flatMap { raw ->
+                val pomeId = raw.id ?: return@flatMap emptyList()
+                (raw.commonStyleIds ?: emptyList()).map { styleId ->
+                    val guidelineType = when {
+                        styleId.startsWith("C") -> "BJCP_CIDER"
+                        styleId.startsWith("M") -> "BJCP_MEAD"
+                        else -> "BJCP_2021"
+                    }
+                    PomeStyleCrossRef(
+                        pomeId = pomeId,
+                        styleId = styleId,
+                        guidelineType = guidelineType
+                    )
+                }
+            }
+            if (pomeCrossRefs.isNotEmpty()) {
+                pomeCrossRefDao.insertAll(pomeCrossRefs)
             }
         }
     }

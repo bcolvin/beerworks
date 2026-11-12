@@ -62,7 +62,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Nutrient demand and volatile aroma preservation in meadmaking.
   - Bidirectional relational cross-referencing between honey varieties and BJCP Mead styles (M1–M4), Braggots, and Cysers.
 
-- [ ] **Pome Varieties Database & Sensory Profiles (Feature 007)**
+- [x] **Pome Varieties Database & Sensory Profiles (Feature 007)**
   - Comprehensive reference of canonical cider apple and perry pear varieties (Dabinett, Kingston Black, Yarlington Mill, Harrison, Thorn, etc.).
   - Long Ashton 4-tier classification (Bittersweet, Bittersharp, Sharp, Sweet) with visual 2×2 matrix gauge.
   - Pomological & chemical metrics: Acidity (% malic acid), Tannins (% polyphenols and Low/Med/High tiers), Specific Gravity (SG) range, and ripening season.

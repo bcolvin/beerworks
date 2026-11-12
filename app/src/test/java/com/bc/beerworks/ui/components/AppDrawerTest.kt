@@ -1,5 +1,8 @@
 package com.bc.beerworks.ui.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Grass
+import androidx.compose.material.icons.filled.Nature
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -9,16 +12,19 @@ class AppDrawerTest {
     fun drawerDestinationItems_areNonNullAndContainsAllDestinations() {
         val items = DrawerDestination.items
 
-        assertThat(items).hasSize(6)
+        assertThat(items).hasSize(7)
         assertThat(items).doesNotContainNull()
         assertThat(items.map { it.route }).containsExactly(
             "style_list",
             "hops",
             "malt",
             "honey",
+            "pomes",
             "review_history",
             "settings"
         )
+        assertThat(DrawerDestination.Malt.icon).isEqualTo(Icons.Default.Grass)
+        assertThat(DrawerDestination.Pomes.icon).isEqualTo(Icons.Default.Nature)
     }
 
     @Test

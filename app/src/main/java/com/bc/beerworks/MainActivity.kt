@@ -36,6 +36,7 @@ import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.MaltRepository
+import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
@@ -52,6 +53,10 @@ import com.bc.beerworks.ui.malt.MaltContent
 import com.bc.beerworks.ui.malt.MaltViewModel
 import com.bc.beerworks.ui.maltdetail.MaltDetailScreen
 import com.bc.beerworks.ui.maltdetail.MaltDetailViewModel
+import com.bc.beerworks.ui.pomedetail.PomeDetailScreen
+import com.bc.beerworks.ui.pomedetail.PomeDetailViewModel
+import com.bc.beerworks.ui.pomes.PomesContent
+import com.bc.beerworks.ui.pomes.PomesViewModel
 import com.bc.beerworks.ui.reviewhistory.ReviewHistoryContent
 import com.bc.beerworks.ui.settings.SettingsContent
 import com.bc.beerworks.ui.settings.SettingsViewModel
@@ -87,6 +92,7 @@ fun BeerworksApp() {
     val hopRepository = remember { HopRepository(database) }
     val maltRepository = remember { MaltRepository(database) }
     val honeyRepository = remember { HoneyRepository(database) }
+    val pomeRepository = remember { PomeRepository(database) }
 
     val keepScreenOn by prefsManager.keepScreenOn.collectAsState(initial = false)
     val selectedGuideline by repository.selectedGuideline.collectAsState(initial = GuidelineType.BJCP_2021)
@@ -319,6 +325,42 @@ fun BeerworksApp() {
                 )
             }
 
+            composable("pomes") {
+                val viewModel: PomesViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return PomesViewModel(pomeRepository, repository) as T
+                        }
+                    }
+                )
+
+                val pomes by viewModel.pomes.collectAsState()
+                val criteria by viewModel.filterCriteria.collectAsState()
+                val fruitTypes by viewModel.fruitTypes.collectAsState()
+                val classifications by viewModel.classifications.collectAsState()
+                val harvestSeasons by viewModel.harvestSeasons.collectAsState()
+                val tanninLevels by viewModel.tanninLevels.collectAsState()
+
+                PomesContent(
+                    pomes = pomes,
+                    criteria = criteria,
+                    fruitTypes = fruitTypes,
+                    classifications = classifications,
+                    harvestSeasons = harvestSeasons,
+                    tanninLevels = tanninLevels,
+                    onQueryChange = viewModel::onQueryChange,
+                    onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+                    onResetFilters = viewModel::resetFilters,
+                    onPomeClick = { pomeId ->
+                        navController.navigate("pome_detail/$pomeId")
+                    },
+                    onMenuClick = {
+                        scope.launch { drawerState.open() }
+                    }
+                )
+            }
+
             composable("review_history") {
                 ReviewHistoryContent(
                     onMenuClick = {
@@ -363,7 +405,7 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, pomeRepository, styleId, guidelineType) as T
                         }
                     }
                 )
@@ -373,6 +415,7 @@ fun BeerworksApp() {
                 val commonHops by viewModel.commonHops.collectAsState()
                 val commonMalts by viewModel.commonMalts.collectAsState()
                 val commonHoneys by viewModel.commonHoneys.collectAsState()
+                val commonPomes by viewModel.commonPomes.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
@@ -390,6 +433,10 @@ fun BeerworksApp() {
                         commonHoneys = commonHoneys,
                         onHoneyClick = { honeyId ->
                             navController.navigate("honey_detail/$honeyId")
+                        },
+                        commonPomes = commonPomes,
+                        onPomeClick = { pomeId ->
+                            navController.navigate("pome_detail/$pomeId")
                         },
                         nextStyle = nextStyle,
                         onSwipeForward = {
@@ -496,6 +543,36 @@ fun BeerworksApp() {
                     onBackClick = { navController.popBackStack() },
                     onHoneyClick = { targetHoneyId ->
                         navController.navigate("honey_detail/$targetHoneyId")
+                    },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
+            }
+
+            composable(
+                route = "pome_detail/{pomeId}",
+                arguments = listOf(
+                    navArgument("pomeId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val pomeId = backStackEntry.arguments?.getString("pomeId") ?: ""
+
+                val viewModel: PomeDetailViewModel = viewModel(
+                    key = "pome_$pomeId",
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return PomeDetailViewModel(pomeRepository, repository, pomeId) as T
+                        }
+                    }
+                )
+
+                PomeDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onPomeClick = { targetPomeId ->
+                        navController.navigate("pome_detail/$targetPomeId")
                     },
                     onStyleClick = { style ->
                         navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
