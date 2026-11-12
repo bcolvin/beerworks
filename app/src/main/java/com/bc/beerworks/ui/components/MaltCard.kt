@@ -88,6 +88,15 @@ fun MaltCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+
+            if (malt.descriptors.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(10.dp))
+                SingleRowChipLayout(spacing = 6.dp) {
+                    malt.descriptors.forEach { descriptor ->
+                        DescriptorChip(text = descriptor)
+                    }
+                }
+            }
         }
     }
 }

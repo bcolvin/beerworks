@@ -1,7 +1,6 @@
 package com.bc.beerworks.ui.honey
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,19 +15,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Hive
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +54,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.HoneyFilterCriteria
 import com.bc.beerworks.data.model.HoneyVariety
+import com.bc.beerworks.ui.components.FilterActionIcon
 import com.bc.beerworks.ui.components.HoneyCard
 import com.bc.beerworks.ui.components.HoneyFilterSheet
 
@@ -82,7 +79,6 @@ fun HoneyScreen(
         flavorIntensities = flavorIntensities,
         crystallizationTendencies = crystallizationTendencies,
         onQueryChange = viewModel::onQueryChange,
-        onClassificationSelected = viewModel::onClassificationSelected,
         onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
         onResetFilters = viewModel::resetFilters,
         onHoneyClick = onHoneyClick,
@@ -100,7 +96,7 @@ fun HoneyContent(
     flavorIntensities: List<String>,
     crystallizationTendencies: List<String>,
     onQueryChange: (String) -> Unit,
-    onClassificationSelected: (String?) -> Unit,
+    onClassificationSelected: (String?) -> Unit = {},
     onFilterCriteriaChange: (HoneyFilterCriteria) -> Unit,
     onResetFilters: () -> Unit,
     onHoneyClick: (String) -> Unit,
@@ -148,17 +144,14 @@ fun HoneyContent(
                         }
                     },
                     actions = {
-                        IconButton(onClick = {
-                            focusManager.clearFocus()
-                            showFilterSheet = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Filter",
-                                tint = if (criteria.isFilterActive) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                        FilterActionIcon(
+                            isFilterActive = criteria.isFilterActive,
+                            onClick = {
+                                focusManager.clearFocus()
+                                showFilterSheet = true
+                            },
+                            onReset = onResetFilters
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.background
@@ -204,27 +197,6 @@ fun HoneyContent(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                         keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() })
                     )
-                }
-
-                // Quick-filter floral classification pills
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    classifications.forEach { classification ->
-                        val isSelected = criteria.selectedClassification == classification
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = {
-                                val newClassification = if (isSelected) null else classification
-                                onClassificationSelected(newClassification)
-                            },
-                            label = { Text(classification) }
-                        )
-                    }
                 }
             }
         }

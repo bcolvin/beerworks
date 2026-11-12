@@ -141,10 +141,13 @@ class MaltRepository(
         return maltDao.getAllGrainTypes().flowOn(defaultDispatcher)
     }
 
+    private fun String.normalizeIpa(): String =
+        this.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
+
     private fun com.bc.beerworks.data.local.entity.BjcpStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
         id = id,
-        name = name,
-        category = category,
+        name = name.normalizeIpa(),
+        category = category.normalizeIpa(),
         categoryNumber = categoryNumber,
         number = number,
         overallImpression = overallImpression,
@@ -174,8 +177,8 @@ class MaltRepository(
 
     private fun com.bc.beerworks.data.local.entity.BaStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
         id = id,
-        name = name,
-        category = category,
+        name = name.normalizeIpa(),
+        category = category.normalizeIpa(),
         categoryNumber = categoryNumber,
         number = number,
         overallImpression = overallImpression,

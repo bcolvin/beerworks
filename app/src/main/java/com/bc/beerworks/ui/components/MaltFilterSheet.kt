@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -44,8 +39,6 @@ fun MaltFilterSheet(
     onDismiss: () -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 ) {
-    var currentCriteria by remember(criteria) { mutableStateOf(criteria) }
-
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState
@@ -68,12 +61,7 @@ fun MaltFilterSheet(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
-                TextButton(
-                    onClick = {
-                        currentCriteria = MaltFilterCriteria(query = currentCriteria.query)
-                        onReset()
-                    }
-                ) {
+                TextButton(onClick = onReset) {
                     Text("Reset All")
                 }
             }
@@ -93,12 +81,14 @@ fun MaltFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 categories.forEach { category ->
-                    val isSelected = currentCriteria.selectedCategory == category
+                    val isSelected = criteria.selectedCategory == category
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            currentCriteria = currentCriteria.copy(
-                                selectedCategory = if (isSelected) null else category
+                            onFilterChange(
+                                criteria.copy(
+                                    selectedCategory = if (isSelected) null else category
+                                )
                             )
                         },
                         label = { Text(category) }
@@ -121,12 +111,14 @@ fun MaltFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 grainTypes.forEach { grain ->
-                    val isSelected = currentCriteria.selectedGrainType == grain
+                    val isSelected = criteria.selectedGrainType == grain
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            currentCriteria = currentCriteria.copy(
-                                selectedGrainType = if (isSelected) null else grain
+                            onFilterChange(
+                                criteria.copy(
+                                    selectedGrainType = if (isSelected) null else grain
+                                )
                             )
                         },
                         label = { Text(grain) }
@@ -154,12 +146,14 @@ fun MaltFilterSheet(
                     "None (0°L)" to "None"
                 )
                 tiers.forEach { (label, tierValue) ->
-                    val isSelected = currentCriteria.selectedDiastaticTier == tierValue
+                    val isSelected = criteria.selectedDiastaticTier == tierValue
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            currentCriteria = currentCriteria.copy(
-                                selectedDiastaticTier = if (isSelected) null else tierValue
+                            onFilterChange(
+                                criteria.copy(
+                                    selectedDiastaticTier = if (isSelected) null else tierValue
+                                )
                             )
                         },
                         label = { Text(label) }
@@ -188,12 +182,14 @@ fun MaltFilterSheet(
                     "Dark (>150°L)" to "Dark (>150°L)"
                 )
                 colorTiers.forEach { (label, tier) ->
-                    val isSelected = currentCriteria.selectedColorTier == tier
+                    val isSelected = criteria.selectedColorTier == tier
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            currentCriteria = currentCriteria.copy(
-                                selectedColorTier = if (isSelected) null else tier
+                            onFilterChange(
+                                criteria.copy(
+                                    selectedColorTier = if (isSelected) null else tier
+                                )
                             )
                         },
                         label = { Text(label) }
@@ -217,13 +213,16 @@ fun MaltFilterSheet(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     functionalTags.forEach { tag ->
-                        val isSelected = currentCriteria.selectedFunctionalTags.contains(tag)
+                        val isSelected = criteria.selectedFunctionalTags.contains(tag)
                         FilterChip(
                             selected = isSelected,
                             onClick = {
-                                val updated = currentCriteria.selectedFunctionalTags.toMutableSet()
-                                if (isSelected) updated.remove(tag) else updated.add(tag)
-                                currentCriteria = currentCriteria.copy(selectedFunctionalTags = updated)
+                                val updated = if (isSelected) {
+                                    criteria.selectedFunctionalTags - tag
+                                } else {
+                                    criteria.selectedFunctionalTags + tag
+                                }
+                                onFilterChange(criteria.copy(selectedFunctionalTags = updated))
                             },
                             label = { Text(tag) }
                         )
@@ -247,12 +246,14 @@ fun MaltFilterSheet(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     baseCategories.forEach { cat ->
-                        val isSelected = currentCriteria.selectedBaseCategory == cat
+                        val isSelected = criteria.selectedBaseCategory == cat
                         FilterChip(
                             selected = isSelected,
                             onClick = {
-                                currentCriteria = currentCriteria.copy(
-                                    selectedBaseCategory = if (isSelected) null else cat
+                                onFilterChange(
+                                    criteria.copy(
+                                        selectedBaseCategory = if (isSelected) null else cat
+                                    )
                                 )
                             },
                             label = { Text(cat) }
@@ -261,17 +262,6 @@ fun MaltFilterSheet(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-            }
-
-            // Bottom Action Button
-            Button(
-                onClick = {
-                    onFilterChange(currentCriteria)
-                    onDismiss()
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Apply Filters")
             }
 
             Spacer(modifier = Modifier.height(32.dp))

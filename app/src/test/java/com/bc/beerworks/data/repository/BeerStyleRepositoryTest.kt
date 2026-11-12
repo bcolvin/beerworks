@@ -335,4 +335,43 @@ class BeerStyleRepositoryTest {
         val nextStyle = repository.getNextStyle("C1A", GuidelineType.BJCP_CIDER)
         assertThat(nextStyle?.id).isEqualTo("C2D")
     }
+
+    @Test
+    fun toDomainModel_normalizesIpaInNameAndCategory() = runTest {
+        val ipaStyle = BjcpStyleEntity(
+            id = "21A", name = "American Ipa", category = "Ipa", categoryNumber = "21", number = "21A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 40.0, ibuMax = 70.0,
+            ogMin = 1.056, ogMax = 1.070, fgMin = 1.008, fgMax = 1.014, abvMin = 5.5, abvMax = 7.5,
+            srmMin = 6.0, srmMax = 14.0, commercialExamples = "", tags = "ipa"
+        )
+
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(listOf(ipaStyle)),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = FakeFavDao(),
+            preferencesManager = FakePrefsManager(),
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler)
+        )
+
+        val styles = repository.getFilteredStyles(FilterCriteria()).first()
+        assertThat(styles[0].name).isEqualTo("American IPA")
+        assertThat(styles[0].category).isEqualTo("IPA")
+
+        val categories = repository.getCategories().first()
+        assertThat(categories).contains("IPA")
+    }
+
+    @Test
+    fun baseStyleGroup_displayCategoryNameAndDisplayTitle_formatsIpaInAllCaps() {
+        val group = com.bc.beerworks.data.model.BaseStyleGroup(
+            categoryNumber = "21",
+            categoryName = "Ipa",
+            styles = emptyList(),
+            guidelineType = GuidelineType.BJCP_2021
+        )
+
+        assertThat(group.displayCategoryName).isEqualTo("IPA")
+        assertThat(group.displayTitle).isEqualTo("21. IPA")
+    }
 }

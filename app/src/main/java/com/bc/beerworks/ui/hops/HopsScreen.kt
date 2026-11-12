@@ -1,7 +1,6 @@
 package com.bc.beerworks.ui.hops
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,20 +15,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.LocalFlorist
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -70,8 +65,8 @@ fun HopsContent(
     availableOrigins: List<String>,
     availableCategories: List<String>,
     onQueryChange: (String) -> Unit,
-    onPurposeSelected: (String?) -> Unit,
-    onSensoryCategorySelected: (String?) -> Unit,
+    onPurposeSelected: (String?) -> Unit = {},
+    onSensoryCategorySelected: (String?) -> Unit = {},
     onFilterCriteriaChange: (HopFilterCriteria) -> Unit,
     onResetFilters: () -> Unit,
     onHopClick: (HopVariety) -> Unit,
@@ -119,17 +114,14 @@ fun HopsContent(
                         }
                     },
                     actions = {
-                        IconButton(onClick = {
-                            focusManager.clearFocus()
-                            showFilterSheet = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Filter",
-                                tint = if (criteria.isFilterActive) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                        com.bc.beerworks.ui.components.FilterActionIcon(
+                            isFilterActive = criteria.isFilterActive,
+                            onClick = {
+                                focusManager.clearFocus()
+                                showFilterSheet = true
+                            },
+                            onReset = onResetFilters
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.background
@@ -169,37 +161,6 @@ fun HopsContent(
                             unfocusedBorderColor = Color.Transparent
                         )
                     )
-                }
-
-                // Horizontal Quick-Filter Chips
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val quickPurposes = listOf("Aroma", "Bittering")
-                    quickPurposes.forEach { purpose ->
-                        val isSelected = criteria.selectedPurpose == purpose
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { onPurposeSelected(purpose) },
-                            label = { Text(purpose) }
-                        )
-                    }
-
-                    val quickSensories = listOf(
-                        "Citrus", "Tropical Fruit", "Floral", "Herbal", "Spicy", "Pine/Resinous", "Earthy/Woody"
-                    )
-                    quickSensories.forEach { sensory ->
-                        val isSelected = criteria.selectedSensoryCategory == sensory
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { onSensoryCategorySelected(sensory) },
-                            label = { Text(sensory) }
-                        )
-                    }
                 }
             }
         }

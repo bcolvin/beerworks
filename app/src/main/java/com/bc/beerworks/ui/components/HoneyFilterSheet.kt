@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -26,10 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,8 +46,6 @@ fun HoneyFilterSheet(
     onDismiss: () -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 ) {
-    var currentCriteria by remember(criteria) { mutableStateOf(criteria) }
-
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState
@@ -75,12 +68,7 @@ fun HoneyFilterSheet(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
-                TextButton(
-                    onClick = {
-                        currentCriteria = HoneyFilterCriteria(query = currentCriteria.query)
-                        onReset()
-                    }
-                ) {
+                TextButton(onClick = onReset) {
                     Text("Reset All")
                 }
             }
@@ -100,12 +88,12 @@ fun HoneyFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 classifications.forEach { classification ->
-                    val isSelected = currentCriteria.selectedClassification == classification
+                    val isSelected = criteria.selectedClassification == classification
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             val newClassification = if (isSelected) null else classification
-                            currentCriteria = currentCriteria.copy(selectedClassification = newClassification)
+                            onFilterChange(criteria.copy(selectedClassification = newClassification))
                         },
                         label = { Text(classification) }
                     )
@@ -127,16 +115,16 @@ fun HoneyFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 usdaColors.forEach { colorTier ->
-                    val isSelected = currentCriteria.selectedUsdaColors.contains(colorTier)
+                    val isSelected = criteria.selectedUsdaColors.contains(colorTier)
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             val updatedColors = if (isSelected) {
-                                currentCriteria.selectedUsdaColors - colorTier
+                                criteria.selectedUsdaColors - colorTier
                             } else {
-                                currentCriteria.selectedUsdaColors + colorTier
+                                criteria.selectedUsdaColors + colorTier
                             }
-                            currentCriteria = currentCriteria.copy(selectedUsdaColors = updatedColors)
+                            onFilterChange(criteria.copy(selectedUsdaColors = updatedColors))
                         },
                         leadingIcon = {
                             Box(
@@ -167,12 +155,12 @@ fun HoneyFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 flavorIntensities.forEach { intensity ->
-                    val isSelected = currentCriteria.selectedFlavorIntensity == intensity
+                    val isSelected = criteria.selectedFlavorIntensity == intensity
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             val newIntensity = if (isSelected) null else intensity
-                            currentCriteria = currentCriteria.copy(selectedFlavorIntensity = newIntensity)
+                            onFilterChange(criteria.copy(selectedFlavorIntensity = newIntensity))
                         },
                         label = { Text(intensity) }
                     )
@@ -194,12 +182,12 @@ fun HoneyFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 crystallizationTendencies.forEach { tendency ->
-                    val isSelected = currentCriteria.selectedCrystallizationTendency == tendency
+                    val isSelected = criteria.selectedCrystallizationTendency == tendency
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             val newTendency = if (isSelected) null else tendency
-                            currentCriteria = currentCriteria.copy(selectedCrystallizationTendency = newTendency)
+                            onFilterChange(criteria.copy(selectedCrystallizationTendency = newTendency))
                         },
                         label = { Text(tendency) }
                     )
@@ -207,18 +195,6 @@ fun HoneyFilterSheet(
             }
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = {
-                    onFilterChange(currentCriteria)
-                    onDismiss()
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Apply Filters", fontWeight = FontWeight.Bold)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

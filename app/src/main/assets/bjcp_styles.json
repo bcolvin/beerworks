@@ -146,7 +146,7 @@
   {
     "name": "American IPA",
     "number": "21A",
-    "category": "Ipa",
+    "category": "IPA",
     "categorynumber": "21",
     "overallimpression": "A decidedly hoppy and bitter, moderately strong, pale American ale. The balance is hop-forward, with a clean fermentation profile, dryish finish, and clean, supporting malt allowing a creative range of hop character to shine through.",
     "aroma": "A prominent to intense hop aroma often featuring American or New World hop characteristics, such as citrus, floral, pine, resin, spice, tropical fruit, stone fruit, berry, or melon. Low to medium-low clean, grainy maltiness supports the hop presentation. Generally clean fermentation profile, but light fruitiness acceptable. Restrained alcohol optional.",
@@ -1600,7 +1600,7 @@
   {
     "name": "Hazy IPA",
     "number": "21C",
-    "category": "Ipa",
+    "category": "IPA",
     "categorynumber": "21",
     "overallimpression": "An American IPA with intense fruit flavors and aromas, a soft body, smooth mouthfeel, and often opaque with substantial haze. Less perceived bitterness than traditional IPAs but always massively hop-forward.",
     "aroma": "Intense hop aroma, with stone fruit, tropical fruit, citrus, or other fruity qualities; not grassy or herbal. Clean, neutral, grainy, or lightly bready malt in the background; no caramel or toast. Absence of any malt character is a fault. Neutral to fruity fermentation character. Esters from yeast and hops should not clash. A creamy, buttery, or acidic aroma is inappropriate. Light alcohol aroma optional.",
@@ -2538,7 +2538,7 @@
   {
     "name": "Specialty IPA",
     "number": "21B",
-    "category": "Ipa",
+    "category": "IPA",
     "categorynumber": "21",
     "overallimpression": "A very pale, hop-forward American IPA variant with a bone-dry finish, very high carbonation, and a restrained bitterness level. Can be suggestive of a sparkling white wine or Champagne. The hop character is modern, and emphasizes flavor and aroma dimensions.",
     "aroma": "Moderately high to intense hop aroma, very bright and hop-forward in the balance. Modern American and New World hop varieties provide a wide range of possible characteristics, such as tropical, stone fruit, citrusy, or white grape, but not grassy, vegetal, or herbal. Malt is subtle, neutral, and in the background, but never caramelly or overly corny-sweet. A light, clean alcohol note is optional. Very clean fermentation character; should not be yeasty.",

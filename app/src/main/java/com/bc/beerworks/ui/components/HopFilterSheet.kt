@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -42,8 +37,6 @@ fun HopFilterSheet(
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
-
-    var currentCriteria by remember(criteria) { mutableStateOf(criteria) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -65,10 +58,7 @@ fun HopFilterSheet(
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
-                TextButton(onClick = {
-                    currentCriteria = HopFilterCriteria(query = currentCriteria.query)
-                    onReset()
-                }) {
+                TextButton(onClick = onReset) {
                     Text("Reset All")
                 }
             }
@@ -87,12 +77,12 @@ fun HopFilterSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 purposes.forEach { purposeOption ->
-                    val isSelected = currentCriteria.selectedPurpose == purposeOption
+                    val isSelected = criteria.selectedPurpose == purposeOption
                     FilterChip(
                         selected = isSelected,
                         onClick = {
                             val newPurpose = if (isSelected) null else purposeOption
-                            currentCriteria = currentCriteria.copy(selectedPurpose = newPurpose)
+                            onFilterChange(criteria.copy(selectedPurpose = newPurpose))
                         },
                         label = { Text(purposeOption) }
                     )
@@ -112,18 +102,20 @@ fun HopFilterSheet(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "${currentCriteria.minAlphaAcid.toInt()}% – ${currentCriteria.maxAlphaAcid.toInt()}%",
+                    text = "${criteria.minAlphaAcid.toInt()}% – ${criteria.maxAlphaAcid.toInt()}%",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
                 )
             }
             RangeSlider(
-                value = currentCriteria.minAlphaAcid.toFloat()..currentCriteria.maxAlphaAcid.toFloat(),
+                value = criteria.minAlphaAcid.toFloat()..criteria.maxAlphaAcid.toFloat(),
                 onValueChange = { range ->
-                    currentCriteria = currentCriteria.copy(
-                        minAlphaAcid = range.start.toDouble(),
-                        maxAlphaAcid = range.endInclusive.toDouble()
+                    onFilterChange(
+                        criteria.copy(
+                            minAlphaAcid = range.start.toDouble(),
+                            maxAlphaAcid = range.endInclusive.toDouble()
+                        )
                     )
                 },
                 valueRange = 0f..25f,
@@ -145,16 +137,16 @@ fun HopFilterSheet(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     availableOrigins.forEach { origin ->
-                        val isSelected = currentCriteria.selectedOrigins.contains(origin)
+                        val isSelected = criteria.selectedOrigins.contains(origin)
                         FilterChip(
                             selected = isSelected,
                             onClick = {
                                 val updatedOrigins = if (isSelected) {
-                                    currentCriteria.selectedOrigins - origin
+                                    criteria.selectedOrigins - origin
                                 } else {
-                                    currentCriteria.selectedOrigins + origin
+                                    criteria.selectedOrigins + origin
                                 }
-                                currentCriteria = currentCriteria.copy(selectedOrigins = updatedOrigins)
+                                onFilterChange(criteria.copy(selectedOrigins = updatedOrigins))
                             },
                             label = { Text(origin) }
                         )
@@ -176,30 +168,18 @@ fun HopFilterSheet(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     availableCategories.forEach { category ->
-                        val isSelected = currentCriteria.selectedBaseCategory == category
+                        val isSelected = criteria.selectedBaseCategory == category
                         FilterChip(
                             selected = isSelected,
                             onClick = {
                                 val newCategory = if (isSelected) null else category
-                                currentCriteria = currentCriteria.copy(selectedBaseCategory = newCategory)
+                                onFilterChange(criteria.copy(selectedBaseCategory = newCategory))
                             },
                             label = { Text(category) }
                         )
                     }
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-            }
-
-            Button(
-                onClick = {
-                    onFilterChange(currentCriteria)
-                    onDismiss()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text("Apply Filters", fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(24.dp))

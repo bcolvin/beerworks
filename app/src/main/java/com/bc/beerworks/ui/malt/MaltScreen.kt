@@ -1,7 +1,6 @@
 package com.bc.beerworks.ui.malt
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,20 +15,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Grain
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -60,6 +55,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.MaltFilterCriteria
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.ui.components.FilterActionIcon
 import com.bc.beerworks.ui.components.MaltCard
 import com.bc.beerworks.ui.components.MaltFilterSheet
 
@@ -84,7 +80,6 @@ fun MaltScreen(
         functionalTags = functionalTags,
         baseCategories = baseCategories,
         onQueryChange = viewModel::onQueryChange,
-        onCategorySelected = viewModel::onCategorySelected,
         onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
         onResetFilters = viewModel::resetFilters,
         onMaltClick = onMaltClick,
@@ -102,7 +97,7 @@ fun MaltContent(
     functionalTags: List<String>,
     baseCategories: List<String>,
     onQueryChange: (String) -> Unit,
-    onCategorySelected: (String?) -> Unit,
+    onCategorySelected: (String?) -> Unit = {},
     onFilterCriteriaChange: (MaltFilterCriteria) -> Unit,
     onResetFilters: () -> Unit,
     onMaltClick: (String) -> Unit,
@@ -150,17 +145,14 @@ fun MaltContent(
                         }
                     },
                     actions = {
-                        IconButton(onClick = {
-                            focusManager.clearFocus()
-                            showFilterSheet = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Filter",
-                                tint = if (criteria.isFilterActive) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                        FilterActionIcon(
+                            isFilterActive = criteria.isFilterActive,
+                            onClick = {
+                                focusManager.clearFocus()
+                                showFilterSheet = true
+                            },
+                            onReset = onResetFilters
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.background
@@ -206,24 +198,6 @@ fun MaltContent(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                         keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() })
                     )
-                }
-
-                // Quick-filter category pills
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    categories.forEach { category ->
-                        val isSelected = criteria.selectedCategory == category
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { onCategorySelected(category) },
-                            label = { Text(category) }
-                        )
-                    }
                 }
             }
         }

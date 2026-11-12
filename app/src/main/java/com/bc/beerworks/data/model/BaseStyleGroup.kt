@@ -9,8 +9,11 @@ data class BaseStyleGroup(
     val styles: List<BeerStyle>,
     val guidelineType: GuidelineType
 ) {
+    val displayCategoryName: String
+        get() = categoryName.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
+
     val displayTitle: String
-        get() = if (categoryNumber.isNotBlank()) "$categoryNumber. $categoryName" else categoryName
+        get() = if (categoryNumber.isNotBlank()) "$categoryNumber. $displayCategoryName" else displayCategoryName
 
     val abvMin: Double? get() = styles.mapNotNull { it.abvMin }.minOrNull()
     val abvMax: Double? get() = styles.mapNotNull { it.abvMax }.maxOrNull()

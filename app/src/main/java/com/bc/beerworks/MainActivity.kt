@@ -236,8 +236,6 @@ fun BeerworksApp() {
                     availableOrigins = origins,
                     availableCategories = categories,
                     onQueryChange = viewModel::onQueryChange,
-                    onPurposeSelected = viewModel::onPurposeSelected,
-                    onSensoryCategorySelected = viewModel::onSensoryCategorySelected,
                     onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
                     onResetFilters = viewModel::resetFilters,
                     onHopClick = { hop ->
@@ -274,7 +272,6 @@ fun BeerworksApp() {
                     functionalTags = functionalTags,
                     baseCategories = baseCategories,
                     onQueryChange = viewModel::onQueryChange,
-                    onCategorySelected = viewModel::onCategorySelected,
                     onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
                     onResetFilters = viewModel::resetFilters,
                     onMaltClick = { maltId ->
@@ -311,7 +308,6 @@ fun BeerworksApp() {
                     flavorIntensities = flavorIntensities,
                     crystallizationTendencies = crystallizationTendencies,
                     onQueryChange = viewModel::onQueryChange,
-                    onClassificationSelected = viewModel::onClassificationSelected,
                     onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
                     onResetFilters = viewModel::resetFilters,
                     onHoneyClick = { honeyId ->

@@ -133,6 +133,22 @@ class HoneyViewModelTest {
     }
 
     @Test
+    fun onFilterCriteriaChange_updatesFilterCriteria() = runTest {
+        val viewModel = createViewModel()
+
+        val newCriteria = HoneyFilterCriteria(
+            query = "Wildflower",
+            selectedClassification = "Polyfloral",
+            selectedFlavorIntensity = "Robust",
+            selectedUsdaColors = setOf("Dark Amber"),
+            selectedCrystallizationTendency = "Slow"
+        )
+        viewModel.onFilterCriteriaChange(newCriteria)
+
+        assertThat(viewModel.filterCriteria.value).isEqualTo(newCriteria)
+    }
+
+    @Test
     fun resetFilters_clearsFiltersPreservingQuery() = runTest {
         val viewModel = createViewModel()
 

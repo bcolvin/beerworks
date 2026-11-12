@@ -147,6 +147,36 @@ class StyleListViewModelTest {
     }
 
     @Test
+    fun onFilterCriteriaChange_updatesFilterCriteriaDirectly() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager(),
+            testDispatcher
+        )
+
+        val viewModel = StyleListViewModel(repository)
+
+        val updated = com.bc.beerworks.data.model.FilterCriteria(
+            minSrm = 12.0,
+            maxSrm = 24.0,
+            minAbv = 5.0,
+            maxAbv = 8.5,
+            minIbu = 30.0,
+            maxIbu = 70.0,
+            favoritesOnly = true,
+            selectedSweetness = setOf("Dry"),
+            selectedCarbonation = setOf("Sparkling"),
+            selectedStrength = setOf("Standard")
+        )
+
+        viewModel.onFilterCriteriaChange(updated)
+
+        assertThat(viewModel.filterCriteria.value).isEqualTo(updated)
+    }
+
+    @Test
     fun filterCriteria_isFilterActive_detectsActiveFiltersCorrectly() {
         val defaultCriteria = com.bc.beerworks.data.model.FilterCriteria()
         assertThat(defaultCriteria.isFilterActive).isFalse()

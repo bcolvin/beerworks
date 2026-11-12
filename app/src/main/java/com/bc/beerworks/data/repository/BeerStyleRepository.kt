@@ -337,12 +337,13 @@ class BeerStyleRepository(
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getCategories(): Flow<List<String>> {
         return selectedGuideline.flatMapLatest { guideline ->
-            when (guideline) {
+            val flow = when (guideline) {
                 GuidelineType.BJCP_2021 -> bjcpStyleDao.getCategories()
                 GuidelineType.BA_2026 -> baStyleDao.getCategories()
                 GuidelineType.BJCP_MEAD -> meadStyleDao?.getCategories() ?: flowOf(emptyList())
                 GuidelineType.BJCP_CIDER -> ciderStyleDao?.getCategories() ?: flowOf(emptyList())
             }
+            flow.map { list -> list.map { it.normalizeIpa() } }
         }.flowOn(defaultDispatcher)
     }
 
@@ -372,10 +373,13 @@ class BeerStyleRepository(
         }
     }
 
+    private fun String.normalizeIpa(): String =
+        this.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
+
     private fun BjcpStyleEntity.toDomainModel(isFav: Boolean) = BeerStyle(
         id = id,
-        name = name,
-        category = category,
+        name = name.normalizeIpa(),
+        category = category.normalizeIpa(),
         categoryNumber = categoryNumber,
         number = number,
         overallImpression = overallImpression,
@@ -405,8 +409,8 @@ class BeerStyleRepository(
 
     private fun BaStyleEntity.toDomainModel(isFav: Boolean) = BeerStyle(
         id = id,
-        name = name,
-        category = category,
+        name = name.normalizeIpa(),
+        category = category.normalizeIpa(),
         categoryNumber = categoryNumber,
         number = number,
         overallImpression = overallImpression,

@@ -254,17 +254,14 @@ fun StyleListContent(
                         }
                     },
                     actions = {
-                        IconButton(onClick = {
-                            focusManager.clearFocus()
-                            showFilterSheet = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Filter",
-                                tint = if (criteria.isFilterActive) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                        com.bc.beerworks.ui.components.FilterActionIcon(
+                            isFilterActive = criteria.isFilterActive,
+                            onClick = {
+                                focusManager.clearFocus()
+                                showFilterSheet = true
+                            },
+                            onReset = onResetFilters
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.background

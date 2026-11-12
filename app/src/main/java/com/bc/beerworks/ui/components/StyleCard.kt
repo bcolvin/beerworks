@@ -269,6 +269,25 @@ fun StyleCard(
                     }
                 }
             }
+
+            // Flavor / Character Descriptor Chips (e.g. for Cider / apples or tagged styles)
+            val descriptorTags = remember(style.tags) {
+                style.tags
+                    .filterNot { it.startsWith("standard-") || it.startsWith("specialty-") }
+                    .map { tag ->
+                        tag.split("-").joinToString(" ") { word ->
+                            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                        }
+                    }
+            }
+            if (descriptorTags.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(10.dp))
+                SingleRowChipLayout(spacing = 6.dp) {
+                    descriptorTags.forEach { tag ->
+                        DescriptorChip(text = tag)
+                    }
+                }
+            }
         }
     }
 }

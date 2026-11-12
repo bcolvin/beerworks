@@ -171,6 +171,9 @@ data class JsonStyleRaw(
 )
 
 object DatabaseInitializer {
+    private fun String.normalizeIpa(): String =
+        this.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
+
     suspend fun initializeIfNeeded(context: Context, database: BeerworksDatabase) = withContext(Dispatchers.IO) {
         val gson = Gson()
         val bjcpDao = database.bjcpStyleDao()
@@ -185,8 +188,8 @@ object DatabaseInitializer {
             val id = if (num.isNotBlank()) num else raw.name ?: "Unknown"
             BjcpStyleEntity(
                 id = id,
-                name = raw.name ?: "",
-                category = raw.category ?: "",
+                name = (raw.name ?: "").normalizeIpa(),
+                category = (raw.category ?: "").normalizeIpa(),
                 categoryNumber = raw.categorynumber ?: "0",
                 number = num,
                 overallImpression = raw.overallimpression ?: "",
@@ -222,8 +225,8 @@ object DatabaseInitializer {
             val id = if (num.isNotBlank()) num else raw.name ?: "Unknown"
             BaStyleEntity(
                 id = id,
-                name = raw.name ?: "",
-                category = raw.category ?: "",
+                name = (raw.name ?: "").normalizeIpa(),
+                category = (raw.category ?: "").normalizeIpa(),
                 categoryNumber = raw.categorynumber ?: "0",
                 number = num,
                 overallImpression = raw.overallimpression ?: "",

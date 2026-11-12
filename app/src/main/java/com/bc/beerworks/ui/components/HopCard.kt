@@ -5,8 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bc.beerworks.data.model.HopVariety
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HopCard(
     hop: HopVariety,
@@ -109,27 +106,12 @@ fun HopCard(
                 )
             }
 
-            if (hop.descriptors.isNotEmpty() || hop.sensoryCategories.isNotEmpty()) {
+            val allChips = (hop.sensoryCategories + hop.descriptors).distinct()
+            if (allChips.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
-                val topChips = (hop.sensoryCategories + hop.descriptors).distinct().take(4)
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    topChips.forEach { chip ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(horizontal = 8.dp, vertical = 3.dp)
-                        ) {
-                            Text(
-                                text = chip,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontSize = 11.sp
-                            )
-                        }
+                SingleRowChipLayout(spacing = 6.dp) {
+                    allChips.forEach { chip ->
+                        DescriptorChip(text = chip)
                     }
                 }
             }
