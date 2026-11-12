@@ -98,6 +98,36 @@ _Avoid_: Supercategory, broad style
 A concurrent comparative evaluation of two or three beer styles, hop varieties, or malt profiles aligning technical parameters, sensory radars, and flavor descriptors in a multi-column matrix.
 _Avoid_: Diff view, duel mode
 
+### Honey & Varietals
+
+**Honey Variety**:
+A distinct varietal honey characterized by botanical source, floral classification, geographic origin, Pfund color rating, and organoleptic and fermentation properties.
+_Avoid_: Honey type, honey flavor, nectar strain
+
+**Floral Classification**:
+The classification of honey by nectar source: Monofloral (single dominant botanical blossom), Polyfloral (wildflower nectar from diverse flora), or Honeydew (secretions collected from plant-sucking insects rather than blossom nectar).
+_Avoid_: Honey source, floral category, nectar type
+
+**Pfund Scale**:
+A standardized optical scale measuring honey color intensity in millimeters (1–140 mm), corresponding to official USDA color grades from Water White to Dark Amber.
+_Avoid_: Honey darkness, color rating, tint scale
+
+**USDA Honey Color Classification**:
+The standardized seven-tier visual grading system for honey based on Pfund scale optical density: Water White (0–8 mm), Extra White (9–17 mm), White (18–34 mm), Extra Light Amber (35–50 mm), Light Amber (51–85 mm), Amber (86–114 mm), and Dark Amber (> 114 mm).
+_Avoid_: Color grade, honey shade, visual tier
+
+**Crystallization Tendency**:
+The relative rate and propensity of a honey variety to granulate at room temperature based on its Fructose-to-Glucose (F/G) ratio and glucose-to-water ratio, categorized as Slow, Moderate, or Rapid.
+_Avoid_: Granulation rate, sugar hardening, solidifying speed
+
+**Honey Sensory Radar Chart**:
+An 8-axis radial polygon chart plotting quantitative sensory intensity (0–5) across primary honey flavor and aroma dimensions: Floral, Fruity, Herbal & Fresh, Spicy & Warm, Sweet & Confectionary, Nutty & Woody, Earthy & Mineral, and Animal & Pungent.
+_Avoid_: Honey spider graph, honey flavor wheel
+
+**Honey Substitute**:
+A varietal honey possessing sufficiently similar color, aroma intensity, and flavor profile to serve as an interchangeable alternative in meadmaking, brewing, or cider recipes.
+_Avoid_: Alternative honey, replacement nectar
+
 ### Mead & Alternative Guidelines
 
 **Beverage Discipline**:
