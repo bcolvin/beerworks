@@ -128,6 +128,52 @@ _Avoid_: Honey spider graph, honey flavor wheel
 A varietal honey possessing sufficiently similar color, aroma intensity, and flavor profile to serve as an interchangeable alternative in meadmaking, brewing, or cider recipes.
 _Avoid_: Alternative honey, replacement nectar
 
+### Pomes & Varieties
+
+**Pome Variety**:
+A distinct cultivated variety of pome fruit (apple, *Malus domestica*, or perry pear, *Pyrus communis*) characterized by specific pomological, chemical, and sensory attributes for cider and perry production.
+_Avoid_: Apple strain, cider fruit, pear type
+
+**Pome Classification**:
+The standardized four-tier classification system (Long Ashton / Barker model) categorizing cider apples and perry pears by titratable acidity (% malic acid) and polyphenol tannin content: Bittersweet, Bittersharp, Sharp, and Sweet.
+_Avoid_: Apple category, fruit class, taste category
+
+**Fruit Use**:
+The culinary and cidermaking purpose of a pome variety: Heritage Cider/Perry Specimen (varieties cultivated specifically for fermentation tannins, acid, and phenolic complexity) or Culinary / Dessert (table and baking fruit contributing fermentable sugars, crisp acidity, and fresh aromatics).
+_Avoid_: Apple purpose, fruit category, fruit role
+
+**Bittersweet**:
+A pome fruit classification characterized by low acidity (≤ 0.45% malic acid) and high tannin (≥ 0.20% polyphenols), providing body, astringency, and rich color without excessive tartness.
+_Avoid_: Sweet bitter, soft tannin apple
+
+**Bittersharp**:
+A pome fruit classification characterized by high acidity (> 0.45% malic acid) and high tannin (≥ 0.20% polyphenols), providing both crisp sharpness and drying astringency for standalone or backbone blending.
+_Avoid_: Sharp bitter, full-bodied tart apple
+
+**Sharp**:
+A pome fruit classification characterized by high acidity (> 0.45% malic acid) and low tannin (< 0.20% polyphenols), providing bright, crisp acidity and fresh fruit character.
+_Avoid_: Acid apple, tart variety
+
+**Sweet**:
+A pome fruit classification characterized by low acidity (≤ 0.45% malic acid) and low tannin (< 0.20% polyphenols), providing fermentable sugars and fruit aromatics without notable astringency or sharpness.
+_Avoid_: Dessert cider apple, mild fruit
+
+**Long Ashton Matrix Gauge**:
+A visual classification gauge mapping titratable acidity (malic acid %) against tannin concentration (polyphenol %) across the 0.45% acid and 0.20% tannin thresholds to plot a pome variety within the Long Ashton quadrant (Bittersweet, Bittersharp, Sharp, Sweet).
+_Avoid_: Acid graph, tannin plot, apple gauge
+
+**Sorbitol**:
+A non-fermentable sugar alcohol naturally occurring in high concentrations in perry pears that contributes permanent residual sweetness, body, and unfermentable mouthfeel to finished perry.
+_Avoid_: Pear sugar, fruit alcohol
+
+**Pome Sensory Radar Chart**:
+An 8-axis radial polygon chart plotting quantitative sensory intensity (0–5) across primary cider and perry flavor and aroma dimensions: Acidity / Sharpness, Tannin / Bitterness, Fresh Fruit, Baked / Ripe Fruit, Citrus & Tropical, Floral & Herbal, Earthy & Farmhouse, and Sweet & Confectionary.
+_Avoid_: Cider spider graph, apple flavor wheel
+
+**Pome Substitute**:
+A pome fruit variety possessing sufficiently similar classification, tannin structure, and acid balance to serve as an interchangeable alternative in blending or single-varietal cidermaking.
+_Avoid_: Replacement apple, alternative pome
+
 ### Mead & Alternative Guidelines
 
 **Beverage Discipline**:

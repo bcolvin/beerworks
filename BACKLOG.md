@@ -61,3 +61,12 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Custom 8-axis honey sensory radar chart (Floral, Fruity, Herbal, Spicy, Sweet, Nutty, Earthy, Animal/Pungent).
   - Nutrient demand and volatile aroma preservation in meadmaking.
   - Bidirectional relational cross-referencing between honey varieties and BJCP Mead styles (M1–M4), Braggots, and Cysers.
+
+- [ ] **Pome Varieties Database & Sensory Profiles (Feature 007)**
+  - Comprehensive reference of canonical cider apple and perry pear varieties (Dabinett, Kingston Black, Yarlington Mill, Harrison, Thorn, etc.).
+  - Long Ashton 4-tier classification (Bittersweet, Bittersharp, Sharp, Sweet) with visual 2×2 matrix gauge.
+  - Pomological & chemical metrics: Acidity (% malic acid), Tannins (% polyphenols and Low/Med/High tiers), Specific Gravity (SG) range, and ripening season.
+  - Perry pear sorbitol content, pressing dynamics, and milling behavior.
+  - Custom 8-axis pome sensory radar chart (Acidity/Sharpness, Tannin/Bitterness, Fresh Fruit, Baked/Ripe Fruit, Citrus & Tropical, Floral & Herbal, Earthy & Farmhouse, Sweet & Confectionary).
+  - Navigation drawer integration with `Nature` icon for Pomes and `Grass` (wheat/stalks) icon for Malt.
+  - Bidirectional relational cross-referencing between pome varieties and BJCP Cider styles (C1A–C2F) and Mead Cysers (M2B).
