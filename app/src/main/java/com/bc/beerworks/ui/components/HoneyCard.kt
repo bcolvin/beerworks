@@ -83,10 +83,14 @@ fun HoneyCard(
                 }
             }
 
-            if (honey.botanicalSource.isNotBlank()) {
+            val honeySubtitle = if (honey.botanicalSource.isNotBlank() && honey.origin.isNotBlank()) {
+                "${honey.botanicalSource} • ${honey.origin}"
+            } else honey.botanicalSource.ifBlank { honey.origin }
+
+            if (honeySubtitle.isNotBlank()) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = honey.botanicalSource,
+                    text = honeySubtitle,
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
@@ -95,55 +99,19 @@ fun HoneyCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Metrics row: Pfund Color Swatch + Flavor Intensity
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Color swatch chip
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .clip(CircleShape)
-                            .background(honey.color)
-                            .border(0.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = honey.pfundRangeText,
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 11.sp
-                    )
-                }
-
-                FlavorIntensityBadge(intensity = honey.flavorIntensity)
-            }
-
             if (honey.description.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = honey.description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }
 
             if (honey.descriptors.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 SingleRowChipLayout(spacing = 6.dp) {
                     honey.descriptors.forEach { descriptor ->
                         DescriptorChip(text = descriptor)

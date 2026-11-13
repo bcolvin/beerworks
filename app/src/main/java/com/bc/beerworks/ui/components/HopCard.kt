@@ -99,9 +99,9 @@ fun HopCard(
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = hop.description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }

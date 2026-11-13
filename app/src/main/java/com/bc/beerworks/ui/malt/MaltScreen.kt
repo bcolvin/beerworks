@@ -135,7 +135,7 @@ fun MaltContent(
                 TopAppBar(
                     title = {
                         Text(
-                            text = "Malt",
+                            text = "Malts",
                             fontWeight = FontWeight.Bold
                         )
                     },

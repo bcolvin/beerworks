@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.CandlestickChart
 import androidx.compose.material.icons.filled.Grain
 import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Hive
-import androidx.compose.material.icons.filled.LocalFlorist
 import androidx.compose.material.icons.filled.Nature
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SportsBar
@@ -42,8 +42,8 @@ sealed class DrawerDestination(
     val icon: ImageVector
 ) {
     data object StyleGuide : DrawerDestination("style_list", "Style Guide", Icons.Default.SportsBar)
-    data object Hops : DrawerDestination("hops", "Hops", Icons.Default.LocalFlorist)
-    data object Malt : DrawerDestination("malt", "Malt", Icons.Default.Grass)
+    data object Hops : DrawerDestination("hops", "Hops", Icons.Default.Grass)
+    data object Malt : DrawerDestination("malt", "Malts", Icons.Default.CandlestickChart)
     data object Honey : DrawerDestination("honey", "Honey", Icons.Default.Hive)
     data object Pomes : DrawerDestination("pomes", "Pomes", Icons.Default.Nature)
     data object ReviewHistory : DrawerDestination("review_history", "Review History", Icons.Default.History)
