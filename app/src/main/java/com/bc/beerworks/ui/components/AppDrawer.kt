@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.BubbleChart
 import androidx.compose.material.icons.filled.CandlestickChart
 import androidx.compose.material.icons.filled.Grain
 import androidx.compose.material.icons.filled.Grass
@@ -46,12 +47,13 @@ sealed class DrawerDestination(
     data object Malt : DrawerDestination("malt", "Malts", Icons.Default.CandlestickChart)
     data object Honey : DrawerDestination("honey", "Honey", Icons.Default.Hive)
     data object Pomes : DrawerDestination("pomes", "Pomes", Icons.Default.Nature)
+    data object Yeast : DrawerDestination("yeasts", "Yeast", Icons.Default.BubbleChart)
     data object ReviewHistory : DrawerDestination("review_history", "Review History", Icons.Default.History)
     data object Settings : DrawerDestination("settings", "Settings", Icons.Default.Settings)
 
     companion object {
         val items: List<DrawerDestination>
-            get() = listOf(StyleGuide, Hops, Malt, Honey, Pomes, ReviewHistory, Settings)
+            get() = listOf(StyleGuide, Hops, Malt, Honey, Pomes, Yeast, ReviewHistory, Settings)
     }
 }
 

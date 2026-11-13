@@ -28,7 +28,7 @@ Provide an offline-first, technically detailed reference database of canonical b
 ## 📋 Requirements & Acceptance Criteria
 
 ### 1. Data Pipeline & Persistence
-- [ ] **Bundled Asset (`yeasts.json`)**: Curate and bundle `app/src/main/assets/yeasts.json` (~45–50 canonical strains across American Ales, English/Irish, Belgian/French, German/Lagers, Kveik, Wild/Bacteria, Mead/Wine, and Cider) containing:
+- [x] **Bundled Asset (`yeasts.json`)**: Curate and bundle `app/src/main/assets/yeasts.json` (~45–50 canonical strains across American Ales, English/Irish, Belgian/French, German/Lagers, Kveik, Wild/Bacteria, Mead/Wine, and Cider) containing:
   - `id`: Unique kebab-case identifier (e.g. `chico-american-ale`, `weihenstephan-weizen`, `lalvin-ec-1118`, `voss-kveik`).
   - `name`: Canonical strain name (e.g. "Chico / American Ale", "Weihenstephan Weizen").
   - `scientificName`: Genus & species (e.g. *Saccharomyces cerevisiae*, *Saccharomyces pastorianus*, *Brettanomyces bruxellensis*, *Lactobacillus plantarum*).
@@ -50,42 +50,40 @@ Provide an offline-first, technically detailed reference database of canonical b
   - `substituteIds`: Interchangeable alternative strain IDs.
   - `commonStyleIds`: Associated style identifiers across BJCP Beer, BA 2026, BJCP Mead, and BJCP Cider guidelines.
   - `radarProfile`: 8 organoleptic dimensions rated 0.0 to 5.0 (Clean/Neutral, Fruity Esters, Spicy Phenols, Tart/Acidity, Funky/Earthy, Sulfury/Crisp, Alcohol/Warmth, Mouthfeel/Sweetness Retention).
-- [ ] **Room Database Version 9**:
+- [x] **Room Database Version 9**:
   - `YeastStrainEntity`: Primary table storing complete yeast strain attributes.
   - `YeastStrainFtsEntity`: SQLite FTS4 virtual table indexing `name`, `scientificName`, `origin`, `description`, `pitchingDynamics`, `descriptors`, and serialized `commercialEquivalents` for sub-millisecond full-text search (including instant manufacturer code matching).
   - `YeastStyleCrossRef`: Relational join table keyed on `(yeastId, styleId, guidelineType)` with composite index for bidirectional style queries.
-- [ ] **Room Database Migration (v8 -> v9)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/honey/pome/favorites data.
-- [ ] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `yeasts.json` on startup in the background without main-thread blocking.
-- [ ] **Repository Layer (`YeastRepository`)**: Concrete subclass of `BaseIngredientRepository<YeastStrainEntity, YeastStrain, YeastFilterCriteria>` executing Room queries on `Dispatchers.Default`.
+- [x] **Room Database Migration (v8 -> v9)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/honey/pome/favorites data.
+- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `yeasts.json` on startup in the background without main-thread blocking.
+- [x] **Repository Layer (`YeastRepository`)**: Concrete subclass of `BaseIngredientRepository<YeastStrainEntity, YeastStrain, YeastFilterCriteria>` executing Room queries on `Dispatchers.Default`.
 
 ### 2. Temperature Preference & Unit Utility
-- [ ] **Preference Storage**: Add `temperatureUnit: Flow<TemperatureUnit>` (enum `FAHRENHEIT`, `CELSIUS`, defaulting to `FAHRENHEIT`) and `setTemperatureUnit(TemperatureUnit)` to `PreferencesManager` and `DefaultPreferencesManager`.
-- [ ] **Settings Screen UI**: Add a "Temperature Unit" card in `SettingsScreen` with a clean toggle / segmented control between Fahrenheit (°F) and Celsius (°C).
-- [ ] **`TemperatureConverter` Utility**: Clean conversion helper formatting temperature ranges according to active `TemperatureUnit` (e.g. `"64°F – 72°F"` or `"18°C – 22°C"`).
+- [x] **Preference Storage**: Add `temperatureUnit: Flow<TemperatureUnit>` (enum `FAHRENHEIT`, `CELSIUS`, defaulting to `FAHRENHEIT`) and `setTemperatureUnit(TemperatureUnit)` to `PreferencesManager` and `DefaultPreferencesManager`.
+- [x] **Settings Screen UI**: Add a "Temperature Unit" card in `SettingsScreen` with a clean toggle / segmented control between Fahrenheit (°F) and Celsius (°C).
+- [x] **`TemperatureConverter` Utility**: Clean conversion helper formatting temperature ranges according to active `TemperatureUnit` (e.g. `"64°F – 72°F"` or `"18°C – 22°C"`).
 
 ### 3. Yeast Catalog List Screen (`YeastsScreen` / route: `"yeasts"`)
-- [ ] **Top App Bar**: Title `"Yeast"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) tinted with `MaterialTheme.colorScheme.primary` when filters are active.
-- [ ] **Borderless Pill Search Bar**: Single-line search input with leading search icon, clear trailing icon (when query non-blank), no placeholder hint text, keyboard search IME action, and auto-dismiss keyboard on list scroll.
-- [ ] **Quick-Filter Strip**: Horizontal scrollable chips for **Microorganism Classification** (toggle on/off, without 'All' chip):
+- [x] **Top App Bar**: Title `"Yeast"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) tinted with `MaterialTheme.colorScheme.primary` when filters are active.
+- [x] **Borderless Pill Search Bar**: Single-line search input with leading search icon, clear trailing icon (when query non-blank), no placeholder hint text, keyboard search IME action, and auto-dismiss keyboard on list scroll.
+- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Microorganism Classification** (toggle on/off, without 'All' chip):
   - `Ale`, `Lager`, `Wheat`, `Kveik`, `Wild / Brett`, `Bacteria`, `Wine / Mead / Cider`
-- [ ] **Filter Sheet (`YeastFilterSheet`)**: Bottom modal sheet with header `"Filter Yeast"`, `"Reset All"` action button, and `"Apply Filters"` primary button containing:
+- [x] **Filter Sheet (`YeastFilterSheet`)**: Bottom modal sheet with header `"Filter Yeast"`, `"Reset All"` action button, and `"Apply Filters"` primary button containing:
   1. **Microorganism Classification** (toggle chips: Ale, Lager, Wheat, Kveik, Wild / Brett, Bacteria, Wine / Mead / Cider)
   2. **Flocculation Tier** (toggle chips: Low, Medium, High, Very High)
   3. **Minimum Attenuation %** (Slider from 60% to 90%)
   4. **Minimum Alcohol Tolerance** (Slider from 5% to 18% ABV)
   *(Note: No Form chips and no STA1/POF toggles, keeping filter sheet uncluttered).*
-- [ ] **Glanceable `YeastCard` Items**:
+- [x] **Glanceable `YeastCard` Items**:
   - `RoundedCornerShape(16.dp)` card with subtle elevation and container tint.
   - Strain name in bold typography.
   - Scientific name in italicized typography.
   - Origin country flag & provenance.
-  - Discipline badge (`Beer`, `Mead`, `Cider`, `Multi-Discipline`).
-  - Classification badge (`Ale`, `Lager`, etc.).
-  - Fermentation metrics: Attenuation % range, Flocculation, Alcohol tolerance.
-  - Uncluttered genetic markers: minimal `STA1+` / `STA1-` and `POF+` / `POF-` chips without alarmist warning styling.
-  - Top flavor descriptors.
+  - Classification badge (`Ale`, `Lager`, etc.) aligned to the top-right header.
+  - Narrative overview description (3 lines max, ellipsis).
+  - Top flavor descriptors in a single-row scrollable strip.
   - Clickable card without trailing arrow.
-- [ ] **Zero-Result View**: Clean empty state with fermentation icon (`Icons.Default.BubbleChart`), bold headline `"No yeast strains found"`, subtitle `"Try adjusting your search query or filters."`, and `"Reset Filters"` action button.
+- [x] **Zero-Result View**: Clean empty state with fermentation icon (`Icons.Default.BubbleChart`), bold headline `"No yeast strains found"`, subtitle `"Try adjusting your search query or filters."`, and `"Reset Filters"` action button.
 
 ### 4. Yeast Detail Screen (`YeastDetailScreen` / `yeast_detail/{yeastId}`)
 Ordered precisely according to resolved design hierarchy using `RoundedCornerShape(16.dp)` cards:
@@ -113,8 +111,8 @@ Ordered precisely according to resolved design hierarchy using `RoundedCornerSha
    - Clickable cards showing Beer, Mead, or Cider styles linked to this strain. Tapping navigates to `style_detail/{id}/{guideline}`.
 
 ### 5. Cross-Cutting Integrations
-- [ ] **Navigation Drawer**: Add `Yeast` destination in `AppDrawer` with route `"yeasts"`, label `"Yeast"`, and icon `Icons.Default.BubbleChart`.
-- [ ] **Style Detail Screen (`StyleDetailScreen`)**: Add `CollapsibleCommonYeastsCard` displaying associated yeast strains with tap-through navigation to `YeastDetailScreen`.
+- [x] **Navigation Drawer**: Add `Yeast` destination in `AppDrawer` with route `"yeasts"`, label `"Yeast"`, and icon `Icons.Default.BubbleChart`.
+- [x] **Style Detail Screen (`StyleDetailScreen`)**: Add `CollapsibleCommonYeastsCard` displaying associated yeast strains with tap-through navigation to `YeastDetailScreen`.
 
 ---
 

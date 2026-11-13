@@ -1,6 +1,7 @@
 package com.bc.beerworks.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BubbleChart
 import androidx.compose.material.icons.filled.CandlestickChart
 import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.Nature
@@ -13,7 +14,7 @@ class AppDrawerTest {
     fun drawerDestinationItems_areNonNullAndContainsAllDestinations() {
         val items = DrawerDestination.items
 
-        assertThat(items).hasSize(7)
+        assertThat(items).hasSize(8)
         assertThat(items).doesNotContainNull()
         assertThat(items.map { it.route }).containsExactly(
             "style_list",
@@ -21,6 +22,7 @@ class AppDrawerTest {
             "malt",
             "honey",
             "pomes",
+            "yeasts",
             "review_history",
             "settings"
         )
@@ -28,6 +30,8 @@ class AppDrawerTest {
         assertThat(DrawerDestination.Malt.icon).isEqualTo(Icons.Default.CandlestickChart)
         assertThat(DrawerDestination.Malt.title).isEqualTo("Malts")
         assertThat(DrawerDestination.Pomes.icon).isEqualTo(Icons.Default.Nature)
+        assertThat(DrawerDestination.Yeast.icon).isEqualTo(Icons.Default.BubbleChart)
+        assertThat(DrawerDestination.Yeast.title).isEqualTo("Yeast")
     }
 
     @Test

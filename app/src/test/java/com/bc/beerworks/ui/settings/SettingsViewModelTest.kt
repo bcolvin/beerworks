@@ -1,6 +1,7 @@
 package com.bc.beerworks.ui.settings
 
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
 import com.bc.beerworks.data.repository.FakeBjcpDao
@@ -111,6 +112,46 @@ class SettingsViewModelTest {
         runCurrent()
 
         assertThat(viewModel.keepScreenOn.value).isFalse()
+        collectJob.cancel()
+    }
+
+    @Test
+    fun temperatureUnit_defaultsToFahrenheit() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager()
+        )
+
+        val viewModel = SettingsViewModel(repository)
+
+        assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.FAHRENHEIT)
+    }
+
+    @Test
+    fun onTemperatureUnitChange_updatesTemperatureUnit() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager()
+        )
+
+        val viewModel = SettingsViewModel(repository)
+        val collectJob = backgroundScope.launch {
+            viewModel.temperatureUnit.collect {}
+        }
+
+        viewModel.onTemperatureUnitChange(TemperatureUnit.CELSIUS)
+        runCurrent()
+
+        assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.CELSIUS)
+
+        viewModel.onTemperatureUnitChange(TemperatureUnit.FAHRENHEIT)
+        runCurrent()
+
+        assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.FAHRENHEIT)
         collectJob.cancel()
     }
 }

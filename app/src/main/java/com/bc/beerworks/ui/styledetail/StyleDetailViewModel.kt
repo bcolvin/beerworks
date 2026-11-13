@@ -8,11 +8,13 @@ import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.data.model.PomeVariety
+import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.data.repository.PomeRepository
+import com.bc.beerworks.data.repository.YeastRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +28,7 @@ class StyleDetailViewModel(
     private val maltRepository: MaltRepository? = null,
     private val honeyRepository: HoneyRepository? = null,
     private val pomeRepository: PomeRepository? = null,
+    private val yeastRepository: YeastRepository? = null,
     private val styleId: String,
     private val guidelineType: GuidelineType
 ) : ViewModel() {
@@ -68,6 +71,16 @@ class StyleDetailViewModel(
 
     val commonPomes: StateFlow<List<PomeVariety>> = if (pomeRepository != null) {
         pomeRepository.getPomesForStyle(styleId, guidelineType).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+    } else {
+        MutableStateFlow(emptyList())
+    }
+
+    val commonYeasts: StateFlow<List<YeastStrain>> = if (yeastRepository != null) {
+        yeastRepository.getYeastsForStyle(styleId, guidelineType).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()

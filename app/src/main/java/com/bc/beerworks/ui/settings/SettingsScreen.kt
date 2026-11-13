@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DeviceThermostat
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.ui.theme.BeerworksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +43,8 @@ fun SettingsContent(
     onGuidelineChange: (GuidelineType) -> Unit = {},
     keepScreenOn: Boolean = false,
     onKeepScreenOnChange: (Boolean) -> Unit = {},
+    temperatureUnit: TemperatureUnit = TemperatureUnit.FAHRENHEIT,
+    onTemperatureUnitChange: (TemperatureUnit) -> Unit = {},
     onMenuClick: () -> Unit
 ) {
     Scaffold(
@@ -113,6 +118,64 @@ fun SettingsContent(
                         checked = keepScreenOn,
                         onCheckedChange = onKeepScreenOnChange
                     )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Temperature Unit Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DeviceThermostat,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = "Temperature Unit",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "Display fermentation temperatures in Fahrenheit or Celsius.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        FilterChip(
+                            selected = temperatureUnit == TemperatureUnit.FAHRENHEIT,
+                            onClick = { onTemperatureUnitChange(TemperatureUnit.FAHRENHEIT) },
+                            label = { Text("°F") }
+                        )
+                        FilterChip(
+                            selected = temperatureUnit == TemperatureUnit.CELSIUS,
+                            onClick = { onTemperatureUnitChange(TemperatureUnit.CELSIUS) },
+                            label = { Text("°C") }
+                        )
+                    }
                 }
             }
 

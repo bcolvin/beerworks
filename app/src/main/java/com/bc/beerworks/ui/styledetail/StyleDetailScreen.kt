@@ -57,6 +57,7 @@ import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.data.model.PomeVariety
+import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
@@ -76,6 +77,8 @@ fun StyleDetailContent(
     onHoneyClick: (String) -> Unit = {},
     commonPomes: List<PomeVariety> = emptyList(),
     onPomeClick: (String) -> Unit = {},
+    commonYeasts: List<YeastStrain> = emptyList(),
+    onYeastClick: (String) -> Unit = {},
     nextStyle: BeerStyle? = null,
     onSwipeForward: () -> Unit = {},
     onSwipeBack: () -> Unit = onBackClick
@@ -233,6 +236,13 @@ fun StyleDetailContent(
                     CollapsibleCommonPomesCard(
                         commonPomes = commonPomes,
                         onPomeClick = onPomeClick
+                    )
+                }
+
+                if (commonYeasts.isNotEmpty()) {
+                    CollapsibleCommonYeastsCard(
+                        commonYeasts = commonYeasts,
+                        onYeastClick = onYeastClick
                     )
                 }
 
@@ -572,6 +582,70 @@ fun CollapsibleCommonPomesCard(
                         ) {
                             Text(
                                 text = "${pome.countryFlag} ${pome.name} (${pome.classification})",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CollapsibleCommonYeastsCard(
+    commonYeasts: List<YeastStrain>,
+    onYeastClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .clickable { expanded = !expanded },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Associated Yeast Strains (${commonYeasts.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            if (expanded) {
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    commonYeasts.forEach { yeast ->
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+                                .clickable { onYeastClick(yeast.id) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "${yeast.countryFlag} ${yeast.name} (${yeast.classification})",
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.primary

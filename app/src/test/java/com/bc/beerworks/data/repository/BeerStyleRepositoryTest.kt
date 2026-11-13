@@ -13,6 +13,7 @@ import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.TemperatureUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -86,10 +87,13 @@ class FakeFavDao : FavoriteStyleDao {
 class FakePrefsManager : PreferencesManager {
     private val flow = MutableStateFlow(GuidelineType.BJCP_2021)
     private val screenOnFlow = MutableStateFlow(false)
+    private val tempUnitFlow = MutableStateFlow(TemperatureUnit.FAHRENHEIT)
     override val selectedGuideline: Flow<GuidelineType> = flow
     override suspend fun setGuideline(guidelineType: GuidelineType) { flow.value = guidelineType }
     override val keepScreenOn: Flow<Boolean> = screenOnFlow
     override suspend fun setKeepScreenOn(enabled: Boolean) { screenOnFlow.value = enabled }
+    override val temperatureUnit: Flow<TemperatureUnit> = tempUnitFlow
+    override suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit) { tempUnitFlow.value = temperatureUnit }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

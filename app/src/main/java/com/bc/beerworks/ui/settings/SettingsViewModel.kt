@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,12 @@ class SettingsViewModel(
         initialValue = false
     )
 
+    val temperatureUnit: StateFlow<TemperatureUnit> = repository.temperatureUnit.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = TemperatureUnit.FAHRENHEIT
+    )
+
     fun onGuidelineChange(guidelineType: GuidelineType) {
         viewModelScope.launch {
             repository.setGuideline(guidelineType)
@@ -34,6 +41,12 @@ class SettingsViewModel(
     fun onKeepScreenOnChange(enabled: Boolean) {
         viewModelScope.launch {
             repository.setKeepScreenOn(enabled)
+        }
+    }
+
+    fun onTemperatureUnitChange(unit: TemperatureUnit) {
+        viewModelScope.launch {
+            repository.setTemperatureUnit(unit)
         }
     }
 }

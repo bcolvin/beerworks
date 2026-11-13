@@ -14,6 +14,7 @@ import com.bc.beerworks.data.model.BaseStyleGroup
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.TemperatureUnit
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -59,6 +60,12 @@ class BeerStyleRepository(
 
     suspend fun setKeepScreenOn(enabled: Boolean) {
         preferencesManager.setKeepScreenOn(enabled)
+    }
+
+    val temperatureUnit: Flow<TemperatureUnit> = preferencesManager.temperatureUnit
+
+    suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit) {
+        preferencesManager.setTemperatureUnit(temperatureUnit)
     }
 
     fun getFavoriteIds(): Flow<List<String>> = favoriteStyleDao.getAllFavoriteIds()

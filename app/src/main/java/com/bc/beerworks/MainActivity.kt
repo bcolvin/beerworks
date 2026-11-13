@@ -37,6 +37,7 @@ import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.data.repository.PomeRepository
+import com.bc.beerworks.data.repository.YeastRepository
 import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
@@ -65,6 +66,10 @@ import com.bc.beerworks.ui.styledetail.StyleDetailViewModel
 import com.bc.beerworks.ui.stylelist.StyleListContent
 import com.bc.beerworks.ui.stylelist.StyleListViewModel
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import com.bc.beerworks.ui.yeastdetail.YeastDetailScreen
+import com.bc.beerworks.ui.yeastdetail.YeastDetailViewModel
+import com.bc.beerworks.ui.yeasts.YeastsContent
+import com.bc.beerworks.ui.yeasts.YeastsViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -93,6 +98,7 @@ fun BeerworksApp() {
     val maltRepository = remember { MaltRepository(database) }
     val honeyRepository = remember { HoneyRepository(database) }
     val pomeRepository = remember { PomeRepository(database) }
+    val yeastRepository = remember { YeastRepository(database) }
 
     val keepScreenOn by prefsManager.keepScreenOn.collectAsState(initial = false)
     val selectedGuideline by repository.selectedGuideline.collectAsState(initial = GuidelineType.BJCP_2021)
@@ -361,6 +367,41 @@ fun BeerworksApp() {
                 )
             }
 
+            composable("yeasts") {
+                val viewModel: YeastsViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return YeastsViewModel(yeastRepository, prefsManager) as T
+                        }
+                    }
+                )
+
+                val criteria by viewModel.filterCriteria.collectAsState()
+                val yeasts by viewModel.yeasts.collectAsState()
+                val classifications by viewModel.classifications.collectAsState()
+                val flocculations by viewModel.flocculations.collectAsState()
+                val temperatureUnit by viewModel.temperatureUnit.collectAsState()
+
+                YeastsContent(
+                    yeasts = yeasts,
+                    criteria = criteria,
+                    classifications = classifications,
+                    flocculations = flocculations,
+                    temperatureUnit = temperatureUnit,
+                    onQueryChange = viewModel::onQueryChange,
+                    onClassificationSelected = viewModel::onClassificationSelected,
+                    onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+                    onResetFilters = viewModel::resetFilters,
+                    onYeastClick = { yeastId ->
+                        navController.navigate("yeast_detail/$yeastId")
+                    },
+                    onMenuClick = {
+                        scope.launch { drawerState.open() }
+                    }
+                )
+            }
+
             composable("review_history") {
                 ReviewHistoryContent(
                     onMenuClick = {
@@ -379,10 +420,13 @@ fun BeerworksApp() {
                     }
                 )
                 val isScreenOn by settingsViewModel.keepScreenOn.collectAsState()
+                val temperatureUnit by settingsViewModel.temperatureUnit.collectAsState()
 
                 SettingsContent(
                     keepScreenOn = isScreenOn,
                     onKeepScreenOnChange = settingsViewModel::onKeepScreenOnChange,
+                    temperatureUnit = temperatureUnit,
+                    onTemperatureUnitChange = settingsViewModel::onTemperatureUnitChange,
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -405,7 +449,7 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, pomeRepository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, pomeRepository, yeastRepository, styleId, guidelineType) as T
                         }
                     }
                 )
@@ -416,6 +460,7 @@ fun BeerworksApp() {
                 val commonMalts by viewModel.commonMalts.collectAsState()
                 val commonHoneys by viewModel.commonHoneys.collectAsState()
                 val commonPomes by viewModel.commonPomes.collectAsState()
+                val commonYeasts by viewModel.commonYeasts.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
@@ -437,6 +482,10 @@ fun BeerworksApp() {
                         commonPomes = commonPomes,
                         onPomeClick = { pomeId ->
                             navController.navigate("pome_detail/$pomeId")
+                        },
+                        commonYeasts = commonYeasts,
+                        onYeastClick = { yeastId ->
+                            navController.navigate("yeast_detail/$yeastId")
                         },
                         nextStyle = nextStyle,
                         onSwipeForward = {
@@ -573,6 +622,36 @@ fun BeerworksApp() {
                     onBackClick = { navController.popBackStack() },
                     onPomeClick = { targetPomeId ->
                         navController.navigate("pome_detail/$targetPomeId")
+                    },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
+            }
+
+            composable(
+                route = "yeast_detail/{yeastId}",
+                arguments = listOf(
+                    navArgument("yeastId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val yeastId = backStackEntry.arguments?.getString("yeastId") ?: ""
+
+                val viewModel: YeastDetailViewModel = viewModel(
+                    key = "yeast_$yeastId",
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return YeastDetailViewModel(yeastRepository, repository, prefsManager, yeastId) as T
+                        }
+                    }
+                )
+
+                YeastDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onYeastClick = { targetYeastId ->
+                        navController.navigate("yeast_detail/$targetYeastId")
                     },
                     onStyleClick = { style ->
                         navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")

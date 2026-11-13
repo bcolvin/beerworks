@@ -71,7 +71,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Navigation drawer integration with `Nature` icon for Pomes and `Grass` (wheat/stalks) icon for Malt.
   - Bidirectional relational cross-referencing between pome varieties and BJCP Cider styles (C1A–C2F) and Mead Cysers (M2B).
 
-- [ ] **Yeast Strains Database & Fermentation Profiles (Feature 008)**
+- [x] **Yeast Strains Database & Fermentation Profiles (Feature 008)**
   - Comprehensive catalog of ~50 canonical brewing, cider, and mead yeast strains (American Ale, English, Belgian, German/Lager, Kveik, Wild/Bacteria, Mead/Wine, Cider).
   - Commercial lab cross-referencing (White Labs, Wyeast, Fermentis, Lallemand, Imperial, Omega, etc.) with sub-millisecond FTS search on vendor codes (e.g. "US-05", "WLP001", "1056").
   - Physiological metrics: Attenuation % range, Flocculation tier, Alcohol tolerance (% ABV), and optimum fermentation temperature range.
@@ -80,3 +80,22 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Custom 8-axis yeast sensory radar chart (Clean, Fruity, Spicy, Tart, Funky, Sulfury, Alcohol, Mouthfeel).
   - Navigation drawer integration with `BubbleChart` icon.
   - Bidirectional relational cross-referencing between yeast strains and Beer, Mead, and Cider styles.
+
+---
+
+## 🏗️ Planned Architectural Deepening (Upcoming Enhancements)
+
+- [ ] **Consolidate Shallow Ingredient Detail ViewModels (Architecture Candidate 1)**
+  - Replace five separate pass-through view models (`HopDetailViewModel`, `MaltDetailViewModel`, `HoneyDetailViewModel`, `PomeDetailViewModel`, `YeastDetailViewModel`) with a single deep generic `IngredientDetailViewModel<T : Ingredient>`.
+  - Maximize leverage from the unified `IngredientRepository` seam (ADR 0006) across all ingredient disciplines.
+  - Unify detail lifecycle state emission, substitute resolution, and style favorite toggling into one thoroughly tested interface.
+
+- [ ] **Deepen Style-to-Ingredient Association in StyleDetailViewModel (Architecture Candidate 2)**
+  - Consolidate five separate ingredient repositories and five separate StateFlow streams in `StyleDetailViewModel` into a unified `StyleIngredients` stream aggregated at the data seam.
+  - Shrink the `StyleDetailViewModel` constructor interface from six dependencies down to two (`BeerStyleRepository`, `styleId`).
+  - Isolate ingredient cross-referencing entirely within the data layer so future ingredients require zero ViewModel or navigation wiring changes.
+
+- [ ] **Decompose Monolithic DatabaseInitializer into Focused Domain Seeders (Architecture Candidate 4)**
+  - Decompose the 700-line procedural seeder into isolated, self-contained `DomainSeeder` modules (`StyleSeeder`, `HopSeeder`, `MaltSeeder`, `HoneySeeder`, `PomeSeeder`, `YeastSeeder`).
+  - Encapsulate raw JSON DTOs and Gson mapping logic privately within each seeder.
+  - Coordinate seeding through a lightweight asynchronous runner executing independent datasets in parallel on the background dispatcher pool.
