@@ -70,3 +70,13 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Custom 8-axis pome sensory radar chart (Acidity/Sharpness, Tannin/Bitterness, Fresh Fruit, Baked/Ripe Fruit, Citrus & Tropical, Floral & Herbal, Earthy & Farmhouse, Sweet & Confectionary).
   - Navigation drawer integration with `Nature` icon for Pomes and `Grass` (wheat/stalks) icon for Malt.
   - Bidirectional relational cross-referencing between pome varieties and BJCP Cider styles (C1A–C2F) and Mead Cysers (M2B).
+
+- [ ] **Yeast Strains Database & Fermentation Profiles (Feature 008)**
+  - Comprehensive catalog of ~50 canonical brewing, cider, and mead yeast strains (American Ale, English, Belgian, German/Lager, Kveik, Wild/Bacteria, Mead/Wine, Cider).
+  - Commercial lab cross-referencing (White Labs, Wyeast, Fermentis, Lallemand, Imperial, Omega, etc.) with sub-millisecond FTS search on vendor codes (e.g. "US-05", "WLP001", "1056").
+  - Physiological metrics: Attenuation % range, Flocculation tier, Alcohol tolerance (% ABV), and optimum fermentation temperature range.
+  - User-configurable temperature unit preference (Fahrenheit / Celsius) in Settings.
+  - Clean genetic status tags (`STA1+/-`, `POF+/-`) without alarmist clutter.
+  - Custom 8-axis yeast sensory radar chart (Clean, Fruity, Spicy, Tart, Funky, Sulfury, Alcohol, Mouthfeel).
+  - Navigation drawer integration with `BubbleChart` icon.
+  - Bidirectional relational cross-referencing between yeast strains and Beer, Mead, and Cider styles.

@@ -7,7 +7,7 @@ Domain terminology for beer style reference guidelines, hop varieties, and senso
 ### Core Ingredient Architecture
 
 **Ingredient**:
-A canonical botanical, grain, or fermentable ingredient (Hops, Malts, Honey, or Pomes) providing flavor, aroma, color, or fermentable sugars, sharing common catalog attributes (identity, botanical provenance, geographic origin, descriptors, sensory profiles, and beverage style pairings).
+A canonical botanical, grain, or fermentable ingredient (Hops, Malts, Honey, Pomes, or Yeast) providing flavor, aroma, color, fermentable sugars, or fermentation character, sharing common catalog attributes (identity, botanical provenance, geographic origin, descriptors, sensory profiles, and beverage style pairings).
 _Avoid_: Raw material, brewing component, supply item
 
 ### Hops & Ingredients
@@ -179,6 +179,52 @@ _Avoid_: Cider spider graph, apple flavor wheel
 **Pome Substitute**:
 A pome fruit variety possessing sufficiently similar classification, tannin structure, and acid balance to serve as an interchangeable alternative in blending or single-varietal cidermaking.
 _Avoid_: Replacement apple, alternative pome
+
+### Yeast & Fermentation Cultures
+
+**Yeast Strain**:
+A distinct cultivated biological culture or isolate of fermentative yeast or brewing bacteria defined by specific physiological, attenuation, flocculation, and flavor profiles.
+_Avoid_: Yeast variety, yeast type, bug, culture
+
+**Microorganism Classification**:
+The biological and brewing classification of the fermentation culture: Ale (*Saccharomyces cerevisiae*), Lager (*Saccharomyces pastorianus*), Wheat/Weizen, Kveik, Wild (*Brettanomyces*), Bacteria (*Lactobacillus* or *Pediococcus*), or Wine / Mead / Cider.
+_Avoid_: Yeast class, bug species, culture type
+
+**Attenuation**:
+The percentage of wort or must sugars converted into alcohol and carbon dioxide during fermentation, categorized into minimum and maximum apparent attenuation ranges.
+_Avoid_: Fermentation depth, sugar uptake
+
+**Flocculation**:
+The tendency of yeast cells to clump together into flocs and settle out of suspension toward the end of fermentation: Low, Medium, Medium-High, High, or Very High.
+_Avoid_: Settling speed, sediment drop, dropping out
+
+**Alcohol Tolerance**:
+The maximum ethanol concentration (% ABV) a yeast strain can withstand before cell viability and fermentation activity cease.
+_Avoid_: Kill level, ABV ceiling, alcohol limit
+
+**Optimum Temperature Range**:
+The recommended temperature band (°F / °C) for active fermentation that balances attenuation velocity with desirable ester and higher-alcohol production.
+_Avoid_: Working temp, pitching band
+
+**Diastaticus (STA1)**:
+The presence of the *STA1* gene encoding extracellular glucoamylase, which hydrolyzes unfermentable dextrins and risks super-attenuation, bottle gushing, or cross-contamination in breweries.
+_Avoid_: Wild gene, creeper strain
+
+**Phenolic Off-Flavor (POF)**:
+The genetic ability of a yeast strain (POF+) to enzymatically decarboxylate hydroxycinnamic acids into 4-vinyl guaiacol (clove-like phenols), required in German wheat and Belgian ales but considered a defect in clean lagers and American ales.
+_Avoid_: Clove gene, spicy trait
+
+**Commercial Yeast Equivalents**:
+Representative commercial offerings across liquid and dry yeast laboratories (e.g., White Labs, Wyeast, Fermentis, Lallemand, Imperial, Omega) that isolate or package the canonical strain.
+_Avoid_: Yeast brands, vendor codes
+
+**Yeast Sensory Radar Chart**:
+An 8-axis radial polygon chart plotting quantitative sensory intensity (0–5) across primary fermentation aroma and flavor dimensions: Clean/Neutral, Fruity Esters, Spicy Phenols, Tart/Acidity, Funky/Earthy, Sulfury/Crisp, Alcohol/Warmth, and Mouthfeel/Sweetness Retention.
+_Avoid_: Yeast spider graph, fermentation flavor wheel
+
+**Yeast Substitute**:
+A yeast strain possessing sufficiently similar attenuation, flocculation, temperature tolerance, and sensory profile to serve as an interchangeable alternative in recipe design.
+_Avoid_: Replacement strain, alternative yeast
 
 ### Mead & Alternative Guidelines
 
