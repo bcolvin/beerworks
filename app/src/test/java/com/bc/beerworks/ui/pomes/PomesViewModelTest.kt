@@ -129,17 +129,7 @@ class PomesViewModelTest {
             testDispatcher
         )
 
-        val styleRepo = BeerStyleRepository(
-            mockBjcp,
-            mockBa,
-            mockFav,
-            prefs,
-            testDispatcher,
-            mockMead,
-            mockCider
-        )
-
-        return PomesViewModel(pomeRepo, styleRepo)
+        return PomesViewModel(pomeRepo)
     }
 
     @Test
@@ -209,7 +199,7 @@ class PomesViewModelTest {
     }
 
     @Test
-    fun resetFilters_clearsAllCriteria() = runTest {
+    fun resetFilters_preservesQueryAndClearsOtherFilters() = runTest {
         val viewModel = createViewModel()
         val job = launch { viewModel.pomes.collect {} }
         runCurrent()
@@ -224,8 +214,9 @@ class PomesViewModelTest {
         viewModel.resetFilters()
         runCurrent()
 
-        assertThat(viewModel.filterCriteria.value).isEqualTo(PomeFilterCriteria())
-        assertThat(viewModel.filterCriteria.value.isFilterActive).isFalse()
+        assertThat(viewModel.filterCriteria.value).isEqualTo(PomeFilterCriteria(query = "apple"))
+        assertThat(viewModel.filterCriteria.value.selectedFruitType).isNull()
+        assertThat(viewModel.filterCriteria.value.selectedClassification).isNull()
         job.cancel()
     }
 }

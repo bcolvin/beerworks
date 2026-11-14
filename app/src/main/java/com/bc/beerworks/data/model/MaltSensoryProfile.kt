@@ -12,13 +12,15 @@ data class MaltSensoryProfile(
     val chocolate: Float = 0f,
     val roastCoffee: Float = 0f,
     val grainyHusky: Float = 0f
-) {
-    fun hasData(): Boolean {
+) : SensoryProfile {
+    override val defaultStrokeColorHex: Long = 0xFFD97706
+
+    override fun hasData(): Boolean {
         return maltySweet > 0f || breadyBiscuit > 0f || toasty > 0f || caramelToffee > 0f ||
                 nutty > 0f || chocolate > 0f || roastCoffee > 0f || grainyHusky > 0f
     }
 
-    fun toAxisMap(): List<Pair<String, Float>> {
+    override fun toAxisMap(): List<Pair<String, Float>> {
         return listOf(
             "Sweet" to maltySweet,
             "Biscuit" to breadyBiscuit,

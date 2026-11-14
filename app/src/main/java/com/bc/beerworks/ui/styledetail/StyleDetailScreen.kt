@@ -36,6 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,6 +60,41 @@ import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
+
+@Composable
+fun StyleDetailScreen(
+    viewModel: StyleDetailViewModel,
+    onBackClick: () -> Unit,
+    onHopClick: (String) -> Unit,
+    onMaltClick: (String) -> Unit,
+    onHoneyClick: (String) -> Unit,
+    onPomeClick: (String) -> Unit,
+    onYeastClick: (String) -> Unit,
+    onNavigateToStyle: (BeerStyle) -> Unit
+) {
+    val style by viewModel.style.collectAsState()
+    val nextStyle by viewModel.nextStyle.collectAsState()
+    val ingredients by viewModel.ingredients.collectAsState()
+
+    style?.let { beerStyle ->
+        StyleDetailContent(
+            style = beerStyle,
+            onBackClick = onBackClick,
+            onToggleFavorite = viewModel::toggleFavorite,
+            ingredients = ingredients,
+            onHopClick = onHopClick,
+            onMaltClick = onMaltClick,
+            onHoneyClick = onHoneyClick,
+            onPomeClick = onPomeClick,
+            onYeastClick = onYeastClick,
+            nextStyle = nextStyle,
+            onSwipeForward = {
+                nextStyle?.let(onNavigateToStyle)
+            },
+            onSwipeBack = onBackClick
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

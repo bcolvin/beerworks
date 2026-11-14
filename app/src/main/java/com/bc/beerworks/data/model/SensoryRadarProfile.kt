@@ -12,13 +12,13 @@ data class SensoryRadarProfile(
     val piney: Float = 0f,
     val earthy: Float = 0f,
     val grassy: Float = 0f
-) {
-    fun hasData(): Boolean {
+) : SensoryProfile {
+    override fun hasData(): Boolean {
         return citrus > 0f || tropical > 0f || floral > 0f || herbal > 0f ||
                 spicy > 0f || piney > 0f || earthy > 0f || grassy > 0f
     }
 
-    fun toAxisMap(): List<Pair<String, Float>> {
+    override fun toAxisMap(): List<Pair<String, Float>> {
         return listOf(
             "Citrus" to citrus,
             "Tropical" to tropical,

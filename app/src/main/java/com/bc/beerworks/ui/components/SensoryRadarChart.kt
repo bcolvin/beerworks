@@ -20,11 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bc.beerworks.data.model.HoneySensoryProfile
-import com.bc.beerworks.data.model.MaltSensoryProfile
-import com.bc.beerworks.data.model.PomeSensoryProfile
-import com.bc.beerworks.data.model.SensoryRadarProfile
-import com.bc.beerworks.data.model.YeastSensoryProfile
+import com.bc.beerworks.data.model.SensoryProfile
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -155,90 +151,10 @@ fun SensoryRadarChart(
 
 @Composable
 fun SensoryRadarChart(
-    profile: SensoryRadarProfile,
+    profile: SensoryProfile,
     modifier: Modifier = Modifier,
-    fillColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f),
-    strokeColor: Color = MaterialTheme.colorScheme.primary,
-    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-    labelColor: Color = MaterialTheme.colorScheme.onSurface
-) {
-    val axisData = remember(profile) { profile.toAxisMap() }
-    SensoryRadarChart(
-        axisData = axisData,
-        modifier = modifier,
-        fillColor = fillColor,
-        strokeColor = strokeColor,
-        gridColor = gridColor,
-        labelColor = labelColor
-    )
-}
-
-@Composable
-fun SensoryRadarChart(
-    profile: MaltSensoryProfile,
-    modifier: Modifier = Modifier,
-    fillColor: Color = Color(0xFFD97706).copy(alpha = 0.35f),
-    strokeColor: Color = Color(0xFFD97706),
-    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-    labelColor: Color = MaterialTheme.colorScheme.onSurface
-) {
-    val axisData = remember(profile) { profile.toAxisMap() }
-    SensoryRadarChart(
-        axisData = axisData,
-        modifier = modifier,
-        fillColor = fillColor,
-        strokeColor = strokeColor,
-        gridColor = gridColor,
-        labelColor = labelColor
-    )
-}
-
-@Composable
-fun SensoryRadarChart(
-    profile: HoneySensoryProfile,
-    modifier: Modifier = Modifier,
-    fillColor: Color = Color(0xFFE5A910).copy(alpha = 0.35f),
-    strokeColor: Color = Color(0xFFE5A910),
-    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-    labelColor: Color = MaterialTheme.colorScheme.onSurface
-) {
-    val axisData = remember(profile) { profile.toAxisMap() }
-    SensoryRadarChart(
-        axisData = axisData,
-        modifier = modifier,
-        fillColor = fillColor,
-        strokeColor = strokeColor,
-        gridColor = gridColor,
-        labelColor = labelColor
-    )
-}
-
-@Composable
-fun SensoryRadarChart(
-    profile: PomeSensoryProfile,
-    modifier: Modifier = Modifier,
-    fillColor: Color = Color(0xFF4D7C0F).copy(alpha = 0.35f),
-    strokeColor: Color = Color(0xFF4D7C0F),
-    gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-    labelColor: Color = MaterialTheme.colorScheme.onSurface
-) {
-    val axisData = remember(profile) { profile.toAxisMap() }
-    SensoryRadarChart(
-        axisData = axisData,
-        modifier = modifier,
-        fillColor = fillColor,
-        strokeColor = strokeColor,
-        gridColor = gridColor,
-        labelColor = labelColor
-    )
-}
-
-@Composable
-fun SensoryRadarChart(
-    profile: YeastSensoryProfile,
-    modifier: Modifier = Modifier,
-    fillColor: Color = Color(0xFFD97706).copy(alpha = 0.35f),
-    strokeColor: Color = Color(0xFFD97706),
+    strokeColor: Color = profile.defaultStrokeColorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
+    fillColor: Color = strokeColor.copy(alpha = 0.35f),
     gridColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
     labelColor: Color = MaterialTheme.colorScheme.onSurface
 ) {

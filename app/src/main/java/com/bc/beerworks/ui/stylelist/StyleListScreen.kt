@@ -46,6 +46,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,6 +78,43 @@ import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+
+@Composable
+fun StyleListScreen(
+    viewModel: StyleListViewModel,
+    onCategoryClick: (BaseStyleGroup) -> Unit,
+    onStyleClick: (BeerStyle) -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val groupedStyles by viewModel.groupedStyles.collectAsState()
+    val expandedCategoryNumber by viewModel.expandedCategoryNumber.collectAsState()
+    val criteria by viewModel.filterCriteria.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val selectedGuideline by viewModel.selectedGuideline.collectAsState()
+
+    StyleListContent(
+        groupedStyles = groupedStyles,
+        expandedCategoryNumber = expandedCategoryNumber,
+        criteria = criteria,
+        categories = categories,
+        selectedGuideline = selectedGuideline,
+        onGuidelineChange = viewModel::onGuidelineChange,
+        onQueryChange = viewModel::onQueryChange,
+        onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+        onResetFilters = viewModel::resetFilters,
+        onCategoryClick = { group ->
+            viewModel.setExpandedCategory(group.categoryNumber)
+            onCategoryClick(group)
+        },
+        onToggleExpand = viewModel::toggleCategoryExpansion,
+        onStyleClick = { style ->
+            viewModel.setExpandedCategory(style.categoryNumber)
+            onStyleClick(style)
+        },
+        onToggleFavorite = viewModel::toggleFavorite,
+        onMenuClick = onMenuClick
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

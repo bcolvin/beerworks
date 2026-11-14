@@ -47,8 +47,8 @@ Provide an offline-first, visually rich reference database of canonical brewing 
   - `MaltVarietyFtsEntity`: SQLite FTS4 virtual table indexing `name`, `origin`, `description`, `typicalUsage`, `functionalTags`, `descriptors`, and `commercialExamples` for sub-millisecond full-text queries.
   - `MaltStyleCrossRef`: Relational join table keyed on `(maltId, styleId, guidelineType)` with composite index for bidirectional style queries.
 - [x] **Room Database Migration (v3 -> v4)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/favorites data.
-- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `malts.json` on startup in the background without main-thread blocking.
-- [x] **Repository Layer (`MaltRepository`)**: Expose distinct flows for catalog search/filtering, individual malt details, and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Database Preloading (`MaltSeeder`)**: `DatabaseInitializer` delegates to `MaltSeeder` (`DomainSeeder`) to seed Room tables from `malts.json` on startup in the background (with idempotent count checks) without main-thread blocking.
+- [x] **Repository Layer (`MaltRepository`)**: Concrete subclass of `BaseIngredientRepository<MaltVarietyEntity, MaltVariety, MaltFilterCriteria>` exposing catalog search/filtering, individual malt details (`IngredientDetailViewModel<MaltVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Malt Catalog List Screen (`MaltScreen`)
 - [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `StyleListScreen`.

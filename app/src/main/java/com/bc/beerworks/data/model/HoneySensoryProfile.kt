@@ -12,13 +12,15 @@ data class HoneySensoryProfile(
     val nuttyWoody: Float = 0f,
     val earthyMineral: Float = 0f,
     val animalPungent: Float = 0f
-) {
-    fun hasData(): Boolean {
+) : SensoryProfile {
+    override val defaultStrokeColorHex: Long = 0xFFE5A910
+
+    override fun hasData(): Boolean {
         return floral > 0f || fruity > 0f || herbalFresh > 0f || spicyWarm > 0f ||
                 sweetConfectionary > 0f || nuttyWoody > 0f || earthyMineral > 0f || animalPungent > 0f
     }
 
-    fun toAxisMap(): List<Pair<String, Float>> {
+    override fun toAxisMap(): List<Pair<String, Float>> {
         return listOf(
             "Floral" to floral,
             "Fruity" to fruity,

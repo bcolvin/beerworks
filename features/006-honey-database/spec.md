@@ -50,8 +50,8 @@ Provide an offline-first, visually rich reference database of canonical varietal
   - `HoneyVarietyFtsEntity`: SQLite FTS4 virtual table indexing `name`, `botanicalSource`, `origin`, `description`, `fermentationBehavior`, `descriptors`, and `pairingNotes` for sub-millisecond full-text search.
   - `HoneyStyleCrossRef`: Relational join table keyed on `(honeyId, styleId, guidelineType)` with composite index for bidirectional style queries.
 - [x] **Room Database Migration (v6 -> v7)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/favorites data.
-- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `honeys.json` on startup in the background without main-thread blocking.
-- [x] **Repository Layer (`HoneyRepository`)**: Expose distinct flows for catalog search/filtering, individual honey details, and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Database Preloading (`HoneySeeder`)**: `DatabaseInitializer` delegates to `HoneySeeder` (`DomainSeeder`) to seed Room tables from `honeys.json` on startup in the background (with idempotent count checks) without main-thread blocking.
+- [x] **Repository Layer (`HoneyRepository`)**: Concrete subclass of `BaseIngredientRepository<HoneyVarietyEntity, HoneyVariety, HoneyFilterCriteria>` exposing catalog search/filtering, individual honey details (`IngredientDetailViewModel<HoneyVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Honey Catalog List Screen (`HoneyScreen` / route: `"honey"`)
 - [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `MaltScreen`.

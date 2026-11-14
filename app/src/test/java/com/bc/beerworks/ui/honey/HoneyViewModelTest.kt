@@ -99,17 +99,8 @@ class HoneyViewModelTest {
             mockCider,
             testDispatcher
         )
-        val styleRepo = BeerStyleRepository(
-            mockBjcp,
-            mockBa,
-            mockFav,
-            prefs,
-            testDispatcher,
-            mockMead,
-            mockCider
-        )
 
-        return HoneyViewModel(honeyRepo, styleRepo)
+        return HoneyViewModel(honeyRepo)
     }
 
     @Test

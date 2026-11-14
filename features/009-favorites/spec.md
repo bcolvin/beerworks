@@ -16,6 +16,8 @@ Provide a unified, offline-first **Favorites** screen accessible from the naviga
 
 ## 📚 Domain & Architecture References
 - **Domain Vocabulary**: Strictly adhere to `GLOSSARY.md` (`Favorite`, `Beverage Discipline`, `Beer Style`, `Mead Style`, `Cider Style`, `Ingredient`, `Hop Variety`, `Malt Variety`, `Honey Variety`, `Pome Variety`, `Yeast Strain`).
+- **Architectural Decisions**:
+  - `docs/adr/0006-unified-generic-ingredient-repository.md`: Unified `StyleEntity.toDomainModel(isFavorite)`, `BaseIngredientRepository` favorite operations (`isFavorite`, `getFavoriteItems`, `toggleFavorite`), polymorphic `Ingredient.matchesQuery(query)`, generic `IngredientDetailViewModel<T : Ingredient>`, and cross-discipline `IngredientCatalogRepository`.
 - **Performance & UI Standards**: Follow `GEMINI.md`:
   - Compose `@Immutable` state models.
   - Offload Flow combining, filtering, and sorting to `Dispatchers.Default` via `.flowOn(Dispatchers.Default)`.
@@ -30,9 +32,12 @@ Provide a unified, offline-first **Favorites** screen accessible from the naviga
 ### 1. Data & Persistence Layer
 - [x] **Cross-Guideline Favorite Styles Resolution**:
   - Add `getAllFavorites(): Flow<List<FavoriteStyleEntity>>` to `FavoriteStyleDao` (`SELECT * FROM favorite_styles`).
-  - Expose `getAllFavoriteStyles(): Flow<List<BeerStyle>>` in `BeerStyleRepository` that resolves favorited styles across all four guideline tables (`bjcp_styles`, `ba_styles`, `mead_styles`, `cider_styles`) regardless of the currently active Style Guide guideline.
-- [x] **Favorite Ingredients Resolution**:
-  - Expose flows to resolve favorited `HopVariety`, `MaltVariety`, `HoneyVariety`, `PomeVariety`, and `YeastStrain` items from `favorite_ingredients` (`FavoriteIngredientDao`).
+  - Expose `getAllFavoriteStyles(): Flow<List<BeerStyle>>` in `BeerStyleRepository` that resolves favorited styles across all four guideline tables (`bjcp_styles`, `ba_styles`, `mead_styles`, `cider_styles`) using `StyleEntity.toDomainModel(isFavorite = true)` regardless of the currently active Style Guide guideline.
+  - Propagate live `FavoriteStyleDao` state into `BaseIngredientRepository.getCommonStylesForItem(id)` so style cards on ingredient detail screens reflect real-time favorite status across all guidelines.
+- [x] **Favorite Ingredients Resolution (`BaseIngredientRepository` & `IngredientCatalogRepository`)**:
+  - Centralize `isFavorite(id)`, `getFavoriteItems()`, and `toggleFavorite(id, currentFavorite)` inside `BaseIngredientRepository` backed by `FavoriteIngredientDao` and `ingredientType`.
+  - Aggregate all five ingredient disciplines (`Hops`, `Malts`, `Honey`, `Pomes`, `Yeast`) in `IngredientCatalogRepository.getFavoriteIngredients(): Flow<StyleIngredients>` and `removeFavoriteIngredient(type, id)`.
+  - Encapsulate per-discipline keyword matching in `Ingredient.matchesQuery(query)` (with overrides on `HopVariety`, `MaltVariety`, `HoneyVariety`, `PomeVariety`, and `YeastStrain`).
 - [x] **Canonical Ordering (No DB Migration)**:
   - Sections are ordered in canonical drawer order: **Styles → Hops → Malts → Honey → Pomes → Yeast**.
   - Within **Styles**, sort by `GuidelineType` ordinal (`BJCP_2021`, `BA_2026`, `BJCP_MEAD`, `BJCP_CIDER`), then category number, then style number.
@@ -90,7 +95,9 @@ Provide a unified, offline-first **Favorites** screen accessible from the naviga
 ## 🧪 Verification & Testing Strategy
 - **Unit Tests**:
   - `BeerStyleRepositoryTest`: Verify `getAllFavoriteStyles()` returns favorited styles across BJCP 2021, BA 2026, BJCP Mead, and BJCP Cider guidelines in canonical order.
-  - `FavoritesViewModelTest`: Verify reactive aggregation across styles and all 5 ingredient repositories, keyword search filtering, discipline chip toggling, and swipe-remove confirmation / preference updates.
+  - `BaseIngredientRepositoryTest`: Verify live favorite style resolution across guidelines and ingredient favorite toggling.
+  - `IngredientDetailViewModelTest`: Verify generic `IngredientDetailViewModel<T : Ingredient>` state emission, `relatedItemsProvider` lineage resolution, ingredient favorite toggling, and style favorite toggling.
+  - `FavoritesViewModelTest`: Verify reactive aggregation via `IngredientCatalogRepository`, polymorphic `Ingredient.matchesQuery(query)` filtering, discipline chip toggling, and swipe-remove confirmation / preference updates.
   - `SettingsViewModelTest`: Verify `confirmFavoriteRemoval` state and toggle updates.
 - **UI / Compose Tests**:
   - Verify `AppDrawer` renders `"Favorites"` above `"Review History"`.

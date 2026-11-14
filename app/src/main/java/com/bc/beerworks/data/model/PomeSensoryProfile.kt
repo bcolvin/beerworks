@@ -12,13 +12,15 @@ data class PomeSensoryProfile(
     val floralHerbal: Float = 0f,
     val earthyFarmhouse: Float = 0f,
     val sweetConfectionary: Float = 0f
-) {
-    fun hasData(): Boolean {
+) : SensoryProfile {
+    override val defaultStrokeColorHex: Long = 0xFF4D7C0F
+
+    override fun hasData(): Boolean {
         return aciditySharpness > 0f || tanninBitterness > 0f || freshFruit > 0f || bakedFruit > 0f ||
                 citrusTropical > 0f || floralHerbal > 0f || earthyFarmhouse > 0f || sweetConfectionary > 0f
     }
 
-    fun toAxisMap(): List<Pair<String, Float>> {
+    override fun toAxisMap(): List<Pair<String, Float>> {
         return listOf(
             "Acidity" to aciditySharpness,
             "Tannin" to tanninBitterness,

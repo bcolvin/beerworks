@@ -174,7 +174,7 @@ class YeastsViewModelTest {
     }
 
     @Test
-    fun resetFilters_clearsAllCriteria() = runTest {
+    fun resetFilters_preservesQueryAndClearsOtherCriteria() = runTest {
         viewModel.onQueryChange("search")
         viewModel.onClassificationSelected("Ale")
         viewModel.onMinAttenuationChange(75.0)
@@ -183,7 +183,9 @@ class YeastsViewModelTest {
         viewModel.resetFilters()
         runCurrent()
 
-        assertThat(viewModel.filterCriteria.value).isEqualTo(YeastFilterCriteria())
+        assertThat(viewModel.filterCriteria.value).isEqualTo(YeastFilterCriteria(query = "search"))
+        assertThat(viewModel.filterCriteria.value.selectedClassification).isNull()
+        assertThat(viewModel.filterCriteria.value.minAttenuation).isNull()
     }
 
     @Test

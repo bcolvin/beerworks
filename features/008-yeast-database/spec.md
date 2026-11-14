@@ -55,8 +55,8 @@ Provide an offline-first, technically detailed reference database of canonical b
   - `YeastStrainFtsEntity`: SQLite FTS4 virtual table indexing `name`, `scientificName`, `origin`, `description`, `pitchingDynamics`, `descriptors`, and serialized `commercialEquivalents` for sub-millisecond full-text search (including instant manufacturer code matching).
   - `YeastStyleCrossRef`: Relational join table keyed on `(yeastId, styleId, guidelineType)` with composite index for bidirectional style queries.
 - [x] **Room Database Migration (v8 -> v9)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/honey/pome/favorites data.
-- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `yeasts.json` on startup in the background without main-thread blocking.
-- [x] **Repository Layer (`YeastRepository`)**: Concrete subclass of `BaseIngredientRepository<YeastStrainEntity, YeastStrain, YeastFilterCriteria>` executing Room queries on `Dispatchers.Default`.
+- [x] **Database Preloading (`YeastSeeder`)**: `DatabaseInitializer` delegates to `YeastSeeder` (`DomainSeeder`) to seed Room tables from `yeasts.json` on startup in the background (with idempotent count checks) without main-thread blocking.
+- [x] **Repository Layer (`YeastRepository`)**: Concrete subclass of `BaseIngredientRepository<YeastStrainEntity, YeastStrain, YeastFilterCriteria>` executing Room queries on `Dispatchers.Default` and participating in `IngredientCatalogRepository`.
 
 ### 2. Temperature Preference & Unit Utility
 - [x] **Preference Storage**: Add `temperatureUnit: Flow<TemperatureUnit>` (enum `FAHRENHEIT`, `CELSIUS`, defaulting to `FAHRENHEIT`) and `setTemperatureUnit(TemperatureUnit)` to `PreferencesManager` and `DefaultPreferencesManager`.
@@ -112,7 +112,7 @@ Ordered precisely according to resolved design hierarchy using `RoundedCornerSha
 
 ### 5. Cross-Cutting Integrations
 - [x] **Navigation Drawer**: Add `Yeast` destination in `AppDrawer` with route `"yeasts"`, label `"Yeast"`, and icon `Icons.Default.BubbleChart`.
-- [x] **Style Detail Screen (`StyleDetailScreen`)**: Add `CollapsibleCommonYeastsCard` displaying associated yeast strains with tap-through navigation to `YeastDetailScreen`.
+- [x] **Style Detail Screen (`StyleDetailScreen`)**: Render associated yeast strains via generic `CollapsibleIngredientSectionCard<YeastStrain>` bound to `StyleIngredients.yeasts` from `IngredientCatalogRepository`, with tap-through navigation to `YeastDetailScreen` (backed by `IngredientDetailViewModel<YeastStrain>`).
 
 ---
 
@@ -120,7 +120,7 @@ Ordered precisely according to resolved design hierarchy using `RoundedCornerSha
 - **Unit Tests**:
   - `YeastRepositoryTest`: Test FTS multi-word query sanitization, commercial code search matching, filtering by classification/flocculation/attenuation/ABV, substitute resolution, and multi-guideline style mapping.
   - `TemperatureConverterTest`: Test °C to °F and °F to °C conversions, range formatting, and preference handling.
-  - `YeastListViewModelTest` & `YeastDetailViewModelTest`: Verify state emissions, filter application, and substitute navigation.
+  - `YeastListViewModelTest` & `IngredientDetailViewModelTest`: Verify state emissions, filter application, and substitute navigation.
 - **Database Migration Test**:
   - Verify migration from Version 8 to Version 9 preserves existing styles, hops, malts, honeys, pomes, and user favorites.
 - **Instrumented / Screenshot Tests**:

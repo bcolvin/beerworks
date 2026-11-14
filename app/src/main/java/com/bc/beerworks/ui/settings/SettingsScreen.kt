@@ -28,6 +28,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +38,26 @@ import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.ui.theme.BeerworksTheme
+
+@Composable
+fun SettingsScreen(
+    viewModel: SettingsViewModel,
+    onMenuClick: () -> Unit
+) {
+    val isScreenOn by viewModel.keepScreenOn.collectAsState()
+    val temperatureUnit by viewModel.temperatureUnit.collectAsState()
+    val confirmFavoriteRemoval by viewModel.confirmFavoriteRemoval.collectAsState()
+
+    SettingsContent(
+        keepScreenOn = isScreenOn,
+        onKeepScreenOnChange = viewModel::onKeepScreenOnChange,
+        temperatureUnit = temperatureUnit,
+        onTemperatureUnitChange = viewModel::onTemperatureUnitChange,
+        confirmFavoriteRemoval = confirmFavoriteRemoval,
+        onConfirmFavoriteRemovalChange = viewModel::onConfirmFavoriteRemovalChange,
+        onMenuClick = onMenuClick
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

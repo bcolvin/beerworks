@@ -4,14 +4,14 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class YeastFilterCriteria(
-    val query: String = "",
+    override val query: String = "",
     val selectedClassification: String? = null,
     val selectedFlocculation: String? = null,
     val minAttenuation: Double? = null,
     val minAlcoholTolerance: Double? = null,
     val selectedStyleId: String? = null
-) {
-    val isFilterActive: Boolean
+) : IngredientFilterCriteria<YeastFilterCriteria> {
+    override val isFilterActive: Boolean
         get() = query.isNotBlank() ||
                 selectedClassification != null ||
                 selectedFlocculation != null ||
@@ -29,4 +29,21 @@ data class YeastFilterCriteria(
             if (selectedStyleId != null) count++
             return count
         }
+
+    override fun withQuery(newQuery: String): YeastFilterCriteria = copy(query = newQuery)
+
+    override fun resetKeepingQuery(): YeastFilterCriteria = YeastFilterCriteria(query = query)
+
+    companion object {
+        val DEFAULT_CLASSIFICATIONS = listOf(
+            "Ale",
+            "Lager",
+            "Wheat",
+            "Kveik",
+            "Wild / Brett",
+            "Bacteria",
+            "Wine / Mead / Cider"
+        )
+        val FLOCCULATIONS = listOf("Low", "Medium", "Medium-High", "High", "Very High")
+    }
 }

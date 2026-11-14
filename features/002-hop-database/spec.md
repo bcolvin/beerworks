@@ -29,8 +29,8 @@ Provide an offline-first, visually rich reference database of global hop varieti
   - `HopVarietyEntity`: Primary table storing complete hop metadata.
   - `HopVarietyFtsEntity`: SQLite FTS4 table for sub-millisecond full-text search over names, origins, descriptors, and descriptions.
   - `HopStyleCrossRef`: Many-to-many relational join table keyed on `(hopId, styleId, guidelineType)` for bidirectional querying.
-- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `hops.json` on first launch without main-thread blocking.
-- [x] **Repository Layer (`HopRepository`)**: Expose distinct flows for catalog search/filtering, individual hop details, dynamic child descendants (`getChildHops`), and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Database Preloading (`HopSeeder`)**: `DatabaseInitializer` delegates to `HopSeeder` (`DomainSeeder`) to seed Room tables from `hops.json` on first launch (with idempotent count checks) without main-thread blocking.
+- [x] **Repository Layer (`HopRepository`)**: Concrete subclass of `BaseIngredientRepository<HopVarietyEntity, HopVariety, HopFilterCriteria>` exposing catalog search/filtering, individual hop details (`IngredientDetailViewModel<HopVariety>` with `relatedItemsProvider = hopRepository::getChildHops`), dynamic child descendants, and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Hop Catalog List Screen (`HopsScreen`)
 - [x] **Borderless Pill Search Bar**: Single-line search container with search icon, clear button, and IME search action. Focus auto-clears on list scroll or background tap.

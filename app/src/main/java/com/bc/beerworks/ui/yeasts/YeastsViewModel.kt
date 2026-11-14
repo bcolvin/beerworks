@@ -1,29 +1,27 @@
 package com.bc.beerworks.ui.yeasts
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.YeastRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.bc.beerworks.ui.ingredientlist.IngredientListViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class YeastsViewModel(
-    private val yeastRepository: YeastRepository,
-    private val preferencesManager: PreferencesManager
-) : ViewModel() {
+    yeastRepository: YeastRepository,
+    preferencesManager: PreferencesManager
+) : IngredientListViewModel<YeastStrain, YeastFilterCriteria>(
+    repository = yeastRepository,
+    initialCriteria = YeastFilterCriteria()
+) {
 
-    private val _filterCriteria = MutableStateFlow(YeastFilterCriteria())
-    val filterCriteria: StateFlow<YeastFilterCriteria> = _filterCriteria.asStateFlow()
+    val yeasts: StateFlow<List<YeastStrain>> = items
 
     val temperatureUnit: StateFlow<TemperatureUnit> = preferencesManager.temperatureUnit.stateIn(
         scope = viewModelScope,
@@ -31,55 +29,36 @@ class YeastsViewModel(
         initialValue = TemperatureUnit.FAHRENHEIT
     )
 
-    val yeasts: StateFlow<List<YeastStrain>> = _filterCriteria.flatMapLatest { criteria ->
-        yeastRepository.getFilteredYeasts(criteria)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
-    )
-
     val classifications: StateFlow<List<String>> = yeastRepository.getAllClassifications().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = listOf("Ale", "Lager", "Wheat", "Kveik", "Wild / Brett", "Bacteria", "Wine / Mead / Cider")
+        initialValue = YeastFilterCriteria.DEFAULT_CLASSIFICATIONS
     )
 
-    val flocculations: StateFlow<List<String>> = flowOf(
-        listOf("Low", "Medium", "Medium-High", "High", "Very High")
-    ).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = listOf("Low", "Medium", "Medium-High", "High", "Very High")
-    )
-
-    fun onQueryChange(query: String) {
-        _filterCriteria.value = _filterCriteria.value.copy(query = query)
-    }
+    val flocculations: StateFlow<List<String>> =
+        MutableStateFlow(YeastFilterCriteria.FLOCCULATIONS).asStateFlow()
 
     fun onClassificationSelected(classification: String?) {
-        val newClassification = if (_filterCriteria.value.selectedClassification == classification) null else classification
-        _filterCriteria.value = _filterCriteria.value.copy(selectedClassification = newClassification)
+        updateCriteria { current ->
+            current.copy(selectedClassification = if (current.selectedClassification == classification) null else classification)
+        }
     }
 
     fun onFlocculationSelected(flocculation: String?) {
-        val newFlocculation = if (_filterCriteria.value.selectedFlocculation == flocculation) null else flocculation
-        _filterCriteria.value = _filterCriteria.value.copy(selectedFlocculation = newFlocculation)
+        updateCriteria { current ->
+            current.copy(selectedFlocculation = if (current.selectedFlocculation == flocculation) null else flocculation)
+        }
     }
 
     fun onMinAttenuationChange(minAtt: Double?) {
-        _filterCriteria.value = _filterCriteria.value.copy(minAttenuation = minAtt)
+        updateCriteria { current ->
+            current.copy(minAttenuation = minAtt)
+        }
     }
 
     fun onMinAlcoholToleranceChange(minAbv: Double?) {
-        _filterCriteria.value = _filterCriteria.value.copy(minAlcoholTolerance = minAbv)
-    }
-
-    fun onFilterCriteriaChange(criteria: YeastFilterCriteria) {
-        _filterCriteria.value = criteria
-    }
-
-    fun resetFilters() {
-        _filterCriteria.value = YeastFilterCriteria()
+        updateCriteria { current ->
+            current.copy(minAlcoholTolerance = minAbv)
+        }
     }
 }

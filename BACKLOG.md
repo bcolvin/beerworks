@@ -81,21 +81,30 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Navigation drawer integration with `BubbleChart` icon.
   - Bidirectional relational cross-referencing between yeast strains and Beer, Mead, and Cider styles.
 
+- [x] **Favorites Catalog & Cross-Discipline Reference (Feature 009)**
+  - Unified Favorites screen (`"favorites"`) aggregating favorited Beverage Styles (BJCP 2021, BA 2026, BJCP Mead, BJCP Cider) and Ingredients (Hops, Malts, Honey, Pomes, Yeast) in canonical drawer order.
+  - Instant cross-discipline keyword search (`Ingredient.matchesQuery`) and dynamic discipline filter chips with item counts.
+  - Right-to-left swipe-to-remove (`SwipeToDismissBox`) with optional `"Remove from Favorites?"` confirmation modal and `"Always remove without asking"` setting in `SettingsScreen`.
+
 ---
 
-## 🏗️ Planned Architectural Deepening (Upcoming Enhancements)
+## 🏗️ Planned Architectural Deepening (Completed Enhancements)
 
 - [x] **Consolidate Shallow Ingredient Detail ViewModels (Architecture Candidate 1)**
-  - Replace five separate pass-through view models (`HopDetailViewModel`, `MaltDetailViewModel`, `HoneyDetailViewModel`, `PomeDetailViewModel`, `YeastDetailViewModel`) with a single deep generic `IngredientDetailViewModel<T : Ingredient>`.
+  - Replace five separate pass-through view models (`HopDetailViewModel`, `MaltDetailViewModel`, `HoneyDetailViewModel`, `PomeDetailViewModel`, `YeastDetailViewModel`) with a single deep generic `IngredientDetailViewModel<T : Ingredient>` (with optional `relatedItemsProvider` for child hop cultivars).
   - Maximize leverage from the unified `IngredientRepository` seam (ADR 0006) across all ingredient disciplines.
   - Unify detail lifecycle state emission, substitute resolution, and style favorite toggling into one thoroughly tested interface.
 
-- [x] **Deepen Style-to-Ingredient Association in StyleDetailViewModel (Architecture Candidate 2)**
-  - Consolidate five separate ingredient repositories and five separate StateFlow streams in `StyleDetailViewModel` into a unified `StyleIngredients` stream aggregated at the data seam (`IngredientCatalogRepository`).
+- [x] **Deepen Style-to-Ingredient Association & Favorites Aggregation (Architecture Candidate 2)**
+  - Consolidate five separate ingredient repositories and five separate StateFlow streams in `StyleDetailViewModel` and `FavoritesViewModel` into a unified `StyleIngredients` stream aggregated at the data seam (`IngredientCatalogRepository`).
   - Collapse the 5 duplicate `CollapsibleCommon*Card` composables in `StyleDetailScreen.kt` into a single generic `CollapsibleIngredientSectionCard<T : Ingredient>`.
-  - Isolate ingredient cross-referencing and favorites aggregation within `IngredientCatalogRepository` so future ingredients require zero ViewModel or navigation wiring changes.
+  - Isolate ingredient cross-referencing, polymorphic `Ingredient.matchesQuery(query)`, and `countryFlag` defaults within the domain/data layer so future ingredients require zero ViewModel or navigation wiring changes.
+
+- [x] **Unify Style Entity Domain Mapping & Live Favorite Style Resolution (Architecture Candidate 3)**
+  - Extract `interface StyleEntity` implemented by `BjcpStyleEntity`, `BaStyleEntity`, `MeadStyleEntity`, and `CiderStyleEntity` with a single default `toDomainModel(isFavorite: Boolean): BeerStyle` implementation across `BeerStyleRepository` and `BaseIngredientRepository`.
+  - Combine live `FavoriteStyleDao` state inside `BaseIngredientRepository.getCommonStylesForItem(id)` so associated style cards on ingredient detail pages reflect real-time favorite status across all four guidelines.
 
 - [x] **Decompose Monolithic DatabaseInitializer into Focused Domain Seeders (Architecture Candidate 4)**
-  - Decompose the 700-line procedural seeder into isolated, self-contained `DomainSeeder` modules (`StyleSeeder`, `HopSeeder`, `MaltSeeder`, `HoneySeeder`, `PomeSeeder`, `YeastSeeder`).
+  - Decompose the 752-line procedural seeder into isolated, self-contained `DomainSeeder` modules (`StyleSeeder`, `HopSeeder`, `MaltSeeder`, `HoneySeeder`, `PomeSeeder`, `YeastSeeder`) and `StyleGuidelineResolver`.
   - Encapsulate raw JSON DTOs and Gson mapping logic privately within each seeder and execute seeders concurrently with idempotent DAO count checks.
   - Coordinate seeding through a lightweight asynchronous runner executing independent datasets in parallel on the background dispatcher pool.

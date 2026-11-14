@@ -25,6 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +39,24 @@ import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import java.util.Locale
+
+@Composable
+fun CategoryDetailScreen(
+    viewModel: CategoryDetailViewModel,
+    onBackClick: () -> Unit,
+    onStyleClick: (BeerStyle) -> Unit
+) {
+    val categoryGroup by viewModel.categoryGroup.collectAsState()
+
+    categoryGroup?.let { group ->
+        CategoryDetailContent(
+            group = group,
+            onBackClick = onBackClick,
+            onStyleClick = onStyleClick,
+            onToggleFavorite = viewModel::toggleFavorite
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

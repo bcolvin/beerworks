@@ -52,8 +52,8 @@ Provide an offline-first, visually rich reference database of canonical cider ap
   - `PomeVarietyFtsEntity`: SQLite FTS4 virtual table indexing `name`, `botanicalName`, `origin`, `description`, `blendingGuidance`, `pressingCharacteristics`, and `descriptors` for sub-millisecond full-text search.
   - `PomeStyleCrossRef`: Relational join table keyed on `(pomeId, styleId, guidelineType)` with composite index for bidirectional style queries.
 - [x] **Room Database Migration (v7 -> v8)**: Automated migration creating new tables and FTS virtual tables without losing existing style/hop/malt/honey/favorites data.
-- [x] **Database Preloading**: `DatabaseInitializer` seeds Room tables from `pomes.json` on startup in the background without main-thread blocking.
-- [x] **Repository Layer (`PomeRepository`)**: Expose distinct flows for catalog search/filtering, individual pome details, and style cross-references, dispatched on `Dispatchers.Default`.
+- [x] **Database Preloading (`PomeSeeder`)**: `DatabaseInitializer` delegates to `PomeSeeder` (`DomainSeeder`) to seed Room tables from `pomes.json` on startup in the background (with idempotent count checks) without main-thread blocking.
+- [x] **Repository Layer (`PomeRepository`)**: Concrete subclass of `BaseIngredientRepository<PomeVarietyEntity, PomeVariety, PomeFilterCriteria>` exposing catalog search/filtering, individual pome details (`IngredientDetailViewModel<PomeVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Pome Catalog List Screen (`PomesScreen` / route: `"pomes"`)
 - [x] **Top App Bar**: TopAppBar with title `"Pomes"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
