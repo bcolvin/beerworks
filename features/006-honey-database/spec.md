@@ -54,36 +54,31 @@ Provide an offline-first, visually rich reference database of canonical varietal
 - [x] **Repository Layer (`HoneyRepository`)**: Concrete subclass of `BaseIngredientRepository<HoneyVarietyEntity, HoneyVariety, HoneyFilterCriteria>` exposing catalog search/filtering, individual honey details (`IngredientDetailViewModel<HoneyVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Honey Catalog List Screen (`HoneyScreen` / route: `"honey"`)
-- [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `MaltScreen`.
-- [x] **Top App Bar**: TopAppBar with title `"Honey"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<HoneyVariety>`) & ViewModel (`HoneyViewModel : IngredientListViewModel<HoneyVariety, HoneyFilterCriteria>`)**: Replicate the responsive pattern established across all ingredient catalog screens.
+- [x] **Top App Bar**: TopAppBar with title `"Honey"`, drawer menu navigation icon, and top-right filter action button (`FilterActionIcon`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active) and long-press filter reset.
 - [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), and IME search action without placeholder hint text. Focus auto-clears on list scroll or background tap.
-- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Floral Classification** (toggle on/off without 'All' chip):
-  - `Monofloral`, `Polyfloral`, `Honeydew`
 - [x] **Advanced Filter Sheet (`HoneyFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Honeys"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
   1. **Floral Classification** (toggle chips: Monofloral, Polyfloral, Honeydew)
   2. **Color** (multi-select chips: Water White, Extra White, White, Extra Light Amber, Light Amber, Amber, Dark Amber)
   3. **Flavor Intensity** (toggle chips: Delicate, Moderate, Robust)
   4. **Crystallization Tendency** (toggle chips: Slow, Moderate, Rapid)
-- [x] **Glanceable `HoneyCard` Items**:
-  - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation and container tint.
-  - Honey name with bold typography.
-  - Botanical source (*italicized Latin name*).
-  - Origin country flag & name tag (🇺🇸 US, 🇳🇿 NZ, 🇫🇷 FR, 🇩🇪 DE, etc.).
-  - Floral classification pill badge.
-  - Color swatch pill with Pfund range and USDA color tier (e.g., `15–30 mm (White)`).
-  - Flavor Intensity indicator badge (`Delicate`, `Moderate`, or `Robust`).
-  - Top 3 flavor descriptors.
+- [x] **Glanceable `HoneyCard` Items (`IngredientCardScaffold`)**:
+  - Strict 4-row vertical layout (`GEMINI.md`):
+    1. Header row: Origin country flag + bold honey name on the left, `FloralClassificationBadge` (`IngredientBadge`) on the top right.
+    2. Sub-header: Italicized `"${honey.botanicalSource} • ${honey.origin}"`.
+    3. Narrative description (max 3 lines with ellipsis).
+    4. Bottom strip: Single-row horizontal descriptor chip strip (`SingleRowChipLayout`).
   - Standard card clickability to detail without trailing navigation arrow.
-- [x] **Zero-Result Filter Recovery**: Centered empty state with honeycomb icon (`Icons.Default.Hive`), bold headline `"No honeys found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
+- [x] **Zero-Result Filter Recovery**: Centered empty state with honeycomb icon (`Icons.Default.Hive`), bold headline `"No honeys found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` action button (shown when `criteria.isFilterActive` is true).
 
 ### 3. Honey Detail Screen (`HoneyDetailScreen` / `honey_detail/{honeyId}`)
-Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
+Ordered precisely according to resolved design hierarchy using `IngredientDetailScaffold` and standardized `RoundedCornerShape(16.dp)` cards:
 1. **Hero Header**:
    - Honey name, botanical source, origin country flag and name tag, floral classification pill badge.
    - Narrative overview description.
-2. **Organoleptic Flavor Profile Section**:
-   - 8-axis **Honey Sensory Radar Chart** (Floral, Fruity, Herbal & Fresh, Spicy & Warm, Sweet & Confectionary, Nutty & Woody, Earthy & Mineral, Animal & Pungent).
-   - Flavor intensity rating badge (`Delicate`, `Moderate`, or `Robust`).
+2. **Organoleptic Flavor Profile Section (`IngredientSensoryProfileCard` & `SensoryProfile`)**:
+   - 8-axis **Honey Sensory Radar Chart** (`HoneySensoryProfile : SensoryProfile` — Floral, Fruity, Herbal & Fresh, Spicy & Warm, Sweet & Confectionary, Nutty & Woody, Earthy & Mineral, Animal & Pungent).
+   - Flavor intensity rating badge (`Delicate`, `Moderate`, or `Robust`) in the card header.
    - Flavor & aroma descriptor chip cloud.
 3. **Technical Specs & Sugar Profile Card**:
    - **Pfund & USDA Color**: Dynamic visual color swatch displaying Pfund millimeter range (e.g. `28 – 35 mm`) and USDA tier badge (`White` / `Extra Light Amber`).
@@ -93,9 +88,9 @@ Ordered precisely according to resolved design hierarchy using standardized `Rou
 4. **Fermentation & Recipe Guidance Section**:
    - Comprehensive narrative on fermentation behavior, nutrient requirements (YAN management in mead), delicate floral volatile preservation (cold fermentation vs. warmth), and heat sensitivity (avoid boiling varietal honey).
    - Recommended fruit, spice, and wood pairings for melomels, metheglins, and braggots.
-5. **Honey Substitutes Section**:
+5. **Honey Substitutes Section (`IngredientSubstitutesCard`)**:
    - Chips displaying interchangeable alternative varietal honeys with similar flavor/aroma profile. Tapping navigates directly to that honey's detail screen.
-6. **Associated Mead & Beverage Styles Section**:
+6. **Associated Mead & Beverage Styles Section (`AssociatedStylesSection`)**:
    - Clickable cards showing mead (and cider/beer) styles where this honey is traditionally or ideally featured (e.g., Orange Blossom in M1A Dry Mead / M1B Semi-Sweet Mead, Buckwheat in M1C Sweet Mead / M4A Braggot). Tapping navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)

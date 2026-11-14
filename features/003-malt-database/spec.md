@@ -51,51 +51,46 @@ Provide an offline-first, visually rich reference database of canonical brewing 
 - [x] **Repository Layer (`MaltRepository`)**: Concrete subclass of `BaseIngredientRepository<MaltVarietyEntity, MaltVariety, MaltFilterCriteria>` exposing catalog search/filtering, individual malt details (`IngredientDetailViewModel<MaltVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Malt Catalog List Screen (`MaltScreen`)
-- [x] **Uniform Layout & Polish**: Replicate the responsive pattern established by `HopsScreen` and `StyleListScreen`.
-- [x] **Top App Bar**: TopAppBar with title `"Malt"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
-- [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), placeholder text (`"Search malts, maltsters, descriptors..."`), and IME search action. Focus auto-clears on list scroll or background tap.
-- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Malt Category**:
-  - `All`, `Base Malt`, `Kilned & Toasted`, `Caramel & Crystal`, `Roasted & Dark`, `Adjunct`
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<MaltVariety>`) & ViewModel (`MaltViewModel : IngredientListViewModel<MaltVariety, MaltFilterCriteria>`)**: Replicate the responsive pattern established across all ingredient catalog screens.
+- [x] **Top App Bar**: TopAppBar with title `"Malts"`, drawer menu navigation icon, and top-right filter action button (`FilterActionIcon`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active) and long-press filter reset.
+- [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), no placeholder hint text (per `GEMINI.md`), and IME search action. Focus auto-clears on list scroll or background tap.
 - [x] **Advanced Filter Sheet (`MaltFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Malts"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
-  1. **Malt Category** (multi-select chips)
+  1. **Malt Category** (toggle chips)
   2. **Grain Type** (multi-select: Barley, Wheat, Rye, Oats, Corn, Rice, Other)
-  3. **Diastatic Power** (chips: All, High [≥100°L], Moderate [30–99°L], None [0°L])
+  3. **Diastatic Power** (chips: High [≥100°L], Moderate [30–99°L], None [0°L])
   4. **Color Range** (segmented Lovibond tiers: Pale <10°L, Amber 10–50°L, Brown 50–150°L, Dark >150°L)
   5. **Functional Usage Tags** (multi-select chips: Base Grist, Head Retention, Body & Mouthfeel, etc.)
   6. **Associated Base Beer Styles** (multi-select based on base style groups)
-- [x] **Glanceable `MaltCard` Items**:
-  - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation/container tint.
-  - Malt name with bold typography.
-  - Origin country flag & name tag (🇺🇸 US, 🇩🇪 DE, 🇬🇧 UK, 🇧🇪 BE, etc.).
-  - Malt Category pill badge (color-coded).
-  - Grain type chip (Wheat, Rye, Oats, etc., if non-barley).
-  - Color swatch pill with Lovibond range (e.g. `1.8 – 2.5 °L`) rendered via `SrmColorConverter`.
-  - Diastatic Power badge (`High`, `Moderate`, or `None`).
-  - Top 3 functional tags / flavor descriptors.
-  - Chevron indicator indicating clickable navigation to detail.
-- [x] **Zero-Result Filter Recovery**: Centered empty state with grain icon (`Icons.Default.Grain`), bold headline `"No malts found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
+- [x] **Glanceable `MaltCard` Items (`IngredientCardScaffold`)**:
+  - Strict 4-row vertical layout (`GEMINI.md`):
+    1. Header row: Origin country flag + bold malt name on the left, color-coded `MaltCategoryBadge` (`IngredientBadge`) on the top right.
+    2. Sub-header: Italicized `"${malt.grainType} • ${malt.origin}"`.
+    3. Narrative description (max 3 lines with ellipsis).
+    4. Bottom strip: Single-row horizontal descriptor chip strip (`SingleRowChipLayout`).
+  - Clickable card without trailing navigation chevron.
+- [x] **Zero-Result Filter Recovery**: Centered empty state with grain icon (`Icons.Default.Grain`), bold headline `"No malts found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` action button (shown when `criteria.isFilterActive` is true).
 
 ### 3. Malt Detail Screen (`MaltDetailScreen` / `malt_detail/{maltId}`)
-Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
+Ordered precisely according to resolved design hierarchy using `IngredientDetailScaffold` and standardized `RoundedCornerShape(16.dp)` cards:
 1. **Hero Header**:
    - Malt name, origin country flag and name tag, Malt Category pill badge, grain type chip.
    - Narrative overview description.
 2. **Typical Brewing Usage Section**:
    - Comprehensive narrative on recipe roles, mash performance, and grist limits.
    - Standardized functional usage tags as pill chips (`Base Grist`, `Head Retention`, etc.).
-3. **Organoleptic Flavor Profile Section**:
-   - 8-axis **Malt Sensory Radar Chart** (Malty/Sweet, Bready/Biscuit, Toasty, Caramel/Toffee, Nutty, Chocolate, Roast/Coffee, Grainy/Husky).
+3. **Organoleptic Flavor Profile Section (`IngredientSensoryProfileCard` & `SensoryProfile`)**:
+   - 8-axis **Malt Sensory Radar Chart** (`MaltSensoryProfile : SensoryProfile` — Malty/Sweet, Bready/Biscuit, Toasty, Caramel/Toffee, Nutty, Chocolate, Roast/Coffee, Grainy/Husky).
    - Graceful fallback: when numeric radar data is absent, display full flavor descriptor chip cloud.
 4. **Technical Brewing Specs Card**:
    - **Color Rating**: Dynamic Lovibond swatch, displaying both `°L` and calculated `EBC` (EBC ≈ 1.97 × °L).
    - **Extract Potential**: Dry Basis Fine Grind (DBFG %) badge.
    - **Max Recommended Grist %**: Meter / badge displaying max percentage in recipe.
    - **Diastatic Power**: Badge showing conversion tier (`High`, `Moderate`, or `None`) with an official **Info icon (`Icons.Default.Info`)**. Tapping the info icon displays an educational dialog explaining Degrees Lintner (°L), enzyme self-conversion rules (≥ 30–35 °L to convert self; ≥ 100 °L to convert unmalted adjuncts), and exact numeric value.
-5. **Malt Substitutes Section**:
+5. **Malt Substitutes Section (`IngredientSubstitutesCard`)**:
    - Chips displaying interchangeable alternative grains with comparable color/flavor. Tapping navigates to that malt's detail screen.
 6. **Notable Maltsters & Commercial Examples Section**:
    - Card listing representative commercial brands (Weyermann, Dingemans, Briess, Crisp, Simpsons, Castle, etc.).
-7. **Associated Beer Styles Section**:
+7. **Associated Beer Styles Section (`AssociatedStylesSection`)**:
    - Clickable beer style cards where this malt is a signature ingredient. Tapping navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)

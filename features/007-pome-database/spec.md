@@ -56,39 +56,33 @@ Provide an offline-first, visually rich reference database of canonical cider ap
 - [x] **Repository Layer (`PomeRepository`)**: Concrete subclass of `BaseIngredientRepository<PomeVarietyEntity, PomeVariety, PomeFilterCriteria>` exposing catalog search/filtering, individual pome details (`IngredientDetailViewModel<PomeVariety>`), and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Pome Catalog List Screen (`PomesScreen` / route: `"pomes"`)
-- [x] **Top App Bar**: TopAppBar with title `"Pomes"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active).
-- [x] **Borderless Pill Search Bar**: Single-line search container with leading search icon, clear button (visible only when query is non-blank), and IME search action without placeholder hint text. Focus auto-clears on list scroll or background tap.
-- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Fruit Type** and **Classification** (toggle on/off without 'All' chip):
-  - `Apple`, `Pear`
-  - `Bittersweet`, `Bittersharp`, `Sharp`, `Sweet`
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<PomeVariety>`) & ViewModel (`PomesViewModel : IngredientListViewModel<PomeVariety, PomeFilterCriteria>`)**:
+  - TopAppBar with title `"Pomes"`, drawer menu navigation icon, and top-right filter action button (`FilterActionIcon`) with active filter tinting (`MaterialTheme.colorScheme.primary` when active) and long-press filter reset.
+  - Borderless pill search bar with leading search icon, clear button (visible only when query is non-blank), and IME search action without placeholder hint text. Focus auto-clears on list scroll or background tap.
 - [x] **Advanced Filter Sheet (`PomeFilterSheet`)**: Bottom modal sheet with top header row containing `"Filter Pomes"` title and top-right `"Reset All"` text button, plus full-width `"Apply Filters"` button at the bottom. Options ordered as:
   1. **Fruit Type** (toggle chips: Apple, Pear)
   2. **Classification** (toggle chips: Bittersweet, Bittersharp, Sharp, Sweet)
   3. **Harvest Season** (toggle chips: Early, Mid, Late)
   4. **Tannin Level** (toggle chips: Low, Medium, High)
-- [x] **Glanceable `PomeCard` Items**:
-  - Standardized `RoundedCornerShape(16.dp)` card with subtle elevation and container tint.
-  - Variety name with bold typography.
-  - Botanical name (*italicized Latin name*).
-  - Origin country flag & name tag (🇬🇧 UK, 🇫🇷 FR, 🇺🇸 US, etc.).
-  - Fruit Type badge (`Apple` / `Pear`).
-  - Long Ashton classification pill badge (`Bittersweet`, `Bittersharp`, `Sharp`, `Sweet`).
-  - Specific Gravity range pill badge (e.g. `1.050–1.062 SG`).
-  - Acidity & Tannin indicators (e.g. `Acid: 0.28% • Tannin: High (0.35%)`).
-  - Top 3 flavor descriptors.
+- [x] **Glanceable `PomeCard` Items (`IngredientCardScaffold`)**:
+  - Strict 4-row vertical layout (`GEMINI.md`):
+    1. Header row: Origin country flag + bold pome name on the left, `PomeClassificationBadge` (`IngredientBadge`) on the top right.
+    2. Sub-header: Italicized `"${pome.botanicalName} • ${pome.origin}"`.
+    3. Narrative description (max 3 lines with ellipsis).
+    4. Bottom strip: Single-row horizontal descriptor chip strip (`SingleRowChipLayout`).
   - Standard card clickability to detail without trailing navigation arrow.
-- [x] **Zero-Result Filter Recovery**: Centered empty state with orchard tree icon (`Icons.Default.Nature`), bold headline `"No pomes found"`, subtitle `"Try adjusting your search query or filters."`, and single-tap primary `"Reset Filters"` action button.
+- [x] **Zero-Result Filter Recovery**: Centered empty state with orchard tree icon (`Icons.Default.Nature`), bold headline `"No pomes found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` action button (shown when `criteria.isFilterActive` is true).
 
 ### 3. Pome Detail Screen (`PomeDetailScreen` / `pome_detail/{pomeId}`)
-Ordered precisely according to resolved design hierarchy using standardized `RoundedCornerShape(16.dp)` cards:
+Ordered precisely according to resolved design hierarchy using `IngredientDetailScaffold` and standardized `RoundedCornerShape(16.dp)` cards:
 1. **Hero Header**:
    - Variety name, botanical name, origin country flag and name tag, Fruit Type badge, Long Ashton classification pill badge.
    - Narrative overview description.
 2. **Long Ashton Matrix Gauge**:
    - Visual 2×2 quadrant gauge showing where the variety plots relative to the 0.45% acidity and 0.20% tannin boundary lines.
    - Exact numerical Acidity (% malic) and Tannin (% polyphenols) badges.
-3. **Organoleptic Flavor Profile Section**:
-   - 8-axis **Pome Sensory Radar Chart** (Acidity/Sharpness, Tannin/Bitterness, Fresh Fruit, Baked/Ripe Fruit, Citrus & Tropical, Floral & Herbal, Earthy & Farmhouse, Sweet & Confectionary).
+3. **Organoleptic Flavor Profile Section (`IngredientSensoryProfileCard` & `SensoryProfile`)**:
+   - 8-axis **Pome Sensory Radar Chart** (`PomeSensoryProfile : SensoryProfile` — Acidity/Sharpness, Tannin/Bitterness, Fresh Fruit, Baked/Ripe Fruit, Citrus & Tropical, Floral & Herbal, Earthy & Farmhouse, Sweet & Confectionary).
    - Flavor & aroma descriptor chip cloud.
 4. **Pomological & Chemical Specs Card**:
    - **Harvest Season**: Badge (`Early`, `Mid`, `Late`).
@@ -97,9 +91,9 @@ Ordered precisely according to resolved design hierarchy using standardized `Rou
    - **Sorbitol Content** (for Pears): Badge showing sorbitol concentration (e.g. `~32 g/L`) with explanation dialog explaining its unfermentable residual sweetness in perry.
 5. **Cidermaking & Pressing Dynamics Section**:
    - Comprehensive narrative on blending role (single-varietal vs. acid/tannin backbone), milling/pressing timing, oxidation tendency, and pectin behavior.
-6. **Pome Substitutes Section**:
+6. **Pome Substitutes Section (`IngredientSubstitutesCard`)**:
    - Chips displaying interchangeable alternative varieties with similar classification and profile. Tapping navigates directly to that variety's detail screen.
-7. **Associated Cider & Beverage Styles Section**:
+7. **Associated Cider & Beverage Styles Section (`AssociatedStylesSection`)**:
    - Clickable cards showing cider (and mead cyser) styles where this variety is traditionally or ideally featured (e.g., Dabinett in C1B English Cider, Kingston Black in C1A/C1B, Thorn in C1E Traditional Perry). Tapping navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Navigation Drawer & Icon Updates

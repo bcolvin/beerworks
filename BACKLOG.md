@@ -108,3 +108,18 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Decompose the 752-line procedural seeder into isolated, self-contained `DomainSeeder` modules (`StyleSeeder`, `HopSeeder`, `MaltSeeder`, `HoneySeeder`, `PomeSeeder`, `YeastSeeder`) and `StyleGuidelineResolver`.
   - Encapsulate raw JSON DTOs and Gson mapping logic privately within each seeder and execute seeders concurrently with idempotent DAO count checks.
   - Coordinate seeding through a lightweight asynchronous runner executing independent datasets in parallel on the background dispatcher pool.
+
+- [x] **Unify Catalog List ViewModels & Filter Criteria Contract (Round 2 Candidate 1)**
+  - Introduce `@Immutable interface IngredientFilterCriteria<Self>` and `open class IngredientListViewModel<T : Ingredient, C : IngredientFilterCriteria<C>>`.
+  - Refactor `HopsViewModel`, `MaltViewModel`, `HoneyViewModel`, `PomesViewModel`, and `YeastsViewModel` to inherit shared reactive search/filter state, `distinctSortedOptionFlow`, and `resetFilters()` (preserving active search query).
+
+- [x] **Unify SensoryProfile, IngredientCardScaffold & IngredientCatalogScaffold (Round 2 Candidate 2)**
+  - Introduce `@Immutable interface SensoryProfile` across all 5 sensory radar models and collapse 5 `SensoryRadarChart` overloads into a single `SensoryRadarChart(profile: SensoryProfile)`.
+  - Extract `IngredientCardScaffold` and `IngredientBadge` enforcing the strict 4-row `GEMINI.md` layout across `HopCard`, `MaltCard`, `HoneyCard`, `PomeCard`, and `YeastCard`.
+  - Extract `IngredientCatalogScaffold<T : Ingredient>` across `HopsScreen`, `MaltScreen`, `HoneyScreen`, `PomesScreen`, and `YeastsScreen`, fixing unconditional `"Reset Filters"` button rendering in empty states.
+
+- [x] **Extract IngredientDetailScaffold & Shared Detail Section Cards (Round 2 Candidate 3)**
+  - Extract `IngredientDetailScaffold`, `IngredientDetailLoadingOrContent`, `IngredientSensoryProfileCard`, `IngredientSubstitutesCard<T>`, and `AssociatedStylesSection` across all 5 `*DetailScreen.kt` files.
+
+- [x] **Extract AppContainer & Streamline MainActivity Navigation Wiring (Round 2 Candidate 5)**
+  - Extract `AppContainer` and `inline fun <reified VM : ViewModel> viewModelFactory` to eliminate 13 anonymous `ViewModelProvider.Factory` blocks and inline `collectAsState()` calls in `MainActivity.kt`.

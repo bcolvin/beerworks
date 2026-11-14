@@ -64,9 +64,10 @@ Provide an offline-first, technically detailed reference database of canonical b
 - [x] **`TemperatureConverter` Utility**: Clean conversion helper formatting temperature ranges according to active `TemperatureUnit` (e.g. `"64°F – 72°F"` or `"18°C – 22°C"`).
 
 ### 3. Yeast Catalog List Screen (`YeastsScreen` / route: `"yeasts"`)
-- [x] **Top App Bar**: Title `"Yeast"`, drawer menu navigation icon, and top-right filter action button (`Icons.Default.FilterList`) tinted with `MaterialTheme.colorScheme.primary` when filters are active.
-- [x] **Borderless Pill Search Bar**: Single-line search input with leading search icon, clear trailing icon (when query non-blank), no placeholder hint text, keyboard search IME action, and auto-dismiss keyboard on list scroll.
-- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Microorganism Classification** (toggle on/off, without 'All' chip):
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<YeastStrain>`) & ViewModel (`YeastsViewModel : IngredientListViewModel<YeastStrain, YeastFilterCriteria>`)**:
+  - TopAppBar with title `"Yeast"`, drawer menu navigation icon, and top-right filter action button (`FilterActionIcon`) tinted with `MaterialTheme.colorScheme.primary` when filters are active.
+  - Borderless pill search input with leading search icon, clear trailing icon (when query non-blank), no placeholder hint text, keyboard search IME action, and auto-dismiss keyboard on list scroll.
+- [x] **Quick-Filter Strip (`quickFilterStrip` slot)**: Horizontal scrollable chips for **Microorganism Classification** (toggle on/off, without 'All' chip):
   - `Ale`, `Lager`, `Wheat`, `Kveik`, `Wild / Brett`, `Bacteria`, `Wine / Mead / Cider`
 - [x] **Filter Sheet (`YeastFilterSheet`)**: Bottom modal sheet with header `"Filter Yeast"`, `"Reset All"` action button, and `"Apply Filters"` primary button containing:
   1. **Microorganism Classification** (toggle chips: Ale, Lager, Wheat, Kveik, Wild / Brett, Bacteria, Wine / Mead / Cider)
@@ -74,40 +75,36 @@ Provide an offline-first, technically detailed reference database of canonical b
   3. **Minimum Attenuation %** (Slider from 60% to 90%)
   4. **Minimum Alcohol Tolerance** (Slider from 5% to 18% ABV)
   *(Note: No Form chips and no STA1/POF toggles, keeping filter sheet uncluttered).*
-- [x] **Glanceable `YeastCard` Items**:
-  - `RoundedCornerShape(16.dp)` card with subtle elevation and container tint.
-  - Strain name in bold typography.
-  - Scientific name in italicized typography.
-  - Origin country flag & provenance.
-  - Classification badge (`Ale`, `Lager`, etc.) aligned to the top-right header.
-  - Narrative overview description (3 lines max, ellipsis).
-  - Top flavor descriptors in a single-row scrollable strip.
+- [x] **Glanceable `YeastCard` Items (`IngredientCardScaffold`)**:
+  - Strict 4-row vertical layout (`GEMINI.md`):
+    1. Header row: Origin country flag + bold strain name on the left, `YeastClassificationBadge` (`IngredientBadge`) aligned to the top right.
+    2. Sub-header: Italicized `"${yeast.scientificName} • ${yeast.origin}"`.
+    3. Narrative overview description (3 lines max, ellipsis).
+    4. Bottom strip: Top flavor descriptors in a single-row strip (`SingleRowChipLayout`).
   - Clickable card without trailing arrow.
-- [x] **Zero-Result View**: Clean empty state with fermentation icon (`Icons.Default.BubbleChart`), bold headline `"No yeast strains found"`, subtitle `"Try adjusting your search query or filters."`, and `"Reset Filters"` action button.
+- [x] **Zero-Result View**: Clean empty state with fermentation icon (`Icons.Default.BubbleChart`), bold headline `"No yeast strains found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` action button.
 
 ### 4. Yeast Detail Screen (`YeastDetailScreen` / `yeast_detail/{yeastId}`)
-Ordered precisely according to resolved design hierarchy using `RoundedCornerShape(16.dp)` cards:
+Ordered precisely according to resolved design hierarchy using `IngredientDetailScaffold` and `RoundedCornerShape(16.dp)` cards:
 1. **Hero Header**:
    - Strain name, scientific name, origin flag & country, discipline badge, classification badge.
+   - Clean, uncluttered `STA1+` / `STA1-` and `POF+` / `POF-` badges and form availability (`Liquid`, `Dry`, or `Both`).
    - Narrative overview description.
-2. **Genetic Traits Bar**:
-   - Clean, uncluttered `STA1+` / `STA1-` and `POF+` / `POF-` badges.
-   - Form availability (`Liquid`, `Dry`, or `Liquid & Dry`).
-3. **Fermentation Chemistry Specs Card**:
+2. **Fermentation Chemistry Specs Card**:
    - **Attenuation Range**: Formatted range (e.g. `"73% – 80%"`).
    - **Flocculation Tier**: Badge (e.g. `"Medium-High"`).
    - **Optimum Temperature Band**: Displayed in preferred temperature unit (°F or °C) formatted via `TemperatureConverter`.
    - **Alcohol Tolerance**: Gauge/badge (e.g. `"11% ABV"`).
-4. **8-Axis Yeast Sensory Radar Chart**:
-   - Radial polygon plotting Clean/Neutral, Fruity Esters, Spicy Phenols, Tart/Acidity, Funky/Earthy, Sulfury/Crisp, Alcohol/Warmth, and Mouthfeel/Sweetness Retention (0.0 to 5.0).
+3. **8-Axis Yeast Sensory Radar Chart (`IngredientSensoryProfileCard` & `SensoryProfile`)**:
+   - Radial polygon (`YeastSensoryProfile : SensoryProfile`) plotting Clean/Neutral, Fruity Esters, Spicy Phenols, Tart/Acidity, Funky/Earthy, Sulfury/Crisp, Alcohol/Warmth, and Mouthfeel/Sweetness Retention (0.0 to 5.0).
    - Flavor and aroma descriptor chip cloud.
-5. **Commercial Laboratory Equivalents Card**:
+4. **Commercial Laboratory Equivalents Card**:
    - List of commercial products grouped by manufacturer (White Labs, Wyeast, Fermentis, Lallemand, Imperial, Omega, etc.) displaying product code, brand trade name, and Liquid/Dry badge.
-6. **Fermentation & Pitching Dynamics Card**:
+5. **Fermentation & Pitching Dynamics Card**:
    - Narrative guidance on lag time, attenuation pace, oxygenation, and nutrient requirements.
-7. **Interchangeable Substitute Strains Card**:
-   - Clickable cards of alternative yeast strains with matching performance. Tapping navigates to that strain's detail.
-8. **Associated Beverage Styles Card**:
+6. **Interchangeable Substitute Strains Card**:
+   - Clickable `YeastCard` items of alternative yeast strains with matching performance. Tapping navigates to that strain's detail.
+7. **Associated Beverage Styles Card (`AssociatedStylesSection`)**:
    - Clickable cards showing Beer, Mead, or Cider styles linked to this strain. Tapping navigates to `style_detail/{id}/{guideline}`.
 
 ### 5. Cross-Cutting Integrations

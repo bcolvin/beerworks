@@ -33,29 +33,31 @@ Provide an offline-first, visually rich reference database of global hop varieti
 - [x] **Repository Layer (`HopRepository`)**: Concrete subclass of `BaseIngredientRepository<HopVarietyEntity, HopVariety, HopFilterCriteria>` exposing catalog search/filtering, individual hop details (`IngredientDetailViewModel<HopVariety>` with `relatedItemsProvider = hopRepository::getChildHops`), dynamic child descendants, and style cross-references (`IngredientCatalogRepository`), dispatched on `Dispatchers.Default`.
 
 ### 2. Hop Catalog List Screen (`HopsScreen`)
-- [x] **Borderless Pill Search Bar**: Single-line search container with search icon, clear button, and IME search action. Focus auto-clears on list scroll or background tap.
-- [x] **Quick-Filter Strip**: Horizontal scrollable chips for **Purpose** (`All`, `Aroma`, `Bittering`, `Dual-Purpose`) and **Sensory Categories** (`Citrus`, `Tropical Fruit`, `Floral`, `Herbal`, `Spicy`, `Pine/Resinous`, `Earthy/Woody`).
-- [x] **Advanced Filter Sheet**: Bottom modal sheet with:
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<HopVariety>`) & ViewModel (`HopsViewModel : IngredientListViewModel<HopVariety, HopFilterCriteria>`)**:
+  - Borderless pill search bar (`OutlinedTextField` with leading search icon, trailing clear button, no placeholder hint text per `GEMINI.md`, and auto-clearing focus on scroll or background tap).
+  - Top bar with drawer menu button and `FilterActionIcon` (tap to open `HopFilterSheet`, long-press to reset active filters while preserving search query).
+- [x] **Advanced Filter Sheet (`HopFilterSheet`)**: Bottom modal sheet with:
   - Alpha Acid % range slider (0% to 20%).
   - Origin country multi-select chips.
   - Purpose selection chips.
-  - Common Beer Styles multi-select based on **Base Style Categories** (e.g. Czech Lager, IPA, English Bitter).
-- [x] **Glanceable `HopCard` Items**:
-  - Hop name with bold typography.
-  - Origin country tag/flag (🇺🇸 US, 🇩🇪 DE, 🇨🇿 CZ, 🇳🇿 NZ, 🇬🇧 UK, etc.).
-  - Color-coded Purpose pill badge (Aroma = teal, Bittering = amber, Dual-Purpose = violet).
-  - Alpha Acid range badge (`AA: 11.0–13.0%`).
-  - Top 3 sensory descriptor chips.
-  - Chevron indicator indicating clickable navigation to detail.
-- [x] **Zero-Result Filter Recovery**: Friendly empty state with a single-tap "Reset Filters" action button when active queries return 0 results.
+  - Sensory category selection chips.
+- [x] **Glanceable `HopCard` Items (`IngredientCardScaffold`)**:
+  - Strict 4-row vertical layout (`GEMINI.md`):
+    1. Header row: Origin flag emoji + bold hop name on the left, color-coded `PurposeBadge` (`IngredientBadge`) on the top right.
+    2. Sub-header: Italicized `"Humulus lupulus • ${hop.origin}"`.
+    3. Narrative description (max 3 lines with ellipsis).
+    4. Bottom strip: Single-row horizontal descriptor chip strip (`SingleRowChipLayout`).
+  - Clickable card without trailing navigation chevron.
+- [x] **Zero-Result Filter Recovery**: Friendly empty state with a single-tap "Reset Filters" action button shown when `criteria.isFilterActive` is true.
 
 ### 3. Hop Detail Screen (`HopDetailScreen` / `hop_detail/{hopId}`)
+- [x] **Shared Detail Scaffold (`IngredientDetailScaffold`)**: Standard top bar (back navigation + favorite heart toggle) and scrollable card column backed by `IngredientDetailViewModel<HopVariety>`.
 - [x] **Acid Range Gauges**: Custom horizontal graphical range meters for Alpha Acid (warm amber gradient) and Beta Acid (sage green gradient) highlighting the min-max span against a standard scale.
-- [x] **8-Axis Sensory Radar Chart**: Custom Jetpack Compose `Canvas` radial polygon plotting quantitative intensity (0.0–5.0) across *Citrus, Tropical, Floral, Herbal, Spicy, Piney, Earthy, Grassy*. Semi-transparent fill and labeled vertices.
+- [x] **8-Axis Sensory Radar Chart (`IngredientSensoryProfileCard` & `SensoryProfile`)**: Custom Jetpack Compose `Canvas` radial polygon (`SensoryRadarChart(profile: SensoryProfile)`) plotting quantitative intensity (0.0–5.0) across *Citrus, Tropical, Floral, Herbal, Spicy, Piney, Earthy, Grassy*. Semi-transparent fill and labeled vertices.
 - [x] **Graceful Radar Fallback**: When numeric radar profile data is absent for a hop, hide the radar chart and display sensory category chips alongside the full aroma descriptor cloud.
 - [x] **Lineage & Genetics Section**: Displays parent hop chips and dynamically resolved child descendant chips. Tapping any lineage chip navigates directly to that hop's detail screen.
-- [x] **Hop Substitutes Section**: Displays alternative hop chips with comparable brewing profiles. Tapping any substitute chip navigates directly to that hop's profile.
-- [x] **Common Beer Styles Section**: Displays clickable style cards associated with the hop. Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
+- [x] **Hop Substitutes Section (`IngredientSubstitutesCard`)**: Displays alternative hop chips with comparable brewing profiles. Tapping any substitute chip navigates directly to that hop's profile.
+- [x] **Common Beer Styles Section (`AssociatedStylesSection`)**: Displays clickable style cards associated with the hop. Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)
 - [x] **Collapsible "Common Hops" Section**: On `StyleDetailScreen`, add a card titled `"Common Hops (N)"` below the guideline sensory sections.
