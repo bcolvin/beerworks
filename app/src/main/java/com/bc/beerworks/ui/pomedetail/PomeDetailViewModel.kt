@@ -49,6 +49,19 @@ class PomeDetailViewModel(
         initialValue = emptyList()
     )
 
+    val isFavorite: StateFlow<Boolean> = pomeRepository.isFavorite(pomeId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    fun toggleFavorite() {
+        val current = isFavorite.value
+        viewModelScope.launch {
+            pomeRepository.toggleFavorite(pomeId, "POME", current)
+        }
+    }
+
     fun toggleStyleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             beerStyleRepository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

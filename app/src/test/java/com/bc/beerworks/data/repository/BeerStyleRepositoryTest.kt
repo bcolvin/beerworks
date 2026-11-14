@@ -77,10 +77,18 @@ class FakeCiderDao(private val list: List<CiderStyleEntity> = emptyList()) : Cid
 }
 
 class FakeFavDao : FavoriteStyleDao {
+    private val favEntities = MutableStateFlow<List<FavoriteStyleEntity>>(emptyList())
     private val favs = MutableStateFlow<List<String>>(emptyList())
-    override suspend fun addFavorite(favorite: FavoriteStyleEntity) { favs.value = favs.value + favorite.styleId }
-    override suspend fun removeFavorite(styleId: String) { favs.value = favs.value - styleId }
+    override suspend fun addFavorite(favorite: FavoriteStyleEntity) {
+        favEntities.value = favEntities.value.filterNot { it.styleId == favorite.styleId } + favorite
+        favs.value = favEntities.value.map { it.styleId }
+    }
+    override suspend fun removeFavorite(styleId: String) {
+        favEntities.value = favEntities.value.filterNot { it.styleId == styleId }
+        favs.value = favEntities.value.map { it.styleId }
+    }
     override fun getAllFavoriteIds(): Flow<List<String>> = favs
+    override fun getAllFavorites(): Flow<List<FavoriteStyleEntity>> = favEntities
     override fun isFavorite(styleId: String): Flow<Boolean> = flowOf(favs.value.contains(styleId))
 }
 
@@ -88,12 +96,15 @@ class FakePrefsManager : PreferencesManager {
     private val flow = MutableStateFlow(GuidelineType.BJCP_2021)
     private val screenOnFlow = MutableStateFlow(false)
     private val tempUnitFlow = MutableStateFlow(TemperatureUnit.FAHRENHEIT)
+    private val confirmFavRemovalFlow = MutableStateFlow(true)
     override val selectedGuideline: Flow<GuidelineType> = flow
     override suspend fun setGuideline(guidelineType: GuidelineType) { flow.value = guidelineType }
     override val keepScreenOn: Flow<Boolean> = screenOnFlow
     override suspend fun setKeepScreenOn(enabled: Boolean) { screenOnFlow.value = enabled }
     override val temperatureUnit: Flow<TemperatureUnit> = tempUnitFlow
     override suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit) { tempUnitFlow.value = temperatureUnit }
+    override val confirmFavoriteRemoval: Flow<Boolean> = confirmFavRemovalFlow
+    override suspend fun setConfirmFavoriteRemoval(enabled: Boolean) { confirmFavRemovalFlow.value = enabled }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
@@ -377,5 +388,49 @@ class BeerStyleRepositoryTest {
 
         assertThat(group.displayCategoryName).isEqualTo("IPA")
         assertThat(group.displayTitle).isEqualTo("21. IPA")
+    }
+
+    @Test
+    fun getAllFavoriteStyles_returnsFavoritesAcrossAllGuidelinesInCanonicalOrder() = runTest {
+        val bjcpIpa = BjcpStyleEntity(
+            id = "21A", name = "American IPA", category = "IPA", categoryNumber = "21", number = "21A",
+            overallImpression = "Hoppy", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 40.0, ibuMax = 70.0,
+            ogMin = 1.056, ogMax = 1.070, fgMin = 1.008, fgMax = 1.014, abvMin = 5.5, abvMax = 7.5,
+            srmMin = 6.0, srmMax = 14.0, commercialExamples = "", tags = "ipa"
+        )
+        val dryMead = MeadStyleEntity(
+            id = "M1A", name = "Dry Mead", category = "Traditional Mead", categoryNumber = "M1", number = "M1A",
+            overallImpression = "Dry mead", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "", ogMin = 1.075, ogMax = 1.140,
+            fgMin = 0.999, fgMax = 1.010, abvMin = 3.5, abvMax = 14.0, sweetness = "Dry", carbonation = "Still",
+            strength = "Standard", commercialExamples = "", tags = "traditional"
+        )
+        val newWorldCider = CiderStyleEntity(
+            id = "C1A", name = "New World Cider", category = "Standard Cider and Perry", categoryNumber = "C1", number = "C1A",
+            overallImpression = "Crisp cider", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "", ogMin = 1.045, ogMax = 1.065,
+            fgMin = 0.995, fgMax = 1.020, abvMin = 4.5, abvMax = 8.0, sweetness = "Dry",
+            carbonation = "Sparkling", strength = "Standard", commercialExamples = "", tags = "standard-cider"
+        )
+
+        val favDao = FakeFavDao()
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(listOf(bjcpIpa)),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = favDao,
+            preferencesManager = FakePrefsManager(),
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler),
+            meadStyleDao = FakeMeadDao(listOf(dryMead)),
+            ciderStyleDao = FakeCiderDao(listOf(newWorldCider))
+        )
+
+        repository.toggleFavorite("C1A", GuidelineType.BJCP_CIDER, currentFavorite = false)
+        repository.toggleFavorite("21A", GuidelineType.BJCP_2021, currentFavorite = false)
+        repository.toggleFavorite("M1A", GuidelineType.BJCP_MEAD, currentFavorite = false)
+
+        val favorites = repository.getAllFavoriteStyles().first()
+        assertThat(favorites.map { it.id }).containsExactly("21A", "M1A", "C1A")
+        assertThat(favorites.all { it.isFavorite }).isTrue()
     }
 }

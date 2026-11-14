@@ -42,6 +42,8 @@ import com.bc.beerworks.ui.categorydetail.CategoryDetailContent
 import com.bc.beerworks.ui.categorydetail.CategoryDetailViewModel
 import com.bc.beerworks.ui.components.AppDrawer
 import com.bc.beerworks.ui.components.DrawerDestination
+import com.bc.beerworks.ui.favorites.FavoritesScreen
+import com.bc.beerworks.ui.favorites.FavoritesViewModel
 import com.bc.beerworks.ui.honey.HoneyContent
 import com.bc.beerworks.ui.honey.HoneyViewModel
 import com.bc.beerworks.ui.honeydetail.HoneyDetailScreen
@@ -402,6 +404,49 @@ fun BeerworksApp() {
                 )
             }
 
+            composable("favorites") {
+                val viewModel: FavoritesViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return FavoritesViewModel(
+                                beerStyleRepository = repository,
+                                hopRepository = hopRepository,
+                                maltRepository = maltRepository,
+                                honeyRepository = honeyRepository,
+                                pomeRepository = pomeRepository,
+                                yeastRepository = yeastRepository
+                            ) as T
+                        }
+                    }
+                )
+
+                FavoritesScreen(
+                    viewModel = viewModel,
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    },
+                    onHopClick = { hopId ->
+                        navController.navigate("hop_detail/$hopId")
+                    },
+                    onMaltClick = { maltId ->
+                        navController.navigate("malt_detail/$maltId")
+                    },
+                    onHoneyClick = { honeyId ->
+                        navController.navigate("honey_detail/$honeyId")
+                    },
+                    onPomeClick = { pomeId ->
+                        navController.navigate("pome_detail/$pomeId")
+                    },
+                    onYeastClick = { yeastId ->
+                        navController.navigate("yeast_detail/$yeastId")
+                    },
+                    onMenuClick = {
+                        scope.launch { drawerState.open() }
+                    }
+                )
+            }
+
             composable("review_history") {
                 ReviewHistoryContent(
                     onMenuClick = {
@@ -421,12 +466,15 @@ fun BeerworksApp() {
                 )
                 val isScreenOn by settingsViewModel.keepScreenOn.collectAsState()
                 val temperatureUnit by settingsViewModel.temperatureUnit.collectAsState()
+                val confirmFavoriteRemoval by settingsViewModel.confirmFavoriteRemoval.collectAsState()
 
                 SettingsContent(
                     keepScreenOn = isScreenOn,
                     onKeepScreenOnChange = settingsViewModel::onKeepScreenOnChange,
                     temperatureUnit = temperatureUnit,
                     onTemperatureUnitChange = settingsViewModel::onTemperatureUnitChange,
+                    confirmFavoriteRemoval = confirmFavoriteRemoval,
+                    onConfirmFavoriteRemovalChange = settingsViewModel::onConfirmFavoriteRemovalChange,
                     onMenuClick = {
                         scope.launch { drawerState.open() }
                     }
@@ -520,6 +568,7 @@ fun BeerworksApp() {
                 val childHops by viewModel.childHops.collectAsState()
                 val substituteHops by viewModel.substituteHops.collectAsState()
                 val commonStyles by viewModel.commonStyles.collectAsState()
+                val isFavorite by viewModel.isFavorite.collectAsState()
 
                 hop?.let { hopVariety ->
                     HopDetailContent(
@@ -534,7 +583,9 @@ fun BeerworksApp() {
                         onStyleClick = { style ->
                             navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
                         },
-                        onToggleStyleFavorite = viewModel::toggleStyleFavorite
+                        onToggleStyleFavorite = viewModel::toggleStyleFavorite,
+                        isFavorite = isFavorite,
+                        onToggleFavorite = viewModel::toggleFavorite
                     )
                 }
             }

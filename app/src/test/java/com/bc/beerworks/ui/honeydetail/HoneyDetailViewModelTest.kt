@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.honeydetail
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
@@ -13,6 +14,7 @@ import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
 import com.bc.beerworks.data.repository.FakeCiderDao
 import com.bc.beerworks.data.repository.FakeFavDao
+import com.bc.beerworks.data.repository.FakeFavoriteIngredientDao
 import com.bc.beerworks.data.repository.FakeHoneyDao
 import com.bc.beerworks.data.repository.FakeHoneyStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakeMeadDao
@@ -136,7 +138,8 @@ class HoneyDetailViewModelTest {
     }
 
     private fun createViewModel(
-        honeyId: String = "orange_blossom"
+        honeyId: String = "orange_blossom",
+        fakeFavIngredientDao: FavoriteIngredientDao = FakeFavoriteIngredientDao()
     ): HoneyDetailViewModel {
         val fakeHoneyDao = FakeHoneyDao(listOf(orangeBlossom, tupelo))
         val fakeCrossRefDao = FakeHoneyStyleCrossRefDao(
@@ -156,7 +159,8 @@ class HoneyDetailViewModelTest {
             mockBa,
             fakeMead,
             fakeCider,
-            testDispatcher
+            testDispatcher,
+            favoriteIngredientDao = fakeFavIngredientDao
         )
         val styleRepo = BeerStyleRepository(
             mockBjcp,
@@ -169,6 +173,27 @@ class HoneyDetailViewModelTest {
         )
 
         return HoneyDetailViewModel(honeyRepo, styleRepo, honeyId)
+    }
+
+    @Test
+    fun toggleFavorite_togglesFavoriteState() = runTest {
+        val fakeFav = FakeFavoriteIngredientDao()
+        val viewModel = createViewModel("orange_blossom", fakeFavIngredientDao = fakeFav)
+
+        val collectJob = launch { viewModel.isFavorite.collect {} }
+        runCurrent()
+
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isTrue()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        collectJob.cancel()
     }
 
     @Test

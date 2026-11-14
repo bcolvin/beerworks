@@ -10,13 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Surface
@@ -106,8 +101,8 @@ fun getMaxOverallImpressionLines(searchQuery: String = ""): Int {
 fun StyleCard(
     style: BeerStyle,
     onClick: () -> Unit,
-    onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier,
+    onToggleFavorite: (() -> Unit)? = null,
     searchQuery: String = "",
     maxOverallImpressionLines: Int = MAX_OVERALL_IMPRESSION_LINES
 ) {
@@ -154,15 +149,6 @@ fun StyleCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
-                    )
-                }
-
-                // Favorite Icon Button
-                IconButton(onClick = onToggleFavorite) {
-                    Icon(
-                        imageVector = if (style.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "Favorite",
-                        tint = if (style.isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

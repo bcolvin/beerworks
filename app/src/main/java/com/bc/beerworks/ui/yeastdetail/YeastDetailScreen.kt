@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -65,6 +67,7 @@ fun YeastDetailScreen(
     val temperatureUnit by viewModel.temperatureUnit.collectAsState()
     val substituteYeasts by viewModel.substituteYeasts.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
 
     val currentYeast = yeast
     if (currentYeast == null) {
@@ -83,7 +86,9 @@ fun YeastDetailScreen(
             onBackClick = onBackClick,
             onYeastClick = onYeastClick,
             onStyleClick = onStyleClick,
-            onToggleStyleFavorite = viewModel::toggleStyleFavorite
+            onToggleStyleFavorite = viewModel::toggleStyleFavorite,
+            isFavorite = isFavorite,
+            onToggleFavorite = viewModel::toggleFavorite
         )
     }
 }
@@ -98,7 +103,9 @@ fun YeastDetailContent(
     onBackClick: () -> Unit,
     onYeastClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit,
-    onToggleStyleFavorite: (BeerStyle) -> Unit
+    onToggleStyleFavorite: (BeerStyle) -> Unit,
+    isFavorite: Boolean = false,
+    onToggleFavorite: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -109,6 +116,15 @@ fun YeastDetailContent(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onToggleFavorite) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },

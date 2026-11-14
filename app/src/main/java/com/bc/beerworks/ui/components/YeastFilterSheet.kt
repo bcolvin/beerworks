@@ -56,8 +56,8 @@ fun YeastFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter Yeast",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -88,7 +88,13 @@ fun YeastFilterSheet(
                             val newClassification = if (isSelected) null else classification
                             onFilterChange(criteria.copy(selectedClassification = newClassification))
                         },
-                        label = { Text(classification) }
+                        label = {
+                            Text(
+                                text = classification,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -115,7 +121,13 @@ fun YeastFilterSheet(
                             val newFloc = if (isSelected) null else flocculation
                             onFilterChange(criteria.copy(selectedFlocculation = newFloc))
                         },
-                        label = { Text(flocculation) }
+                        label = {
+                            Text(
+                                text = flocculation,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }

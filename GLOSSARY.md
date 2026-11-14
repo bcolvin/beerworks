@@ -267,3 +267,7 @@ _Avoid_: Alcohol tier, cider gravity tier
 **Discipline Icon**:
 A contextual visual glyph in the navigation drawer and headers that automatically adapts to the currently active beverage discipline (a beer mug for Beer, a bee for Mead, an apple for Cider).
 _Avoid_: Guide logo, beverage avatar
+
+**Favorite**:
+A user-bookmarked beverage style (across Beer, Mead, or Cider guidelines) or canonical ingredient (Hop, Malt, Honey, Pome, or Yeast) saved for rapid cross-discipline reference.
+_Avoid_: Bookmark, starred item, saved card, pinned item

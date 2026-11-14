@@ -55,6 +55,19 @@ class HopDetailViewModel(
         initialValue = emptyList()
     )
 
+    val isFavorite: StateFlow<Boolean> = hopRepository.isFavorite(hopId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    fun toggleFavorite() {
+        val current = isFavorite.value
+        viewModelScope.launch {
+            hopRepository.toggleFavorite(hopId, "HOP", current)
+        }
+    }
+
     fun toggleStyleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             beerStyleRepository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

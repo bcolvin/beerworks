@@ -58,6 +58,19 @@ class YeastDetailViewModel(
         initialValue = emptyList()
     )
 
+    val isFavorite: StateFlow<Boolean> = yeastRepository.isFavorite(yeastId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    fun toggleFavorite() {
+        val current = isFavorite.value
+        viewModelScope.launch {
+            yeastRepository.toggleFavorite(yeastId, "YEAST", current)
+        }
+    }
+
     fun toggleStyleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             beerStyleRepository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

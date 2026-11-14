@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BubbleChart
 import androidx.compose.material.icons.filled.CandlestickChart
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.Nature
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +15,7 @@ class AppDrawerTest {
     fun drawerDestinationItems_areNonNullAndContainsAllDestinations() {
         val items = DrawerDestination.items
 
-        assertThat(items).hasSize(8)
+        assertThat(items).hasSize(9)
         assertThat(items).doesNotContainNull()
         assertThat(items.map { it.route }).containsExactly(
             "style_list",
@@ -23,6 +24,7 @@ class AppDrawerTest {
             "honey",
             "pomes",
             "yeasts",
+            "favorites",
             "review_history",
             "settings"
         )
@@ -32,6 +34,8 @@ class AppDrawerTest {
         assertThat(DrawerDestination.Pomes.icon).isEqualTo(Icons.Default.Nature)
         assertThat(DrawerDestination.Yeast.icon).isEqualTo(Icons.Default.BubbleChart)
         assertThat(DrawerDestination.Yeast.title).isEqualTo("Yeast")
+        assertThat(DrawerDestination.Favorites.icon).isEqualTo(Icons.Default.Favorite)
+        assertThat(DrawerDestination.Favorites.title).isEqualTo("Favorites")
     }
 
     @Test

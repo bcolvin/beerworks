@@ -32,6 +32,12 @@ class SettingsViewModel(
         initialValue = TemperatureUnit.FAHRENHEIT
     )
 
+    val confirmFavoriteRemoval: StateFlow<Boolean> = repository.confirmFavoriteRemoval.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = true
+    )
+
     fun onGuidelineChange(guidelineType: GuidelineType) {
         viewModelScope.launch {
             repository.setGuideline(guidelineType)
@@ -47,6 +53,12 @@ class SettingsViewModel(
     fun onTemperatureUnitChange(unit: TemperatureUnit) {
         viewModelScope.launch {
             repository.setTemperatureUnit(unit)
+        }
+    }
+
+    fun onConfirmFavoriteRemovalChange(enabled: Boolean) {
+        viewModelScope.launch {
+            repository.setConfirmFavoriteRemoval(enabled)
         }
     }
 }

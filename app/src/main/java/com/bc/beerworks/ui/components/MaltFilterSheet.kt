@@ -56,8 +56,8 @@ fun MaltFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter Malts",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -91,7 +91,13 @@ fun MaltFilterSheet(
                                 )
                             )
                         },
-                        label = { Text(category) }
+                        label = {
+                            Text(
+                                text = category,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -121,7 +127,13 @@ fun MaltFilterSheet(
                                 )
                             )
                         },
-                        label = { Text(grain) }
+                        label = {
+                            Text(
+                                text = grain,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -156,7 +168,13 @@ fun MaltFilterSheet(
                                 )
                             )
                         },
-                        label = { Text(label) }
+                        label = {
+                            Text(
+                                text = label,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -192,7 +210,13 @@ fun MaltFilterSheet(
                                 )
                             )
                         },
-                        label = { Text(label) }
+                        label = {
+                            Text(
+                                text = label,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -224,7 +248,13 @@ fun MaltFilterSheet(
                                 }
                                 onFilterChange(criteria.copy(selectedFunctionalTags = updated))
                             },
-                            label = { Text(tag) }
+                            label = {
+                                Text(
+                                    text = tag,
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
+                            }
                         )
                     }
                 }
@@ -256,7 +286,13 @@ fun MaltFilterSheet(
                                     )
                                 )
                             },
-                            label = { Text(cat) }
+                            label = {
+                                Text(
+                                    text = cat,
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
+                            }
                         )
                     }
                 }

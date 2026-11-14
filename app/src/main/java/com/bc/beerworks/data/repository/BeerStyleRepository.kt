@@ -68,7 +68,43 @@ class BeerStyleRepository(
         preferencesManager.setTemperatureUnit(temperatureUnit)
     }
 
+    val confirmFavoriteRemoval: Flow<Boolean> = preferencesManager.confirmFavoriteRemoval
+
+    suspend fun setConfirmFavoriteRemoval(enabled: Boolean) {
+        preferencesManager.setConfirmFavoriteRemoval(enabled)
+    }
+
     fun getFavoriteIds(): Flow<List<String>> = favoriteStyleDao.getAllFavoriteIds()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun getAllFavoriteStyles(): Flow<List<BeerStyle>> {
+        return getFavoriteIds().flatMapLatest { favoriteIds ->
+            val favSet = favoriteIds.toSet()
+            if (favSet.isEmpty()) {
+                flowOf(emptyList())
+            } else {
+                val bjcpFlow = bjcpStyleDao.getAllStyles()
+                val baFlow = baStyleDao.getAllStyles()
+                val meadFlow = meadStyleDao?.getAllStyles() ?: flowOf(emptyList())
+                val ciderFlow = ciderStyleDao?.getAllStyles() ?: flowOf(emptyList())
+
+                combine(bjcpFlow, baFlow, meadFlow, ciderFlow) { bjcp, ba, mead, cider ->
+                    val styles = buildList {
+                        addAll(bjcp.filter { favSet.contains(it.id) }.map { it.toDomainModel(true) })
+                        addAll(ba.filter { favSet.contains(it.id) }.map { it.toDomainModel(true) })
+                        addAll(mead.filter { favSet.contains(it.id) }.map { it.toDomainModel(true) })
+                        addAll(cider.filter { favSet.contains(it.id) }.map { it.toDomainModel(true) })
+                    }
+                    styles.sortedWith(
+                        compareBy<BeerStyle> { it.guidelineType.ordinal }
+                            .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                            .thenBy { it.categoryNumber }
+                            .thenBy { it.number }
+                    )
+                }
+            }
+        }.flowOn(defaultDispatcher)
+    }
 
     suspend fun toggleFavorite(styleId: String, guidelineType: GuidelineType, currentFavorite: Boolean) {
         if (currentFavorite) {

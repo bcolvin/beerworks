@@ -154,4 +154,32 @@ class SettingsViewModelTest {
         assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.FAHRENHEIT)
         collectJob.cancel()
     }
+
+    @Test
+    fun confirmFavoriteRemoval_defaultsToTrue_andUpdates() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager()
+        )
+
+        val viewModel = SettingsViewModel(repository)
+        val collectJob = backgroundScope.launch {
+            viewModel.confirmFavoriteRemoval.collect {}
+        }
+
+        assertThat(viewModel.confirmFavoriteRemoval.value).isTrue()
+
+        viewModel.onConfirmFavoriteRemovalChange(false)
+        runCurrent()
+
+        assertThat(viewModel.confirmFavoriteRemoval.value).isFalse()
+
+        viewModel.onConfirmFavoriteRemovalChange(true)
+        runCurrent()
+
+        assertThat(viewModel.confirmFavoriteRemoval.value).isTrue()
+        collectJob.cancel()
+    }
 }

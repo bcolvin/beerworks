@@ -2,12 +2,14 @@ package com.bc.beerworks.ui.maltdetail
 
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.repository.BeerStyleRepository
+import com.bc.beerworks.data.repository.FakeFavoriteIngredientDao
 import com.bc.beerworks.data.repository.FakeMaltDao
 import com.bc.beerworks.data.repository.FakeMaltStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakePrefsManager
@@ -114,7 +116,8 @@ class MaltDetailViewModelTest {
 
     private fun createViewModel(
         maltId: String = "pilsner_malt",
-        malts: List<MaltVarietyEntity> = listOf(pilsnerMalt, barkeMalt)
+        malts: List<MaltVarietyEntity> = listOf(pilsnerMalt, barkeMalt),
+        fakeFavIngredientDao: FavoriteIngredientDao = FakeFavoriteIngredientDao()
     ): Triple<MaltDetailViewModel, MaltRepository, BeerStyleRepository> {
         val fakeMaltDao = FakeMaltDao(malts)
         val fakeCrossRefDao = FakeMaltStyleCrossRefDao(
@@ -127,11 +130,39 @@ class MaltDetailViewModelTest {
 
         doReturn(flowOf(listOf(testStyle))).`when`(mockBjcp).getAllStyles()
 
-        val maltRepo = MaltRepository(fakeMaltDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val maltRepo = MaltRepository(
+            fakeMaltDao,
+            fakeCrossRefDao,
+            mockBjcp,
+            mockBa,
+            testDispatcher,
+            favoriteIngredientDao = fakeFavIngredientDao
+        )
         val styleRepo = BeerStyleRepository(mockBjcp, mockBa, mockFav, prefs, testDispatcher)
 
         val viewModel = MaltDetailViewModel(maltRepo, styleRepo, maltId)
         return Triple(viewModel, maltRepo, styleRepo)
+    }
+
+    @Test
+    fun toggleFavorite_togglesFavoriteState() = runTest {
+        val fakeFav = FakeFavoriteIngredientDao()
+        val (viewModel, _, _) = createViewModel("pilsner_malt", fakeFavIngredientDao = fakeFav)
+
+        val collectJob = launch { viewModel.isFavorite.collect {} }
+        runCurrent()
+
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isTrue()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        collectJob.cancel()
     }
 
     @Test

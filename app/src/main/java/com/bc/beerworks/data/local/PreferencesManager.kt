@@ -19,12 +19,15 @@ interface PreferencesManager {
     suspend fun setKeepScreenOn(enabled: Boolean)
     val temperatureUnit: Flow<TemperatureUnit>
     suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit)
+    val confirmFavoriteRemoval: Flow<Boolean>
+    suspend fun setConfirmFavoriteRemoval(enabled: Boolean)
 }
 
 class DefaultPreferencesManager(private val context: Context) : PreferencesManager {
     private val GUIDELINE_KEY = stringPreferencesKey("selected_guideline")
     private val KEEP_SCREEN_ON_KEY = booleanPreferencesKey("keep_screen_on")
     private val TEMPERATURE_UNIT_KEY = stringPreferencesKey("temperature_unit")
+    private val CONFIRM_FAVORITE_REMOVAL_KEY = booleanPreferencesKey("confirm_favorite_removal")
 
     override val selectedGuideline: Flow<GuidelineType> = context.dataStore.data.map { prefs ->
         val name = prefs[GUIDELINE_KEY] ?: GuidelineType.BJCP_2021.name
@@ -55,6 +58,16 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     override suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit) {
         context.dataStore.edit { prefs ->
             prefs[TEMPERATURE_UNIT_KEY] = temperatureUnit.name
+        }
+    }
+
+    override val confirmFavoriteRemoval: Flow<Boolean> = context.dataStore.data.map { prefs ->
+        prefs[CONFIRM_FAVORITE_REMOVAL_KEY] ?: true
+    }
+
+    override suspend fun setConfirmFavoriteRemoval(enabled: Boolean) {
+        context.dataStore.edit { prefs ->
+            prefs[CONFIRM_FAVORITE_REMOVAL_KEY] = enabled
         }
     }
 }

@@ -9,13 +9,41 @@
     "alphaAcidMax": 14.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 4.5,
-    "sensoryCategories": ["Citrus", "Tropical Fruit"],
-    "descriptors": ["Grapefruit", "Lime", "Mango", "Passionfruit", "Lychee"],
+    "sensoryCategories": [
+      "Citrus",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Grapefruit",
+      "Lime",
+      "Mango",
+      "Passionfruit",
+      "Lychee"
+    ],
     "description": "Released in 2008 by the Hop Breeding Company, Citra is renowned worldwide for its intense citrus and tropical fruit aromatics. It defines modern American IPAs and Pale Ales.",
     "parentHopIds": [],
-    "substituteIds": ["mosaic", "simcoe", "amarillo"],
-    "commonStyleIds": ["21A", "21B", "18B", "12A"],
-    "radarProfile": { "citrus": 4.9, "tropical": 4.7, "floral": 2.2, "herbal": 1.0, "spicy": 0.8, "piney": 2.1, "earthy": 0.7, "grassy": 1.0 }
+    "substituteIds": [
+      "mosaic",
+      "simcoe",
+      "amarillo",
+      "krush"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B",
+      "12A"
+    ],
+    "radarProfile": {
+      "citrus": 4.9,
+      "tropical": 4.7,
+      "floral": 2.2,
+      "herbal": 1.0,
+      "spicy": 0.8,
+      "piney": 2.1,
+      "earthy": 0.7,
+      "grassy": 1.0
+    }
   },
   {
     "id": "mosaic",
@@ -27,13 +55,43 @@
     "alphaAcidMax": 13.5,
     "betaAcidMin": 3.2,
     "betaAcidMax": 4.2,
-    "sensoryCategories": ["Tropical Fruit", "Citrus", "Earthy/Woody"],
-    "descriptors": ["Blueberry", "Tangerine", "Papaya", "Pine", "Bubblegum"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "Blueberry",
+      "Tangerine",
+      "Papaya",
+      "Pine",
+      "Bubblegum"
+    ],
     "description": "A daughter of Simcoe released in 2012 by HBC, Mosaic delivers a complex sensory bouquet blending dark berry, stone fruit, and vibrant tropical punch.",
-    "parentHopIds": ["simcoe"],
-    "substituteIds": ["citra", "simcoe", "galaxy"],
-    "commonStyleIds": ["21A", "21B", "18B"],
-    "radarProfile": { "citrus": 4.2, "tropical": 4.8, "floral": 2.5, "herbal": 1.2, "spicy": 1.0, "piney": 2.8, "earthy": 2.0, "grassy": 1.1 }
+    "parentHopIds": [
+      "simcoe"
+    ],
+    "substituteIds": [
+      "citra",
+      "simcoe",
+      "galaxy",
+      "krush"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 4.8,
+      "floral": 2.5,
+      "herbal": 1.2,
+      "spicy": 1.0,
+      "piney": 2.8,
+      "earthy": 2.0,
+      "grassy": 1.1
+    }
   },
   {
     "id": "cascade",
@@ -45,13 +103,43 @@
     "alphaAcidMax": 7.5,
     "betaAcidMin": 4.5,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Citrus", "Floral", "Spicy"],
-    "descriptors": ["Grapefruit", "Floral", "Pine", "Spice"],
+    "sensoryCategories": [
+      "Citrus",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Grapefruit",
+      "Floral",
+      "Pine",
+      "Spice"
+    ],
     "description": "Developed at Oregon State University in 1956 and released in 1972, Cascade ignited the American craft beer revolution with its hallmark floral grapefruit profile.",
-    "parentHopIds": ["fuggle", "serebrianka"],
-    "substituteIds": ["centennial", "amarillo", "columbus"],
-    "commonStyleIds": ["18B", "19A", "21A", "18A"],
-    "radarProfile": { "citrus": 4.5, "tropical": 1.8, "floral": 4.2, "herbal": 2.0, "spicy": 2.6, "piney": 2.8, "earthy": 1.5, "grassy": 1.8 }
+    "parentHopIds": [
+      "fuggle",
+      "serebrianka"
+    ],
+    "substituteIds": [
+      "centennial",
+      "amarillo",
+      "columbus"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "19A",
+      "21A",
+      "18A"
+    ],
+    "radarProfile": {
+      "citrus": 4.5,
+      "tropical": 1.8,
+      "floral": 4.2,
+      "herbal": 2.0,
+      "spicy": 2.6,
+      "piney": 2.8,
+      "earthy": 1.5,
+      "grassy": 1.8
+    }
   },
   {
     "id": "centennial",
@@ -63,13 +151,40 @@
     "alphaAcidMax": 11.5,
     "betaAcidMin": 3.5,
     "betaAcidMax": 4.5,
-    "sensoryCategories": ["Citrus", "Floral"],
-    "descriptors": ["Lemon", "Orange Blossom", "Pine", "Clean Bitterness"],
+    "sensoryCategories": [
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Lemon",
+      "Orange Blossom",
+      "Pine",
+      "Clean Bitterness"
+    ],
     "description": "Often hailed as 'Super Cascade', Centennial offers bright clean lemon and floral notes with assertive bittering potential. The cornerstone of classic American IPAs.",
-    "parentHopIds": ["brewer_gold"],
-    "substituteIds": ["cascade", "chinook", "columbus"],
-    "commonStyleIds": ["21A", "18B", "22A"],
-    "radarProfile": { "citrus": 4.6, "tropical": 1.5, "floral": 4.0, "herbal": 1.8, "spicy": 1.5, "piney": 3.0, "earthy": 1.2, "grassy": 1.4 }
+    "parentHopIds": [
+      "brewer_gold"
+    ],
+    "substituteIds": [
+      "cascade",
+      "chinook",
+      "columbus"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "18B",
+      "22A"
+    ],
+    "radarProfile": {
+      "citrus": 4.6,
+      "tropical": 1.5,
+      "floral": 4.0,
+      "herbal": 1.8,
+      "spicy": 1.5,
+      "piney": 3.0,
+      "earthy": 1.2,
+      "grassy": 1.4
+    }
   },
   {
     "id": "simcoe",
@@ -81,13 +196,41 @@
     "alphaAcidMax": 14.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Pine/Resinous", "Citrus", "Tropical Fruit"],
-    "descriptors": ["Pine Resin", "Passionfruit", "Dank", "Grapefruit", "Earthy"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Citrus",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Pine Resin",
+      "Passionfruit",
+      "Dank",
+      "Grapefruit",
+      "Earthy"
+    ],
     "description": "Patented by Yakima Chief Ranches in 2000, Simcoe is prized for its punchy resinous pine combined with lush passionfruit and apricot nuances.",
     "parentHopIds": [],
-    "substituteIds": ["mosaic", "chinook", "columbus"],
-    "commonStyleIds": ["21A", "21B", "22A", "18B"],
-    "radarProfile": { "citrus": 3.8, "tropical": 4.1, "floral": 1.5, "herbal": 2.2, "spicy": 1.8, "piney": 4.8, "earthy": 2.4, "grassy": 1.2 }
+    "substituteIds": [
+      "mosaic",
+      "chinook",
+      "columbus"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "22A",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 3.8,
+      "tropical": 4.1,
+      "floral": 1.5,
+      "herbal": 2.2,
+      "spicy": 1.8,
+      "piney": 4.8,
+      "earthy": 2.4,
+      "grassy": 1.2
+    }
   },
   {
     "id": "chinook",
@@ -99,13 +242,42 @@
     "alphaAcidMax": 14.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 4.0,
-    "sensoryCategories": ["Pine/Resinous", "Spicy", "Citrus"],
-    "descriptors": ["Pine", "Grapefruit Zest", "Resin", "Herbaceous Spice"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Spicy",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Pine",
+      "Grapefruit Zest",
+      "Resin",
+      "Herbaceous Spice"
+    ],
     "description": "Released in 1985, Chinook brings heavy pine and pungent grapefruit resin, providing the bold backbone for West Coast IPAs, Porters, and American Stouts.",
-    "parentHopIds": ["petham_golding"],
-    "substituteIds": ["columbus", "nugget", "simcoe"],
-    "commonStyleIds": ["21A", "20A", "20B", "19C"],
-    "radarProfile": { "citrus": 3.5, "tropical": 1.0, "floral": 1.2, "herbal": 2.8, "spicy": 3.2, "piney": 4.9, "earthy": 2.5, "grassy": 1.8 }
+    "parentHopIds": [
+      "petham_golding"
+    ],
+    "substituteIds": [
+      "columbus",
+      "nugget",
+      "simcoe"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "20A",
+      "20B",
+      "19C"
+    ],
+    "radarProfile": {
+      "citrus": 3.5,
+      "tropical": 1.0,
+      "floral": 1.2,
+      "herbal": 2.8,
+      "spicy": 3.2,
+      "piney": 4.9,
+      "earthy": 2.5,
+      "grassy": 1.8
+    }
   },
   {
     "id": "columbus",
@@ -117,13 +289,41 @@
     "alphaAcidMax": 16.5,
     "betaAcidMin": 4.5,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Pine/Resinous", "Earthy/Woody", "Spicy"],
-    "descriptors": ["Dank", "Black Pepper", "Pine Resin", "Herbal", "Citrus"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Earthy/Woody",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Dank",
+      "Black Pepper",
+      "Pine Resin",
+      "Herbal",
+      "Citrus"
+    ],
     "description": "Also known under the CTZ trio (Columbus, Tomahawk, Zeus), this variety yields intense pungent dankness, black pepper spice, and potent clean bittering.",
     "parentHopIds": [],
-    "substituteIds": ["chinook", "nugget", "centennial"],
-    "commonStyleIds": ["21A", "22A", "20B", "20C"],
-    "radarProfile": { "citrus": 3.0, "tropical": 1.2, "floral": 1.0, "herbal": 3.5, "spicy": 4.1, "piney": 4.6, "earthy": 3.8, "grassy": 1.5 }
+    "substituteIds": [
+      "chinook",
+      "nugget",
+      "centennial"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "22A",
+      "20B",
+      "20C"
+    ],
+    "radarProfile": {
+      "citrus": 3.0,
+      "tropical": 1.2,
+      "floral": 1.0,
+      "herbal": 3.5,
+      "spicy": 4.1,
+      "piney": 4.6,
+      "earthy": 3.8,
+      "grassy": 1.5
+    }
   },
   {
     "id": "amarillo",
@@ -135,13 +335,38 @@
     "alphaAcidMax": 11.0,
     "betaAcidMin": 6.0,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Citrus", "Floral"],
-    "descriptors": ["Orange Zest", "Tangerine", "Melon", "Floral"],
+    "sensoryCategories": [
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Orange Zest",
+      "Tangerine",
+      "Melon",
+      "Floral"
+    ],
     "description": "Discovered by Virgil Gamache Farms in Washington state, Amarillo is famously celebrated for its sweet orange peel, candied tangerine, and soft floral tones.",
     "parentHopIds": [],
-    "substituteIds": ["cascade", "centennial", "citra"],
-    "commonStyleIds": ["18B", "21A", "19A"],
-    "radarProfile": { "citrus": 4.7, "tropical": 3.2, "floral": 3.6, "herbal": 1.5, "spicy": 1.2, "piney": 1.8, "earthy": 1.0, "grassy": 1.1 }
+    "substituteIds": [
+      "cascade",
+      "centennial",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "19A"
+    ],
+    "radarProfile": {
+      "citrus": 4.7,
+      "tropical": 3.2,
+      "floral": 3.6,
+      "herbal": 1.5,
+      "spicy": 1.2,
+      "piney": 1.8,
+      "earthy": 1.0,
+      "grassy": 1.1
+    }
   },
   {
     "id": "saaz",
@@ -153,13 +378,44 @@
     "alphaAcidMax": 4.5,
     "betaAcidMin": 4.0,
     "betaAcidMax": 6.0,
-    "sensoryCategories": ["Spicy", "Herbal", "Floral"],
-    "descriptors": ["Noble Spice", "Earth", "Delicate Floral", "Chamomile"],
+    "sensoryCategories": [
+      "Spicy",
+      "Herbal",
+      "Floral"
+    ],
+    "descriptors": [
+      "Noble Spice",
+      "Earth",
+      "Delicate Floral",
+      "Chamomile"
+    ],
     "description": "The quintessential noble hop hailing from the Žatec region of Bohemia. Saaz defines Czech lagers with its exquisite warm herbal spice and refined delicacy.",
     "parentHopIds": [],
-    "substituteIds": ["tettnang", "sladek", "hallertau_mittelfruh"],
-    "commonStyleIds": ["3A", "3B", "3C", "3D", "5D"],
-    "radarProfile": { "citrus": 0.8, "tropical": 0.2, "floral": 4.0, "herbal": 4.6, "spicy": 4.8, "piney": 1.0, "earthy": 3.8, "grassy": 2.4 }
+    "substituteIds": [
+      "tettnang",
+      "sladek",
+      "hallertau_mittelfruh",
+      "kazbek",
+      "lubelski",
+      "sterling"
+    ],
+    "commonStyleIds": [
+      "3A",
+      "3B",
+      "3C",
+      "3D",
+      "5D"
+    ],
+    "radarProfile": {
+      "citrus": 0.8,
+      "tropical": 0.2,
+      "floral": 4.0,
+      "herbal": 4.6,
+      "spicy": 4.8,
+      "piney": 1.0,
+      "earthy": 3.8,
+      "grassy": 2.4
+    }
   },
   {
     "id": "hallertau_mittelfruh",
@@ -171,13 +427,45 @@
     "alphaAcidMax": 5.5,
     "betaAcidMin": 3.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Floral", "Herbal", "Spicy"],
-    "descriptors": ["Sweet Floral", "Subtle Spice", "Herbal Tea", "Noble Earth"],
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Sweet Floral",
+      "Subtle Spice",
+      "Herbal Tea",
+      "Noble Earth"
+    ],
     "description": "The historic benchmark German noble hop cultivated in the Bavarian Hallertau valley for over a millennium. Essential for traditional German lagers and weissbiers.",
     "parentHopIds": [],
-    "substituteIds": ["tettnang", "hersbrucker", "spalt"],
-    "commonStyleIds": ["4A", "5B", "5C", "6A", "10A"],
-    "radarProfile": { "citrus": 1.2, "tropical": 0.5, "floral": 4.8, "herbal": 4.2, "spicy": 3.8, "piney": 1.1, "earthy": 3.2, "grassy": 2.0 }
+    "substituteIds": [
+      "tettnang",
+      "hersbrucker",
+      "spalt",
+      "hallertau_tradition",
+      "mount_hood",
+      "crystal",
+      "liberty"
+    ],
+    "commonStyleIds": [
+      "4A",
+      "5B",
+      "5C",
+      "6A",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 1.2,
+      "tropical": 0.5,
+      "floral": 4.8,
+      "herbal": 4.2,
+      "spicy": 3.8,
+      "piney": 1.1,
+      "earthy": 3.2,
+      "grassy": 2.0
+    }
   },
   {
     "id": "tettnang",
@@ -189,13 +477,42 @@
     "alphaAcidMax": 5.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Herbal", "Floral", "Spicy"],
-    "descriptors": ["Floral Blossom", "Black Tea", "Mild Pepper", "Woody"],
+    "sensoryCategories": [
+      "Herbal",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Floral Blossom",
+      "Black Tea",
+      "Mild Pepper",
+      "Woody"
+    ],
     "description": "Cultivated around Lake Constance in southern Germany, Tettnang offers pure noble gentleness with subtle sweet floral and black tea herbal complexities.",
-    "parentHopIds": ["saaz"],
-    "substituteIds": ["hallertau_mittelfruh", "saaz", "spalt"],
-    "commonStyleIds": ["4A", "5A", "5C", "10A"],
-    "radarProfile": { "citrus": 1.0, "tropical": 0.3, "floral": 4.5, "herbal": 4.4, "spicy": 3.9, "piney": 1.0, "earthy": 3.0, "grassy": 2.2 }
+    "parentHopIds": [
+      "saaz"
+    ],
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "saaz",
+      "spalt"
+    ],
+    "commonStyleIds": [
+      "4A",
+      "5A",
+      "5C",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 1.0,
+      "tropical": 0.3,
+      "floral": 4.5,
+      "herbal": 4.4,
+      "spicy": 3.9,
+      "piney": 1.0,
+      "earthy": 3.0,
+      "grassy": 2.2
+    }
   },
   {
     "id": "spalt",
@@ -207,13 +524,38 @@
     "alphaAcidMax": 5.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Herbal", "Spicy", "Earthy/Woody"],
-    "descriptors": ["Spicy Woody", "Dried Flowers", "Pungent Earth"],
+    "sensoryCategories": [
+      "Herbal",
+      "Spicy",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "Spicy Woody",
+      "Dried Flowers",
+      "Pungent Earth"
+    ],
     "description": "One of Germany's original landrace varieties from the Spalt district of Franconia, celebrated for rich woody spice and classical Altbier / Kölsch character.",
     "parentHopIds": [],
-    "substituteIds": ["tettnang", "hallertau_mittelfruh", "saaz"],
-    "commonStyleIds": ["7B", "5B", "5C"],
-    "radarProfile": { "citrus": 0.9, "tropical": 0.2, "floral": 3.8, "herbal": 4.1, "spicy": 4.2, "piney": 1.5, "earthy": 4.0, "grassy": 2.5 }
+    "substituteIds": [
+      "tettnang",
+      "hallertau_mittelfruh",
+      "saaz"
+    ],
+    "commonStyleIds": [
+      "7B",
+      "5B",
+      "5C"
+    ],
+    "radarProfile": {
+      "citrus": 0.9,
+      "tropical": 0.2,
+      "floral": 3.8,
+      "herbal": 4.1,
+      "spicy": 4.2,
+      "piney": 1.5,
+      "earthy": 4.0,
+      "grassy": 2.5
+    }
   },
   {
     "id": "magnum",
@@ -225,13 +567,38 @@
     "alphaAcidMax": 15.5,
     "betaAcidMin": 5.0,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Spicy", "Floral"],
-    "descriptors": ["Clean Bitterness", "Subtle Apple", "Peppery Pine"],
+    "sensoryCategories": [
+      "Spicy",
+      "Floral"
+    ],
+    "descriptors": [
+      "Clean Bitterness",
+      "Subtle Apple",
+      "Peppery Pine"
+    ],
     "description": "Bred in Huell, Germany, Magnum is celebrated by brewers across the globe for its smooth, exceptionally clean bittering profile and low co-humulone content.",
     "parentHopIds": [],
-    "substituteIds": ["warrior", "nugget", "herkules"],
-    "commonStyleIds": ["5D", "6C", "9B", "10A"],
-    "radarProfile": { "citrus": 1.5, "tropical": 0.5, "floral": 2.2, "herbal": 2.5, "spicy": 2.8, "piney": 2.0, "earthy": 2.0, "grassy": 1.8 }
+    "substituteIds": [
+      "warrior",
+      "nugget",
+      "herkules"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "6C",
+      "9B",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 2.2,
+      "herbal": 2.5,
+      "spicy": 2.8,
+      "piney": 2.0,
+      "earthy": 2.0,
+      "grassy": 1.8
+    }
   },
   {
     "id": "mandarina_bavaria",
@@ -243,13 +610,41 @@
     "alphaAcidMax": 10.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 6.5,
-    "sensoryCategories": ["Citrus", "Tropical Fruit"],
-    "descriptors": ["Tangerine", "Sweet Mandarin", "Orange Peel", "Sweet Floral"],
+    "sensoryCategories": [
+      "Citrus",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Tangerine",
+      "Sweet Mandarin",
+      "Orange Peel",
+      "Sweet Floral"
+    ],
     "description": "Bred at Huell from Cascade lineage, Mandarina Bavaria combines distinctive sweet tangerine fruitiness with German refinement.",
-    "parentHopIds": ["cascade"],
-    "substituteIds": ["cascade", "amarillo", "citra"],
-    "commonStyleIds": ["5B", "10A", "18B", "21A"],
-    "radarProfile": { "citrus": 4.6, "tropical": 3.2, "floral": 3.0, "herbal": 1.5, "spicy": 1.0, "piney": 1.2, "earthy": 1.0, "grassy": 1.2 }
+    "parentHopIds": [
+      "cascade"
+    ],
+    "substituteIds": [
+      "cascade",
+      "amarillo",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "10A",
+      "18B",
+      "21A"
+    ],
+    "radarProfile": {
+      "citrus": 4.6,
+      "tropical": 3.2,
+      "floral": 3.0,
+      "herbal": 1.5,
+      "spicy": 1.0,
+      "piney": 1.2,
+      "earthy": 1.0,
+      "grassy": 1.2
+    }
   },
   {
     "id": "galaxy",
@@ -261,13 +656,39 @@
     "alphaAcidMax": 16.5,
     "betaAcidMin": 5.5,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Tropical Fruit", "Citrus"],
-    "descriptors": ["Passionfruit", "Peach", "Guava", "Citrus", "Pineapple"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Passionfruit",
+      "Peach",
+      "Guava",
+      "Citrus",
+      "Pineapple"
+    ],
     "description": "Australia's breakout superstar cultivar, Galaxy boasts one of the highest concentrations of essential oils in the hop world, unleashing huge passionfruit and peach.",
     "parentHopIds": [],
-    "substituteIds": ["citra", "mosaic", "vic_secret"],
-    "commonStyleIds": ["21A", "21B", "12B"],
-    "radarProfile": { "citrus": 4.4, "tropical": 5.0, "floral": 1.8, "herbal": 0.8, "spicy": 0.8, "piney": 2.0, "earthy": 0.8, "grassy": 1.0 }
+    "substituteIds": [
+      "citra",
+      "mosaic",
+      "vic_secret"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "12B"
+    ],
+    "radarProfile": {
+      "citrus": 4.4,
+      "tropical": 5.0,
+      "floral": 1.8,
+      "herbal": 0.8,
+      "spicy": 0.8,
+      "piney": 2.0,
+      "earthy": 0.8,
+      "grassy": 1.0
+    }
   },
   {
     "id": "vic_secret",
@@ -279,13 +700,38 @@
     "alphaAcidMax": 17.0,
     "betaAcidMin": 6.0,
     "betaAcidMax": 8.0,
-    "sensoryCategories": ["Pine/Resinous", "Tropical Fruit", "Herbal"],
-    "descriptors": ["Pineapple", "Pine", "Passionfruit", "Herbal Resin"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Tropical Fruit",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Pineapple",
+      "Pine",
+      "Passionfruit",
+      "Herbal Resin"
+    ],
     "description": "Discovered in Victoria, Australia, Vic Secret delivers bright pineapple and resinous pine notes that shine brightest in whirlpool and dry hopping additions.",
     "parentHopIds": [],
-    "substituteIds": ["galaxy", "simcoe", "enigma"],
-    "commonStyleIds": ["21A", "21B"],
-    "radarProfile": { "citrus": 3.5, "tropical": 4.5, "floral": 1.2, "herbal": 2.2, "spicy": 1.5, "piney": 4.2, "earthy": 1.8, "grassy": 1.2 }
+    "substituteIds": [
+      "galaxy",
+      "simcoe",
+      "enigma"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 3.5,
+      "tropical": 4.5,
+      "floral": 1.2,
+      "herbal": 2.2,
+      "spicy": 1.5,
+      "piney": 4.2,
+      "earthy": 1.8,
+      "grassy": 1.2
+    }
   },
   {
     "id": "nelson_sauvin",
@@ -297,13 +743,39 @@
     "alphaAcidMax": 14.5,
     "betaAcidMin": 6.0,
     "betaAcidMax": 8.0,
-    "sensoryCategories": ["Tropical Fruit", "Floral", "Earthy/Woody"],
-    "descriptors": ["White Wine Grape", "Crushed Gooseberry", "Passionfruit", "Fresh Lychee"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Floral",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "White Wine Grape",
+      "Crushed Gooseberry",
+      "Passionfruit",
+      "Fresh Lychee"
+    ],
     "description": "Named after the Sauvignon Blanc grape, Nelson Sauvin yields unmistakable white wine elegance and ripe gooseberry character beloved in craft brewing.",
     "parentHopIds": [],
-    "substituteIds": ["hallertau_blanc", "motueka", "mosaic"],
-    "commonStyleIds": ["21A", "21B", "25B"],
-    "radarProfile": { "citrus": 3.2, "tropical": 4.7, "floral": 3.6, "herbal": 1.5, "spicy": 1.2, "piney": 1.8, "earthy": 2.2, "grassy": 1.5 }
+    "substituteIds": [
+      "hallertau_blanc",
+      "motueka",
+      "mosaic"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "25B"
+    ],
+    "radarProfile": {
+      "citrus": 3.2,
+      "tropical": 4.7,
+      "floral": 3.6,
+      "herbal": 1.5,
+      "spicy": 1.2,
+      "piney": 1.8,
+      "earthy": 2.2,
+      "grassy": 1.5
+    }
   },
   {
     "id": "motueka",
@@ -315,13 +787,42 @@
     "alphaAcidMax": 8.5,
     "betaAcidMin": 5.0,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Citrus", "Herbal", "Tropical Fruit"],
-    "descriptors": ["Fresh Mojito Lime", "Lemon Zest", "Tropical Fruit", "Herbal Sweetness"],
+    "sensoryCategories": [
+      "Citrus",
+      "Herbal",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Fresh Mojito Lime",
+      "Lemon Zest",
+      "Tropical Fruit",
+      "Herbal Sweetness"
+    ],
     "description": "Bred by cross-breeding Czech Saaz with New Zealand breeding stock, Motueka offers an exhilarating fresh crushed lime and tropical zest profile.",
-    "parentHopIds": ["saaz"],
-    "substituteIds": ["saaz", "riwaka", "citra"],
-    "commonStyleIds": ["21A", "5B", "18B", "24A"],
-    "radarProfile": { "citrus": 4.8, "tropical": 3.4, "floral": 2.5, "herbal": 2.5, "spicy": 1.8, "piney": 1.0, "earthy": 1.0, "grassy": 1.6 }
+    "parentHopIds": [
+      "saaz"
+    ],
+    "substituteIds": [
+      "saaz",
+      "riwaka",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "5B",
+      "18B",
+      "24A"
+    ],
+    "radarProfile": {
+      "citrus": 4.8,
+      "tropical": 3.4,
+      "floral": 2.5,
+      "herbal": 2.5,
+      "spicy": 1.8,
+      "piney": 1.0,
+      "earthy": 1.0,
+      "grassy": 1.6
+    }
   },
   {
     "id": "riwaka",
@@ -333,13 +834,40 @@
     "alphaAcidMax": 6.5,
     "betaAcidMin": 4.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Citrus", "Tropical Fruit", "Pine/Resinous"],
-    "descriptors": ["Pink Grapefruit", "Passionfruit", "Dank Resin", "Kumquat"],
+    "sensoryCategories": [
+      "Citrus",
+      "Tropical Fruit",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Pink Grapefruit",
+      "Passionfruit",
+      "Dank Resin",
+      "Kumquat"
+    ],
     "description": "A cult favorite New Zealand variety descended from Saaz, delivering pungent, almost diesel-like pink grapefruit and saturated tropical notes.",
-    "parentHopIds": ["saaz"],
-    "substituteIds": ["motueka", "citra", "galaxy"],
-    "commonStyleIds": ["21A", "21B"],
-    "radarProfile": { "citrus": 4.9, "tropical": 4.4, "floral": 2.0, "herbal": 1.8, "spicy": 1.5, "piney": 3.2, "earthy": 1.5, "grassy": 1.2 }
+    "parentHopIds": [
+      "saaz"
+    ],
+    "substituteIds": [
+      "motueka",
+      "citra",
+      "galaxy"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 4.9,
+      "tropical": 4.4,
+      "floral": 2.0,
+      "herbal": 1.8,
+      "spicy": 1.5,
+      "piney": 3.2,
+      "earthy": 1.5,
+      "grassy": 1.2
+    }
   },
   {
     "id": "east_kent_goldings",
@@ -351,13 +879,41 @@
     "alphaAcidMax": 6.5,
     "betaAcidMin": 2.0,
     "betaAcidMax": 3.5,
-    "sensoryCategories": ["Floral", "Spicy", "Earthy/Woody"],
-    "descriptors": ["Smooth Honey", "Lavender Floral", "Delicate Earth", "Marmalade"],
+    "sensoryCategories": [
+      "Floral",
+      "Spicy",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "Smooth Honey",
+      "Lavender Floral",
+      "Delicate Earth",
+      "Marmalade"
+    ],
     "description": "The aristocrat of English hops, grown in Kent since the late 18th century. Essential for quintessential English Bitters, Pale Ales, and Porters.",
     "parentHopIds": [],
-    "substituteIds": ["fuggle", "progress", "first_gold"],
-    "commonStyleIds": ["11A", "11B", "11C", "12C", "13C"],
-    "radarProfile": { "citrus": 1.8, "tropical": 0.5, "floral": 4.6, "herbal": 3.5, "spicy": 3.8, "piney": 1.0, "earthy": 3.9, "grassy": 2.0 }
+    "substituteIds": [
+      "fuggle",
+      "progress",
+      "first_gold"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "11C",
+      "12C",
+      "13C"
+    ],
+    "radarProfile": {
+      "citrus": 1.8,
+      "tropical": 0.5,
+      "floral": 4.6,
+      "herbal": 3.5,
+      "spicy": 3.8,
+      "piney": 1.0,
+      "earthy": 3.9,
+      "grassy": 2.0
+    }
   },
   {
     "id": "fuggle",
@@ -369,13 +925,41 @@
     "alphaAcidMax": 5.5,
     "betaAcidMin": 2.0,
     "betaAcidMax": 3.0,
-    "sensoryCategories": ["Earthy/Woody", "Herbal", "Floral"],
-    "descriptors": ["Damp Wood", "Wet Earth", "Mild Floral", "Green Tea"],
+    "sensoryCategories": [
+      "Earthy/Woody",
+      "Herbal",
+      "Floral"
+    ],
+    "descriptors": [
+      "Damp Wood",
+      "Wet Earth",
+      "Mild Floral",
+      "Green Tea"
+    ],
     "description": "Discovered by Richard Fuggle in Kent in 1861, Fuggle imparts the classic woody, rustic English character foundational to traditional stouts, porters, and ales.",
     "parentHopIds": [],
-    "substituteIds": ["east_kent_goldings", "willamette", "styrian_goldings"],
-    "commonStyleIds": ["11A", "11B", "13C", "15B", "16B"],
-    "radarProfile": { "citrus": 0.8, "tropical": 0.2, "floral": 3.2, "herbal": 3.9, "spicy": 2.8, "piney": 1.2, "earthy": 4.8, "grassy": 3.0 }
+    "substituteIds": [
+      "east_kent_goldings",
+      "willamette",
+      "styrian_goldings"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "13C",
+      "15B",
+      "16B"
+    ],
+    "radarProfile": {
+      "citrus": 0.8,
+      "tropical": 0.2,
+      "floral": 3.2,
+      "herbal": 3.9,
+      "spicy": 2.8,
+      "piney": 1.2,
+      "earthy": 4.8,
+      "grassy": 3.0
+    }
   },
   {
     "id": "willamette",
@@ -387,13 +971,42 @@
     "alphaAcidMax": 6.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 4.5,
-    "sensoryCategories": ["Floral", "Herbal", "Spicy"],
-    "descriptors": ["Elderberry Floral", "Earthy Spice", "Herbal", "Subtle Wood"],
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Elderberry Floral",
+      "Earthy Spice",
+      "Herbal",
+      "Subtle Wood"
+    ],
     "description": "Bred as a triploid seedling of English Fuggle in Oregon in 1971, Willamette provides gentle, rounded floral and earthy nuances for brown ales and stouts.",
-    "parentHopIds": ["fuggle"],
-    "substituteIds": ["fuggle", "tettnang", "styrian_goldings"],
-    "commonStyleIds": ["19C", "18A", "20A", "20B"],
-    "radarProfile": { "citrus": 1.2, "tropical": 0.5, "floral": 4.2, "herbal": 3.8, "spicy": 3.4, "piney": 1.5, "earthy": 4.1, "grassy": 2.2 }
+    "parentHopIds": [
+      "fuggle"
+    ],
+    "substituteIds": [
+      "fuggle",
+      "tettnang",
+      "styrian_goldings"
+    ],
+    "commonStyleIds": [
+      "19C",
+      "18A",
+      "20A",
+      "20B"
+    ],
+    "radarProfile": {
+      "citrus": 1.2,
+      "tropical": 0.5,
+      "floral": 4.2,
+      "herbal": 3.8,
+      "spicy": 3.4,
+      "piney": 1.5,
+      "earthy": 4.1,
+      "grassy": 2.2
+    }
   },
   {
     "id": "strata",
@@ -405,13 +1018,38 @@
     "alphaAcidMax": 13.0,
     "betaAcidMin": 5.0,
     "betaAcidMax": 6.0,
-    "sensoryCategories": ["Tropical Fruit", "Pine/Resinous", "Citrus"],
-    "descriptors": ["Passionfruit", "Fresh Strawberry", "Dank Herb", "Grapefruit"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Pine/Resinous",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Passionfruit",
+      "Fresh Strawberry",
+      "Dank Herb",
+      "Grapefruit"
+    ],
     "description": "Born from Indie Hops and Oregon State University, Strata harmoniously unites luscious passionfruit and sweet strawberry with pungent herbal dankness.",
     "parentHopIds": [],
-    "substituteIds": ["mosaic", "galaxy", "citra"],
-    "commonStyleIds": ["21A", "21B"],
-    "radarProfile": { "citrus": 3.8, "tropical": 4.9, "floral": 1.5, "herbal": 3.0, "spicy": 1.2, "piney": 3.6, "earthy": 2.0, "grassy": 1.1 }
+    "substituteIds": [
+      "mosaic",
+      "galaxy",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 3.8,
+      "tropical": 4.9,
+      "floral": 1.5,
+      "herbal": 3.0,
+      "spicy": 1.2,
+      "piney": 3.6,
+      "earthy": 2.0,
+      "grassy": 1.1
+    }
   },
   {
     "id": "sabro",
@@ -423,13 +1061,39 @@
     "alphaAcidMax": 16.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Tropical Fruit", "Citrus", "Floral"],
-    "descriptors": ["Coconut Cream", "Tangerine", "Tropical Pineapple", "Cedar Wood"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Coconut Cream",
+      "Tangerine",
+      "Tropical Pineapple",
+      "Cedar Wood"
+    ],
     "description": "Derived from indigenous wild New Mexico neomexicanus hop stock, Sabro is instantly recognized by its intense creamy coconut and pina colada character.",
     "parentHopIds": [],
-    "substituteIds": ["talus", "citra", "el_dorado"],
-    "commonStyleIds": ["21A", "21B", "18B"],
-    "radarProfile": { "citrus": 4.1, "tropical": 4.8, "floral": 3.2, "herbal": 1.2, "spicy": 1.0, "piney": 2.2, "earthy": 2.0, "grassy": 1.0 }
+    "substituteIds": [
+      "talus",
+      "citra",
+      "el_dorado"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.1,
+      "tropical": 4.8,
+      "floral": 3.2,
+      "herbal": 1.2,
+      "spicy": 1.0,
+      "piney": 2.2,
+      "earthy": 2.0,
+      "grassy": 1.0
+    }
   },
   {
     "id": "el_dorado",
@@ -441,13 +1105,38 @@
     "alphaAcidMax": 16.0,
     "betaAcidMin": 7.0,
     "betaAcidMax": 8.0,
-    "sensoryCategories": ["Tropical Fruit", "Citrus"],
-    "descriptors": ["Watermelon", "Candy Peach", "Pear", "Sweet Cherry"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Watermelon",
+      "Candy Peach",
+      "Pear",
+      "Sweet Cherry"
+    ],
     "description": "Cultivated by CLS Farms in Washington, El Dorado is prized for hard candy sweetness, juicy watermelon, ripe pear, and stone fruit aromas.",
     "parentHopIds": [],
-    "substituteIds": ["citra", "azacca", "mosaic"],
-    "commonStyleIds": ["21A", "21B", "18B"],
-    "radarProfile": { "citrus": 3.6, "tropical": 4.9, "floral": 2.0, "herbal": 0.8, "spicy": 0.8, "piney": 1.5, "earthy": 0.8, "grassy": 1.0 }
+    "substituteIds": [
+      "citra",
+      "azacca",
+      "mosaic"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 3.6,
+      "tropical": 4.9,
+      "floral": 2.0,
+      "herbal": 0.8,
+      "spicy": 0.8,
+      "piney": 1.5,
+      "earthy": 0.8,
+      "grassy": 1.0
+    }
   },
   {
     "id": "idaho_7",
@@ -459,13 +1148,38 @@
     "alphaAcidMax": 14.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Pine/Resinous", "Tropical Fruit", "Citrus"],
-    "descriptors": ["Zesty Tangerine", "Pine Needle", "Tropical Papaya", "Black Tea"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Zesty Tangerine",
+      "Pine Needle",
+      "Tropical Papaya",
+      "Black Tea"
+    ],
     "description": "Bred by Jackson Hop Farm in Idaho, this variety brings robust pine resin backing bright citrus marmalade and lush stone fruit.",
     "parentHopIds": [],
-    "substituteIds": ["simcoe", "chinook", "azacca"],
-    "commonStyleIds": ["21A", "21B"],
-    "radarProfile": { "citrus": 4.2, "tropical": 4.3, "floral": 1.5, "herbal": 2.8, "spicy": 1.8, "piney": 4.4, "earthy": 2.0, "grassy": 1.2 }
+    "substituteIds": [
+      "simcoe",
+      "chinook",
+      "azacca"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 4.3,
+      "floral": 1.5,
+      "herbal": 2.8,
+      "spicy": 1.8,
+      "piney": 4.4,
+      "earthy": 2.0,
+      "grassy": 1.2
+    }
   },
   {
     "id": "styrian_goldings",
@@ -477,13 +1191,42 @@
     "alphaAcidMax": 6.0,
     "betaAcidMin": 2.0,
     "betaAcidMax": 3.0,
-    "sensoryCategories": ["Floral", "Spicy", "Herbal"],
-    "descriptors": ["Delicate Floral", "Earthy Resin", "White Pepper", "Lemon Tea"],
+    "sensoryCategories": [
+      "Floral",
+      "Spicy",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Delicate Floral",
+      "Earthy Resin",
+      "White Pepper",
+      "Lemon Tea"
+    ],
     "description": "Originally derived from English Fuggle in Slovenia, Styrian Goldings is essential for Belgian Ales, Saisons, and traditional British Bitters.",
-    "parentHopIds": ["fuggle"],
-    "substituteIds": ["fuggle", "willamette", "bobek"],
-    "commonStyleIds": ["24B", "25A", "25B", "26B"],
-    "radarProfile": { "citrus": 1.5, "tropical": 0.5, "floral": 4.4, "herbal": 4.0, "spicy": 3.8, "piney": 1.2, "earthy": 3.5, "grassy": 2.0 }
+    "parentHopIds": [
+      "fuggle"
+    ],
+    "substituteIds": [
+      "fuggle",
+      "willamette",
+      "bobek"
+    ],
+    "commonStyleIds": [
+      "24B",
+      "25A",
+      "25B",
+      "26B"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 4.4,
+      "herbal": 4.0,
+      "spicy": 3.8,
+      "piney": 1.2,
+      "earthy": 3.5,
+      "grassy": 2.0
+    }
   },
   {
     "id": "sorachi_ace",
@@ -495,13 +1238,40 @@
     "alphaAcidMax": 14.0,
     "betaAcidMin": 6.0,
     "betaAcidMax": 7.5,
-    "sensoryCategories": ["Herbal", "Citrus", "Pine/Resinous"],
-    "descriptors": ["Lemon Dill", "Lemongrass", "Woody Cedar", "Coconut"],
+    "sensoryCategories": [
+      "Herbal",
+      "Citrus",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Lemon Dill",
+      "Lemongrass",
+      "Woody Cedar",
+      "Coconut"
+    ],
     "description": "Developed by Sapporo Breweries in Hokkaido, Sorachi Ace provides an unmistakable culinary herbal character driven by lemon verbena and fresh dill.",
-    "parentHopIds": ["brewer_gold", "saaz"],
-    "substituteIds": ["sabro", "lemondrop"],
-    "commonStyleIds": ["25B", "21B"],
-    "radarProfile": { "citrus": 4.2, "tropical": 1.5, "floral": 1.8, "herbal": 4.8, "spicy": 2.5, "piney": 2.8, "earthy": 2.2, "grassy": 2.0 }
+    "parentHopIds": [
+      "brewer_gold",
+      "saaz"
+    ],
+    "substituteIds": [
+      "sabro",
+      "lemondrop"
+    ],
+    "commonStyleIds": [
+      "25B",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 1.5,
+      "floral": 1.8,
+      "herbal": 4.8,
+      "spicy": 2.5,
+      "piney": 2.8,
+      "earthy": 2.2,
+      "grassy": 2.0
+    }
   },
   {
     "id": "warrior",
@@ -513,13 +1283,37 @@
     "alphaAcidMax": 18.0,
     "betaAcidMin": 4.5,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Herbal", "Pine/Resinous"],
-    "descriptors": ["Clean Smooth Bittering", "Mild Pine", "Subtle Herb"],
+    "sensoryCategories": [
+      "Herbal",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Clean Smooth Bittering",
+      "Mild Pine",
+      "Subtle Herb"
+    ],
     "description": "A premier high-alpha bittering hop favored by commercial craft brewers for delivering velvety, neutral bittering without harshness.",
     "parentHopIds": [],
-    "substituteIds": ["magnum", "nugget", "columbus"],
-    "commonStyleIds": ["21A", "22A", "20B"],
-    "radarProfile": { "citrus": 1.5, "tropical": 0.5, "floral": 1.2, "herbal": 2.5, "spicy": 2.0, "piney": 2.8, "earthy": 2.0, "grassy": 1.5 }
+    "substituteIds": [
+      "magnum",
+      "nugget",
+      "columbus"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "22A",
+      "20B"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 1.2,
+      "herbal": 2.5,
+      "spicy": 2.0,
+      "piney": 2.8,
+      "earthy": 2.0,
+      "grassy": 1.5
+    }
   },
   {
     "id": "hersbrucker",
@@ -531,13 +1325,40 @@
     "alphaAcidMax": 4.5,
     "betaAcidMin": 2.5,
     "betaAcidMax": 6.0,
-    "sensoryCategories": ["Floral", "Spicy", "Herbal"],
-    "descriptors": ["Floral Hay", "Orange Blossom", "Sweet Herbal", "Ginger"],
+    "sensoryCategories": [
+      "Floral",
+      "Spicy",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Floral Hay",
+      "Orange Blossom",
+      "Sweet Herbal",
+      "Ginger"
+    ],
     "description": "A classic landrace German aroma hop from Franconia, delivering gentle floral spice and soft herbal warmth to Bavarian lagers and weissbiers.",
     "parentHopIds": [],
-    "substituteIds": ["hallertau_mittelfruh", "tettnang", "strisselspalt"],
-    "commonStyleIds": ["4A", "5B", "5C", "10A"],
-    "radarProfile": { "citrus": 1.4, "tropical": 0.3, "floral": 4.5, "herbal": 4.1, "spicy": 3.6, "piney": 0.9, "earthy": 3.0, "grassy": 2.4 }
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "tettnang",
+      "strisselspalt"
+    ],
+    "commonStyleIds": [
+      "4A",
+      "5B",
+      "5C",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 1.4,
+      "tropical": 0.3,
+      "floral": 4.5,
+      "herbal": 4.1,
+      "spicy": 3.6,
+      "piney": 0.9,
+      "earthy": 3.0,
+      "grassy": 2.4
+    }
   },
   {
     "id": "nugget",
@@ -549,13 +1370,42 @@
     "alphaAcidMax": 16.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 6.0,
-    "sensoryCategories": ["Herbal", "Pine/Resinous", "Spicy"],
-    "descriptors": ["Heavy Pine", "Ginger Spice", "Herbal Earth", "Woody"],
+    "sensoryCategories": [
+      "Herbal",
+      "Pine/Resinous",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Heavy Pine",
+      "Ginger Spice",
+      "Herbal Earth",
+      "Woody"
+    ],
     "description": "Released in 1982 by the USDA in Oregon, Nugget provides solid, peppery bittering alongside herbal woodiness suitable for stouts and barleywines.",
-    "parentHopIds": ["brewer_gold"],
-    "substituteIds": ["columbus", "galena", "magnum"],
-    "commonStyleIds": ["20B", "20C", "22C", "19C"],
-    "radarProfile": { "citrus": 1.8, "tropical": 0.8, "floral": 1.5, "herbal": 3.8, "spicy": 3.9, "piney": 4.2, "earthy": 3.8, "grassy": 2.0 }
+    "parentHopIds": [
+      "brewer_gold"
+    ],
+    "substituteIds": [
+      "columbus",
+      "galena",
+      "magnum"
+    ],
+    "commonStyleIds": [
+      "20B",
+      "20C",
+      "22C",
+      "19C"
+    ],
+    "radarProfile": {
+      "citrus": 1.8,
+      "tropical": 0.8,
+      "floral": 1.5,
+      "herbal": 3.8,
+      "spicy": 3.9,
+      "piney": 4.2,
+      "earthy": 3.8,
+      "grassy": 2.0
+    }
   },
   {
     "id": "challenger",
@@ -567,13 +1417,42 @@
     "alphaAcidMax": 9.0,
     "betaAcidMin": 3.5,
     "betaAcidMax": 4.5,
-    "sensoryCategories": ["Spicy", "Floral", "Herbal"],
-    "descriptors": ["Cedar Wood", "Spicy Marmalade", "Green Tea", "Floral"],
+    "sensoryCategories": [
+      "Spicy",
+      "Floral",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Cedar Wood",
+      "Spicy Marmalade",
+      "Green Tea",
+      "Floral"
+    ],
     "description": "Introduced by Wye College in 1972, Challenger is famous for crisp, rounded English bittering and cedar herbal undertones in Bitters and Porters.",
-    "parentHopIds": ["northern_brewer"],
-    "substituteIds": ["northern_brewer", "perle", "target"],
-    "commonStyleIds": ["11B", "11C", "13C", "12C"],
-    "radarProfile": { "citrus": 2.0, "tropical": 0.5, "floral": 3.8, "herbal": 3.9, "spicy": 4.0, "piney": 2.0, "earthy": 3.6, "grassy": 2.0 }
+    "parentHopIds": [
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "northern_brewer",
+      "perle",
+      "target"
+    ],
+    "commonStyleIds": [
+      "11B",
+      "11C",
+      "13C",
+      "12C"
+    ],
+    "radarProfile": {
+      "citrus": 2.0,
+      "tropical": 0.5,
+      "floral": 3.8,
+      "herbal": 3.9,
+      "spicy": 4.0,
+      "piney": 2.0,
+      "earthy": 3.6,
+      "grassy": 2.0
+    }
   },
   {
     "id": "target",
@@ -585,13 +1464,41 @@
     "alphaAcidMax": 12.5,
     "betaAcidMin": 4.0,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Herbal", "Spicy", "Pine/Resinous"],
-    "descriptors": ["Sage", "Intense Herb", "Black Pepper", "Dry Earth"],
+    "sensoryCategories": [
+      "Herbal",
+      "Spicy",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Sage",
+      "Intense Herb",
+      "Black Pepper",
+      "Dry Earth"
+    ],
     "description": "A Northern Brewer descendant released by Wye College, Target delivers robust English bittering and peppery herbal tones for traditional British ales.",
-    "parentHopIds": ["northern_brewer"],
-    "substituteIds": ["challenger", "northdown", "fuggle"],
-    "commonStyleIds": ["11C", "13C", "15B"],
-    "radarProfile": { "citrus": 1.0, "tropical": 0.2, "floral": 1.8, "herbal": 4.4, "spicy": 4.2, "piney": 2.5, "earthy": 3.9, "grassy": 2.5 }
+    "parentHopIds": [
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "challenger",
+      "northdown",
+      "fuggle"
+    ],
+    "commonStyleIds": [
+      "11C",
+      "13C",
+      "15B"
+    ],
+    "radarProfile": {
+      "citrus": 1.0,
+      "tropical": 0.2,
+      "floral": 1.8,
+      "herbal": 4.4,
+      "spicy": 4.2,
+      "piney": 2.5,
+      "earthy": 3.9,
+      "grassy": 2.5
+    }
   },
   {
     "id": "northern_brewer",
@@ -603,13 +1510,39 @@
     "alphaAcidMax": 10.0,
     "betaAcidMin": 3.5,
     "betaAcidMax": 5.0,
-    "sensoryCategories": ["Pine/Resinous", "Herbal", "Earthy/Woody"],
-    "descriptors": ["Woody Pine", "Herbal Mint", "Earthy Spice"],
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Herbal",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "Woody Pine",
+      "Herbal Mint",
+      "Earthy Spice"
+    ],
     "description": "Originally bred in England in 1934 and heavily cultivated in Germany and the US, Northern Brewer is the signature soul of California Common.",
     "parentHopIds": [],
-    "substituteIds": ["perle", "challenger", "nugget"],
-    "commonStyleIds": ["19B", "6C", "9C", "13C"],
-    "radarProfile": { "citrus": 1.5, "tropical": 0.5, "floral": 2.0, "herbal": 4.0, "spicy": 3.6, "piney": 4.4, "earthy": 4.2, "grassy": 2.1 }
+    "substituteIds": [
+      "perle",
+      "challenger",
+      "nugget"
+    ],
+    "commonStyleIds": [
+      "19B",
+      "6C",
+      "9C",
+      "13C"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 2.0,
+      "herbal": 4.0,
+      "spicy": 3.6,
+      "piney": 4.4,
+      "earthy": 4.2,
+      "grassy": 2.1
+    }
   },
   {
     "id": "perle",
@@ -621,13 +1554,42 @@
     "alphaAcidMax": 9.5,
     "betaAcidMin": 2.5,
     "betaAcidMax": 4.5,
-    "sensoryCategories": ["Spicy", "Floral", "Herbal"],
-    "descriptors": ["Peppery Mint", "Cedar", "Sweet Floral", "Nutty Earth"],
+    "sensoryCategories": [
+      "Spicy",
+      "Floral",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Peppery Mint",
+      "Cedar",
+      "Sweet Floral",
+      "Nutty Earth"
+    ],
     "description": "Bred at the Huell Hop Research Institute from Northern Brewer, Perle provides clean, refined German bittering with minty peppery spice.",
-    "parentHopIds": ["northern_brewer"],
-    "substituteIds": ["northern_brewer", "hallertau_mittelfruh", "hersbrucker"],
-    "commonStyleIds": ["5B", "5C", "6A", "6B"],
-    "radarProfile": { "citrus": 1.5, "tropical": 0.5, "floral": 3.8, "herbal": 4.2, "spicy": 4.2, "piney": 2.0, "earthy": 3.2, "grassy": 2.0 }
+    "parentHopIds": [
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "northern_brewer",
+      "hallertau_mittelfruh",
+      "hersbrucker"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "5C",
+      "6A",
+      "6B"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 3.8,
+      "herbal": 4.2,
+      "spicy": 4.2,
+      "piney": 2.0,
+      "earthy": 3.2,
+      "grassy": 2.0
+    }
   },
   {
     "id": "saaz_late",
@@ -639,13 +1601,41 @@
     "alphaAcidMax": 7.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Spicy", "Herbal", "Floral"],
-    "descriptors": ["Fruit Blossom", "Noble Spice", "Herbal", "Mild Citrus"],
+    "sensoryCategories": [
+      "Spicy",
+      "Herbal",
+      "Floral"
+    ],
+    "descriptors": [
+      "Fruit Blossom",
+      "Noble Spice",
+      "Herbal",
+      "Mild Citrus"
+    ],
     "description": "Named after the historic Czech word for brewmaster, Sládek combines Saaz ancestry with higher alpha acids, delivering harmonious Czech lager balance.",
-    "parentHopIds": ["saaz", "northern_brewer"],
-    "substituteIds": ["saaz", "premiant"],
-    "commonStyleIds": ["3A", "3B", "3C"],
-    "radarProfile": { "citrus": 2.0, "tropical": 0.8, "floral": 4.1, "herbal": 4.2, "spicy": 4.3, "piney": 1.2, "earthy": 3.0, "grassy": 2.0 }
+    "parentHopIds": [
+      "saaz",
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "saaz",
+      "premiant"
+    ],
+    "commonStyleIds": [
+      "3A",
+      "3B",
+      "3C"
+    ],
+    "radarProfile": {
+      "citrus": 2.0,
+      "tropical": 0.8,
+      "floral": 4.1,
+      "herbal": 4.2,
+      "spicy": 4.3,
+      "piney": 1.2,
+      "earthy": 3.0,
+      "grassy": 2.0
+    }
   },
   {
     "id": "nectaron",
@@ -657,13 +1647,37 @@
     "alphaAcidMax": 13.5,
     "betaAcidMin": 4.5,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Tropical Fruit", "Citrus"],
-    "descriptors": ["Peach Nectar", "Passionfruit", "Pineapple", "Grapefruit"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Peach Nectar",
+      "Passionfruit",
+      "Pineapple",
+      "Grapefruit"
+    ],
     "description": "Developed over 17 years by Plant & Food Research NZ, Nectaron offers saturated stone fruit and intense passionfruit character for modern IPAs.",
     "parentHopIds": [],
-    "substituteIds": ["galaxy", "citra", "nelson_sauvin"],
-    "commonStyleIds": ["21A", "21B"],
-    "radarProfile": { "citrus": 4.3, "tropical": 5.0, "floral": 2.0, "herbal": 0.8, "spicy": 0.8, "piney": 1.8, "earthy": 0.9, "grassy": 1.0 }
+    "substituteIds": [
+      "galaxy",
+      "citra",
+      "nelson_sauvin"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 4.3,
+      "tropical": 5.0,
+      "floral": 2.0,
+      "herbal": 0.8,
+      "spicy": 0.8,
+      "piney": 1.8,
+      "earthy": 0.9,
+      "grassy": 1.0
+    }
   },
   {
     "id": "hallertau_blanc",
@@ -675,13 +1689,40 @@
     "alphaAcidMax": 12.0,
     "betaAcidMin": 4.5,
     "betaAcidMax": 6.0,
-    "sensoryCategories": ["Tropical Fruit", "Floral", "Citrus"],
-    "descriptors": ["White Wine", "Elderflower", "Cassis", "Grapefruit"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Floral",
+      "Citrus"
+    ],
+    "descriptors": [
+      "White Wine",
+      "Elderflower",
+      "Cassis",
+      "Grapefruit"
+    ],
     "description": "Bred in Huell from Cascade stock, Hallertau Blanc displays vinous white wine and elderflower bouquet evocative of German white grape varieties.",
-    "parentHopIds": ["cascade"],
-    "substituteIds": ["nelson_sauvin", "mandarina_bavaria"],
-    "commonStyleIds": ["21A", "25B", "5B"],
-    "radarProfile": { "citrus": 3.5, "tropical": 4.5, "floral": 4.2, "herbal": 1.8, "spicy": 1.2, "piney": 1.5, "earthy": 1.5, "grassy": 1.5 }
+    "parentHopIds": [
+      "cascade"
+    ],
+    "substituteIds": [
+      "nelson_sauvin",
+      "mandarina_bavaria"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "25B",
+      "5B"
+    ],
+    "radarProfile": {
+      "citrus": 3.5,
+      "tropical": 4.5,
+      "floral": 4.2,
+      "herbal": 1.8,
+      "spicy": 1.2,
+      "piney": 1.5,
+      "earthy": 1.5,
+      "grassy": 1.5
+    }
   },
   {
     "id": "cashmere",
@@ -693,13 +1734,42 @@
     "alphaAcidMax": 10.0,
     "betaAcidMin": 3.0,
     "betaAcidMax": 7.0,
-    "sensoryCategories": ["Tropical Fruit", "Citrus", "Herbal"],
-    "descriptors": ["Smooth Melon", "Lemon Lime", "Candied Coconut", "Herbal"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Smooth Melon",
+      "Lemon Lime",
+      "Candied Coconut",
+      "Herbal"
+    ],
     "description": "A marriage of Cascade and Northern Brewer from Washington State University, Cashmere delivers silky smooth cantaloupe and lemon-lime subtlety.",
-    "parentHopIds": ["cascade", "northern_brewer"],
-    "substituteIds": ["sabro", "amarillo", "cascade"],
-    "commonStyleIds": ["18B", "21A", "24A"],
-    "radarProfile": { "citrus": 4.3, "tropical": 4.2, "floral": 2.8, "herbal": 2.0, "spicy": 1.0, "piney": 1.2, "earthy": 1.1, "grassy": 1.4 }
+    "parentHopIds": [
+      "cascade",
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "sabro",
+      "amarillo",
+      "cascade"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "24A"
+    ],
+    "radarProfile": {
+      "citrus": 4.3,
+      "tropical": 4.2,
+      "floral": 2.8,
+      "herbal": 2.0,
+      "spicy": 1.0,
+      "piney": 1.2,
+      "earthy": 1.1,
+      "grassy": 1.4
+    }
   },
   {
     "id": "azacca",
@@ -711,12 +1781,1738 @@
     "alphaAcidMax": 16.0,
     "betaAcidMin": 4.0,
     "betaAcidMax": 5.5,
-    "sensoryCategories": ["Tropical Fruit", "Citrus"],
-    "descriptors": ["Ripe Mango", "Papaya", "Orange Slices", "Spicy Pine"],
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Ripe Mango",
+      "Papaya",
+      "Orange Slices",
+      "Spicy Pine"
+    ],
     "description": "Named after the Haitian god of agriculture, Azacca burst onto the craft scene with intense ripe mango, sweet orchard peach, and tropical juiciness.",
     "parentHopIds": [],
-    "substituteIds": ["citra", "el_dorado", "amarillo"],
-    "commonStyleIds": ["21A", "21B", "18B"],
-    "radarProfile": { "citrus": 4.2, "tropical": 4.8, "floral": 1.8, "herbal": 1.0, "spicy": 1.5, "piney": 2.4, "earthy": 1.2, "grassy": 1.0 }
+    "substituteIds": [
+      "citra",
+      "el_dorado",
+      "amarillo"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 4.8,
+      "floral": 1.8,
+      "herbal": 1.0,
+      "spicy": 1.5,
+      "piney": 2.4,
+      "earthy": 1.2,
+      "grassy": 1.0
+    }
+  },
+  {
+    "id": "krush",
+    "name": "Krush",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 12.0,
+    "alphaAcidMax": 14.5,
+    "betaAcidMin": 7.5,
+    "betaAcidMax": 9.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Peach",
+      "Mango",
+      "Guava",
+      "Candied Orange",
+      "Mixed Berry"
+    ],
+    "description": "Bred by the Hop Breeding Company and long trialed as HBC 586 before being officially named in 2024, Krush delivers an explosive medley of sweet peach, ripe mango, guava, and candied citrus.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "citra",
+      "mosaic",
+      "el_dorado",
+      "idaho_7"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.6,
+      "tropical": 4.9,
+      "floral": 2.0,
+      "herbal": 0.8,
+      "spicy": 1.2,
+      "piney": 1.8,
+      "earthy": 0.9,
+      "grassy": 0.7
+    }
+  },
+  {
+    "id": "talus",
+    "name": "Talus",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 8.0,
+    "alphaAcidMax": 9.5,
+    "betaAcidMin": 8.5,
+    "betaAcidMax": 10.0,
+    "sensoryCategories": [
+      "Citrus",
+      "Floral",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Pink Grapefruit",
+      "Dried Roses",
+      "Pine Resin",
+      "Sage",
+      "Tropical Fruit"
+    ],
+    "description": "A daughter of Sabro released by HBC as HBC 692, Talus boasts prominent pink grapefruit, floral rose petals, rich pine resin, and botanical sage.",
+    "parentHopIds": [
+      "sabro"
+    ],
+    "substituteIds": [
+      "sabro",
+      "cashmere",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B",
+      "24A"
+    ],
+    "radarProfile": {
+      "citrus": 4.7,
+      "tropical": 3.8,
+      "floral": 4.5,
+      "herbal": 2.8,
+      "spicy": 1.5,
+      "piney": 3.6,
+      "earthy": 1.4,
+      "grassy": 1.0
+    }
+  },
+  {
+    "id": "ekuanot",
+    "name": "Ekuanot",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 13.0,
+    "alphaAcidMax": 15.5,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 5.5,
+    "sensoryCategories": [
+      "Citrus",
+      "Herbal",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Melon",
+      "Berry",
+      "Lime Peel",
+      "Green Pepper",
+      "Eucalyptus"
+    ],
+    "description": "Developed by the Hop Breeding Company and previously known as Equinox or HBC 366, Ekuanot provides a distinct interplay of bright lime, sweet melon, fresh herbs, and dark berry notes.",
+    "parentHopIds": [
+      "simcoe"
+    ],
+    "substituteIds": [
+      "simcoe",
+      "chinook",
+      "azacca"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B",
+      "12A"
+    ],
+    "radarProfile": {
+      "citrus": 4.1,
+      "tropical": 4.2,
+      "floral": 2.2,
+      "herbal": 3.8,
+      "spicy": 1.8,
+      "piney": 2.5,
+      "earthy": 1.7,
+      "grassy": 1.5
+    }
+  },
+  {
+    "id": "loral",
+    "name": "Loral",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 10.0,
+    "alphaAcidMax": 12.5,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 5.5,
+    "sensoryCategories": [
+      "Floral",
+      "Citrus",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Floral",
+      "Dark Fruit",
+      "Lemon",
+      "Peppery",
+      "Lavender"
+    ],
+    "description": "Coined as a 'super-noble' American hop by HBC (HBC 291), Loral bridges old-world floral elegance with new-world lemon zest and subtle dark fruit undertones.",
+    "parentHopIds": [
+      "glacier"
+    ],
+    "substituteIds": [
+      "saaz",
+      "hallertau_mittelfruh",
+      "centennial"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "5D",
+      "18B",
+      "25B"
+    ],
+    "radarProfile": {
+      "citrus": 3.8,
+      "tropical": 2.0,
+      "floral": 4.8,
+      "herbal": 3.5,
+      "spicy": 2.6,
+      "piney": 1.4,
+      "earthy": 1.8,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "comet",
+    "name": "Comet",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 9.0,
+    "alphaAcidMax": 12.0,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Citrus",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Wild Grapefruit",
+      "Tangerine",
+      "Dank Resin",
+      "Grassy"
+    ],
+    "description": "Released by the USDA in 1974 as a bittering hop and revived by craft brewers as a 'wild American' aroma hop, Comet punches with assertive bitter grapefruit, sweet tangerine, and dank resin.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "cascade",
+      "chinook",
+      "columbus"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "19A"
+    ],
+    "radarProfile": {
+      "citrus": 4.7,
+      "tropical": 2.2,
+      "floral": 2.0,
+      "herbal": 1.9,
+      "spicy": 1.8,
+      "piney": 3.8,
+      "earthy": 2.4,
+      "grassy": 3.0
+    }
+  },
+  {
+    "id": "eclipse",
+    "name": "Eclipse",
+    "origin": "Australia",
+    "countryCode": "AU",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 15.5,
+    "alphaAcidMax": 18.5,
+    "betaAcidMin": 6.0,
+    "betaAcidMax": 8.5,
+    "sensoryCategories": [
+      "Citrus",
+      "Pine/Resinous",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Sweet Mandarin",
+      "Zesty Citrus Peel",
+      "Fresh Pine",
+      "Passionfruit"
+    ],
+    "description": "Bred by Hop Products Australia (HPA-016) and commercialized in 2020, Eclipse is famous for its unmistakable bursting mandarin orange aroma balanced by sweet resinous pine needles.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "mandarina_bavaria",
+      "galaxy",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.9,
+      "tropical": 4.1,
+      "floral": 1.8,
+      "herbal": 1.2,
+      "spicy": 1.0,
+      "piney": 3.6,
+      "earthy": 1.2,
+      "grassy": 1.0
+    }
+  },
+  {
+    "id": "enigma",
+    "name": "Enigma",
+    "origin": "Australia",
+    "countryCode": "AU",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 15.0,
+    "alphaAcidMax": 19.0,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 7.0,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Floral"
+    ],
+    "descriptors": [
+      "Pinot Gris",
+      "White Wine",
+      "Redcurrant",
+      "Cantaloupe",
+      "Raspberry"
+    ],
+    "description": "From HPA's innovative breeding program, Enigma offers an ethereal sensory profile marked by white wine grapes, ripe cantaloupe, and tart redcurrant berries.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "nelson_sauvin",
+      "hallertau_blanc",
+      "vic_secret"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "25B"
+    ],
+    "radarProfile": {
+      "citrus": 3.0,
+      "tropical": 4.6,
+      "floral": 3.8,
+      "herbal": 1.5,
+      "spicy": 1.2,
+      "piney": 1.6,
+      "earthy": 1.4,
+      "grassy": 1.2
+    }
+  },
+  {
+    "id": "superdelic",
+    "name": "Superdelic",
+    "origin": "New Zealand",
+    "countryCode": "NZ",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 9.0,
+    "alphaAcidMax": 11.5,
+    "betaAcidMin": 3.5,
+    "betaAcidMax": 5.0,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Red Berry",
+      "Candy",
+      "Sweet Citrus",
+      "Tropical Punch",
+      "Lollipop"
+    ],
+    "description": "Released in 2023 by NZ Hops after over 10 years of development (trialed as NZH-102), Superdelic imparts sensational red fruit candy, sweet citrus, and tropical lollipop notes to modern hazy and fruity ales.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "nectaron",
+      "nelson_sauvin",
+      "strata"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.4,
+      "tropical": 4.9,
+      "floral": 2.2,
+      "herbal": 0.8,
+      "spicy": 0.9,
+      "piney": 1.4,
+      "earthy": 0.8,
+      "grassy": 1.1
+    }
+  },
+  {
+    "id": "wai_iti",
+    "name": "Wai-iti",
+    "origin": "New Zealand",
+    "countryCode": "NZ",
+    "purpose": "Aroma",
+    "alphaAcidMin": 2.5,
+    "alphaAcidMax": 4.5,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Citrus",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Fresh Peach",
+      "Apricot",
+      "Lime Mandarin",
+      "Clean"
+    ],
+    "description": "A low-alpha aroma specialist bred by NZ Plant & Food Research from Hallertau Mittelfrüh stock, Wai-iti shines with crisp stone fruit like fresh peach, apricot, and subtle mandarin zest.",
+    "parentHopIds": [
+      "hallertau_mittelfruh"
+    ],
+    "substituteIds": [
+      "motueka",
+      "riwaka",
+      "amarillo"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "1A",
+      "18A",
+      "21A"
+    ],
+    "radarProfile": {
+      "citrus": 4.3,
+      "tropical": 4.5,
+      "floral": 3.0,
+      "herbal": 1.5,
+      "spicy": 1.0,
+      "piney": 1.0,
+      "earthy": 0.9,
+      "grassy": 1.4
+    }
+  },
+  {
+    "id": "alora",
+    "name": "Alora",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 7.0,
+    "alphaAcidMax": 9.5,
+    "betaAcidMin": 3.5,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Apricot",
+      "Yuzu",
+      "Peach Candy",
+      "Sweet Melon"
+    ],
+    "description": "Commercialized by Hopsteiner in 2024 (trialed as HS-16660), Alora stands out for unprecedented levels of 3-MH thiol precursors and a lush profile of candied peach, yuzu, and apricot.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "el_dorado",
+      "cashmere",
+      "citra"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.4,
+      "tropical": 4.8,
+      "floral": 2.5,
+      "herbal": 1.0,
+      "spicy": 0.8,
+      "piney": 1.2,
+      "earthy": 0.7,
+      "grassy": 1.0
+    }
+  },
+  {
+    "id": "vista",
+    "name": "Vista",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 10.0,
+    "alphaAcidMax": 12.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Ripe Papaya",
+      "White Peach",
+      "Honeydew",
+      "Mandarin"
+    ],
+    "description": "Released by the USDA-ARS breeding program in 2022 (trialed as USDA 2015011-003), Vista was voted top experimental hop by elite craft brewers for its gentle white peach, papaya, and honeyed citrus character.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "cashmere",
+      "citra",
+      "amarillo"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "21B"
+    ],
+    "radarProfile": {
+      "citrus": 4.3,
+      "tropical": 4.7,
+      "floral": 3.2,
+      "herbal": 1.2,
+      "spicy": 0.8,
+      "piney": 1.4,
+      "earthy": 0.9,
+      "grassy": 1.2
+    }
+  },
+  {
+    "id": "zappa",
+    "name": "Zappa",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 6.0,
+    "alphaAcidMax": 9.0,
+    "betaAcidMin": 8.0,
+    "betaAcidMax": 9.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Spicy",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Fruity Pebbles",
+      "Savory Spice",
+      "Passionfruit",
+      "Purple Grape",
+      "Mint"
+    ],
+    "description": "A native wild Humulus lupulus var. neomexicanus cultivar discovered in New Mexico and named in honor of Frank Zappa, this wildly unique hop delivers fruit cereal, tropical passionfruit, and savory botanical spice.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "sabro",
+      "strata",
+      "sorachi_ace"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "27A"
+    ],
+    "radarProfile": {
+      "citrus": 3.5,
+      "tropical": 4.6,
+      "floral": 2.8,
+      "herbal": 3.2,
+      "spicy": 3.4,
+      "piney": 3.0,
+      "earthy": 2.5,
+      "grassy": 2.0
+    }
+  },
+  {
+    "id": "cluster",
+    "name": "Cluster",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 5.5,
+    "alphaAcidMax": 8.5,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Earthy/Woody",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Earthy",
+      "Floral",
+      "Sweet Fruit",
+      "Rustic"
+    ],
+    "description": "The oldest continuously cultivated hop variety in North America, Cluster was the backbone of pre-prohibition lagers, historical cream ales, and California common beers.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "galena",
+      "northern_brewer",
+      "cascade"
+    ],
+    "commonStyleIds": [
+      "1C",
+      "19B",
+      "27A"
+    ],
+    "radarProfile": {
+      "citrus": 2.2,
+      "tropical": 1.5,
+      "floral": 3.8,
+      "herbal": 2.6,
+      "spicy": 3.2,
+      "piney": 2.0,
+      "earthy": 4.2,
+      "grassy": 2.5
+    }
+  },
+  {
+    "id": "mount_hood",
+    "name": "Mount Hood",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 4.0,
+    "alphaAcidMax": 7.0,
+    "betaAcidMin": 5.0,
+    "betaAcidMax": 7.5,
+    "sensoryCategories": [
+      "Herbal",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Noble Herbal",
+      "Sweet Spice",
+      "Clean Floral",
+      "Faint Citrus"
+    ],
+    "description": "Released by the USDA in 1989 as a triploid seedling of Hallertau Mittelfrüh, Mount Hood delivers refined noble spice and herbal delicacy to lagers, bocks, and wheat beers.",
+    "parentHopIds": [
+      "hallertau_mittelfruh"
+    ],
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "crystal",
+      "hersbrucker"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "4A",
+      "6A",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 2.0,
+      "tropical": 1.0,
+      "floral": 4.2,
+      "herbal": 4.4,
+      "spicy": 3.8,
+      "piney": 1.5,
+      "earthy": 3.0,
+      "grassy": 2.8
+    }
+  },
+  {
+    "id": "crystal",
+    "name": "Crystal",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.5,
+    "alphaAcidMax": 6.0,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 6.5,
+    "sensoryCategories": [
+      "Floral",
+      "Spicy",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Woody Floral",
+      "Cinnamon Spice",
+      "Mild Citrus",
+      "Noble"
+    ],
+    "description": "Derived from Hallertau Mittelfrüh, Cascade, and Brewer's Gold, Crystal is celebrated for its warm woody-floral spice and clean European noble-style profile.",
+    "parentHopIds": [
+      "hallertau_mittelfruh",
+      "cascade",
+      "brewer_gold"
+    ],
+    "substituteIds": [
+      "mount_hood",
+      "hallertau_mittelfruh",
+      "liberty"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "6A",
+      "18B",
+      "19A"
+    ],
+    "radarProfile": {
+      "citrus": 2.5,
+      "tropical": 1.2,
+      "floral": 4.5,
+      "herbal": 3.8,
+      "spicy": 4.0,
+      "piney": 1.8,
+      "earthy": 2.6,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "sterling",
+    "name": "Sterling",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 6.0,
+    "alphaAcidMax": 9.0,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Herbal",
+      "Spicy",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Saaz-like Spice",
+      "Herbal",
+      "Lemon Peel",
+      "Earthy Floral"
+    ],
+    "description": "An American noble-type cultivar bred from Saaz, Cascade, and German parentage, Sterling exhibits classic herbal spice enriched with clean lemon zest.",
+    "parentHopIds": [
+      "saaz",
+      "cascade"
+    ],
+    "substituteIds": [
+      "saaz",
+      "mount_hood",
+      "tettnang"
+    ],
+    "commonStyleIds": [
+      "3B",
+      "5D",
+      "25B",
+      "18A"
+    ],
+    "radarProfile": {
+      "citrus": 3.4,
+      "tropical": 1.0,
+      "floral": 3.8,
+      "herbal": 4.3,
+      "spicy": 4.2,
+      "piney": 1.6,
+      "earthy": 3.2,
+      "grassy": 2.5
+    }
+  },
+  {
+    "id": "liberty",
+    "name": "Liberty",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.0,
+    "alphaAcidMax": 5.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Mild Floral",
+      "Delicate Spice",
+      "Lemon",
+      "Clean"
+    ],
+    "description": "A half-sister to Mount Hood bred from Hallertau Mittelfrüh and released in 1991, Liberty exhibits very mild, clean floral notes and pleasant herbal spice ideal for delicate German-style lagers.",
+    "parentHopIds": [
+      "hallertau_mittelfruh"
+    ],
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "mount_hood",
+      "crystal"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "5D",
+      "4A",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 2.2,
+      "tropical": 0.8,
+      "floral": 4.4,
+      "herbal": 3.9,
+      "spicy": 3.5,
+      "piney": 1.2,
+      "earthy": 2.5,
+      "grassy": 2.0
+    }
+  },
+  {
+    "id": "ahtanum",
+    "name": "Ahtanum",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Aroma",
+    "alphaAcidMin": 5.0,
+    "alphaAcidMax": 7.0,
+    "betaAcidMin": 5.0,
+    "betaAcidMax": 6.5,
+    "sensoryCategories": [
+      "Citrus",
+      "Floral",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Grapefruit",
+      "Geranium Floral",
+      "Cedar Pine",
+      "Sweet Earth"
+    ],
+    "description": "Bred by Select Botanicals Group in Yakima, Ahtanum provides moderate alpha potential with floral geranium, earthy grapefruit, and woodsy cedar qualities.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "cascade",
+      "amarillo",
+      "willamette"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "19A",
+      "21A"
+    ],
+    "radarProfile": {
+      "citrus": 4.1,
+      "tropical": 2.0,
+      "floral": 4.2,
+      "herbal": 2.4,
+      "spicy": 2.2,
+      "piney": 3.0,
+      "earthy": 2.8,
+      "grassy": 1.8
+    }
+  },
+  {
+    "id": "galena",
+    "name": "Galena",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Bittering",
+    "alphaAcidMin": 11.5,
+    "alphaAcidMax": 14.0,
+    "betaAcidMin": 7.0,
+    "betaAcidMax": 9.0,
+    "sensoryCategories": [
+      "Citrus",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Clean Bitterness",
+      "Pungent Citrus",
+      "Spicy Blackcurrant"
+    ],
+    "description": "Bred in Idaho in 1968 from Brewer's Gold, Galena was the world's most widely grown high-alpha bittering hop for decades, prized for clean, smooth bitterness.",
+    "parentHopIds": [
+      "brewer_gold"
+    ],
+    "substituteIds": [
+      "nugget",
+      "columbus",
+      "cluster"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "21A",
+      "1C",
+      "22A"
+    ],
+    "radarProfile": {
+      "citrus": 3.5,
+      "tropical": 1.8,
+      "floral": 2.0,
+      "herbal": 2.2,
+      "spicy": 3.0,
+      "piney": 2.5,
+      "earthy": 2.6,
+      "grassy": 2.0
+    }
+  },
+  {
+    "id": "apollo",
+    "name": "Apollo",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Bittering",
+    "alphaAcidMin": 15.0,
+    "alphaAcidMax": 19.0,
+    "betaAcidMin": 5.5,
+    "betaAcidMax": 8.0,
+    "sensoryCategories": [
+      "Pine/Resinous",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Dank Resin",
+      "Sharp Pine",
+      "Grapefruit Zest",
+      "Pungent"
+    ],
+    "description": "A super-high alpha variety released by Hopsteiner in 2006, Apollo delivers huge bittering punch alongside dank, resinous pine and sharp grapefruit when used late in the boil.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "warrior",
+      "columbus",
+      "magnum"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "22A"
+    ],
+    "radarProfile": {
+      "citrus": 3.8,
+      "tropical": 1.5,
+      "floral": 1.2,
+      "herbal": 2.0,
+      "spicy": 2.2,
+      "piney": 4.6,
+      "earthy": 2.8,
+      "grassy": 1.5
+    }
+  },
+  {
+    "id": "bravo",
+    "name": "Bravo",
+    "origin": "United States",
+    "countryCode": "US",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 14.0,
+    "alphaAcidMax": 17.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 5.0,
+    "sensoryCategories": [
+      "Floral",
+      "Citrus",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Orange Candy",
+      "Blossom Floral",
+      "Spicy Resin",
+      "Clean Bitterness"
+    ],
+    "description": "A second-generation super-high alpha hop developed by Hopsteiner, Bravo pairs potent, clean bittering with pleasant candied orange, floral, and subtle cedar notes.",
+    "parentHopIds": [
+      "zeus"
+    ],
+    "substituteIds": [
+      "columbus",
+      "warrior",
+      "nugget"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "22A",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.0,
+      "tropical": 2.5,
+      "floral": 3.6,
+      "herbal": 1.8,
+      "spicy": 2.8,
+      "piney": 3.0,
+      "earthy": 2.0,
+      "grassy": 1.4
+    }
+  },
+  {
+    "id": "hallertau_tradition",
+    "name": "Hallertau Tradition",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "purpose": "Aroma",
+    "alphaAcidMin": 5.0,
+    "alphaAcidMax": 7.0,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 5.5,
+    "sensoryCategories": [
+      "Herbal",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Noble Herb",
+      "Floral Blossom",
+      "Earthy Spice",
+      "Faint Nectar"
+    ],
+    "description": "Bred at the Huell Hop Research Center to succeed Hallertau Mittelfrüh with superior disease resistance, Tradition provides archetypal German noble floral and delicate herbal aroma.",
+    "parentHopIds": [
+      "hallertau_mittelfruh",
+      "saaz"
+    ],
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "liberty",
+      "hersbrucker"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "5B",
+      "4A",
+      "6A",
+      "10A"
+    ],
+    "radarProfile": {
+      "citrus": 1.8,
+      "tropical": 0.6,
+      "floral": 4.6,
+      "herbal": 4.5,
+      "spicy": 3.8,
+      "piney": 1.2,
+      "earthy": 3.2,
+      "grassy": 2.6
+    }
+  },
+  {
+    "id": "spalt_select",
+    "name": "Spalt Select",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.5,
+    "alphaAcidMax": 5.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Spicy",
+      "Floral",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Spicy Herbal",
+      "Cedar Wood",
+      "Sweet Floral",
+      "Noble"
+    ],
+    "description": "Bred at Huell from Spalt and Hallertau Mittelfrüh parents, Spalt Select preserves the traditional spicy, woody-floral elegance of ancient Spalter hops.",
+    "parentHopIds": [
+      "spalt",
+      "hallertau_mittelfruh"
+    ],
+    "substituteIds": [
+      "spalt",
+      "saaz",
+      "tettnang"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "5D",
+      "6B",
+      "7B"
+    ],
+    "radarProfile": {
+      "citrus": 1.5,
+      "tropical": 0.5,
+      "floral": 4.2,
+      "herbal": 4.4,
+      "spicy": 4.6,
+      "piney": 1.6,
+      "earthy": 3.4,
+      "grassy": 2.8
+    }
+  },
+  {
+    "id": "saphir",
+    "name": "Saphir",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "purpose": "Aroma",
+    "alphaAcidMin": 2.0,
+    "alphaAcidMax": 4.5,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 7.0,
+    "sensoryCategories": [
+      "Floral",
+      "Citrus",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Sweet Tangerine",
+      "Noble Floral",
+      "Mint",
+      "Mild Herbal"
+    ],
+    "description": "A delicate aroma cultivar bred in Huell, Saphir complements noble floral-herbal pedigree with subtle sweet tangerine, mint, and soft fruity refinement in lagers and Belgian ales.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "hallertau_mittelfruh",
+      "hersbrucker",
+      "mandarina_bavaria"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "5D",
+      "24A",
+      "25B"
+    ],
+    "radarProfile": {
+      "citrus": 3.8,
+      "tropical": 1.8,
+      "floral": 4.5,
+      "herbal": 3.6,
+      "spicy": 2.2,
+      "piney": 1.2,
+      "earthy": 2.0,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "huell_melon",
+    "name": "Huell Melon",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "purpose": "Aroma",
+    "alphaAcidMin": 6.5,
+    "alphaAcidMax": 8.5,
+    "betaAcidMin": 7.0,
+    "betaAcidMax": 8.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Floral"
+    ],
+    "descriptors": [
+      "Honeydew Melon",
+      "Ripe Strawberry",
+      "Apricot",
+      "Soft Floral"
+    ],
+    "description": "A daughter of Cascade released from Huell in 2012, Huell Melon breaks German tradition with distinctly sweet honeydew melon, wild strawberry, and summer fruit nuances.",
+    "parentHopIds": [
+      "cascade"
+    ],
+    "substituteIds": [
+      "cashmere",
+      "mandarina_bavaria",
+      "hallertau_blanc"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "25B",
+      "5B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 2.5,
+      "tropical": 4.7,
+      "floral": 3.6,
+      "herbal": 1.6,
+      "spicy": 1.2,
+      "piney": 1.0,
+      "earthy": 1.5,
+      "grassy": 1.8
+    }
+  },
+  {
+    "id": "polaris",
+    "name": "Polaris",
+    "origin": "Germany",
+    "countryCode": "DE",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 18.0,
+    "alphaAcidMax": 21.5,
+    "betaAcidMin": 5.0,
+    "betaAcidMax": 6.5,
+    "sensoryCategories": [
+      "Herbal",
+      "Pine/Resinous",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Intense Peppermint",
+      "Menthol",
+      "Glacier Pine",
+      "Earthy Spice"
+    ],
+    "description": "A powerhouse high-alpha cultivar from Huell with massive oil content, Polaris is famed for its extreme refreshing menthol, cooling peppermint, and icy alpine pine notes.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "magnum",
+      "chinook",
+      "perle"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "22A",
+      "9A"
+    ],
+    "radarProfile": {
+      "citrus": 2.0,
+      "tropical": 1.2,
+      "floral": 1.5,
+      "herbal": 4.9,
+      "spicy": 3.8,
+      "piney": 4.5,
+      "earthy": 2.8,
+      "grassy": 2.4
+    }
+  },
+  {
+    "id": "strisselspalt",
+    "name": "Strisselspalt",
+    "origin": "France",
+    "countryCode": "FR",
+    "purpose": "Aroma",
+    "alphaAcidMin": 1.8,
+    "alphaAcidMax": 2.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Fine Floral",
+      "Earthy Spice",
+      "Lemon",
+      "Blackcurrant"
+    ],
+    "description": "The premier terroir hop of Alsace, Strisselspalt is an ancient noble aroma cultivar prized for ultra-low bitterness and exquisite floral, herbal, and faint dark berry aromatics.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "hersbrucker",
+      "saaz",
+      "mount_hood"
+    ],
+    "commonStyleIds": [
+      "24A",
+      "25B",
+      "26A",
+      "5B"
+    ],
+    "radarProfile": {
+      "citrus": 2.2,
+      "tropical": 1.0,
+      "floral": 4.7,
+      "herbal": 4.4,
+      "spicy": 3.6,
+      "piney": 1.0,
+      "earthy": 3.2,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "barbe_rouge",
+    "name": "Barbe Rouge",
+    "origin": "France",
+    "countryCode": "FR",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 7.0,
+    "alphaAcidMax": 10.0,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Tropical Fruit",
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Ripe Strawberry",
+      "Raspberry",
+      "Redcurrant",
+      "Citrus Kumquat"
+    ],
+    "description": "Bred in Alsace by Comptoir Agricole, Barbe Rouge ('Red Beard') captivates brewers with distinct confectionary red berries like ripe summer strawberry and tart raspberry.",
+    "parentHopIds": [],
+    "substituteIds": [
+      "huell_melon",
+      "strata",
+      "mandarina_bavaria"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "25B",
+      "24A",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 3.6,
+      "tropical": 4.8,
+      "floral": 3.2,
+      "herbal": 1.4,
+      "spicy": 1.0,
+      "piney": 1.2,
+      "earthy": 1.4,
+      "grassy": 1.6
+    }
+  },
+  {
+    "id": "bramling_cross",
+    "name": "Bramling Cross",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 5.0,
+    "alphaAcidMax": 7.5,
+    "betaAcidMin": 2.5,
+    "betaAcidMax": 3.5,
+    "sensoryCategories": [
+      "Spicy",
+      "Herbal",
+      "Tropical Fruit"
+    ],
+    "descriptors": [
+      "Blackcurrant",
+      "Loganberry",
+      "Rich Spice",
+      "Lemon"
+    ],
+    "description": "A cross between Bramling Golding and a wild Canadian seedling bred at Wye College in 1927, Bramling Cross yields distinctive hedgerow blackcurrant and rich dark fruit notes.",
+    "parentHopIds": [
+      "east_kent_goldings"
+    ],
+    "substituteIds": [
+      "east_kent_goldings",
+      "challenger",
+      "fuggle"
+    ],
+    "commonStyleIds": [
+      "11C",
+      "13C",
+      "15B",
+      "17B"
+    ],
+    "radarProfile": {
+      "citrus": 2.8,
+      "tropical": 3.8,
+      "floral": 3.0,
+      "herbal": 3.5,
+      "spicy": 4.2,
+      "piney": 1.8,
+      "earthy": 3.6,
+      "grassy": 2.0
+    }
+  },
+  {
+    "id": "first_gold",
+    "name": "First Gold",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 6.5,
+    "alphaAcidMax": 8.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.0,
+    "sensoryCategories": [
+      "Floral",
+      "Citrus",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Orange Marmalade",
+      "Sweet Spice",
+      "Floral Golding",
+      "Earthy"
+    ],
+    "description": "The first commercial hedgerow dwarf hop from Wye College (1995), First Gold inherits the classic Golding floral lineage while delivering bold Seville orange marmalade and peppery spice.",
+    "parentHopIds": [
+      "east_kent_goldings"
+    ],
+    "substituteIds": [
+      "east_kent_goldings",
+      "challenger",
+      "willamette"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "11C",
+      "12C"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 2.0,
+      "floral": 4.3,
+      "herbal": 2.8,
+      "spicy": 3.8,
+      "piney": 1.5,
+      "earthy": 3.2,
+      "grassy": 2.0
+    }
+  },
+  {
+    "id": "northdown",
+    "name": "Northdown",
+    "origin": "United Kingdom",
+    "countryCode": "GB",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 7.5,
+    "alphaAcidMax": 9.5,
+    "betaAcidMin": 4.5,
+    "betaAcidMax": 5.5,
+    "sensoryCategories": [
+      "Spicy",
+      "Pine/Resinous",
+      "Herbal"
+    ],
+    "descriptors": [
+      "Fresh Cedar",
+      "Woody Pine",
+      "Berry Spice",
+      "Crisp Bitterness"
+    ],
+    "description": "Bred at Wye College from Northern Brewer in the 1970s, Northdown provides classic British ales with clean, firm bittering and rich aromatic cedar, pine, and floral berry notes.",
+    "parentHopIds": [
+      "northern_brewer",
+      "challenger"
+    ],
+    "substituteIds": [
+      "challenger",
+      "northern_brewer",
+      "target"
+    ],
+    "commonStyleIds": [
+      "11C",
+      "13C",
+      "15B",
+      "16A"
+    ],
+    "radarProfile": {
+      "citrus": 2.4,
+      "tropical": 1.8,
+      "floral": 3.5,
+      "herbal": 3.6,
+      "spicy": 4.0,
+      "piney": 3.8,
+      "earthy": 3.5,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "styrian_aurora",
+    "name": "Styrian Aurora",
+    "origin": "Slovenia",
+    "countryCode": "SI",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 7.0,
+    "alphaAcidMax": 9.5,
+    "betaAcidMin": 3.0,
+    "betaAcidMax": 4.5,
+    "sensoryCategories": [
+      "Herbal",
+      "Floral",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Smooth Herbal",
+      "Pleasant Floral",
+      "Subtle Spice",
+      "Harmonious"
+    ],
+    "description": "Also known as Super Styrian, Aurora is a Slovenian breeding triumph derived from Northern Brewer that offers intense yet pleasantly balanced herbal and floral aroma with velvety bitterness.",
+    "parentHopIds": [
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "styrian_goldings",
+      "northern_brewer",
+      "perle"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "11B",
+      "12A",
+      "25B"
+    ],
+    "radarProfile": {
+      "citrus": 2.2,
+      "tropical": 1.4,
+      "floral": 4.2,
+      "herbal": 4.4,
+      "spicy": 3.6,
+      "piney": 1.8,
+      "earthy": 3.0,
+      "grassy": 2.6
+    }
+  },
+  {
+    "id": "styrian_celeia",
+    "name": "Styrian Celeia",
+    "origin": "Slovenia",
+    "countryCode": "SI",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.0,
+    "alphaAcidMax": 5.5,
+    "betaAcidMin": 2.0,
+    "betaAcidMax": 3.5,
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Citrus"
+    ],
+    "descriptors": [
+      "Sweet Blossom",
+      "Delicate Lemon",
+      "Noble Herb",
+      "Earthy"
+    ],
+    "description": "A triploid hybrid of Styrian Golding, Aurora, and a wild Slovenian hop, Celeia displays fine noble floral bouquets accompanied by subtle lemon zest and mellow herbal tones.",
+    "parentHopIds": [
+      "styrian_goldings",
+      "styrian_aurora"
+    ],
+    "substituteIds": [
+      "styrian_goldings",
+      "saaz",
+      "tettnang"
+    ],
+    "commonStyleIds": [
+      "5D",
+      "5B",
+      "12B",
+      "25A"
+    ],
+    "radarProfile": {
+      "citrus": 3.2,
+      "tropical": 1.0,
+      "floral": 4.6,
+      "herbal": 4.2,
+      "spicy": 3.0,
+      "piney": 1.2,
+      "earthy": 2.8,
+      "grassy": 2.4
+    }
+  },
+  {
+    "id": "styrian_bobek",
+    "name": "Styrian Bobek",
+    "origin": "Slovenia",
+    "countryCode": "SI",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.5,
+    "alphaAcidMax": 6.5,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Pine/Resinous"
+    ],
+    "descriptors": [
+      "Floral Lavender",
+      "Pine Resin",
+      "Lemon Verbena",
+      "Noble Spice"
+    ],
+    "description": "Cultivated in the Savinja Valley of Slovenia, Bobek combines clean floral perfume with pleasant pine resin and lemon verbena accents, widely favored in continental lagers and English bitters.",
+    "parentHopIds": [
+      "northern_brewer"
+    ],
+    "substituteIds": [
+      "styrian_goldings",
+      "fuggle",
+      "willamette"
+    ],
+    "commonStyleIds": [
+      "11B",
+      "11C",
+      "5D",
+      "12A"
+    ],
+    "radarProfile": {
+      "citrus": 3.0,
+      "tropical": 1.2,
+      "floral": 4.5,
+      "herbal": 4.1,
+      "spicy": 3.2,
+      "piney": 2.8,
+      "earthy": 2.6,
+      "grassy": 2.2
+    }
+  },
+  {
+    "id": "lubelski",
+    "name": "Lubelski",
+    "origin": "Poland",
+    "countryCode": "PL",
+    "purpose": "Aroma",
+    "alphaAcidMin": 3.0,
+    "alphaAcidMax": 5.0,
+    "betaAcidMin": 2.5,
+    "betaAcidMax": 4.0,
+    "sensoryCategories": [
+      "Floral",
+      "Herbal",
+      "Spicy"
+    ],
+    "descriptors": [
+      "Noble Blossom",
+      "Magnolia",
+      "Spicy Herb",
+      "Clean Wood"
+    ],
+    "description": "The premier traditional Polish noble hop, Lubelski (historically Lublin) is an eco-type of Saaz essential to Piwo Grodziskie (oak-smoked wheat beer) and classic Polish lagers.",
+    "parentHopIds": [
+      "saaz"
+    ],
+    "substituteIds": [
+      "saaz",
+      "tettnang",
+      "spalt"
+    ],
+    "commonStyleIds": [
+      "27A",
+      "5B",
+      "5D",
+      "3B"
+    ],
+    "radarProfile": {
+      "citrus": 1.8,
+      "tropical": 0.5,
+      "floral": 4.7,
+      "herbal": 4.5,
+      "spicy": 4.4,
+      "piney": 1.4,
+      "earthy": 3.2,
+      "grassy": 2.8
+    }
+  },
+  {
+    "id": "marynka",
+    "name": "Marynka",
+    "origin": "Poland",
+    "countryCode": "PL",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 8.5,
+    "alphaAcidMax": 11.5,
+    "betaAcidMin": 3.5,
+    "betaAcidMax": 5.0,
+    "sensoryCategories": [
+      "Herbal",
+      "Spicy",
+      "Earthy/Woody"
+    ],
+    "descriptors": [
+      "Resinous Herb",
+      "Rustic Spice",
+      "Grapefruit",
+      "Earthy Anise"
+    ],
+    "description": "The most widely grown hop in Poland, Marynka delivers assertive, clean bittering potential supported by herbal anise, grapefruit zest, and deep rustic earthy spice in Baltic porters and pilsners.",
+    "parentHopIds": [
+      "brewer_gold"
+    ],
+    "substituteIds": [
+      "northern_brewer",
+      "perle",
+      "challenger"
+    ],
+    "commonStyleIds": [
+      "9C",
+      "5B",
+      "5D",
+      "27A"
+    ],
+    "radarProfile": {
+      "citrus": 3.2,
+      "tropical": 1.0,
+      "floral": 2.8,
+      "herbal": 4.6,
+      "spicy": 4.2,
+      "piney": 3.0,
+      "earthy": 4.0,
+      "grassy": 2.5
+    }
+  },
+  {
+    "id": "kazbek",
+    "name": "Kazbek",
+    "origin": "Czech Republic",
+    "countryCode": "CZ",
+    "purpose": "Dual-Purpose",
+    "alphaAcidMin": 5.0,
+    "alphaAcidMax": 8.0,
+    "betaAcidMin": 4.0,
+    "betaAcidMax": 6.0,
+    "sensoryCategories": [
+      "Spicy",
+      "Citrus",
+      "Floral"
+    ],
+    "descriptors": [
+      "Spicy Citrus",
+      "Wild Lemon",
+      "Noble Saaz Floral",
+      "Ripe Berries"
+    ],
+    "description": "Named after Mount Kazbek and released in 2008 by the Czech Hop Research Institute, Kazbek was bred from wild Russian and Caucasian stock crossed with Saaz to create a bold 'super-Saaz' brimming with wild lemon, rustic pepper, and sweet berries.",
+    "parentHopIds": [
+      "saaz"
+    ],
+    "substituteIds": [
+      "saaz",
+      "cascade",
+      "sterling"
+    ],
+    "commonStyleIds": [
+      "3B",
+      "5B",
+      "25B",
+      "18B"
+    ],
+    "radarProfile": {
+      "citrus": 4.2,
+      "tropical": 2.5,
+      "floral": 4.0,
+      "herbal": 3.4,
+      "spicy": 4.5,
+      "piney": 1.8,
+      "earthy": 3.0,
+      "grassy": 2.2
+    }
   }
 ]

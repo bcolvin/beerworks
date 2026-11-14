@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -68,6 +70,7 @@ fun PomeDetailScreen(
     val pome by viewModel.pome.collectAsState()
     val substitutePomes by viewModel.substitutePomes.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
 
     val currentPome = pome
     if (currentPome == null) {
@@ -85,7 +88,9 @@ fun PomeDetailScreen(
             onBackClick = onBackClick,
             onPomeClick = onPomeClick,
             onStyleClick = onStyleClick,
-            onToggleStyleFavorite = viewModel::toggleStyleFavorite
+            onToggleStyleFavorite = viewModel::toggleStyleFavorite,
+            isFavorite = isFavorite,
+            onToggleFavorite = viewModel::toggleFavorite
         )
     }
 }
@@ -99,7 +104,9 @@ fun PomeDetailContent(
     onBackClick: () -> Unit,
     onPomeClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit,
-    onToggleStyleFavorite: (BeerStyle) -> Unit
+    onToggleStyleFavorite: (BeerStyle) -> Unit,
+    isFavorite: Boolean = false,
+    onToggleFavorite: () -> Unit = {}
 ) {
     var showSorbitolDialog by remember { mutableStateOf(false) }
 
@@ -112,6 +119,15 @@ fun PomeDetailContent(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onToggleFavorite) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },

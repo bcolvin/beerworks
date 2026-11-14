@@ -18,6 +18,9 @@ interface FavoriteStyleDao {
     @Query("SELECT styleId FROM favorite_styles")
     fun getAllFavoriteIds(): Flow<List<String>>
 
+    @Query("SELECT * FROM favorite_styles")
+    fun getAllFavorites(): Flow<List<FavoriteStyleEntity>>
+
     @Query("SELECT EXISTS(SELECT 1 FROM favorite_styles WHERE styleId = :styleId)")
     fun isFavorite(styleId: String): Flow<Boolean>
 }

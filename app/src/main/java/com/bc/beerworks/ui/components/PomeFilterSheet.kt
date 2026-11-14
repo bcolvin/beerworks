@@ -56,8 +56,8 @@ fun PomeFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter Pomes",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -88,7 +88,13 @@ fun PomeFilterSheet(
                             val newType = if (isSelected) null else type
                             onFilterChange(criteria.copy(selectedFruitType = newType))
                         },
-                        label = { Text(if (type == "Apple") "🍏 Apple" else "🍐 Pear") }
+                        label = {
+                            Text(
+                                text = if (type == "Apple") "🍏 Apple" else "🍐 Pear",
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -115,7 +121,13 @@ fun PomeFilterSheet(
                             val newClassification = if (isSelected) null else classification
                             onFilterChange(criteria.copy(selectedClassification = newClassification))
                         },
-                        label = { Text(classification) }
+                        label = {
+                            Text(
+                                text = classification,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -142,7 +154,13 @@ fun PomeFilterSheet(
                             val newSeason = if (isSelected) null else season
                             onFilterChange(criteria.copy(selectedHarvestSeason = newSeason))
                         },
-                        label = { Text(season) }
+                        label = {
+                            Text(
+                                text = season,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -169,7 +187,13 @@ fun PomeFilterSheet(
                             val newLevel = if (isSelected) null else level
                             onFilterChange(criteria.copy(selectedTanninLevel = newLevel))
                         },
-                        label = { Text(level) }
+                        label = {
+                            Text(
+                                text = level,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }

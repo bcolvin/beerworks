@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeviceThermostat
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.Card
@@ -45,6 +46,8 @@ fun SettingsContent(
     onKeepScreenOnChange: (Boolean) -> Unit = {},
     temperatureUnit: TemperatureUnit = TemperatureUnit.FAHRENHEIT,
     onTemperatureUnitChange: (TemperatureUnit) -> Unit = {},
+    confirmFavoriteRemoval: Boolean = true,
+    onConfirmFavoriteRemovalChange: (Boolean) -> Unit = {},
     onMenuClick: () -> Unit
 ) {
     Scaffold(
@@ -176,6 +179,56 @@ fun SettingsContent(
                             label = { Text("°C") }
                         )
                     }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Confirm Favorite Removal Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = "Confirm Favorite Removal",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "Ask for confirmation before removing a swiped item on the Favorites screen.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Switch(
+                        checked = confirmFavoriteRemoval,
+                        onCheckedChange = onConfirmFavoriteRemovalChange
+                    )
                 }
             }
 

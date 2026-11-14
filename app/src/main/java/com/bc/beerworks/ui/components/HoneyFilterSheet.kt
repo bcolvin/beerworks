@@ -63,8 +63,8 @@ fun HoneyFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter Honeys",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -95,7 +95,13 @@ fun HoneyFilterSheet(
                             val newClassification = if (isSelected) null else classification
                             onFilterChange(criteria.copy(selectedClassification = newClassification))
                         },
-                        label = { Text(classification) }
+                        label = {
+                            Text(
+                                text = classification,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -135,7 +141,13 @@ fun HoneyFilterSheet(
                                     .border(0.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
                             )
                         },
-                        label = { Text(colorTier) }
+                        label = {
+                            Text(
+                                text = colorTier,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -162,7 +174,13 @@ fun HoneyFilterSheet(
                             val newIntensity = if (isSelected) null else intensity
                             onFilterChange(criteria.copy(selectedFlavorIntensity = newIntensity))
                         },
-                        label = { Text(intensity) }
+                        label = {
+                            Text(
+                                text = intensity,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -189,7 +207,13 @@ fun HoneyFilterSheet(
                             val newTendency = if (isSelected) null else tendency
                             onFilterChange(criteria.copy(selectedCrystallizationTendency = newTendency))
                         },
-                        label = { Text(tendency) }
+                        label = {
+                            Text(
+                                text = tendency,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }

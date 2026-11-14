@@ -54,8 +54,9 @@ fun HopFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter Hops",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 TextButton(onClick = onReset) {
@@ -74,7 +75,8 @@ fun HopFilterSheet(
             Spacer(modifier = Modifier.height(8.dp))
             val purposes = listOf("Aroma", "Bittering", "Dual-Purpose")
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 purposes.forEach { purposeOption ->
                     val isSelected = criteria.selectedPurpose == purposeOption
@@ -84,7 +86,13 @@ fun HopFilterSheet(
                             val newPurpose = if (isSelected) null else purposeOption
                             onFilterChange(criteria.copy(selectedPurpose = newPurpose))
                         },
-                        label = { Text(purposeOption) }
+                        label = {
+                            Text(
+                                text = purposeOption,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     )
                 }
             }
@@ -134,7 +142,7 @@ fun HopFilterSheet(
                 Spacer(modifier = Modifier.height(8.dp))
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     availableOrigins.forEach { origin ->
                         val isSelected = criteria.selectedOrigins.contains(origin)
@@ -148,7 +156,13 @@ fun HopFilterSheet(
                                 }
                                 onFilterChange(criteria.copy(selectedOrigins = updatedOrigins))
                             },
-                            label = { Text(origin) }
+                            label = {
+                                Text(
+                                    text = origin,
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
+                            }
                         )
                     }
                 }
@@ -165,7 +179,7 @@ fun HopFilterSheet(
                 Spacer(modifier = Modifier.height(8.dp))
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     availableCategories.forEach { category ->
                         val isSelected = criteria.selectedBaseCategory == category
@@ -175,7 +189,13 @@ fun HopFilterSheet(
                                 val newCategory = if (isSelected) null else category
                                 onFilterChange(criteria.copy(selectedBaseCategory = newCategory))
                             },
-                            label = { Text(category) }
+                            label = {
+                                Text(
+                                    text = category,
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
+                            }
                         )
                     }
                 }

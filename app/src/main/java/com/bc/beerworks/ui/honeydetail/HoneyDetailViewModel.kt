@@ -49,6 +49,19 @@ class HoneyDetailViewModel(
         initialValue = emptyList()
     )
 
+    val isFavorite: StateFlow<Boolean> = honeyRepository.isFavorite(honeyId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    fun toggleFavorite() {
+        val current = isFavorite.value
+        viewModelScope.launch {
+            honeyRepository.toggleFavorite(honeyId, "HONEY", current)
+        }
+    }
+
     fun toggleStyleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             beerStyleRepository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

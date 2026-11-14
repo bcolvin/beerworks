@@ -10,6 +10,7 @@ import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
 import com.bc.beerworks.data.repository.FakeBjcpDao
 import com.bc.beerworks.data.repository.FakeFavDao
+import com.bc.beerworks.data.repository.FakeFavoriteIngredientDao
 import com.bc.beerworks.data.repository.FakePrefsManager
 import com.bc.beerworks.data.repository.FakeYeastDao
 import com.bc.beerworks.data.repository.FakeYeastStyleCrossRefDao
@@ -107,12 +108,14 @@ class YeastDetailViewModelTest {
     private lateinit var beerStyleRepository: BeerStyleRepository
     private lateinit var prefsManager: FakePrefsManager
     private lateinit var mockBjcp: BjcpStyleDao
+    private lateinit var fakeFavIngredientDao: FakeFavoriteIngredientDao
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         prefsManager = FakePrefsManager()
         mockBjcp = mock(BjcpStyleDao::class.java)
+        fakeFavIngredientDao = FakeFavoriteIngredientDao()
 
         yeastRepository = YeastRepository(
             yeastDao = FakeYeastDao(listOf(chico, calV)),
@@ -121,7 +124,8 @@ class YeastDetailViewModelTest {
             ),
             bjcpStyleDao = mockBjcp,
             baStyleDao = mock(BaStyleDao::class.java),
-            defaultDispatcher = testDispatcher
+            defaultDispatcher = testDispatcher,
+            favoriteIngredientDao = fakeFavIngredientDao
         )
 
         beerStyleRepository = BeerStyleRepository(
@@ -136,6 +140,33 @@ class YeastDetailViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun toggleFavorite_togglesFavoriteState() = runTest {
+        val viewModel = YeastDetailViewModel(
+            yeastRepository = yeastRepository,
+            beerStyleRepository = beerStyleRepository,
+            preferencesManager = prefsManager,
+            yeastId = "chico-american-ale"
+        )
+
+        val collectJob = backgroundScope.launch {
+            viewModel.isFavorite.collect {}
+        }
+        runCurrent()
+
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isTrue()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        collectJob.cancel()
     }
 
     @Test

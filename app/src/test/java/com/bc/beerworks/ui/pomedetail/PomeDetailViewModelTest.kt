@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.pomedetail
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.CiderStyleEntity
@@ -13,6 +14,7 @@ import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
 import com.bc.beerworks.data.repository.FakeCiderDao
 import com.bc.beerworks.data.repository.FakeFavDao
+import com.bc.beerworks.data.repository.FakeFavoriteIngredientDao
 import com.bc.beerworks.data.repository.FakeMeadDao
 import com.bc.beerworks.data.repository.FakePomeDao
 import com.bc.beerworks.data.repository.FakePomeStyleCrossRefDao
@@ -142,7 +144,8 @@ class PomeDetailViewModelTest {
     private fun createViewModel(
         pomeId: String = "dabinett",
         pomes: List<PomeVarietyEntity> = listOf(dabinett, yarlingtonMill),
-        styleIdsForPome: List<String> = listOf("C1B")
+        styleIdsForPome: List<String> = listOf("C1B"),
+        fakeFavIngredientDao: FavoriteIngredientDao = FakeFavoriteIngredientDao()
     ): Pair<PomeDetailViewModel, FakeFavDao> {
         val fakePomeDao = FakePomeDao(pomes)
         val fakeCrossRefDao = FakePomeStyleCrossRefDao(
@@ -164,7 +167,8 @@ class PomeDetailViewModelTest {
             mockBa,
             mockMead,
             mockCider,
-            testDispatcher
+            testDispatcher,
+            favoriteIngredientDao = fakeFavIngredientDao
         )
 
         val styleRepo = BeerStyleRepository(
@@ -179,6 +183,27 @@ class PomeDetailViewModelTest {
 
         val viewModel = PomeDetailViewModel(pomeRepo, styleRepo, pomeId)
         return viewModel to fakeFavDao
+    }
+
+    @Test
+    fun toggleFavorite_togglesFavoriteState() = runTest {
+        val fakeFav = FakeFavoriteIngredientDao()
+        val (viewModel, _) = createViewModel("dabinett", fakeFavIngredientDao = fakeFav)
+
+        val collectJob = launch { viewModel.isFavorite.collect {} }
+        runCurrent()
+
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isTrue()
+
+        viewModel.toggleFavorite()
+        runCurrent()
+        assertThat(viewModel.isFavorite.value).isFalse()
+
+        collectJob.cancel()
     }
 
     @Test

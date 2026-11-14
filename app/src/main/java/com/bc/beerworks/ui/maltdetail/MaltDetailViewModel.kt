@@ -49,6 +49,19 @@ class MaltDetailViewModel(
         initialValue = emptyList()
     )
 
+    val isFavorite: StateFlow<Boolean> = maltRepository.isFavorite(maltId).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    fun toggleFavorite() {
+        val current = isFavorite.value
+        viewModelScope.launch {
+            maltRepository.toggleFavorite(maltId, "MALT", current)
+        }
+    }
+
     fun toggleStyleFavorite(style: BeerStyle) {
         viewModelScope.launch {
             beerStyleRepository.toggleFavorite(style.id, style.guidelineType, style.isFavorite)

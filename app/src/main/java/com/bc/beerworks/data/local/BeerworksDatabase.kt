@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.HoneyDao
 import com.bc.beerworks.data.local.dao.HoneyStyleCrossRefDao
@@ -27,6 +28,7 @@ import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleFtsEntity
 import com.bc.beerworks.data.local.entity.CiderStyleEntity
 import com.bc.beerworks.data.local.entity.CiderStyleFtsEntity
+import com.bc.beerworks.data.local.entity.FavoriteIngredientEntity
 import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.HoneyStyleCrossRef
 import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
@@ -317,6 +319,18 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
     }
 }
 
+val MIGRATION_9_10 = object : Migration(9, 10) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `favorite_ingredients` (
+                `id` TEXT NOT NULL,
+                `type` TEXT NOT NULL,
+                PRIMARY KEY(`id`)
+            )
+        """)
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -324,6 +338,7 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
         BaStyleEntity::class,
         BaStyleFtsEntity::class,
         FavoriteStyleEntity::class,
+        FavoriteIngredientEntity::class,
         HopVarietyEntity::class,
         HopVarietyFtsEntity::class,
         HopStyleCrossRef::class,
@@ -344,13 +359,14 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
         YeastStrainFtsEntity::class,
         YeastStyleCrossRef::class
     ],
-    version = 9,
+    version = 10,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
     abstract fun bjcpStyleDao(): BjcpStyleDao
     abstract fun baStyleDao(): BaStyleDao
     abstract fun favoriteStyleDao(): FavoriteStyleDao
+    abstract fun favoriteIngredientDao(): FavoriteIngredientDao
     abstract fun hopDao(): HopDao
     abstract fun hopStyleCrossRefDao(): HopStyleCrossRefDao
     abstract fun maltDao(): MaltDao
@@ -375,7 +391,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -89,14 +90,9 @@ fun FilterSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val titleText = when {
-                    selectedGuideline.isMead -> "Filter Meads"
-                    selectedGuideline.isCider -> "Filter Ciders"
-                    else -> "Filter Styles"
-                }
                 Text(
-                    text = titleText,
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
@@ -323,33 +319,12 @@ fun FilterSheet(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Favorites Only Switch
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Bookmarked Favorites Only",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.weight(1f)
-                )
-                Switch(
-                    checked = criteria.favoritesOnly,
-                    onCheckedChange = { isChecked ->
-                        onCriteriaChange(criteria.copy(favoritesOnly = isChecked))
-                    }
-                )
-            }
-
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 private fun MeadFilterChipSection(
     title: String,
@@ -363,16 +338,23 @@ private fun MeadFilterChipSection(
         fontWeight = FontWeight.SemiBold
     )
     Spacer(modifier = Modifier.height(6.dp))
-    Row(
+    FlowRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         options.forEach { option ->
             val isSelected = selectedOptions.contains(option)
             FilterChip(
                 selected = isSelected,
                 onClick = { onToggle(option) },
-                label = { Text(option) },
+                label = {
+                    Text(
+                        text = option,
+                        maxLines = 1,
+                        softWrap = false
+                    )
+                },
                 leadingIcon = if (isSelected) {
                     {
                         Icon(

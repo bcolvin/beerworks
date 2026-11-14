@@ -4,6 +4,7 @@ import com.bc.beerworks.data.local.BeerworksDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
@@ -25,13 +26,15 @@ class HopRepository(
     baStyleDao: BaStyleDao,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
     meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null
+    ciderStyleDao: CiderStyleDao? = null,
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<HopVarietyEntity, HopVariety, HopFilterCriteria>(
     bjcpStyleDao,
     baStyleDao,
     meadStyleDao,
     ciderStyleDao,
-    defaultDispatcher
+    defaultDispatcher,
+    favoriteIngredientDao
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -43,7 +46,8 @@ class HopRepository(
         database.baStyleDao(),
         defaultDispatcher,
         database.meadStyleDao(),
-        database.ciderStyleDao()
+        database.ciderStyleDao(),
+        database.favoriteIngredientDao()
     )
 
     override fun performSearch(criteria: HopFilterCriteria): Flow<List<HopVarietyEntity>> {
@@ -99,4 +103,6 @@ class HopRepository(
     }
 
     fun getAllOrigins(): Flow<List<String>> = hopDao.getAllOrigins().flowOn(defaultDispatcher)
+
+    fun getFavoriteHops(): Flow<List<HopVariety>> = getFavoriteItems("HOP")
 }

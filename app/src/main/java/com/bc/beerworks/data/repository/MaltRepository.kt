@@ -4,6 +4,7 @@ import com.bc.beerworks.data.local.BeerworksDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
@@ -25,13 +26,15 @@ class MaltRepository(
     baStyleDao: BaStyleDao,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
     meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null
+    ciderStyleDao: CiderStyleDao? = null,
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<MaltVarietyEntity, MaltVariety, MaltFilterCriteria>(
     bjcpStyleDao,
     baStyleDao,
     meadStyleDao,
     ciderStyleDao,
-    defaultDispatcher
+    defaultDispatcher,
+    favoriteIngredientDao
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -43,7 +46,8 @@ class MaltRepository(
         database.baStyleDao(),
         defaultDispatcher,
         database.meadStyleDao(),
-        database.ciderStyleDao()
+        database.ciderStyleDao(),
+        database.favoriteIngredientDao()
     )
 
     override fun performSearch(criteria: MaltFilterCriteria): Flow<List<MaltVarietyEntity>> {
@@ -107,4 +111,6 @@ class MaltRepository(
 
     fun getAllCategories(): Flow<List<String>> = maltDao.getAllCategories().flowOn(defaultDispatcher)
     fun getAllGrainTypes(): Flow<List<String>> = maltDao.getAllGrainTypes().flowOn(defaultDispatcher)
+
+    fun getFavoriteMalts(): Flow<List<MaltVariety>> = getFavoriteItems("MALT")
 }

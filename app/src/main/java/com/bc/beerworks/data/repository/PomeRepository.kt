@@ -4,6 +4,7 @@ import com.bc.beerworks.data.local.BeerworksDatabase
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.PomeDao
 import com.bc.beerworks.data.local.dao.PomeStyleCrossRefDao
@@ -26,13 +27,15 @@ class PomeRepository(
     baStyleDao: BaStyleDao,
     meadStyleDao: MeadStyleDao? = null,
     ciderStyleDao: CiderStyleDao? = null,
-    defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<PomeVarietyEntity, PomeVariety, PomeFilterCriteria>(
     bjcpStyleDao,
     baStyleDao,
     meadStyleDao,
     ciderStyleDao,
-    defaultDispatcher
+    defaultDispatcher,
+    favoriteIngredientDao
 ) {
     constructor(
         database: BeerworksDatabase,
@@ -44,7 +47,8 @@ class PomeRepository(
         database.baStyleDao(),
         database.meadStyleDao(),
         database.ciderStyleDao(),
-        defaultDispatcher
+        defaultDispatcher,
+        database.favoriteIngredientDao()
     )
 
     override fun performSearch(criteria: PomeFilterCriteria): Flow<List<PomeVarietyEntity>> {
@@ -94,4 +98,6 @@ class PomeRepository(
 
     fun getAllFruitTypes(): Flow<List<String>> = pomeDao.getAllFruitTypes().flowOn(defaultDispatcher)
     fun getAllClassifications(): Flow<List<String>> = pomeDao.getAllClassifications().flowOn(defaultDispatcher)
+
+    fun getFavoritePomes(): Flow<List<PomeVariety>> = getFavoriteItems("POME")
 }

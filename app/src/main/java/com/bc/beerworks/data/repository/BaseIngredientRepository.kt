@@ -3,10 +3,12 @@ package com.bc.beerworks.data.repository
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.CiderStyleEntity
+import com.bc.beerworks.data.local.entity.FavoriteIngredientEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
@@ -26,7 +28,8 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
     protected val baStyleDao: BaStyleDao,
     protected val meadStyleDao: MeadStyleDao? = null,
     protected val ciderStyleDao: CiderStyleDao? = null,
-    protected val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    protected val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    protected val favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : IngredientRepository<Domain, Criteria> {
 
     protected abstract fun performSearch(criteria: Criteria): Flow<List<Entity>>
@@ -88,6 +91,34 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
     }
 
     override suspend fun getItemCount(): Int = fetchCount()
+
+    fun isFavorite(id: String): Flow<Boolean> =
+        favoriteIngredientDao?.isFavorite(id) ?: flowOf(false)
+
+    fun getFavoriteItems(type: String): Flow<List<Domain>> {
+        val dao = favoriteIngredientDao ?: return flowOf(emptyList())
+        return dao.getFavoriteIdsByType(type).flatMapLatest { favIds ->
+            if (favIds.isEmpty()) {
+                flowOf(emptyList())
+            } else {
+                val favSet = favIds.toSet()
+                fetchAll().map { all ->
+                    all.filter { favSet.contains(getEntityId(it)) }
+                        .map { it.toDomain() }
+                        .sortedBy { it.name.lowercase() }
+                }
+            }
+        }.flowOn(defaultDispatcher)
+    }
+
+    suspend fun toggleFavorite(id: String, type: String, currentFavorite: Boolean) {
+        val dao = favoriteIngredientDao ?: return
+        if (currentFavorite) {
+            dao.removeFavorite(id)
+        } else {
+            dao.addFavorite(FavoriteIngredientEntity(id, type))
+        }
+    }
 
     protected fun buildFtsQuery(query: String): String {
         val clean = query.trim()
