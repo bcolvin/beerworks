@@ -79,6 +79,8 @@ class HopRepository(
     override fun fetchAll(): Flow<List<HopVarietyEntity>> = hopDao.getAllHops()
     override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
         hopStyleCrossRefDao.getStyleIdsForHop(id, guidelineType)
+    override fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<HopVarietyEntity>> =
+        hopDao.getHopsForStyle(styleId, guidelineType)
     override suspend fun fetchCount(): Int = hopDao.getHopCount()
     override fun getEntityId(entity: HopVarietyEntity): String = entity.id
     override fun HopVarietyEntity.toDomain(): HopVariety = this.toDomainModel()
@@ -102,11 +104,7 @@ class HopRepository(
     fun getCommonHopsForStyle(
         styleId: String,
         guidelineType: GuidelineType = GuidelineType.BJCP_2021
-    ): Flow<List<HopVariety>> {
-        return hopDao.getHopsForStyle(styleId, guidelineType.name).map { entities ->
-            entities.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
+    ): Flow<List<HopVariety>> = getItemsForStyle(styleId, guidelineType)
 
     fun getAllOrigins(): Flow<List<String>> = hopDao.getAllOrigins().flowOn(defaultDispatcher)
 

@@ -53,11 +53,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
-import com.bc.beerworks.data.model.HoneyVariety
-import com.bc.beerworks.data.model.HopVariety
-import com.bc.beerworks.data.model.MaltVariety
-import com.bc.beerworks.data.model.PomeVariety
-import com.bc.beerworks.data.model.YeastStrain
+import com.bc.beerworks.data.model.Ingredient
+import com.bc.beerworks.data.model.StyleIngredients
 import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
@@ -69,15 +66,11 @@ fun StyleDetailContent(
     style: BeerStyle,
     onBackClick: () -> Unit,
     onToggleFavorite: () -> Unit,
-    commonHops: List<HopVariety> = emptyList(),
+    ingredients: StyleIngredients = StyleIngredients(),
     onHopClick: (String) -> Unit = {},
-    commonMalts: List<MaltVariety> = emptyList(),
     onMaltClick: (String) -> Unit = {},
-    commonHoneys: List<HoneyVariety> = emptyList(),
     onHoneyClick: (String) -> Unit = {},
-    commonPomes: List<PomeVariety> = emptyList(),
     onPomeClick: (String) -> Unit = {},
-    commonYeasts: List<YeastStrain> = emptyList(),
     onYeastClick: (String) -> Unit = {},
     nextStyle: BeerStyle? = null,
     onSwipeForward: () -> Unit = {},
@@ -211,38 +204,50 @@ fun StyleDetailContent(
                     }
                 }
 
-                if (commonMalts.isNotEmpty()) {
-                    CollapsibleCommonMaltsCard(
-                        commonMalts = commonMalts,
-                        onMaltClick = onMaltClick
+                if (ingredients.malts.isNotEmpty()) {
+                    CollapsibleIngredientSectionCard(
+                        title = "Common Malts & Grains",
+                        items = ingredients.malts,
+                        badgeLabel = { it.category },
+                        swatchColor = { SrmColorConverter.srmToColor(it.averageColor) },
+                        onItemClick = onMaltClick
                     )
                 }
 
-                if (commonHops.isNotEmpty()) {
-                    CollapsibleCommonHopsCard(
-                        commonHops = commonHops,
-                        onHopClick = onHopClick
+                if (ingredients.hops.isNotEmpty()) {
+                    CollapsibleIngredientSectionCard(
+                        title = "Common Hops",
+                        items = ingredients.hops,
+                        badgeLabel = { it.purpose },
+                        onItemClick = onHopClick
                     )
                 }
 
-                if (commonHoneys.isNotEmpty()) {
-                    CollapsibleCommonHoneysCard(
-                        commonHoneys = commonHoneys,
-                        onHoneyClick = onHoneyClick
+                if (ingredients.honeys.isNotEmpty()) {
+                    CollapsibleIngredientSectionCard(
+                        title = "Recommended Honeys",
+                        items = ingredients.honeys,
+                        badgeLabel = { it.floralClassification },
+                        swatchColor = { it.color },
+                        onItemClick = onHoneyClick
                     )
                 }
 
-                if (commonPomes.isNotEmpty()) {
-                    CollapsibleCommonPomesCard(
-                        commonPomes = commonPomes,
-                        onPomeClick = onPomeClick
+                if (ingredients.pomes.isNotEmpty()) {
+                    CollapsibleIngredientSectionCard(
+                        title = "Associated Pomes & Varieties",
+                        items = ingredients.pomes,
+                        badgeLabel = { it.classification },
+                        onItemClick = onPomeClick
                     )
                 }
 
-                if (commonYeasts.isNotEmpty()) {
-                    CollapsibleCommonYeastsCard(
-                        commonYeasts = commonYeasts,
-                        onYeastClick = onYeastClick
+                if (ingredients.yeasts.isNotEmpty()) {
+                    CollapsibleIngredientSectionCard(
+                        title = "Associated Yeast Strains",
+                        items = ingredients.yeasts,
+                        badgeLabel = { it.classification },
+                        onItemClick = onYeastClick
                     )
                 }
 
@@ -319,10 +324,13 @@ fun SrmBottomBanner(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CollapsibleCommonMaltsCard(
-    commonMalts: List<MaltVariety>,
-    onMaltClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+fun <T : Ingredient> CollapsibleIngredientSectionCard(
+    title: String,
+    items: List<T>,
+    badgeLabel: (T) -> String,
+    onItemClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    swatchColor: ((T) -> Color)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -341,7 +349,7 @@ fun CollapsibleCommonMaltsCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Common Malts & Grains (${commonMalts.size})",
+                    text = "$title (${items.size})",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -359,297 +367,32 @@ fun CollapsibleCommonMaltsCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    commonMalts.forEach { malt ->
-                        val swatchColor = SrmColorConverter.srmToColor(malt.averageColor)
+                    items.forEach { item ->
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(8.dp))
                                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                                .clickable { onMaltClick(malt.id) }
+                                .clickable { onItemClick(item.id) }
                                 .padding(horizontal = 10.dp, vertical = 6.dp)
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(10.dp)
-                                        .clip(CircleShape)
-                                        .background(swatchColor)
-                                        .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
-                                )
-                                Spacer(modifier = Modifier.size(6.dp))
+                                if (swatchColor != null) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(10.dp)
+                                            .clip(CircleShape)
+                                            .background(swatchColor(item))
+                                            .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
+                                    )
+                                    Spacer(modifier = Modifier.size(6.dp))
+                                }
                                 Text(
-                                    text = "${malt.countryFlag} ${malt.name} (${malt.category})",
+                                    text = "${item.countryFlag} ${item.name} (${badgeLabel(item)})",
                                     style = MaterialTheme.typography.labelMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CollapsibleCommonHopsCard(
-    commonHops: List<HopVariety>,
-    onHopClick: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .clickable { expanded = !expanded },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Common Hops (${commonHops.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            if (expanded) {
-                Spacer(modifier = Modifier.height(12.dp))
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    commonHops.forEach { hop ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                                .clickable { onHopClick(hop.id) }
-                                .padding(horizontal = 10.dp, vertical = 6.dp)
-                        ) {
-                            Text(
-                                text = "${hop.countryFlag} ${hop.name} (${hop.purpose})",
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CollapsibleCommonHoneysCard(
-    commonHoneys: List<HoneyVariety>,
-    onHoneyClick: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .clickable { expanded = !expanded },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Recommended Honeys (${commonHoneys.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            if (expanded) {
-                Spacer(modifier = Modifier.height(12.dp))
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    commonHoneys.forEach { honey ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                                .clickable { onHoneyClick(honey.id) }
-                                .padding(horizontal = 10.dp, vertical = 6.dp)
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(10.dp)
-                                        .clip(CircleShape)
-                                        .background(honey.color)
-                                        .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
-                                )
-                                Spacer(modifier = Modifier.size(6.dp))
-                                Text(
-                                    text = "${honey.countryFlag} ${honey.name} (${honey.floralClassification})",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CollapsibleCommonPomesCard(
-    commonPomes: List<PomeVariety>,
-    onPomeClick: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .clickable { expanded = !expanded },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Associated Pomes & Varieties (${commonPomes.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            if (expanded) {
-                Spacer(modifier = Modifier.height(12.dp))
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    commonPomes.forEach { pome ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                                .clickable { onPomeClick(pome.id) }
-                                .padding(horizontal = 10.dp, vertical = 6.dp)
-                        ) {
-                            Text(
-                                text = "${pome.countryFlag} ${pome.name} (${pome.classification})",
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CollapsibleCommonYeastsCard(
-    commonYeasts: List<YeastStrain>,
-    onYeastClick: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .clickable { expanded = !expanded },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Associated Yeast Strains (${commonYeasts.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            if (expanded) {
-                Spacer(modifier = Modifier.height(12.dp))
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    commonYeasts.forEach { yeast ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                                .clickable { onYeastClick(yeast.id) }
-                                .padding(horizontal = 10.dp, vertical = 6.dp)
-                        ) {
-                            Text(
-                                text = "${yeast.countryFlag} ${yeast.name} (${yeast.classification})",
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.primary
-                            )
                         }
                     }
                 }

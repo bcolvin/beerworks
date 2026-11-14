@@ -90,12 +90,12 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Maximize leverage from the unified `IngredientRepository` seam (ADR 0006) across all ingredient disciplines.
   - Unify detail lifecycle state emission, substitute resolution, and style favorite toggling into one thoroughly tested interface.
 
-- [ ] **Deepen Style-to-Ingredient Association in StyleDetailViewModel (Architecture Candidate 2)**
-  - Consolidate five separate ingredient repositories and five separate StateFlow streams in `StyleDetailViewModel` into a unified `StyleIngredients` stream aggregated at the data seam.
-  - Shrink the `StyleDetailViewModel` constructor interface from six dependencies down to two (`BeerStyleRepository`, `styleId`).
-  - Isolate ingredient cross-referencing entirely within the data layer so future ingredients require zero ViewModel or navigation wiring changes.
+- [x] **Deepen Style-to-Ingredient Association in StyleDetailViewModel (Architecture Candidate 2)**
+  - Consolidate five separate ingredient repositories and five separate StateFlow streams in `StyleDetailViewModel` into a unified `StyleIngredients` stream aggregated at the data seam (`IngredientCatalogRepository`).
+  - Collapse the 5 duplicate `CollapsibleCommon*Card` composables in `StyleDetailScreen.kt` into a single generic `CollapsibleIngredientSectionCard<T : Ingredient>`.
+  - Isolate ingredient cross-referencing and favorites aggregation within `IngredientCatalogRepository` so future ingredients require zero ViewModel or navigation wiring changes.
 
-- [ ] **Decompose Monolithic DatabaseInitializer into Focused Domain Seeders (Architecture Candidate 4)**
+- [x] **Decompose Monolithic DatabaseInitializer into Focused Domain Seeders (Architecture Candidate 4)**
   - Decompose the 700-line procedural seeder into isolated, self-contained `DomainSeeder` modules (`StyleSeeder`, `HopSeeder`, `MaltSeeder`, `HoneySeeder`, `PomeSeeder`, `YeastSeeder`).
-  - Encapsulate raw JSON DTOs and Gson mapping logic privately within each seeder.
+  - Encapsulate raw JSON DTOs and Gson mapping logic privately within each seeder and execute seeders concurrently with idempotent DAO count checks.
   - Coordinate seeding through a lightweight asynchronous runner executing independent datasets in parallel on the background dispatcher pool.

@@ -10,6 +10,7 @@ interface IngredientRepository<T : Ingredient, C : Any> {
     fun getItemById(id: String): Flow<T?>
     suspend fun getItemByIdDirect(id: String): T?
     fun getSubstitutes(substituteIds: List<String>): Flow<List<T>>
+    fun getItemsForStyle(styleId: String, guidelineType: GuidelineType): Flow<List<T>>
     fun getCommonStylesForItem(id: String): Flow<List<BeerStyle>>
     fun getCommonStylesForItem(id: String, guidelineType: GuidelineType): Flow<List<BeerStyle>>
     fun isFavorite(id: String): Flow<Boolean>

@@ -28,14 +28,11 @@ data class PomeVariety(
     val commonStyleIds: List<String> = emptyList(),
     val radarProfile: PomeSensoryProfile? = null
 ) : Ingredient {
-    override val countryFlag: String
-        get() {
-            if (countryCode.length != 2) return "🌍"
-            val upper = countryCode.uppercase()
-            val firstChar = Character.codePointAt(upper, 0) - 0x41 + 0x1F1E6
-            val secondChar = Character.codePointAt(upper, 1) - 0x41 + 0x1F1E6
-            return String(Character.toChars(firstChar)) + String(Character.toChars(secondChar))
-        }
+    override fun matchesQuery(query: String): Boolean =
+        matchesBaseQuery(query) ||
+                botanicalName.contains(query, ignoreCase = true) ||
+                classification.contains(query, ignoreCase = true) ||
+                fruitType.contains(query, ignoreCase = true)
 
     val sgRangeText: String
         get() {

@@ -75,6 +75,8 @@ class YeastRepository(
     override fun fetchAll(): Flow<List<YeastStrainEntity>> = yeastDao.getAllYeasts()
     override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
         yeastStyleCrossRefDao.getStyleIdsForYeast(id, guidelineType)
+    override fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<YeastStrainEntity>> =
+        yeastDao.getYeastsForStyle(styleId, guidelineType)
     override suspend fun fetchCount(): Int = yeastDao.getYeastCount()
     override fun getEntityId(entity: YeastStrainEntity): String = entity.id
     override fun YeastStrainEntity.toDomain(): YeastStrain = this.toDomainModel()
@@ -89,11 +91,8 @@ class YeastRepository(
     suspend fun getYeastCount(): Int = getItemCount()
 
     // Yeast-specific methods
-    fun getYeastsForStyle(styleId: String, guidelineType: GuidelineType = GuidelineType.BJCP_2021): Flow<List<YeastStrain>> {
-        return yeastDao.getYeastsForStyle(styleId, guidelineType.name).map { entities ->
-            entities.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
+    fun getYeastsForStyle(styleId: String, guidelineType: GuidelineType = GuidelineType.BJCP_2021): Flow<List<YeastStrain>> =
+        getItemsForStyle(styleId, guidelineType)
 
     fun getYeastsForStyles(styleIds: List<String>, guidelineType: GuidelineType = GuidelineType.BJCP_2021): Flow<List<YeastStrain>> {
         if (styleIds.isEmpty()) return flowOf(emptyList())

@@ -75,6 +75,8 @@ class PomeRepository(
     override fun fetchAll(): Flow<List<PomeVarietyEntity>> = pomeDao.getAllPomes()
     override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
         pomeStyleCrossRefDao.getStyleIdsForPome(id, guidelineType)
+    override fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<PomeVarietyEntity>> =
+        pomeDao.getPomesForStyle(styleId, guidelineType)
     override suspend fun fetchCount(): Int = pomeDao.getPomeCount()
     override fun getEntityId(entity: PomeVarietyEntity): String = entity.id
     override fun PomeVarietyEntity.toDomain(): PomeVariety = this.toDomainModel()
@@ -89,11 +91,8 @@ class PomeRepository(
     suspend fun getPomeCount(): Int = getItemCount()
 
     // Pome-specific methods
-    fun getPomesForStyle(styleId: String, guidelineType: GuidelineType = GuidelineType.BJCP_CIDER): Flow<List<PomeVariety>> {
-        return pomeDao.getPomesForStyle(styleId, guidelineType.name).map { entities ->
-            entities.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
+    fun getPomesForStyle(styleId: String, guidelineType: GuidelineType = GuidelineType.BJCP_CIDER): Flow<List<PomeVariety>> =
+        getItemsForStyle(styleId, guidelineType)
 
     fun getPomesForStyles(styleIds: List<String>, guidelineType: GuidelineType = GuidelineType.BJCP_CIDER): Flow<List<PomeVariety>> {
         if (styleIds.isEmpty()) return flowOf(emptyList())

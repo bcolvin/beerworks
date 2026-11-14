@@ -39,6 +39,7 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
     protected abstract suspend fun fetchByIdDirect(id: String): Entity?
     protected abstract fun fetchAll(): Flow<List<Entity>>
     protected abstract fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>>
+    protected open fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<Entity>> = flowOf(emptyList())
     protected abstract suspend fun fetchCount(): Int
     protected abstract fun getEntityId(entity: Entity): String
     protected abstract fun Entity.toDomain(): Domain
@@ -62,6 +63,12 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
         return fetchAll().map { all ->
             val set = substituteIds.toSet()
             all.filter { set.contains(getEntityId(it)) }.map { it.toDomain() }
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getItemsForStyle(styleId: String, guidelineType: GuidelineType): Flow<List<Domain>> {
+        return fetchForStyle(styleId, guidelineType.name).map { entities ->
+            entities.map { it.toDomain() }
         }.flowOn(defaultDispatcher)
     }
 

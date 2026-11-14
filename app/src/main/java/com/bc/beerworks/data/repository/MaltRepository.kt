@@ -92,6 +92,8 @@ class MaltRepository(
     override fun fetchAll(): Flow<List<MaltVarietyEntity>> = maltDao.getAllMalts()
     override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
         maltStyleCrossRefDao.getStyleIdsForMalt(id, guidelineType)
+    override fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<MaltVarietyEntity>> =
+        maltDao.getMaltsForStyle(styleId, guidelineType)
     override suspend fun fetchCount(): Int = maltDao.getMaltCount()
     override fun getEntityId(entity: MaltVarietyEntity): String = entity.id
     override fun MaltVarietyEntity.toDomain(): MaltVariety = this.toDomainModel()
@@ -109,11 +111,7 @@ class MaltRepository(
     fun getCommonMaltsForStyle(
         styleId: String,
         guidelineType: GuidelineType = GuidelineType.BJCP_2021
-    ): Flow<List<MaltVariety>> {
-        return maltDao.getMaltsForStyle(styleId, guidelineType.name).map { entities ->
-            entities.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
+    ): Flow<List<MaltVariety>> = getItemsForStyle(styleId, guidelineType)
 
     fun getAllCategories(): Flow<List<String>> = maltDao.getAllCategories().flowOn(defaultDispatcher)
     fun getAllGrainTypes(): Flow<List<String>> = maltDao.getAllGrainTypes().flowOn(defaultDispatcher)

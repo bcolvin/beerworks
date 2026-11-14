@@ -81,6 +81,8 @@ class HoneyRepository(
     override fun fetchAll(): Flow<List<HoneyVarietyEntity>> = honeyDao.getAllHoneys()
     override fun fetchStyleIds(id: String, guidelineType: String): Flow<List<String>> =
         honeyStyleCrossRefDao.getStyleIdsForHoney(id, guidelineType)
+    override fun fetchForStyle(styleId: String, guidelineType: String): Flow<List<HoneyVarietyEntity>> =
+        honeyDao.getHoneysForStyle(styleId, guidelineType)
     override suspend fun fetchCount(): Int = honeyDao.getHoneyCount()
     override fun getEntityId(entity: HoneyVarietyEntity): String = entity.id
     override fun HoneyVarietyEntity.toDomain(): HoneyVariety = this.toDomainModel()
@@ -98,11 +100,7 @@ class HoneyRepository(
     fun getCommonHoneysForStyle(
         styleId: String,
         guidelineType: GuidelineType = GuidelineType.BJCP_MEAD
-    ): Flow<List<HoneyVariety>> {
-        return honeyDao.getHoneysForStyle(styleId, guidelineType.name).map { entities ->
-            entities.map { it.toDomainModel() }
-        }.flowOn(defaultDispatcher)
-    }
+    ): Flow<List<HoneyVariety>> = getItemsForStyle(styleId, guidelineType)
 
     fun getAllClassifications(): Flow<List<String>> = honeyDao.getAllClassifications().flowOn(defaultDispatcher)
 

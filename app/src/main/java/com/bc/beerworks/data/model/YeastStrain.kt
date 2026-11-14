@@ -33,14 +33,15 @@ data class YeastStrain(
     val commonStyleIds: List<String> = emptyList(),
     val radarProfile: YeastSensoryProfile? = null
 ) : Ingredient {
-    override val countryFlag: String
-        get() {
-            if (countryCode.length != 2) return "🌍"
-            val upper = countryCode.uppercase()
-            val firstChar = Character.codePointAt(upper, 0) - 0x41 + 0x1F1E6
-            val secondChar = Character.codePointAt(upper, 1) - 0x41 + 0x1F1E6
-            return String(Character.toChars(firstChar)) + String(Character.toChars(secondChar))
-        }
+    override fun matchesQuery(query: String): Boolean =
+        matchesBaseQuery(query) ||
+                scientificName.contains(query, ignoreCase = true) ||
+                classification.contains(query, ignoreCase = true) ||
+                commercialEquivalents.any {
+                    it.productCode.contains(query, ignoreCase = true) ||
+                            it.productName.contains(query, ignoreCase = true) ||
+                            it.laboratory.contains(query, ignoreCase = true)
+                }
 
     val attenuationText: String
         get() {

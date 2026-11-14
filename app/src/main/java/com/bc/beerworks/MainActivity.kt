@@ -40,6 +40,7 @@ import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
+import com.bc.beerworks.data.repository.IngredientCatalogRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.data.repository.YeastRepository
@@ -102,6 +103,15 @@ fun BeerworksApp() {
     val honeyRepository = remember { HoneyRepository(database) }
     val pomeRepository = remember { PomeRepository(database) }
     val yeastRepository = remember { YeastRepository(database) }
+    val ingredientCatalogRepository = remember {
+        IngredientCatalogRepository(
+            hopRepository = hopRepository,
+            maltRepository = maltRepository,
+            honeyRepository = honeyRepository,
+            pomeRepository = pomeRepository,
+            yeastRepository = yeastRepository
+        )
+    }
 
     val keepScreenOn by prefsManager.keepScreenOn.collectAsState(initial = false)
     val selectedGuideline by repository.selectedGuideline.collectAsState(initial = GuidelineType.BJCP_2021)
@@ -412,11 +422,7 @@ fun BeerworksApp() {
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
                             return FavoritesViewModel(
                                 beerStyleRepository = repository,
-                                hopRepository = hopRepository,
-                                maltRepository = maltRepository,
-                                honeyRepository = honeyRepository,
-                                pomeRepository = pomeRepository,
-                                yeastRepository = yeastRepository
+                                ingredientCatalogRepository = ingredientCatalogRepository
                             ) as T
                         }
                     }
@@ -498,41 +504,33 @@ fun BeerworksApp() {
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return StyleDetailViewModel(repository, hopRepository, maltRepository, honeyRepository, pomeRepository, yeastRepository, styleId, guidelineType) as T
+                            return StyleDetailViewModel(repository, ingredientCatalogRepository, styleId, guidelineType) as T
                         }
                     }
                 )
 
                 val style by viewModel.style.collectAsState()
                 val nextStyle by viewModel.nextStyle.collectAsState()
-                val commonHops by viewModel.commonHops.collectAsState()
-                val commonMalts by viewModel.commonMalts.collectAsState()
-                val commonHoneys by viewModel.commonHoneys.collectAsState()
-                val commonPomes by viewModel.commonPomes.collectAsState()
-                val commonYeasts by viewModel.commonYeasts.collectAsState()
+                val ingredients by viewModel.ingredients.collectAsState()
 
                 style?.let { beerStyle ->
                     StyleDetailContent(
                         style = beerStyle,
                         onBackClick = { navController.popBackStack() },
                         onToggleFavorite = viewModel::toggleFavorite,
-                        commonHops = commonHops,
+                        ingredients = ingredients,
                         onHopClick = { hopId ->
                             navController.navigate("hop_detail/$hopId")
                         },
-                        commonMalts = commonMalts,
                         onMaltClick = { maltId ->
                             navController.navigate("malt_detail/$maltId")
                         },
-                        commonHoneys = commonHoneys,
                         onHoneyClick = { honeyId ->
                             navController.navigate("honey_detail/$honeyId")
                         },
-                        commonPomes = commonPomes,
                         onPomeClick = { pomeId ->
                             navController.navigate("pome_detail/$pomeId")
                         },
-                        commonYeasts = commonYeasts,
                         onYeastClick = { yeastId ->
                             navController.navigate("yeast_detail/$yeastId")
                         },
