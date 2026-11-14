@@ -55,17 +55,18 @@ import com.bc.beerworks.ui.components.SensoryRadarChart
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.components.YeastCard
 import com.bc.beerworks.ui.components.YeastClassificationBadge
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 
 @Composable
 fun YeastDetailScreen(
-    viewModel: YeastDetailViewModel,
+    viewModel: IngredientDetailViewModel<YeastStrain>,
     onBackClick: () -> Unit,
     onYeastClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit
 ) {
-    val yeast by viewModel.yeast.collectAsState()
+    val yeast by viewModel.item.collectAsState()
     val temperatureUnit by viewModel.temperatureUnit.collectAsState()
-    val substituteYeasts by viewModel.substituteYeasts.collectAsState()
+    val substituteYeasts by viewModel.substitutes.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
 

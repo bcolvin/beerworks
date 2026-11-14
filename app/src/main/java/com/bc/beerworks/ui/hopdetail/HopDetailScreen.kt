@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +47,44 @@ import com.bc.beerworks.ui.components.AcidRangeGauge
 import com.bc.beerworks.ui.components.PurposeBadge
 import com.bc.beerworks.ui.components.SensoryRadarChart
 import com.bc.beerworks.ui.components.StyleCard
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
+
+@Composable
+fun HopDetailScreen(
+    viewModel: IngredientDetailViewModel<HopVariety>,
+    onBackClick: () -> Unit,
+    onHopClick: (String) -> Unit,
+    onStyleClick: (BeerStyle) -> Unit
+) {
+    val hop by viewModel.item.collectAsState()
+    val childHops by viewModel.relatedItems.collectAsState()
+    val substituteHops by viewModel.substitutes.collectAsState()
+    val commonStyles by viewModel.commonStyles.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
+
+    val currentHop = hop
+    if (currentHop == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        HopDetailContent(
+            hop = currentHop,
+            childHops = childHops,
+            substituteHops = substituteHops,
+            commonStyles = commonStyles,
+            onBackClick = onBackClick,
+            onHopClick = onHopClick,
+            onStyleClick = onStyleClick,
+            onToggleStyleFavorite = viewModel::toggleStyleFavorite,
+            isFavorite = isFavorite,
+            onToggleFavorite = viewModel::toggleFavorite
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

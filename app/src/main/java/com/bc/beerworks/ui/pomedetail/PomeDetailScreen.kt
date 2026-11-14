@@ -58,17 +58,18 @@ import com.bc.beerworks.ui.components.LongAshtonMatrixGauge
 import com.bc.beerworks.ui.components.PomeClassificationBadge
 import com.bc.beerworks.ui.components.SensoryRadarChart
 import com.bc.beerworks.ui.components.StyleCard
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 import java.util.Locale
 
 @Composable
 fun PomeDetailScreen(
-    viewModel: PomeDetailViewModel,
+    viewModel: IngredientDetailViewModel<PomeVariety>,
     onBackClick: () -> Unit,
     onPomeClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit
 ) {
-    val pome by viewModel.pome.collectAsState()
-    val substitutePomes by viewModel.substitutePomes.collectAsState()
+    val pome by viewModel.item.collectAsState()
+    val substitutePomes by viewModel.substitutes.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
 

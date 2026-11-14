@@ -55,17 +55,18 @@ import com.bc.beerworks.ui.components.DiastaticPowerBadge
 import com.bc.beerworks.ui.components.MaltCategoryBadge
 import com.bc.beerworks.ui.components.SensoryRadarChart
 import com.bc.beerworks.ui.components.StyleCard
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 import com.bc.beerworks.util.SrmColorConverter
 
 @Composable
 fun MaltDetailScreen(
-    viewModel: MaltDetailViewModel,
+    viewModel: IngredientDetailViewModel<MaltVariety>,
     onBackClick: () -> Unit,
     onMaltClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit
 ) {
-    val malt by viewModel.malt.collectAsState()
-    val substituteMalts by viewModel.substituteMalts.collectAsState()
+    val malt by viewModel.item.collectAsState()
+    val substituteMalts by viewModel.substitutes.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
 

@@ -58,16 +58,17 @@ import com.bc.beerworks.ui.components.FloralClassificationBadge
 import com.bc.beerworks.ui.components.FlavorIntensityBadge
 import com.bc.beerworks.ui.components.SensoryRadarChart
 import com.bc.beerworks.ui.components.StyleCard
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 
 @Composable
 fun HoneyDetailScreen(
-    viewModel: HoneyDetailViewModel,
+    viewModel: IngredientDetailViewModel<HoneyVariety>,
     onBackClick: () -> Unit,
     onHoneyClick: (String) -> Unit,
     onStyleClick: (BeerStyle) -> Unit
 ) {
-    val honey by viewModel.honey.collectAsState()
-    val substituteHoneys by viewModel.substituteHoneys.collectAsState()
+    val honey by viewModel.item.collectAsState()
+    val substituteHoneys by viewModel.substitutes.collectAsState()
     val commonStyles by viewModel.commonStyles.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
 

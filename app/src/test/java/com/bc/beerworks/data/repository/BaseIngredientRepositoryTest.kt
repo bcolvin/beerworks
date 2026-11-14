@@ -3,6 +3,8 @@ package com.bc.beerworks.data.repository
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
+import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
+import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
@@ -45,14 +47,19 @@ private class ConcreteTestRepository(
     bjcpStyleDao: BjcpStyleDao,
     baStyleDao: BaStyleDao,
     meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null
+    ciderStyleDao: CiderStyleDao? = null,
+    favoriteIngredientDao: FavoriteIngredientDao? = null,
+    favoriteStyleDao: FavoriteStyleDao? = null
 ) : BaseIngredientRepository<TestEntity, TestDomain, String>(
     bjcpStyleDao,
     baStyleDao,
     meadStyleDao,
     ciderStyleDao,
-    UnconfinedTestDispatcher()
+    UnconfinedTestDispatcher(),
+    favoriteIngredientDao,
+    favoriteStyleDao
 ) {
+    override val ingredientType: String = "TEST"
     override fun performSearch(criteria: String): Flow<List<TestEntity>> =
         flowOf(entities.filter { it.name.contains(criteria, ignoreCase = true) })
 
@@ -277,6 +284,9 @@ class BaseIngredientRepositoryTest {
         val ciderResults = repo.getCommonStylesForItem("item1", GuidelineType.BJCP_CIDER).first()
         assertThat(ciderResults).hasSize(1)
         assertThat(ciderResults.first().id).isEqualTo("C1A")
+
+        val allResults = repo.getCommonStylesForItem("item1").first()
+        assertThat(allResults.map { it.id }).containsExactly("1A", "BA-1", "M1A", "C1A")
     }
 
     @Test

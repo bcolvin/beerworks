@@ -4,12 +4,10 @@ import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
+import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
-import com.bc.beerworks.data.local.entity.BaStyleEntity
-import com.bc.beerworks.data.local.entity.BjcpStyleEntity
-import com.bc.beerworks.data.local.entity.CiderStyleEntity
 import com.bc.beerworks.data.local.entity.FavoriteIngredientEntity
-import com.bc.beerworks.data.local.entity.MeadStyleEntity
+import com.bc.beerworks.data.local.entity.StyleEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.Ingredient
@@ -17,6 +15,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
@@ -29,8 +28,11 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
     protected val meadStyleDao: MeadStyleDao? = null,
     protected val ciderStyleDao: CiderStyleDao? = null,
     protected val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    protected val favoriteIngredientDao: FavoriteIngredientDao? = null
+    protected val favoriteIngredientDao: FavoriteIngredientDao? = null,
+    protected val favoriteStyleDao: FavoriteStyleDao? = null
 ) : IngredientRepository<Domain, Criteria> {
+
+    protected open val ingredientType: String = ""
 
     protected abstract fun performSearch(criteria: Criteria): Flow<List<Entity>>
     protected abstract fun fetchById(id: String): Flow<Entity?>
@@ -63,28 +65,45 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
         }.flowOn(defaultDispatcher)
     }
 
+    @Suppress("UNNECESSARY_SAFE_CALL", "USELESS_ELVIS")
+    private fun getStyleEntitiesForGuideline(guidelineType: GuidelineType): Flow<List<StyleEntity>> =
+        when (guidelineType) {
+            GuidelineType.BJCP_2021 -> bjcpStyleDao.getAllStyles() ?: flowOf(emptyList())
+            GuidelineType.BA_2026 -> baStyleDao.getAllStyles() ?: flowOf(emptyList())
+            GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles() ?: flowOf(emptyList())
+            GuidelineType.BJCP_CIDER -> ciderStyleDao?.getAllStyles() ?: flowOf(emptyList())
+        }
+
     override fun getCommonStylesForItem(id: String, guidelineType: GuidelineType): Flow<List<BeerStyle>> {
+        val favIdsFlow = favoriteStyleDao?.getAllFavoriteIds() ?: flowOf(emptyList())
         return fetchStyleIds(id, guidelineType.name).flatMapLatest { styleIds ->
             if (styleIds.isEmpty()) {
                 flowOf(emptyList())
             } else {
-                when (guidelineType) {
-                    GuidelineType.BJCP_2021 -> bjcpStyleDao.getAllStyles().map { all ->
-                        val set = styleIds.toSet()
-                        all.filter { set.contains(it.id) }.map { it.toDomainModel(false) }
+                val idSet = styleIds.toSet()
+                getStyleEntitiesForGuideline(guidelineType).flatMapLatest { all ->
+                    favIdsFlow.map { favIds ->
+                        val favSet = favIds.toSet()
+                        all.filter { idSet.contains(it.id) }
+                            .map { it.toDomainModel(favSet.contains(it.id)) }
                     }
-                    GuidelineType.BA_2026 -> baStyleDao.getAllStyles().map { all ->
-                        val set = styleIds.toSet()
-                        all.filter { set.contains(it.id) }.map { it.toDomainModel(false) }
+                }
+            }
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getCommonStylesForItem(id: String): Flow<List<BeerStyle>> {
+        return getCommonStylesForItem(id, GuidelineType.BJCP_2021).flatMapLatest { bjcp ->
+            getCommonStylesForItem(id, GuidelineType.BA_2026).flatMapLatest { ba ->
+                getCommonStylesForItem(id, GuidelineType.BJCP_MEAD).flatMapLatest { mead ->
+                    getCommonStylesForItem(id, GuidelineType.BJCP_CIDER).map { cider ->
+                        (bjcp + ba + mead + cider).sortedWith(
+                            compareBy<BeerStyle> { it.guidelineType.ordinal }
+                                .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                                .thenBy { it.categoryNumber }
+                                .thenBy { it.number }
+                        )
                     }
-                    GuidelineType.BJCP_MEAD -> meadStyleDao?.getAllStyles()?.map { all ->
-                        val set = styleIds.toSet()
-                        all.filter { set.contains(it.id) }.map { it.toDomainModel(false) }
-                    } ?: flowOf(emptyList())
-                    GuidelineType.BJCP_CIDER -> ciderStyleDao?.getAllStyles()?.map { all ->
-                        val set = styleIds.toSet()
-                        all.filter { set.contains(it.id) }.map { it.toDomainModel(false) }
-                    } ?: flowOf(emptyList())
                 }
             }
         }.flowOn(defaultDispatcher)
@@ -92,8 +111,10 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
 
     override suspend fun getItemCount(): Int = fetchCount()
 
-    fun isFavorite(id: String): Flow<Boolean> =
+    override fun isFavorite(id: String): Flow<Boolean> =
         favoriteIngredientDao?.isFavorite(id) ?: flowOf(false)
+
+    override fun getFavoriteItems(): Flow<List<Domain>> = getFavoriteItems(ingredientType)
 
     fun getFavoriteItems(type: String): Flow<List<Domain>> {
         val dao = favoriteIngredientDao ?: return flowOf(emptyList())
@@ -111,6 +132,10 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
         }.flowOn(defaultDispatcher)
     }
 
+    override suspend fun toggleFavorite(id: String, currentFavorite: Boolean) {
+        toggleFavorite(id, ingredientType, currentFavorite)
+    }
+
     suspend fun toggleFavorite(id: String, type: String, currentFavorite: Boolean) {
         val dao = favoriteIngredientDao ?: return
         if (currentFavorite) {
@@ -126,137 +151,4 @@ abstract class BaseIngredientRepository<Entity : Any, Domain : Ingredient, Crite
         val terms = clean.split("\\s+".toRegex()).filter { it.isNotBlank() }
         return terms.joinToString(" ") { "$it*" }
     }
-
-    private fun String.normalizeIpa(): String =
-        this.replace(Regex("\\bipa\\b", RegexOption.IGNORE_CASE), "IPA")
-
-    private fun BjcpStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name.normalizeIpa(),
-        category = category.normalizeIpa(),
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = ibuMin,
-        ibuMax = ibuMax,
-        srmMin = srmMin,
-        srmMax = srmMax,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
-        guidelineType = GuidelineType.BJCP_2021,
-        isFavorite = isFavorite
-    )
-
-    private fun BaStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name.normalizeIpa(),
-        category = category.normalizeIpa(),
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = ibuMin,
-        ibuMax = ibuMax,
-        srmMin = srmMin,
-        srmMax = srmMax,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
-        guidelineType = GuidelineType.BA_2026,
-        isFavorite = isFavorite
-    )
-
-    private fun MeadStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name,
-        category = category,
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = null,
-        ibuMax = null,
-        srmMin = null,
-        srmMax = null,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        sweetness = sweetness,
-        carbonation = carbonation,
-        strength = strength,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
-        guidelineType = GuidelineType.BJCP_MEAD,
-        isFavorite = isFavorite
-    )
-
-    private fun CiderStyleEntity.toDomainModel(isFavorite: Boolean) = BeerStyle(
-        id = id,
-        name = name,
-        category = category,
-        categoryNumber = categoryNumber,
-        number = number,
-        overallImpression = overallImpression,
-        aroma = aroma,
-        appearance = appearance,
-        flavor = flavor,
-        mouthfeel = mouthfeel,
-        comments = comments,
-        history = history,
-        characteristicIngredients = characteristicIngredients,
-        styleComparison = styleComparison,
-        ibuMin = null,
-        ibuMax = null,
-        srmMin = null,
-        srmMax = null,
-        ogMin = ogMin,
-        ogMax = ogMax,
-        fgMin = fgMin,
-        fgMax = fgMax,
-        abvMin = abvMin,
-        abvMax = abvMax,
-        sweetness = sweetness,
-        carbonation = carbonation,
-        strength = strength,
-        commercialExamples = commercialExamples,
-        tags = tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
-        guidelineType = GuidelineType.BJCP_CIDER,
-        isFavorite = isFavorite
-    )
 }

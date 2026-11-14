@@ -8,7 +8,7 @@ import com.bc.beerworks.data.model.GuidelineType
 
 @Entity(tableName = "cider_styles")
 data class CiderStyleEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey override val id: String,
     val name: String,
     val category: String,
     val categoryNumber: String,
@@ -33,8 +33,8 @@ data class CiderStyleEntity(
     val strength: String,
     val commercialExamples: String,
     val tags: String
-) {
-    fun toDomainModel(isFavorite: Boolean = false): BeerStyle {
+) : StyleEntity {
+    override fun toDomainModel(isFavorite: Boolean): BeerStyle {
         return BeerStyle(
             id = id,
             name = name,

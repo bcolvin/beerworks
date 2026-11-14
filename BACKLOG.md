@@ -85,7 +85,7 @@ This backlog stores feature ideas, user requests, and future capabilities before
 
 ## 🏗️ Planned Architectural Deepening (Upcoming Enhancements)
 
-- [ ] **Consolidate Shallow Ingredient Detail ViewModels (Architecture Candidate 1)**
+- [x] **Consolidate Shallow Ingredient Detail ViewModels (Architecture Candidate 1)**
   - Replace five separate pass-through view models (`HopDetailViewModel`, `MaltDetailViewModel`, `HoneyDetailViewModel`, `PomeDetailViewModel`, `YeastDetailViewModel`) with a single deep generic `IngredientDetailViewModel<T : Ingredient>`.
   - Maximize leverage from the unified `IngredientRepository` seam (ADR 0006) across all ingredient disciplines.
   - Unify detail lifecycle state emission, substitute resolution, and style favorite toggling into one thoroughly tested interface.

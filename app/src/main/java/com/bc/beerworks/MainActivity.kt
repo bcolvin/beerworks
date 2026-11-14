@@ -32,6 +32,11 @@ import com.bc.beerworks.data.local.BeerworksDatabase
 import com.bc.beerworks.data.local.DatabaseInitializer
 import com.bc.beerworks.data.local.DefaultPreferencesManager
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.HoneyVariety
+import com.bc.beerworks.data.model.HopVariety
+import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.PomeVariety
+import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
@@ -47,17 +52,14 @@ import com.bc.beerworks.ui.favorites.FavoritesViewModel
 import com.bc.beerworks.ui.honey.HoneyContent
 import com.bc.beerworks.ui.honey.HoneyViewModel
 import com.bc.beerworks.ui.honeydetail.HoneyDetailScreen
-import com.bc.beerworks.ui.honeydetail.HoneyDetailViewModel
-import com.bc.beerworks.ui.hopdetail.HopDetailContent
-import com.bc.beerworks.ui.hopdetail.HopDetailViewModel
+import com.bc.beerworks.ui.hopdetail.HopDetailScreen
 import com.bc.beerworks.ui.hops.HopsContent
 import com.bc.beerworks.ui.hops.HopsViewModel
+import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 import com.bc.beerworks.ui.malt.MaltContent
 import com.bc.beerworks.ui.malt.MaltViewModel
 import com.bc.beerworks.ui.maltdetail.MaltDetailScreen
-import com.bc.beerworks.ui.maltdetail.MaltDetailViewModel
 import com.bc.beerworks.ui.pomedetail.PomeDetailScreen
-import com.bc.beerworks.ui.pomedetail.PomeDetailViewModel
 import com.bc.beerworks.ui.pomes.PomesContent
 import com.bc.beerworks.ui.pomes.PomesViewModel
 import com.bc.beerworks.ui.reviewhistory.ReviewHistoryContent
@@ -69,7 +71,6 @@ import com.bc.beerworks.ui.stylelist.StyleListContent
 import com.bc.beerworks.ui.stylelist.StyleListViewModel
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.ui.yeastdetail.YeastDetailScreen
-import com.bc.beerworks.ui.yeastdetail.YeastDetailViewModel
 import com.bc.beerworks.ui.yeasts.YeastsContent
 import com.bc.beerworks.ui.yeasts.YeastsViewModel
 import kotlinx.coroutines.launch
@@ -554,40 +555,31 @@ fun BeerworksApp() {
             ) { backStackEntry ->
                 val hopId = backStackEntry.arguments?.getString("hopId") ?: ""
 
-                val viewModel: HopDetailViewModel = viewModel(
+                val viewModel: IngredientDetailViewModel<HopVariety> = viewModel(
                     key = "hop_$hopId",
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return HopDetailViewModel(hopRepository, repository, hopId) as T
+                            return IngredientDetailViewModel(
+                                repository = hopRepository,
+                                beerStyleRepository = repository,
+                                itemId = hopId,
+                                relatedItemsProvider = hopRepository::getChildHops
+                            ) as T
                         }
                     }
                 )
 
-                val hop by viewModel.hop.collectAsState()
-                val childHops by viewModel.childHops.collectAsState()
-                val substituteHops by viewModel.substituteHops.collectAsState()
-                val commonStyles by viewModel.commonStyles.collectAsState()
-                val isFavorite by viewModel.isFavorite.collectAsState()
-
-                hop?.let { hopVariety ->
-                    HopDetailContent(
-                        hop = hopVariety,
-                        childHops = childHops,
-                        substituteHops = substituteHops,
-                        commonStyles = commonStyles,
-                        onBackClick = { navController.popBackStack() },
-                        onHopClick = { targetHopId ->
-                            navController.navigate("hop_detail/$targetHopId")
-                        },
-                        onStyleClick = { style ->
-                            navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
-                        },
-                        onToggleStyleFavorite = viewModel::toggleStyleFavorite,
-                        isFavorite = isFavorite,
-                        onToggleFavorite = viewModel::toggleFavorite
-                    )
-                }
+                HopDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onHopClick = { targetHopId ->
+                        navController.navigate("hop_detail/$targetHopId")
+                    },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
             }
 
             composable(
@@ -598,12 +590,12 @@ fun BeerworksApp() {
             ) { backStackEntry ->
                 val maltId = backStackEntry.arguments?.getString("maltId") ?: ""
 
-                val viewModel: MaltDetailViewModel = viewModel(
+                val viewModel: IngredientDetailViewModel<MaltVariety> = viewModel(
                     key = "malt_$maltId",
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return MaltDetailViewModel(maltRepository, repository, maltId) as T
+                            return IngredientDetailViewModel(maltRepository, repository, maltId) as T
                         }
                     }
                 )
@@ -628,12 +620,12 @@ fun BeerworksApp() {
             ) { backStackEntry ->
                 val honeyId = backStackEntry.arguments?.getString("honeyId") ?: ""
 
-                val viewModel: HoneyDetailViewModel = viewModel(
+                val viewModel: IngredientDetailViewModel<HoneyVariety> = viewModel(
                     key = "honey_$honeyId",
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return HoneyDetailViewModel(honeyRepository, repository, honeyId) as T
+                            return IngredientDetailViewModel(honeyRepository, repository, honeyId) as T
                         }
                     }
                 )
@@ -658,12 +650,12 @@ fun BeerworksApp() {
             ) { backStackEntry ->
                 val pomeId = backStackEntry.arguments?.getString("pomeId") ?: ""
 
-                val viewModel: PomeDetailViewModel = viewModel(
+                val viewModel: IngredientDetailViewModel<PomeVariety> = viewModel(
                     key = "pome_$pomeId",
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return PomeDetailViewModel(pomeRepository, repository, pomeId) as T
+                            return IngredientDetailViewModel(pomeRepository, repository, pomeId) as T
                         }
                     }
                 )
@@ -688,12 +680,12 @@ fun BeerworksApp() {
             ) { backStackEntry ->
                 val yeastId = backStackEntry.arguments?.getString("yeastId") ?: ""
 
-                val viewModel: YeastDetailViewModel = viewModel(
+                val viewModel: IngredientDetailViewModel<YeastStrain> = viewModel(
                     key = "yeast_$yeastId",
                     factory = object : ViewModelProvider.Factory {
                         @Suppress("UNCHECKED_CAST")
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                            return YeastDetailViewModel(yeastRepository, repository, prefsManager, yeastId) as T
+                            return IngredientDetailViewModel(yeastRepository, repository, yeastId) as T
                         }
                     }
                 )

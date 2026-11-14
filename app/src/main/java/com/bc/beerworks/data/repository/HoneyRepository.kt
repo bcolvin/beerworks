@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
+import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.HoneyDao
 import com.bc.beerworks.data.local.dao.HoneyStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
@@ -27,15 +28,19 @@ class HoneyRepository(
     meadStyleDao: MeadStyleDao? = null,
     ciderStyleDao: CiderStyleDao? = null,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    favoriteIngredientDao: FavoriteIngredientDao? = null
+    favoriteIngredientDao: FavoriteIngredientDao? = null,
+    favoriteStyleDao: FavoriteStyleDao? = null
 ) : BaseIngredientRepository<HoneyVarietyEntity, HoneyVariety, HoneyFilterCriteria>(
     bjcpStyleDao,
     baStyleDao,
     meadStyleDao,
     ciderStyleDao,
     defaultDispatcher,
-    favoriteIngredientDao
+    favoriteIngredientDao,
+    favoriteStyleDao
 ) {
+    override val ingredientType: String = "HONEY"
+
     constructor(
         database: BeerworksDatabase,
         defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -47,7 +52,8 @@ class HoneyRepository(
         database.meadStyleDao(),
         database.ciderStyleDao(),
         defaultDispatcher,
-        database.favoriteIngredientDao()
+        database.favoriteIngredientDao(),
+        database.favoriteStyleDao()
     )
 
     override fun performSearch(criteria: HoneyFilterCriteria): Flow<List<HoneyVarietyEntity>> {
