@@ -86,6 +86,13 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Instant cross-discipline keyword search (`Ingredient.matchesQuery`) and dynamic discipline filter chips with item counts.
   - Right-to-left swipe-to-remove (`SwipeToDismissBox`) with optional `"Remove from Favorites?"` confirmation modal and `"Always remove without asking"` setting in `SettingsScreen`.
 
+- [ ] **Off-Flavors & Sensory Faults Database (Feature 010)**
+  - Curated catalog of 28 canonical judging off-flavors distilled from Thomas Barnes' *Complete Beer Fault Guide v1.4* and BJCP sensory standards, placed directly above Favorites in the navigation drawer (`"off_flavors"`, `Icons.Default.Science`).
+  - Five root-cause **Off-Flavor Categories** (`Fermentation & Yeast`, `Mashing & Boil`, `Sanitation & Microbial`, `Oxidation & Aging`, `Water & Packaging`) with sensory cue emojis on every card.
+  - Sub-millisecond SQLite FTS4 search across off-flavor names, chemical compounds, sensory cues, root causes, remedies, and Meilgaard Flavor Wheel codes, plus multi-attribute filtering (`Category`, `Detected In`, `Beverage Discipline`, `Style Permissibility`).
+  - Judging-first detail page featuring a **Sensory Detection & Thresholds Card**, diagnostic **How to Tell Apart** contrast notes (distinguishing faults from normal ingredients and lookalike faults), clickable lookalike `OffFlavorCard` links, root-cause & scoresheet remedy bullets, and one-way links to permissible `BeerStyle` cards.
+  - Full integration with **Favorites** (`FavoriteDiscipline.OFF_FLAVORS`).
+
 ---
 
 ## 🏗️ Planned Architectural Deepening (Completed Enhancements)

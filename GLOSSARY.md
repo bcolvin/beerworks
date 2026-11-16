@@ -269,5 +269,31 @@ A contextual visual glyph in the navigation drawer and headers that automaticall
 _Avoid_: Guide logo, beverage avatar
 
 **Favorite**:
-A user-bookmarked beverage style (across Beer, Mead, or Cider guidelines) or canonical ingredient (Hop, Malt, Honey, Pome, or Yeast) saved for rapid cross-discipline reference.
+A user-bookmarked beverage style (across Beer, Mead, or Cider guidelines), canonical ingredient (Hop, Malt, Honey, Pome, or Yeast), or Off-Flavor saved for rapid cross-discipline reference.
 _Avoid_: Bookmark, starred item, saved card, pinned item
+
+### Off-Flavors & Sensory Evaluation
+
+**Off-Flavor**:
+A distinct chemical or sensory attribute detected in aroma, flavor, or mouthfeel (such as Diacetyl, Acetaldehyde, DMS, or Lightstruck) caused by fermentation stress, raw materials, brewing process errors, microbial contamination, or aging/oxidation—typically considered a judging fault, though permissible at controlled levels in specific styles.
+_Avoid_: Defect, beer flaw, taint, blemish
+
+**Off-Flavor Category**:
+A standardized root-cause classification of an Off-Flavor based on the stage or mechanism where it arises: Fermentation & Yeast, Mashing & Boil, Sanitation & Microbial, Oxidation & Aging, or Water & Packaging.
+_Avoid_: Fault type, flaw group, defect family
+
+**Sensory Modality**:
+The organoleptic channel through which an Off-Flavor is detected during evaluation: Aroma (olfactory/retronasal), Flavor (gustatory/palate), or Mouthfeel (trigeminal/tactile sensation such as astringency, slickness, or alcoholic warmth).
+_Avoid_: Detection channel, taste mode, sense type
+
+**Style Permissibility**:
+Whether an Off-Flavor is unconditionally a fault across all fermented beverages (`Always a Fault`, such as Chlorophenol, Musty, or Lightstruck) or acceptable/expected at low-to-moderate concentrations in specific beverage styles (`Style-Permissible`, such as Diacetyl, Estery, Phenolic, Lactic, or Acetic).
+_Avoid_: Fault severity, legality, style allowance
+
+**Perception Threshold**:
+The minimum concentration of a chemical compound in beer (typically expressed in ppm, ppb, or ppt) at which an average sensory panelist can detect its presence in aroma, flavor, or mouthfeel.
+_Avoid_: Detection limit, taste floor, cutoff level
+
+**Meilgaard Flavor Wheel**:
+The standardized three-tiered sensory terminology system (developed by Morten Meilgaard for the ASBC, EBC, and MBAA) assigning numeric reference codes (e.g., 0620 for Diacetyl, 0150 for Acetaldehyde) to distinct aroma, flavor, and mouthfeel attributes.
+_Avoid_: Aroma wheel code, ASBC number, flavor index
