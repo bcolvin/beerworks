@@ -5,6 +5,7 @@ import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.PomeVariety
 import com.bc.beerworks.data.model.StyleIngredients
 import com.bc.beerworks.data.model.YeastStrain
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
@@ -23,6 +25,7 @@ open class IngredientCatalogRepository(
     val honeyRepository: IngredientRepository<HoneyVariety, *>,
     val pomeRepository: IngredientRepository<PomeVariety, *>,
     val yeastRepository: IngredientRepository<YeastStrain, *>,
+    val offFlavorRepository: IngredientRepository<OffFlavor, *>? = null,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
     constructor(
@@ -34,6 +37,7 @@ open class IngredientCatalogRepository(
         honeyRepository = HoneyRepository(database, defaultDispatcher),
         pomeRepository = PomeRepository(database, defaultDispatcher),
         yeastRepository = YeastRepository(database, defaultDispatcher),
+        offFlavorRepository = OffFlavorRepository(database, defaultDispatcher),
         defaultDispatcher = defaultDispatcher
     )
 
@@ -61,18 +65,22 @@ open class IngredientCatalogRepository(
     }
 
     open fun getFavoriteIngredients(): Flow<StyleIngredients> {
+        val offFlavorsFlow = offFlavorRepository?.getFavoriteItems() ?: flowOf(emptyList())
         return hopRepository.getFavoriteItems().flatMapLatest { hops ->
             maltRepository.getFavoriteItems().flatMapLatest { malts ->
                 honeyRepository.getFavoriteItems().flatMapLatest { honeys ->
                     pomeRepository.getFavoriteItems().flatMapLatest { pomes ->
-                        yeastRepository.getFavoriteItems().map { yeasts ->
-                            StyleIngredients(
-                                hops = hops,
-                                malts = malts,
-                                honeys = honeys,
-                                pomes = pomes,
-                                yeasts = yeasts
-                            )
+                        yeastRepository.getFavoriteItems().flatMapLatest { yeasts ->
+                            offFlavorsFlow.map { offFlavors ->
+                                StyleIngredients(
+                                    hops = hops,
+                                    malts = malts,
+                                    honeys = honeys,
+                                    pomes = pomes,
+                                    yeasts = yeasts,
+                                    offFlavors = offFlavors
+                                )
+                            }
                         }
                     }
                 }
@@ -87,6 +95,7 @@ open class IngredientCatalogRepository(
             "HONEY" -> honeyRepository.toggleFavorite(id, true)
             "POME" -> pomeRepository.toggleFavorite(id, true)
             "YEAST" -> yeastRepository.toggleFavorite(id, true)
+            OffFlavorRepository.TYPE_OFF_FLAVOR -> offFlavorRepository?.toggleFavorite(id, true)
         }
     }
 }

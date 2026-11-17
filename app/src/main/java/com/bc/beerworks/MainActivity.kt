@@ -31,6 +31,7 @@ import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.PomeVariety
 import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.ui.categorydetail.CategoryDetailScreen
@@ -49,6 +50,9 @@ import com.bc.beerworks.ui.ingredientdetail.IngredientDetailViewModel
 import com.bc.beerworks.ui.malt.MaltScreen
 import com.bc.beerworks.ui.malt.MaltViewModel
 import com.bc.beerworks.ui.maltdetail.MaltDetailScreen
+import com.bc.beerworks.ui.offflavordetail.OffFlavorDetailScreen
+import com.bc.beerworks.ui.offflavors.OffFlavorsScreen
+import com.bc.beerworks.ui.offflavors.OffFlavorsViewModel
 import com.bc.beerworks.ui.pomedetail.PomeDetailScreen
 import com.bc.beerworks.ui.pomes.PomesScreen
 import com.bc.beerworks.ui.pomes.PomesViewModel
@@ -236,6 +240,17 @@ fun BeerworksApp() {
                 )
             }
 
+            composable("off_flavors") {
+                val viewModel: OffFlavorsViewModel = viewModel(
+                    factory = viewModelFactory { OffFlavorsViewModel(container.offFlavorRepository) }
+                )
+                OffFlavorsScreen(
+                    viewModel = viewModel,
+                    onOffFlavorClick = { offFlavorId -> navController.navigate("off_flavor_detail/$offFlavorId") },
+                    onMenuClick = openDrawer
+                )
+            }
+
             composable("favorites") {
                 val viewModel: FavoritesViewModel = viewModel(
                     factory = viewModelFactory {
@@ -255,6 +270,7 @@ fun BeerworksApp() {
                     onHoneyClick = { honeyId -> navController.navigate("honey_detail/$honeyId") },
                     onPomeClick = { pomeId -> navController.navigate("pome_detail/$pomeId") },
                     onYeastClick = { yeastId -> navController.navigate("yeast_detail/$yeastId") },
+                    onOffFlavorClick = { offFlavorId -> navController.navigate("off_flavor_detail/$offFlavorId") },
                     onMenuClick = openDrawer
                 )
             }
@@ -413,6 +429,27 @@ fun BeerworksApp() {
                     viewModel = viewModel,
                     onBackClick = { navController.popBackStack() },
                     onYeastClick = { targetYeastId -> navController.navigate("yeast_detail/$targetYeastId") },
+                    onStyleClick = { style ->
+                        navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
+                    }
+                )
+            }
+
+            composable(
+                route = "off_flavor_detail/{offFlavorId}",
+                arguments = listOf(navArgument("offFlavorId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val offFlavorId = backStackEntry.arguments?.getString("offFlavorId") ?: ""
+                val viewModel: IngredientDetailViewModel<OffFlavor> = viewModel(
+                    key = "off_flavor_$offFlavorId",
+                    factory = viewModelFactory {
+                        IngredientDetailViewModel(container.offFlavorRepository, container.beerStyleRepository, offFlavorId)
+                    }
+                )
+                OffFlavorDetailScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onOffFlavorClick = { targetId -> navController.navigate("off_flavor_detail/$targetId") },
                     onStyleClick = { style ->
                         navController.navigate("style_detail/${style.id}/${style.guidelineType.name}")
                     }

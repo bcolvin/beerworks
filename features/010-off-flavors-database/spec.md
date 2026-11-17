@@ -34,7 +34,7 @@ Provide an offline-first, judging-focused reference catalog of **Off-Flavors** (
 ## 📋 Requirements & Acceptance Criteria
 
 ### 1. Data Pipeline & Persistence
-- [ ] **Bundled Asset (`off_flavors.json`)**: Curate and bundle `app/src/main/assets/off_flavors.json` with the **28 canonical judging off-flavors** grouped across 5 **Off-Flavor Categories**:
+- [x] **Bundled Asset (`off_flavors.json`)**: Curate and bundle `app/src/main/assets/off_flavors.json` with the **31 canonical judging off-flavors** grouped across 5 **Off-Flavor Categories**:
   1. **Fermentation & Yeast** (`Warm Amber` badge):
      - 🍏 **Acetaldehyde** (*Ethanal*)
      - 🔥 **Alcoholic / Fusel** (*Higher Alcohols: Propanol, Isobutanol, Isoamyl Alcohol*)
@@ -71,7 +71,7 @@ Provide an offline-first, judging-focused reference catalog of **Off-Flavors** (
      - 🦨 **Lightstruck (Skunky)** (*3-Methyl-2-butene-1-thiol / MBT*)
      - 🪙 **Metallic** (*Ferrous Iron & Copper Ions*)
      - 🍄 **Musty / Corked** (*2,4,6-Trichloroanisole / Geosmin*)
-- [ ] **JSON Schema & Domain Model (`OffFlavor : Ingredient`)**:
+- [x] **JSON Schema & Domain Model (`OffFlavor : Ingredient`)**:
   - `id`: Unique kebab-case identifier (e.g. `diacetyl`, `acetaldehyde`, `dms`, `lightstruck`).
   - `name`: Canonical Off-Flavor name (e.g. `"Diacetyl"`).
   - `emoji`: Sensory cue emoji mapped to `Ingredient.countryFlag` (e.g. `"🧈"`).
@@ -94,31 +94,31 @@ Provide an offline-first, judging-focused reference catalog of **Off-Flavors** (
   - `whenAppropriate`: Concise guidance on when the compound is style-appropriate vs. a fault, including any Mead/Cider judging context.
   - `confusedWithIds`: Mapped to `Ingredient.substituteIds` to resolve clickable lookalike `OffFlavorCard` links.
   - `permissibleStyleIds`: Associated style identifiers across BJCP 2021, BA 2026, BJCP Mead, and BJCP Cider where low/moderate levels are permissible.
-- [ ] **Room Database Version 10**:
+- [x] **Room Database Version 11**:
   - `OffFlavorEntity`: Primary table storing complete off-flavor attributes.
   - `OffFlavorFtsEntity`: SQLite FTS4 virtual table (`off_flavors_fts`) indexing `name`, `chemicalCompound`, `category`, `meilgaardCode`, `description`, `descriptors`, `diagnosticContrasts`, `typicalOrigins`, `preventionTips`, and `whenAppropriate`.
   - `OffFlavorStyleCrossRef`: Relational join table keyed on `(offFlavorId, styleId, guidelineType)`.
-- [ ] **Room Database Migration (v9 -> v10)**: Automated migration creating `off_flavors`, `off_flavors_fts`, and `off_flavor_style_cross_ref` without losing existing data or user favorites.
-- [ ] **Database Preloading (`OffFlavorSeeder`)**: `DomainSeeder` implementation registered in `DatabaseInitializer` with fast-path `getOffFlavorCount() > 0` guard and concurrent background execution.
-- [ ] **Repository Layer (`OffFlavorRepository`)**: Concrete subclass of `BaseIngredientRepository<OffFlavorEntity, OffFlavor, OffFlavorFilterCriteria>` with `ingredientType = "OFF_FLAVOR"`.
+- [x] **Room Database Migration (v10 -> v11)**: Automated migration creating `off_flavors`, `off_flavors_fts`, and `off_flavor_style_cross_ref` without losing existing data or user favorites.
+- [x] **Database Preloading (`OffFlavorSeeder`)**: `DomainSeeder` implementation registered in `DatabaseInitializer` with fast-path `getOffFlavorCount() > 0` guard and concurrent background execution.
+- [x] **Repository Layer (`OffFlavorRepository`)**: Concrete subclass of `BaseIngredientRepository<OffFlavorEntity, OffFlavor, OffFlavorFilterCriteria>` with `ingredientType = "OFF_FLAVOR"`.
 
 ### 2. Off-Flavors Catalog List Screen (`OffFlavorsScreen` / route: `"off_flavors"`)
-- [ ] **Shared Catalog Scaffold (`IngredientCatalogScaffold<OffFlavor>`) & ViewModel (`OffFlavorsViewModel : IngredientListViewModel<OffFlavor, OffFlavorFilterCriteria>`)**:
+- [x] **Shared Catalog Scaffold (`IngredientCatalogScaffold<OffFlavor>`) & ViewModel (`OffFlavorsViewModel : IngredientListViewModel<OffFlavor, OffFlavorFilterCriteria>`)**:
   - TopAppBar with title `"Off-Flavors"`, drawer menu navigation icon, and top-right `FilterActionIcon`.
   - Pill search input with leading search icon, trailing clear icon, and no placeholder hint text.
-- [ ] **Quick-Filter Strip (`quickFilterStrip` slot)**:
+- [x] **Quick-Filter Strip (`quickFilterStrip` slot)**:
   - Horizontal scrollable `FilterChip`s for the 5 **Off-Flavor Categories** (`Fermentation & Yeast`, `Mashing & Boil`, `Sanitation & Microbial`, `Oxidation & Aging`, `Water & Packaging`) without an `"All"` chip.
-- [ ] **Filter Bottom Sheet (`OffFlavorFilterSheet`)**:
+- [x] **Filter Bottom Sheet (`OffFlavorFilterSheet`)**:
   1. **Category**: `Fermentation & Yeast`, `Mashing & Boil`, `Sanitation & Microbial`, `Oxidation & Aging`, `Water & Packaging`
   2. **Detected In (Sensory Modality)**: `Aroma`, `Flavor`, `Mouthfeel`
   3. **Beverage Discipline**: `Beer`, `Mead`, `Cider`
   4. **Style Permissibility**: `Always a Fault`, `Style-Permissible`
-- [ ] **Glanceable `OffFlavorCard` (`IngredientCardScaffold`)**:
+- [x] **Glanceable `OffFlavorCard` (`IngredientCardScaffold`)**:
   1. **Header Row**: Sensory cue emoji (`offFlavor.countryFlag`) + bold Off-Flavor name on the left; color-coded `OffFlavorCategoryBadge` on the top right.
   2. **Sub-Header**: Italicized `"${offFlavor.chemicalCompound} • Threshold: ${offFlavor.perceptionThreshold}"`.
   3. **Narrative Description**: 1–2 sentence sensory summary (max 3 lines with ellipsis).
   4. **Bottom Strip**: Single-row sensory cue chip strip (`SingleRowChipLayout`).
-- [ ] **Empty State**: Centered empty state with `Icons.Default.Science`, headline `"No off-flavors found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` button when `criteria.isFilterActive` is true.
+- [x] **Empty State**: Centered empty state with `Icons.Default.Science`, headline `"No off-flavors found"`, subtitle `"Try adjusting your search query or filters."`, and conditional `"Reset Filters"` button when `criteria.isFilterActive` is true.
 
 ### 3. Off-Flavor Detail Screen (`OffFlavorDetailScreen` / route: `"off_flavor_detail/{offFlavorId}"`)
 Built with `IngredientDetailScaffold` and `IngredientDetailViewModel<OffFlavor>`:
@@ -143,9 +143,9 @@ Built with `IngredientDetailScaffold` and `IngredientDetailViewModel<OffFlavor>`
    - Clickable `AssociatedStylesSection` titled `"Styles Where Permissible"` when `commonStyles` is non-empty.
 
 ### 4. Cross-Cutting Integrations
-- [ ] **Navigation Drawer (`AppDrawer.kt`)**:
+- [x] **Navigation Drawer (`AppDrawer.kt`)**:
   - Add `data object OffFlavors : DrawerDestination("off_flavors", "Off-Flavors", Icons.Default.Science)` positioned directly above `Favorites` (`StyleGuide, Hops, Malt, Honey, Pomes, Yeast, OffFlavors, Favorites, ReviewHistory, Settings`).
-- [ ] **Favorites Integration (`FavoritesScreen.kt`, `FavoritesViewModel.kt`, `IngredientCatalogRepository.kt`)**:
+- [x] **Favorites Integration (`FavoritesScreen.kt`, `FavoritesViewModel.kt`, `IngredientCatalogRepository.kt`)**:
   - Include favorited Off-Flavors (`type = "OFF_FLAVOR"`) in `FavoritesViewModel` and `FavoritesScreen` under `FavoriteDiscipline.OFF_FLAVORS` (`"Off-Flavors"`, `Icons.Default.Science`), supporting keyword search, discipline chip filtering, swipe-to-remove, and tap navigation to `off_flavor_detail/{offFlavorId}`.
   - Keep `StyleDetailScreen` free of Off-Flavors (one-way style cross-referencing per ADR 0008).
 

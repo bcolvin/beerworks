@@ -1,0 +1,1067 @@
+[
+  {
+    "id": "acetaldehyde",
+    "name": "Acetaldehyde",
+    "emoji": "🍏",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Ethanal (Acetaldehyde)",
+    "perceptionThreshold": "10 – 25 ppm",
+    "typicalConcentration": "1 – 10 ppm (normal); > 25 ppm (fault)",
+    "meilgaardCode": "0150",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Sharp, green-apple, raw pumpkin, or fresh latex paint note indicating incomplete fermentation or premature packaging.",
+    "aromaPerception": "Green apple skin, freshly cut pumpkin, wet emulsion paint, or bruised apple.",
+    "flavorPerception": "Tart, raw green apple with a cidery, unripe finish.",
+    "mouthfeelPerception": "No direct mouthfeel impact; can accentuate perceived thinness.",
+    "descriptors": ["Green Apple", "Latex Paint", "Raw Pumpkin", "Bruised Apple", "Cidery"],
+    "diagnosticContrasts": [
+      "vs. Ethyl Hexanoate (Red Apple Ester): Acetaldehyde smells sharp, raw, and paint-like (unripe green apple), whereas ethyl hexanoate is sweet, ripe, and fruity.",
+      "vs. Grassy (Hexanal): Acetaldehyde has a pungent apple/latex edge, whereas hexanal smells like crushed green leaves or lawn clippings.",
+      "vs. Cider Acidity: In ciders, crisp malic tartness is clean fruit acid; acetaldehyde tastes flat, green, and paint-like."
+    ],
+    "typicalOrigins": [
+      "Beer racked off yeast or cold-crashed too early before yeast finished reducing acetaldehyde to ethanol.",
+      "Under-pitching, low dissolved oxygen, or stressed/unhealthy yeast.",
+      "Post-packaging oxidation converting ethanol back into acetaldehyde.",
+      "Bacterial spoilage (Acetobacter or Zymomonas) in finished beer."
+    ],
+    "preventionTips": [
+      "Pitch an adequate, healthy yeast cell count and aerate wort properly prior to pitching.",
+      "Allow a warm conditioning rest at the end of primary fermentation before crashing or packaging.",
+      "Minimize oxygen pickup during transfer, bottling, and kegging."
+    ],
+    "whenAppropriate": "Almost always a fault in beer, mead, and cider. Trace levels may appear in very young Budweiser-style American Lagers, but noticeable green-apple or paint notes are penalized.",
+    "confusedWithIds": ["estery", "grassy"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "alcoholic-fusel",
+    "name": "Alcoholic / Fusel",
+    "emoji": "🔥",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Higher Alcohols (Propanol, Isobutanol, Isoamyl Alcohol)",
+    "perceptionThreshold": "100 – 150 ppm (total fusels)",
+    "typicalConcentration": "40 – 100 ppm (normal); > 150 ppm (fault)",
+    "meilgaardCode": "0110, 0112",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Hot, spicy, peppery alcohol heat that burns the throat and nostrils, distinct from smooth ethanol warmth.",
+    "aromaPerception": "Sharp, pungent alcohol vapors, spicy spirits, or mild sherry-like heat.",
+    "flavorPerception": "Harsh, biting, peppery spirit flavor that overwhelms delicate malt or honey.",
+    "mouthfeelPerception": "Prickly, burning warming sensation down the throat and on the palate.",
+    "descriptors": ["Hot Alcohol", "Solvent Heat", "Peppery", "Harsh", "Throat Burn"],
+    "diagnosticContrasts": [
+      "vs. Clean Ethanol Warmth: Normal high-ABV warmth feels smooth and comforting in the chest; fusel alcohols sting the nostrils and burn sharply at the back of the throat.",
+      "vs. Solvent (Ethyl Acetate): Fusels give a hot, spicy spirit burn, whereas solvent smells specifically like acetone or nail polish remover.",
+      "vs. Hop/Phenolic Spice: Fusel heat is an alcoholic sting rather than herbal, woody, or clove-like spice."
+    ],
+    "typicalOrigins": [
+      "Fermenting too warm, especially during the first 48 hours of active growth.",
+      "Under-pitching or nutrient-deficient must/wort (especially in mead without staggered nutrients).",
+      "Excessive simple sugars or prolonged contact with dead yeast trub."
+    ],
+    "preventionTips": [
+      "Control fermentation temperature tightly within the yeast strain's lower-to-mid range during active growth.",
+      "Pitch healthy yeast at proper rates and provide adequate yeast nutrition (YAN in mead/cider).",
+      "Use balanced wort oxygenation without over-aerating."
+    ],
+    "whenAppropriate": "Smooth warming alcohol is expected in Barleywines, Eisbock, Wee Heavy, and Sack Meads, but harsh or burning fusels are always a fault.",
+    "confusedWithIds": ["solvent", "phenolic"],
+    "permissibleStyleIds": ["17D", "22C", "9B", "17C", "M1C"]
+  },
+  {
+    "id": "autolysis",
+    "name": "Autolysis",
+    "emoji": "🥩",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Amino & Fatty Acids, Sulfur Peptides",
+    "perceptionThreshold": "Low (varies by compound)",
+    "typicalConcentration": "Negligible in fresh beer; rises with prolonged yeast contact",
+    "meilgaardCode": "0724, 0841",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Savory, meaty, soy sauce, Vegemite, or burnt-rubber character caused by decaying yeast cells.",
+    "aromaPerception": "Beef bouillon, soy sauce, Marmite/Vegemite, burnt rubber, or sulfury meat broth.",
+    "flavorPerception": "Savory umami, salty meat extract, stale yeast, and rubbery bitterness.",
+    "mouthfeelPerception": "Heavy, brothy, sometimes slightly oily finish.",
+    "descriptors": ["Meaty", "Soy Sauce", "Marmite", "Burnt Rubber", "Umami"],
+    "diagnosticContrasts": [
+      "vs. Dark Malt Roast/Melanoidin: Dark malts provide clean coffee, cocoa, or toasted bread; autolysis tastes distinctly savory like beef broth, soy sauce, or burnt rubber.",
+      "vs. Yeasty: Fresh yeast tastes bready and doughy; autolysis tastes decayed, meaty, and sulfurous.",
+      "vs. Mercaptan: Mercaptan is sharper rotten cabbage/drain gas; autolysis is savory broth and rubber."
+    ],
+    "typicalOrigins": [
+      "Leaving beer sitting on a thick primary yeast cake for months at warm temperatures.",
+      "Pitching old, low-viability yeast or fermenting under high hydrostatic pressure.",
+      "Warm storage of unfiltered bottle-conditioned beer."
+    ],
+    "preventionTips": [
+      "Rack beer off primary yeast trub once fermentation and conditioning are complete.",
+      "Pitch fresh, high-viability yeast and store finished beer cold.",
+      "Avoid prolonged warm aging on heavy lees unless intentionally making sur lie styles."
+    ],
+    "whenAppropriate": "Almost always a fault in beer. Very subtle savory/brioche autolytic complexity can be acceptable in aged Champagne-method ciders or Traditional Perry.",
+    "confusedWithIds": ["yeasty", "mercaptan"],
+    "permissibleStyleIds": ["C1E"]
+  },
+  {
+    "id": "caprylic-goaty",
+    "name": "Caprylic / Goaty",
+    "emoji": "🐐",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Octanoic (Caprylic) & Decanoic (Capric) Acids",
+    "perceptionThreshold": "4 – 10 ppm",
+    "typicalConcentration": "1 – 5 ppm (normal); > 10 ppm (fault)",
+    "meilgaardCode": "0613",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Waxy, tallow, goaty, or soapy-fatty character from medium-chain fatty acids released by stressed or aging yeast.",
+    "aromaPerception": "Wet goat hair, candle wax, tallow, or faint rancid soap.",
+    "flavorPerception": "Waxy, soapy, fatty bitterness with a slightly cheesy/goaty edge.",
+    "mouthfeelPerception": "Waxy, greasy coating on the tongue and roof of the mouth.",
+    "descriptors": ["Goaty", "Waxy", "Tallow", "Soapy", "Candle Wax"],
+    "diagnosticContrasts": [
+      "vs. Isovaleric (Cheesy): Isovaleric smells like sweaty socks or aged parmesan from old hops; caprylic is waxy, tallow-like, and soapy.",
+      "vs. Alkaline (Soapy): Alkaline feels chalky and flat from high pH or cleaner residue; caprylic feels waxy/greasy from fatty acids.",
+      "vs. Brettanomyces Funk: Clean Brett adds barnyard leather or horse blanket without waxy tallow."
+    ],
+    "typicalOrigins": [
+      "Yeast stress, poor wort aeration, or prolonged aging on yeast sediment.",
+      "Weak or stuck fermentations releasing medium-chain fatty acids.",
+      "Contamination by certain wild yeasts or aged bottle conditioning."
+    ],
+    "preventionTips": [
+      "Ensure healthy yeast viability, proper aeration, and timely racking off trub.",
+      "Maintain steady fermentation temperatures and avoid nutrient starvation."
+    ],
+    "whenAppropriate": "Subtle caprylic notes can appear in aged Lambic, Gueuze, or Old Ale, but prominent goaty or waxy character is a fault in clean styles.",
+    "confusedWithIds": ["isovaleric", "alkaline"],
+    "permissibleStyleIds": ["23D", "23F", "17B"]
+  },
+  {
+    "id": "diacetyl",
+    "name": "Diacetyl",
+    "emoji": "🧈",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "2,3-Butanedione",
+    "perceptionThreshold": "0.10 – 0.15 ppm",
+    "typicalConcentration": "0.02 – 0.08 ppm (normal); > 0.15 ppm (fault)",
+    "meilgaardCode": "0620",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Rich butter, butterscotch, or artificial movie-popcorn aroma and flavor paired with a slick, oily palate.",
+    "aromaPerception": "Melted butter, butterscotch candy, movie theater popcorn, or toffee.",
+    "flavorPerception": "Sweetish artificial butter or butterscotch that lingers on the finish.",
+    "mouthfeelPerception": "Slick, oily, tongue-coating sensation.",
+    "descriptors": ["Butter", "Butterscotch", "Movie Popcorn", "Slick Palate", "Toffee"],
+    "diagnosticContrasts": [
+      "vs. Caramel/Crystal Malt: Caramel malts taste like toasted sugar or clean toffee with no oily mouthfeel; diacetyl smells like warm movie-popcorn butter and leaves a slick coating on the tongue.",
+      "vs. Butyric Acid: Diacetyl is sweet/pleasant butterscotch; butyric is putrid, rancid butter or baby vomit.",
+      "vs. Oxidation (Sherry/Toffee): Oxidation brings papery staleness; diacetyl is distinctly buttery and slick."
+    ],
+    "typicalOrigins": [
+      "Natural fermentation intermediate (from alpha-acetolactate) not reabsorbed by yeast.",
+      "Chilling or racking beer off the yeast before a diacetyl rest is complete.",
+      "Early-flocculating yeast strains dropping out too soon, or oxygen pickup post-fermentation.",
+      "Lactic acid bacteria contamination (especially Pediococcus) in packaged beer or dirty draft lines."
+    ],
+    "preventionTips": [
+      "Perform a 2–3 day diacetyl rest (raising temp 3–5°F / 2–3°C) near the end of primary fermentation.",
+      "Pitch healthy yeast, ensure adequate aeration, and verify clean draft lines and cold-side sanitation."
+    ],
+    "whenAppropriate": "Low levels are traditional and permissible in Czech Pale/Premium Pale Lagers and British Bitters/Scottish Ales. A fault in clean German lagers, American ales, mead, and cider.",
+    "confusedWithIds": ["butyric", "oxidized"],
+    "permissibleStyleIds": ["3A", "3B", "3C", "3D", "11A", "11B", "11C", "14A", "14B", "14C"]
+  },
+  {
+    "id": "estery",
+    "name": "Estery",
+    "emoji": "🍌",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Isoamyl Acetate, Ethyl Hexanoate, Ethyl Acetate",
+    "perceptionThreshold": "1.2 ppm (isoamyl acetate); 0.2 ppm (ethyl hexanoate)",
+    "typicalConcentration": "0.5 – 4.0 ppm (style-dependent)",
+    "meilgaardCode": "0140, 0141, 0142",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Pronounced fruity aromas and flavors—banana, pear drop, red apple, or bubblegum—out of place in clean styles.",
+    "aromaPerception": "Banana, Juicy Fruit gum, pear drop, red apple, strawberry, or tropical fruit.",
+    "flavorPerception": "Sweet, fruity ester character that can mask malt or hop balance.",
+    "mouthfeelPerception": "No direct mouthfeel impact; can increase perceived sweetness.",
+    "descriptors": ["Banana", "Pear Drop", "Red Apple", "Bubblegum", "Fruity"],
+    "diagnosticContrasts": [
+      "vs. Hop Fruitiness: Hop citrus/tropical notes come with resinous/pine/floral hop oils and bitterness; fermentation esters smell like banana, pear, or bubblegum.",
+      "vs. Acetaldehyde: Ripe red-apple ester (ethyl hexanoate) is sweet and fruity, whereas acetaldehyde is raw, green, and paint-like.",
+      "vs. Solvent: Low ethyl acetate is pear-like; high concentrations cross into nail polish remover."
+    ],
+    "typicalOrigins": [
+      "Fermenting above the yeast strain's optimal temperature range.",
+      "Under-pitching yeast or low wort oxygenation (forcing longer yeast growth).",
+      "High-gravity wort concentrating ester synthesis, or choosing an expressive ale strain for a clean style."
+    ],
+    "preventionTips": [
+      "Ferment within the strain's recommended temperature range, especially during the first 72 hours.",
+      "Pitch an appropriate cell count and oxygenate wort adequately."
+    ],
+    "whenAppropriate": "Essential in Weissbier, Belgian Ales, Saison, English Bitters, and many ciders/meads. Considered a fault in German Pils, Munich Helles, and clean American lagers.",
+    "confusedWithIds": ["acetaldehyde", "solvent"],
+    "permissibleStyleIds": ["10A", "10B", "25B", "11A", "11B", "11C", "12C", "13C", "C1A", "C1C", "M1B"]
+  },
+  {
+    "id": "solvent",
+    "name": "Solvent",
+    "emoji": "🧪",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Ethyl Acetate & Fusel Esters",
+    "perceptionThreshold": "25 – 30 ppm (ethyl acetate)",
+    "typicalConcentration": "5 – 20 ppm (normal); > 30 ppm (fault)",
+    "meilgaardCode": "0130, 0131",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Harsh, chemical nail-polish remover, acetone, or model-glue aroma and flavor.",
+    "aromaPerception": "Acetone, nail polish remover, paint thinner, lacquer, or model airplane glue.",
+    "flavorPerception": "Sharp, chemical, artificial fruit-solvent bite that dominates the palate.",
+    "mouthfeelPerception": "Hot, astringent, chemical warming sensation.",
+    "descriptors": ["Nail Polish Remover", "Acetone", "Paint Thinner", "Glue", "Chemical"],
+    "diagnosticContrasts": [
+      "vs. Estery (Pear Drop): Ethyl acetate smells pleasantly pear-like at low ppm, but becomes unmistakably acetone/nail-polish remover above threshold.",
+      "vs. Alcoholic / Fusel: Fusels are spicy/hot spirit warmth; solvent has a volatile chemical lacquer/acetone aroma.",
+      "vs. Acetic: Acetic is sharp vinegar sourness; solvent is volatile chemical nail-polish remover (though Acetobacter + ethanol can form ethyl acetate)."
+    ],
+    "typicalOrigins": [
+      "Excessively warm primary fermentation temperatures.",
+      "Severe yeast stress, under-pitching, or high-gravity osmotic shock.",
+      "Aerobic bacterial or wild yeast contamination (e.g., Acetobacter or Hansenula) producing ethyl acetate."
+    ],
+    "preventionTips": [
+      "Keep active fermentation temperatures tightly controlled and cool during peak krausen.",
+      "Pitch healthy yeast with proper nutrients and oxygen, and prevent aerobic microbial contamination."
+    ],
+    "whenAppropriate": "Always a fault in clean beer, mead, and cider. Trace ethyl acetate complexity is tolerated only in very small amounts in Flanders Red or Lambic.",
+    "confusedWithIds": ["alcoholic-fusel", "estery", "acetic"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "sulfur-h2s",
+    "name": "Sulfur (H₂S)",
+    "emoji": "🥚",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Hydrogen Sulfide (H₂S) & Sulfur Dioxide (SO₂)",
+    "perceptionThreshold": "0.005 – 0.010 ppm (H₂S); 20 ppm (SO₂)",
+    "typicalConcentration": "Trace (normal); > 0.010 ppm H₂S (fault)",
+    "meilgaardCode": "0721, 0722",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Rotten eggs (H₂S) or struck-match / burning sulfur (SO₂) character from active or stressed yeast metabolism.",
+    "aromaPerception": "Rotten eggs, sewer gas (H₂S), or struck matchstick / mineral spring water (SO₂).",
+    "flavorPerception": "Sulfurous, eggy, or sharp matchstick mineral tang.",
+    "mouthfeelPerception": "SO₂ can cause a slight prickly throat irritation at high levels.",
+    "descriptors": ["Rotten Eggs", "Struck Match", "Sulfurous", "Rhino Farts", "Mineral"],
+    "diagnosticContrasts": [
+      "vs. Mercaptan: H₂S smells like fresh rotten eggs and often vents off with CO₂; mercaptan smells like rotten cabbage, garlic, or drain gas and does not age out.",
+      "vs. DMS: DMS is sweet cooked corn/tomato; sulfur is eggy or matchstick-like.",
+      "vs. Burton Snatch (Mineral Water): Subtle sulfury crispness in Burton pale ales or lagers is clean mineral/matchstick, not putrid rotten egg."
+    ],
+    "typicalOrigins": [
+      "Normal byproduct of lager, cider, and mead yeast metabolism that hasn't finished venting.",
+      "Nitrogen/YAN deficiency (very common in mead and cider) causing yeast to strip sulfur from amino acids.",
+      "Stressed yeast, poor aeration, or bacterial contamination."
+    ],
+    "preventionTips": [
+      "Allow adequate conditioning/lagering time for volatile H₂S to off-gas naturally.",
+      "Provide proper yeast nutrients (especially staggered YAN in mead and cider) and healthy pitching rates.",
+      "Ensure a vigorous boil to drive off volatile sulfur precursors in wort."
+    ],
+    "whenAppropriate": "Low, crisp matchstick sulfur is permissible in fresh German/Czech lagers, Burton-style English ales, and young ciders. Prominent rotten-egg H₂S is always a fault.",
+    "confusedWithIds": ["mercaptan", "dms"],
+    "permissibleStyleIds": ["3A", "3B", "5D", "4A", "C1A", "C1B"]
+  },
+  {
+    "id": "yeasty",
+    "name": "Yeasty",
+    "emoji": "🍞",
+    "category": "Fermentation & Yeast",
+    "chemicalCompound": "Suspended Yeast Cells & Mannoproteins",
+    "perceptionThreshold": "Subjective (cell count dependent)",
+    "typicalConcentration": "Minimal in bright beer",
+    "meilgaardCode": "0740",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Fresh bread dough, baker's yeast, or chalky yeast-bite character from excessive yeast in suspension.",
+    "aromaPerception": "Active baker's yeast, raw bread dough, or yeasty slurry.",
+    "flavorPerception": "Doughy, bready, slightly sharp or chalky yeast taste.",
+    "mouthfeelPerception": "Thick, powdery, chalky, or slightly astringent yeast bite.",
+    "descriptors": ["Bread Dough", "Baker's Yeast", "Yeasty Bite", "Chalky", "Hazy"],
+    "diagnosticContrasts": [
+      "vs. Bready Malt (Munich/Vienna/Biscuit): Malts taste like baked bread crust or crackers; suspended yeast tastes like raw wet bread dough and leaves a powdery yeast bite.",
+      "vs. Autolysis: Fresh yeast is doughy and bready; autolysis is decayed, meaty, soy-sauce, or rubbery."
+    ],
+    "typicalOrigins": [
+      "Packaging beer too early before yeast has flocculated out of suspension.",
+      "Low-flocculating yeast strain without sufficient cold crash or fining.",
+      "Rough pouring or agitation of bottle-conditioned sediment."
+    ],
+    "preventionTips": [
+      "Cold-crash beer thoroughly before packaging or serving.",
+      "Use finings (gelatin, Biofine) or allow extended cold conditioning.",
+      "Pour bottle-conditioned beers gently, leaving the yeast cake behind (unless style dictates swirling)."
+    ],
+    "whenAppropriate": "Expected at light-to-moderate levels in German Weissbier, Dunkles Weissbier, and Witbier. A fault in bright lagers, clear ales, mead, and cider.",
+    "confusedWithIds": ["autolysis"],
+    "permissibleStyleIds": ["10A", "10B"]
+  },
+  {
+    "id": "alkaline",
+    "name": "Alkaline",
+    "emoji": "🧼",
+    "category": "Mashing & Boil",
+    "chemicalCompound": "High pH / Carbonates / Caustic Residue",
+    "perceptionThreshold": "Finished beer pH > 4.6 – 4.8",
+    "typicalConcentration": "Normal beer pH 4.1 – 4.5",
+    "meilgaardCode": "1200",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Chalky, baking-soda, or soapy flavor with a flat, flabby bitterness caused by high mash/sparge pH or un-rinsed cleaner.",
+    "aromaPerception": "Minimal; occasional faint soapy or detergent-like note if from cleaner residue.",
+    "flavorPerception": "Baking soda, chalky mineral, soapy, or dull, muddled bitterness.",
+    "mouthfeelPerception": "Dry, chalky, slick-soapy coating on the palate.",
+    "descriptors": ["Baking Soda", "Chalky", "Soapy", "Flabby Bitterness", "Caustic"],
+    "diagnosticContrasts": [
+      "vs. Astringent (Tannins): Astringency puckers the gums like wet tea bags; alkaline tastes flat, chalky, or soapy like baking soda.",
+      "vs. Caprylic / Goaty: Caprylic is waxy and goat-like from fatty acids; alkaline is chalky and detergent-like."
+    ],
+    "typicalOrigins": [
+      "Brewing water with excessive carbonate/bicarbonate residual alkalinity without acid or dark-malt buffering.",
+      "Over-addition of chalk (CaCO₃) or baking soda to the mash.",
+      "Inadequate rinsing of caustic, PBW, or alkaline draft-line cleaners."
+    ],
+    "preventionTips": [
+      "Test brewing water alkalinity and adjust mash/sparge pH to 5.2 – 5.6 using lactic/phosphoric acid or acidulated malt.",
+      "Thoroughly rinse all fermenters, kegs, and draft lines after alkaline cleaning."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["astringent", "caprylic-goaty"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "astringent",
+    "name": "Astringent",
+    "emoji": "🍵",
+    "category": "Mashing & Boil",
+    "chemicalCompound": "Polyphenols & Grain Tannins",
+    "perceptionThreshold": "Subjective (tannin/polyphenol dependent)",
+    "typicalConcentration": "Low in balanced beer",
+    "meilgaardCode": "1310",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Harsh, drying, mouth-puckering sensation like chewing grape skins or over-steeped black tea.",
+    "aromaPerception": "None (polyphenols are non-volatile).",
+    "flavorPerception": "Harsh, woody, tea-like bitterness on the back of the tongue.",
+    "mouthfeelPerception": "Drying, puckering, sandpapery sensation on gums and cheeks.",
+    "descriptors": ["Puckering", "Tea Bag", "Grape Skin", "Drying", "Tannic"],
+    "diagnosticContrasts": [
+      "vs. Hop Bitterness: Hop bitterness sits cleanly on the tongue and fades; astringency physically dries and puckers the gums and cheeks like a wet tea bag.",
+      "vs. Husky / Grainy: Husky adds raw grain/straw flavor alongside dryness; astringency is pure mouth-drying tannin.",
+      "vs. Cider/Melomel Fruit Tannins: Bittersweet cider apples and dark berry skins provide structured, pleasant tannin; grain-husk astringency feels harsh and papery."
+    ],
+    "typicalOrigins": [
+      "Sparging too hot (> 170°F / 77°C) or letting sparge runoff pH rise above 6.0.",
+      "Over-sparging (collecting runoff below 1.010 SG) or over-crushing grain husks.",
+      "Excessive dry-hop polyphenol extraction or steeping dark/roasted grains too hot."
+    ],
+    "preventionTips": [
+      "Keep sparge water below 170°F (77°C) and acidify sparge water to keep pH under 5.8.",
+      "Stop sparging before runoff gravity drops below 1.010, and avoid pulverizing grain husks."
+    ],
+    "whenAppropriate": "Pleasant, structured tannins are essential in English/French Ciders, Traditional Perry, and dark fruit Melomels. Harsh grain-husk astringency is always a fault in beer.",
+    "confusedWithIds": ["husky-grainy", "alkaline"],
+    "permissibleStyleIds": ["C1B", "C1C", "C1E", "M2C"]
+  },
+  {
+    "id": "dms",
+    "name": "DMS (Dimethyl Sulfide)",
+    "emoji": "🌽",
+    "category": "Mashing & Boil",
+    "chemicalCompound": "Dimethyl Sulfide (from SMM)",
+    "perceptionThreshold": "0.030 – 0.050 ppm",
+    "typicalConcentration": "0.010 – 0.035 ppm (lagers); > 0.050 ppm (fault)",
+    "meilgaardCode": "0732",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Cooked sweet corn, creamed corn, or tomato-sauce aroma and flavor from volatile sulfur compounds.",
+    "aromaPerception": "Cooked sweet corn, creamed corn, canned corn, or cooked tomato juice.",
+    "flavorPerception": "Sweetish cooked vegetable / creamed corn character.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Cooked Corn", "Creamed Corn", "Tomato Sauce", "Sweet Corn", "Canned Corn"],
+    "diagnosticContrasts": [
+      "vs. Flaked Corn / Maize Adjuncts: Corn adjuncts in Cream Ale or Pre-Prohibition Lager taste like clean, sweet cornmeal or dry tortilla; DMS tastes specifically like steamed/canned creamed corn.",
+      "vs. Vegetal: DMS is sweet corn/tomato; vegetal is cooked cabbage, celery, or rotting vegetables.",
+      "vs. Sulfur (H₂S): H₂S is rotten eggs; DMS is sweet cooked corn."
+    ],
+    "typicalOrigins": [
+      "Weak or covered boil failing to volatilize DMS formed from S-methyl-methionine (SMM) in pale/Pilsner malts.",
+      "Slow wort chilling above 140°F (60°C), allowing SMM to keep converting to DMS after the boil ends.",
+      "Wort-spoilage bacteria (e.g., Obesumbacterium) during slow fermentation startup."
+    ],
+    "preventionTips": [
+      "Maintain a vigorous, uncovered rolling boil (especially for Pilsner-malt beers, 60–90 minutes).",
+      "Chill wort rapidly below 140°F (60°C) immediately after flameout and keep cold-side sanitation tight."
+    ],
+    "whenAppropriate": "Very low background levels are acceptable in Cream Ale, German Helles, and some pale lagers. Distinct cooked-corn DMS is a fault in ales and most lagers.",
+    "confusedWithIds": ["vegetal", "sulfur-h2s"],
+    "permissibleStyleIds": ["1C", "4A", "5C"]
+  },
+  {
+    "id": "husky-grainy",
+    "name": "Husky / Grainy",
+    "emoji": "🌾",
+    "category": "Mashing & Boil",
+    "chemicalCompound": "Isobutyraldehyde & Husk Polyphenols",
+    "perceptionThreshold": "Subjective",
+    "typicalConcentration": "Low in well-mashed beer",
+    "meilgaardCode": "0310, 0312",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Raw grain husk, straw, or harsh dry cereal character from shredded husks or poor lautering.",
+    "aromaPerception": "Raw cracked barley, dry straw, chaff, or damp grain silo.",
+    "flavorPerception": "Raw cereal husk, grassy graininess, and dry husk bitterness.",
+    "mouthfeelPerception": "Dry, scratchy, mildly astringent finish.",
+    "descriptors": ["Grain Husk", "Straw", "Raw Cereal", "Chaff", "Dry Finish"],
+    "diagnosticContrasts": [
+      "vs. Crisp Malt Graininess (Pilsner/Pale Malt): Clean Pilsner malt tastes like sweet water crackers or honeyed bread; husky tastes like raw chaff, dry straw, and scratchy husks.",
+      "vs. Astringent: Astringency is pure gum-puckering tannin; husky pairs dry mouthfeel with raw grain/straw flavor."
+    ],
+    "typicalOrigins": [
+      "Over-crushing malt so husks are pulverized into fine shreds.",
+      "High sparge temperature or high sparge pH extracting husk compounds.",
+      "Very high proportion of unmalted or high-husk adjunct grains without proper mash pH."
+    ],
+    "preventionTips": [
+      "Widen grain mill gap slightly to crack kernels cleanly while keeping husks intact.",
+      "Monitor mash/sparge pH (< 5.8) and keep sparge water under 170°F (77°C)."
+    ],
+    "whenAppropriate": "Light, crisp graininess is appropriate in German Pils, Munich Helles, and Cream Ale, but harsh husky chaff is always a fault.",
+    "confusedWithIds": ["astringent"],
+    "permissibleStyleIds": ["1C", "4A", "5D"]
+  },
+  {
+    "id": "acetic",
+    "name": "Acetic",
+    "emoji": "🍶",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Acetic Acid (via Acetobacter)",
+    "perceptionThreshold": "70 – 200 ppm",
+    "typicalConcentration": "30 – 100 ppm (normal); > 200 ppm (fault)",
+    "meilgaardCode": "0920",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Sharp, pungent vinegar aroma and acrid sourness produced by acetic acid bacteria in the presence of oxygen.",
+    "aromaPerception": "White vinegar, cider vinegar, or sharp volatile acidity that prickles the nose.",
+    "flavorPerception": "Sharp, biting vinegar sourness (often paired with ethyl acetate).",
+    "mouthfeelPerception": "Sharp, biting acidity on the sides of the tongue and back of the throat.",
+    "descriptors": ["Vinegar", "Volatile Acidity", "Sharp Sour", "Acrid", "Cider Vinegar"],
+    "diagnosticContrasts": [
+      "vs. Lactic Acid: Lactic is clean, soft, yogurt-like tartness with no aroma; acetic has a sharp vinegar aroma that stings the nostrils.",
+      "vs. Citric / Malic Fruit Acid: Fruit acids taste bright and refreshing; acetic tastes unmistakably like salad vinegar.",
+      "vs. Solvent: Solvent smells like nail polish remover; acetic smells like vinegar (though both frequently co-occur)."
+    ],
+    "typicalOrigins": [
+      "Contamination by Acetobacter or Gluconobacter bacteria.",
+      "Oxygen exposure in fermented beer/mead/cider (e.g., loose airlocks, headspace in kegs/carboys, fruit flies).",
+      "Contaminated wood barrels or porous plastic equipment."
+    ],
+    "preventionTips": [
+      "Eliminate oxygen pickup post-fermentation and keep airlocks filled and sealed.",
+      "Keep fruit flies away from fermenters and sanitize or replace scratched plastic gear."
+    ],
+    "whenAppropriate": "Complex, balanced acetic character is traditional in Flanders Red Ale, Oud Bruin, and Lambic. Always a fault in clean beers, mead, and standard ciders.",
+    "confusedWithIds": ["lactic", "sour-acidic", "solvent"],
+    "permissibleStyleIds": ["23B", "23D", "23F"]
+  },
+  {
+    "id": "butyric",
+    "name": "Butyric",
+    "emoji": "🤢",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Butyric Acid",
+    "perceptionThreshold": "2 – 3 ppm",
+    "typicalConcentration": "< 0.5 ppm (normal); > 2 ppm (fault)",
+    "meilgaardCode": "0611",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Putrid, rancid butter, baby vomit, or spoiled milk aroma caused by anaerobic bacterial spoilage.",
+    "aromaPerception": "Baby vomit, rancid butter, spoiled milk, or Limburger cheese.",
+    "flavorPerception": "Nauseating, cheesy, sour-rancid butter flavor.",
+    "mouthfeelPerception": "Oily, unpleasant lingering coating.",
+    "descriptors": ["Baby Vomit", "Rancid Butter", "Putrid", "Spoiled Milk", "Limburger"],
+    "diagnosticContrasts": [
+      "vs. Diacetyl: Diacetyl smells like sweet movie-popcorn butter or butterscotch; butyric smells putrid, sour, and unmistakably like vomit or rancid butter.",
+      "vs. Isovaleric: Isovaleric is dry sweaty socks or aged parmesan from old hops; butyric is wet, sour vomit."
+    ],
+    "typicalOrigins": [
+      "Anaerobic bacteria (Clostridium) thriving in warm, unboiled wort or kettle-sour mashes.",
+      "Spent grain left sitting too long or mash temperatures dropping into the 90–120°F (32–49°C) danger zone.",
+      "Severe sanitation failure in wort chillers or fermentation vessels."
+    ],
+    "preventionTips": [
+      "Do not allow unboiled wort or mashes to sit warm for extended periods; pre-acidify kettle sours to pH ≤ 4.5 and purge oxygen.",
+      "Clean and sanitize plate chillers, hoses, and valves thoroughly."
+    ],
+    "whenAppropriate": "Always a severe fault.",
+    "confusedWithIds": ["diacetyl", "isovaleric"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "indole",
+    "name": "Indole",
+    "emoji": "🚽",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Indole & Skatole",
+    "perceptionThreshold": "0.01 – 0.05 ppm",
+    "typicalConcentration": "Undetectable in clean beer",
+    "meilgaardCode": "0720, 0842",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Pungent fecal, pigpen, or mothball aroma from early wort infection by coliform or enteric bacteria.",
+    "aromaPerception": "Barnyard manure, fecal, pigpen, outhouse, or mothballs.",
+    "flavorPerception": "Unpleasant, dirty barnyard or chemical mothball taste.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Fecal", "Barnyard", "Mothballs", "Pigpen", "Enteric"],
+    "diagnosticContrasts": [
+      "vs. Brettanomyces Barnyard: Clean Brett smells like dry horse blanket, saddle leather, or hay; indole smells distinctly fecal, like sewage or mothballs.",
+      "vs. Mercaptan: Mercaptan smells like rotten cabbage or drain gas; indole is fecal/mothball."
+    ],
+    "typicalOrigins": [
+      "Enteric/coliform bacteria (Enterobacter, Klebsiella, Citrobacter) multiplying in unpitched or slow-starting wort.",
+      "Contaminated water, dirty hoses, or long lag times before yeast fermentation lowers wort pH."
+    ],
+    "preventionTips": [
+      "Pitch healthy yeast promptly after chilling wort so pH drops rapidly below 4.5.",
+      "Sanitize all cold-side transfer lines, chillers, and fermenters rigorously."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["mercaptan", "phenolic"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "lactic",
+    "name": "Lactic",
+    "emoji": "🥛",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Lactic Acid (via Lactobacillus / Pediococcus)",
+    "perceptionThreshold": "400 ppm",
+    "typicalConcentration": "50 – 200 ppm (clean beer); > 1,500 ppm (sour styles)",
+    "meilgaardCode": "0910",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Clean, yogurt-like, or sour-milk tartness caused by lactic acid bacteria.",
+    "aromaPerception": "Minimal; very faint plain yogurt or clean dairy tartness.",
+    "flavorPerception": "Crisp, clean, yogurt-like or lemony sourness without vinegar bite.",
+    "mouthfeelPerception": "Mouth-watering tartness and crisp, drying finish.",
+    "descriptors": ["Yogurt", "Sour Milk", "Clean Tart", "Lacto", "Mouth-Watering"],
+    "diagnosticContrasts": [
+      "vs. Acetic (Vinegar): Lactic is soft, clean, yogurt-like tartness with almost no nose; acetic has a sharp vinegar aroma.",
+      "vs. Dark Malt Acidity: Roasted malts give a dry, espresso-like tang; lactic is distinctly sour-milk/yogurt tart.",
+      "vs. Cider Malic Acid: Natural apple malic acid is bright and fruity; lactic (after malolactic conversion) tastes softer, rounder, and creamy."
+    ],
+    "typicalOrigins": [
+      "Contamination by Lactobacillus or Pediococcus in hoses, valves, heat exchangers, or draft lines.",
+      "Cross-contamination from sour-beer equipment to clean-beer lines."
+    ],
+    "preventionTips": [
+      "Dedicate separate plastic hoses, gaskets, and bottling wands for sour vs. clean beers.",
+      "Deep-clean and sanitize draft lines, kegs, and plate chillers regularly."
+    ],
+    "whenAppropriate": "Defining characteristic in Berliner Weisse, Gose, Flanders Red, Lambic, and Traditional Farmhouse Ciders. A fault in clean lagers, ales, and standard meads.",
+    "confusedWithIds": ["acetic", "sour-acidic"],
+    "permissibleStyleIds": ["23A", "23G", "23B", "23D", "23F", "C1B", "C1C"]
+  },
+  {
+    "id": "mercaptan",
+    "name": "Mercaptan",
+    "emoji": "🧄",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Ethanethiol / Methanethiol",
+    "perceptionThreshold": "0.001 – 0.002 ppm (1 – 2 ppb)",
+    "typicalConcentration": "Undetectable in clean beer",
+    "meilgaardCode": "0723",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Pungent rotten cabbage, sewer drain gas, garlic, or burned-rubber sulfur aroma that will not age out.",
+    "aromaPerception": "Rotten cabbage, stagnant drain gas, crushed garlic, onion, or natural gas odorant.",
+    "flavorPerception": "Foul, sulfurous onion/garlic and rotting vegetable taste.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Rotten Cabbage", "Drain Gas", "Garlic", "Onion", "Sewer"],
+    "diagnosticContrasts": [
+      "vs. Sulfur (H₂S): H₂S smells like rotten eggs and often dissipates with conditioning; mercaptan smells like garlic, onion, or sewer gas and is permanent.",
+      "vs. Vegetal: Vegetal is mild cooked cabbage/celery; mercaptan is pungent, chemical drain gas.",
+      "vs. Autolysis: Autolysis is savory meat broth/Vegemite; mercaptan is sharp sewer/garlic."
+    ],
+    "typicalOrigins": [
+      "Severe yeast autolysis converting H₂S and ethanol into persistent ethanethiol.",
+      "Bacterial contamination (Zymomonas or wort-spoilage bacteria).",
+      "Light exposure or stagnant lees in un-racked mead and cider."
+    ],
+    "preventionTips": [
+      "Rack finished beer, mead, and cider off dead yeast/lees promptly.",
+      "Maintain strict cold-side sanitation and protect packaged beverages from UV light."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["sulfur-h2s", "vegetal", "autolysis"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "phenolic",
+    "name": "Phenolic",
+    "emoji": "🌶️",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "4-Vinyl Guaiacol (4-VG) & Volatile Phenols",
+    "perceptionThreshold": "0.2 – 0.3 ppm (4-VG)",
+    "typicalConcentration": "0.05 ppm (clean beer); 1 – 4 ppm (Weissbier/Belgian)",
+    "meilgaardCode": "0500, 0503, 0504",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Spicy clove, black pepper, smoke, or wild-yeast barnyard notes produced by POF+ yeast or wild strains.",
+    "aromaPerception": "Clove, nutmeg, black pepper, wood smoke, or subtle leather/barnyard.",
+    "flavorPerception": "Warming baking-spice clove, peppery phenolic bite, or smoky finish.",
+    "mouthfeelPerception": "Slight drying or numbing spice sensation on the tongue.",
+    "descriptors": ["Clove", "Black Pepper", "Smoky", "Nutmeg", "Spicy"],
+    "diagnosticContrasts": [
+      "vs. Chlorophenol (Band-Aid): Clean yeast phenols (4-VG) smell like natural clove, pepper, or smoke; chlorophenols smell sharply medicinal like Band-Aids, mouthwash, or burnt plastic.",
+      "vs. Spice Additions: Added whole cloves or peppercorns taste sharp and botanical; yeast-derived 4-VG blends smoothly with fruity esters."
+    ],
+    "typicalOrigins": [
+      "Fermenting with POF+ yeast strains (Weissbier, Belgian, Saison) or Brettanomyces.",
+      "Wild yeast contamination (especially STA1+ diastaticus) in clean-beer fermenters.",
+      "Over-sparging or high mash pH releasing ferulic acid precursors."
+    ],
+    "preventionTips": [
+      "If unintended, audit cold-side sanitation to eliminate wild yeast or POF+ cross-contamination.",
+      "Use POF- yeast strains for clean American, German lager, and British styles."
+    ],
+    "whenAppropriate": "Signature trait in Weissbier, Dunkles Weissbier, Saison, Belgian Ales, and traditional French/English ciders. A fault in clean lagers and standard American ales.",
+    "confusedWithIds": ["chlorophenol", "alcoholic-fusel"],
+    "permissibleStyleIds": ["10A", "10B", "25B", "C1B", "C1C"]
+  },
+  {
+    "id": "sour-acidic",
+    "name": "Sour / Acidic",
+    "emoji": "🍋",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Mixed Organic Acids (Lactic, Acetic, Citric)",
+    "perceptionThreshold": "pH < 3.9 in standard beer",
+    "typicalConcentration": "Normal beer pH 4.1 – 4.5",
+    "meilgaardCode": "0900",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Unintended sharp tartness or pH drop from wild bacterial or yeast infection.",
+    "aromaPerception": "Often minimal; may carry faint lemon, yogurt, or vinegar cues depending on the microbe.",
+    "flavorPerception": "Sharp, tangy, lemon-like or sour acidity that thins out malt sweetness.",
+    "mouthfeelPerception": "Salivating, crisp, puckering acidity along the sides of the tongue.",
+    "descriptors": ["Tart", "Tangy", "Acidic", "Low pH", "Sharp"],
+    "diagnosticContrasts": [
+      "vs. Crisp Carbonation Bite: High carbonation gives carbonic prickle without lasting sourness; microbial acidity lingers and makes the sides of the tongue water.",
+      "vs. Lactic vs. Acetic: Lactic is soft yogurt tartness; acetic is sharp vinegar nose; generic sour/acidic is mixed uninvited tartness."
+    ],
+    "typicalOrigins": [
+      "Mixed bacterial contamination (Lactobacillus, Pediococcus, Acetobacter) in cold-side gear.",
+      "Dirty draft lines, un-sanitized keg posts, or contaminated fruit additions."
+    ],
+    "preventionTips": [
+      "Disassemble and sanitize ball-valve fittings, keg poppets, and draft lines regularly.",
+      "Pasteurize or sulfite fruit additions if clean fermentation is desired."
+    ],
+    "whenAppropriate": "Expected in sour beer styles, fruit meads (Melomel), and crisp ciders. Always a fault when unintended in clean beer styles.",
+    "confusedWithIds": ["lactic", "acetic"],
+    "permissibleStyleIds": ["23A", "23B", "23D", "23F", "23G", "M2C", "C1A"]
+  },
+  {
+    "id": "thp",
+    "name": "THP (Mousiness)",
+    "emoji": "🐭",
+    "category": "Sanitation & Microbial",
+    "chemicalCompound": "Tetrahydropyridines (ATHP, ETHP)",
+    "perceptionThreshold": "1 – 2 ppb",
+    "typicalConcentration": "Undetectable in clean beer",
+    "meilgaardCode": "0830",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Delayed Cheerios cereal, tortilla chip, or mouse-cage aftertaste triggered as saliva raises pH on the palate.",
+    "aromaPerception": "Virtually undetectable in cold beer aroma (non-volatile at low pH).",
+    "flavorPerception": "Delayed aftertaste (5–15 seconds after swallowing) of Cheerios, stale corn tortillas, or mouse cage.",
+    "mouthfeelPerception": "Dry, stale, grain-cracker coating at the back of the palate.",
+    "descriptors": ["Cheerios", "Mouse Cage", "Corn Tortilla", "Delayed Finish", "Mousy"],
+    "diagnosticContrasts": [
+      "vs. Bready/Toasty Malt: Malt flavor hits immediately on the palate and smells bready in the glass; THP has zero aroma in the glass and blooms 5–15 seconds after swallowing as saliva neutralizes beer pH.",
+      "vs. DMS: DMS smells like cooked corn right in the aroma; THP is a delayed cereal/mouse-cage retronasal aftertaste."
+    ],
+    "typicalOrigins": [
+      "Brettanomyces or heterofermentative Lactobacillus reacting with lysine and ethanol in the presence of oxygen.",
+      "Common in mixed-fermentation beer, natural cider, and low-SO₂ mead exposed to trace oxygen."
+    ],
+    "preventionTips": [
+      "Minimize oxygen ingress during aging and packaging of mixed-fermentation beverages.",
+      "Allow sufficient bottle/keg conditioning time (Brett can sometimes reabsorb THP over months) and maintain strict sanitation."
+    ],
+    "whenAppropriate": "Always a fault (even in Lambic, Saison, and natural cider, though it can fade with extended aging).",
+    "confusedWithIds": ["dms"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "catty",
+    "name": "Catty",
+    "emoji": "🐈",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "p-Menthane-8-thiol-3-one (Ribes)",
+    "perceptionThreshold": "0.00001 ppm (10 ppt)",
+    "typicalConcentration": "Trace in select hops; > 10 ppt (fault)",
+    "meilgaardCode": "0840",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Pungent tomcat urine, blackcurrant leaf, or crushed boxwood aroma from specific hop thiols or oxidation.",
+    "aromaPerception": "Tomcat spray, blackcurrant (cassis) leaves, boxwood hedge, or damp cat litter.",
+    "flavorPerception": "Sharp, musky blackcurrant-leaf or catty bitterness.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Tomcat Urine", "Blackcurrant Leaf", "Boxwood", "Catty", "Musky"],
+    "diagnosticContrasts": [
+      "vs. Lightstruck (Skunky): Lightstruck smells like skunk spray from UV light; catty smells specifically like blackcurrant leaves or tomcat urine.",
+      "vs. Dank/Resinous Hops: Modern hops (Simcoe, Citra, Galaxy) can show mild blackcurrant/cassis notes; when it crosses into ammonia-like tomcat spray, it is a fault."
+    ],
+    "typicalOrigins": [
+      "Heavy use of high-thiol New World/American hops (Simcoe, Citra, Summit, Nelson Sauvin).",
+      "Oxidative aging of hop-derived compounds in packaged IPA."
+    ],
+    "preventionTips": [
+      "Store hops cold and oxygen-free; blend high-thiol hops carefully.",
+      "Purge packaging of oxygen and store hop-forward beers cold."
+    ],
+    "whenAppropriate": "Very subtle blackcurrant/cassis character is accepted in modern American/New World IPAs; overt tomcat urine is always a fault.",
+    "confusedWithIds": ["lightstruck", "isovaleric"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "grassy",
+    "name": "Grassy",
+    "emoji": "🌱",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "Hexanal & Leaf Aldehydes",
+    "perceptionThreshold": "0.02 – 0.05 ppm",
+    "typicalConcentration": "Low in fresh beer",
+    "meilgaardCode": "0220",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Freshly mowed lawn, crushed green leaves, or raw chlorophyll character from heavy dry-hopping or stale malt.",
+    "aromaPerception": "Fresh-cut grass, crushed green leaves, hay, or raw alfalfa.",
+    "flavorPerception": "Green, herbal, chlorophyll-like bitterness.",
+    "mouthfeelPerception": "Can feel slightly rough or green on the finish.",
+    "descriptors": ["Cut Grass", "Green Leaves", "Chlorophyll", "Hay", "Herbal-Green"],
+    "diagnosticContrasts": [
+      "vs. Noble Hop Herbal/Floral: Noble hops are spicy, floral, and tea-like; grassy smells specifically like wet lawn clippings or crushed leaves.",
+      "vs. Acetaldehyde: Acetaldehyde has a sharp green-apple/paint edge; grassy is purely lawn/leaf chlorophyll."
+    ],
+    "typicalOrigins": [
+      "Prolonged warm dry-hopping (> 7–10 days) or high-dose pellet hops.",
+      "Poorly kilned or damp/aged malt generating hexanal."
+    ],
+    "preventionTips": [
+      "Keep dry-hop contact times short (2–4 days) and store malt and hops dry, cold, and sealed."
+    ],
+    "whenAppropriate": "Light freshly-cut-grass notes can be acceptable in intensely dry-hopped pale ales and IPAs, but harsh chlorophyll is a fault.",
+    "confusedWithIds": ["acetaldehyde", "vegetal"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "isovaleric",
+    "name": "Isovaleric",
+    "emoji": "🧀",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "Isovaleric Acid",
+    "perceptionThreshold": "0.7 – 1.5 ppm",
+    "typicalConcentration": "< 0.5 ppm (fresh hops); > 1.5 ppm (fault)",
+    "meilgaardCode": "0612",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Aged parmesan cheese, sweaty gym socks, or rancid foot odor caused by oxidized hop alpha acids.",
+    "aromaPerception": "Stale parmesan cheese, sweaty socks, gym locker room, or old hops.",
+    "flavorPerception": "Sharp, cheesy, sour-foot bitterness.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Stale Cheese", "Sweaty Socks", "Old Hops", "Parmesan", "Foot Odor"],
+    "diagnosticContrasts": [
+      "vs. Butyric: Butyric smells wet and putrid like baby vomit; isovaleric smells dry and sharp like aged parmesan or sweaty socks.",
+      "vs. Caprylic / Goaty: Caprylic is waxy tallow; isovaleric is dry aged cheese."
+    ],
+    "typicalOrigins": [
+      "Using old, warm-stored, or oxidized hops (breakdown of humulone alpha acids).",
+      "Certain wild yeast or bacterial contaminations."
+    ],
+    "preventionTips": [
+      "Store hops vacuum-sealed in oxygen-barrier bags in the freezer.",
+      "Smell hops before brewing—discard any that smell cheesy."
+    ],
+    "whenAppropriate": "Intentional aged-hop character in Lambic/Gueuze (using debitttered aged hops), though excessive sweaty-sock cheese is a fault everywhere else.",
+    "confusedWithIds": ["butyric", "caprylic-goaty"],
+    "permissibleStyleIds": ["23D", "23F"]
+  },
+  {
+    "id": "oxidized",
+    "name": "Oxidized / Cardboard",
+    "emoji": "📦",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "Trans-2-nonenal",
+    "perceptionThreshold": "0.0001 ppm (0.1 ppb)",
+    "typicalConcentration": "< 0.05 ppb (fresh); > 0.1 ppb (stale)",
+    "meilgaardCode": "0810, 0812",
+    "detectedIn": ["Aroma", "Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Wet cardboard, damp paper, or stale bread character caused by oxygen pickup and warm storage.",
+    "aromaPerception": "Wet corrugated cardboard, damp newsprint, or stale/musty paper.",
+    "flavorPerception": "Papery, dull, lifeless malt/fruit flavor with muted hop brightness.",
+    "mouthfeelPerception": "Thin, papery, slightly stale finish.",
+    "descriptors": ["Wet Cardboard", "Papery", "Stale", "Muted Hops", "Damp Paper"],
+    "diagnosticContrasts": [
+      "vs. Sherry / Vinous Oxidation: Pale beers oxidize into wet cardboard (trans-2-nonenal); dark or high-ABV beers oxidize into sweet sherry, port, or almond.",
+      "vs. Musty / Corked: Musty smells like a damp basement or moldy cork; oxidized smells like clean wet cardboard."
+    ],
+    "typicalOrigins": [
+      "Oxygen ingress during racking, bottling, or kegging.",
+      "Warm storage accelerating staling reactions in packaged beer.",
+      "Hot-side splashing during mashing/lautering (minor contributor compared to cold-side O₂)."
+    ],
+    "preventionTips": [
+      "Purge kegs, transfer lines, and bottles with CO₂ before filling.",
+      "Avoid splashing during cold-side transfers and store finished beer cold."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["sherry-vinous", "musty"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "sherry-vinous",
+    "name": "Sherry / Vinous",
+    "emoji": "🍷",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "Benzaldehyde & Oxidized Melanoidins",
+    "perceptionThreshold": "Varies by compound",
+    "typicalConcentration": "Increases with dark-beer aging",
+    "meilgaardCode": "0811",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Style-Permissible",
+    "description": "Sweet Oloroso sherry, port wine, raisin, or marzipan-almond oxidation character in aged dark or strong beverages.",
+    "aromaPerception": "Oloroso sherry, port wine, dried fig, raisin, or sweet almond.",
+    "flavorPerception": "Rich, wine-like oxidized sweetness with dried-fruit and nutty notes.",
+    "mouthfeelPerception": "Smooth, slightly warming, wine-like finish.",
+    "descriptors": ["Sherry", "Port Wine", "Raisin", "Almond", "Vinous"],
+    "diagnosticContrasts": [
+      "vs. Dark Crystal Malt (Special B / Plum): Dark crystal malts taste like fresh caramel, plum, and fig without wine-like alcohol oxidation; sherry oxidation adds a distinct fortified-wine/almond edge.",
+      "vs. Oxidized / Cardboard: Cardboard is papery and dull in pale beers; sherry is sweet, vinous, and nutty in dark/high-ABV beers."
+    ],
+    "typicalOrigins": [
+      "Controlled or uncontrolled slow oxidation in high-gravity or dark-malt beers over months/years.",
+      "Warm cellaring or permeable bottle closures."
+    ],
+    "preventionTips": [
+      "Purge headspace with CO₂ during packaging and cellar strong beers cool.",
+      "Use oxygen-absorbing caps or waxed corks for long-term aging."
+    ],
+    "whenAppropriate": "Pleasant, subtle sherry complexity is prized in aged English Barleywine, Old Ale, Wee Heavy, Eisbock, and Sack Meads. A fault in fresh or pale styles.",
+    "confusedWithIds": ["oxidized"],
+    "permissibleStyleIds": ["17D", "17B", "17C", "9B", "M1C"]
+  },
+  {
+    "id": "vegetal",
+    "name": "Vegetal",
+    "emoji": "🥦",
+    "category": "Oxidation & Aging",
+    "chemicalCompound": "Methional & Dimethyl Trisulfide (DMTS)",
+    "perceptionThreshold": "0.0001 ppm (DMTS); 0.05 ppm (methional)",
+    "typicalConcentration": "Undetectable in fresh beer",
+    "meilgaardCode": "0730, 0731",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Cooked cabbage, boiled celery, wet turnip, or compost aroma from aged hops, bacterial activity, or autolysis.",
+    "aromaPerception": "Boiled cabbage, cooked broccoli, celery, wet turnip, or stale vegetable soup.",
+    "flavorPerception": "Savory, sulfurous cooked-vegetable flavor.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Cooked Cabbage", "Celery", "Turnip", "Boiled Veg", "Compost"],
+    "diagnosticContrasts": [
+      "vs. DMS: DMS is specifically sweet creamed corn or tomato sauce; vegetal is boiled cabbage, celery, or turnip.",
+      "vs. Grassy: Grassy is fresh-cut raw green lawn; vegetal is cooked or decaying vegetables.",
+      "vs. Mercaptan: Mercaptan is sharp drain gas/garlic; vegetal is milder boiled cabbage."
+    ],
+    "typicalOrigins": [
+      "Old or oxidized hops, or stale/damp adjuncts.",
+      "Early yeast autolysis or bacterial spoilage in wort/beer.",
+      "Excessive hop trub carried into warm fermentation."
+    ],
+    "preventionTips": [
+      "Use fresh, properly stored hops and separate hot-break/hop trub before pitching.",
+      "Maintain clean cold-side sanitation and rack off yeast in a timely manner."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["dms", "grassy", "mercaptan"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "chlorophenol",
+    "name": "Chlorophenol",
+    "emoji": "🩹",
+    "category": "Water & Packaging",
+    "chemicalCompound": "2,6-Dichlorophenol",
+    "perceptionThreshold": "0.0005 ppm (0.5 ppb)",
+    "typicalConcentration": "Undetectable in clean beer",
+    "meilgaardCode": "0501",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Sharp medicinal, Band-Aid, antiseptic mouthwash, or burnt-plastic character from chlorinated water reacting with yeast.",
+    "aromaPerception": "Band-Aid adhesive, hospital antiseptic, Chloraseptic throat spray, or electrical plastic.",
+    "flavorPerception": "Harsh medicinal, plastic, or antiseptic flavor that lingers.",
+    "mouthfeelPerception": "Slight chemical numbing or medicinal dryness.",
+    "descriptors": ["Band-Aid", "Medicinal", "Antiseptic", "Plastic", "Chlorine"],
+    "diagnosticContrasts": [
+      "vs. Clean Phenolic (4-VG): Yeast phenols taste like natural clove, pepper, or smoke; chlorophenols smell unmistakably like Band-Aids, mouthwash, or hospital antiseptic.",
+      "vs. Metallic: Metallic tastes like pennies or blood on the tongue; chlorophenol smells and tastes like medicinal plastic."
+    ],
+    "typicalOrigins": [
+      "Brewing with municipal tap water containing chlorine or chloramine.",
+      "Rinsing fermenters or bottles with bleach-based sanitizers without thorough rinsing.",
+      "Wild yeast contamination amplifying phenolic reactions."
+    ],
+    "preventionTips": [
+      "Treat all brewing and sparge water with Campden tablets (potassium metabisulfite) or activated carbon filtration.",
+      "Never use chlorine bleach on brewing equipment—use no-rinse acid/peracetic sanitizers (Star San, Saniclean)."
+    ],
+    "whenAppropriate": "Always a severe fault.",
+    "confusedWithIds": ["phenolic"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "lightstruck",
+    "name": "Lightstruck (Skunky)",
+    "emoji": "🦨",
+    "category": "Water & Packaging",
+    "chemicalCompound": "3-Methyl-2-butene-1-thiol (MBT)",
+    "perceptionThreshold": "0.000004 ppm (4 ppt)",
+    "typicalConcentration": "Undetectable in protected beer",
+    "meilgaardCode": "0725",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Unmistakable skunk-spray aroma caused by UV or blue light photolyzing hop iso-alpha acids.",
+    "aromaPerception": "Fresh skunk spray, burnt rubber musk, or sun-struck green-bottle lager.",
+    "flavorPerception": "Sharp, skunky, sulfurous hop bitterness.",
+    "mouthfeelPerception": "No direct mouthfeel impact.",
+    "descriptors": ["Skunk", "UV Light", "Green Bottle", "Sun-Struck", "MBT"],
+    "diagnosticContrasts": [
+      "vs. Catty: Catty smells like tomcat urine or blackcurrant leaves; lightstruck smells strictly like skunk spray.",
+      "vs. Dank Hops: Dank hops smell resinous, earthy, and herbal/cannabis-like; lightstruck is acrid, sulfurous skunk spray."
+    ],
+    "typicalOrigins": [
+      "Exposure of hopped beer to sunlight (UV) or fluorescent store lighting.",
+      "Packaging in clear or green glass bottles without light-stable hop extracts."
+    ],
+    "preventionTips": [
+      "Package beer in amber/brown glass bottles, aluminum cans, or stainless kegs.",
+      "Store bottles in closed boxes away from sunlight and fluorescent lights."
+    ],
+    "whenAppropriate": "Always a fault (even in classic green-bottle import lagers, though judges occasionally note it as a packaging reality).",
+    "confusedWithIds": ["catty", "mercaptan"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "metallic",
+    "name": "Metallic",
+    "emoji": "🪙",
+    "category": "Water & Packaging",
+    "chemicalCompound": "Ferrous Iron (Fe²⁺) & Copper Ions",
+    "perceptionThreshold": "0.05 – 0.10 ppm (iron)",
+    "typicalConcentration": "< 0.05 ppm (normal)",
+    "meilgaardCode": "1201",
+    "detectedIn": ["Flavor", "Mouthfeel"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Copper coin, blood-like, tin-can, or rusty-iron taste that coats the tongue.",
+    "aromaPerception": "None or very faint tin/blood-like metallic edge.",
+    "flavorPerception": "Sucking on a copper penny, blood, tin can, or fountain-pen ink.",
+    "mouthfeelPerception": "Slight sharp, prickly, astringent metallic coating on the tongue.",
+    "descriptors": ["Coin / Penny", "Blood", "Tin Can", "Iron", "Inky"],
+    "diagnosticContrasts": [
+      "vs. Astringent: Astringency dries and puckers the gums like black tea; metallic tastes specifically like blood, tin, or a penny in your mouth.",
+      "vs. Minerally Water: High-sulfate/chloride water tastes crisp or chalky; iron/copper ions taste distinctively like coins or blood."
+    ],
+    "typicalOrigins": [
+      "High iron or manganese in well/tap brewing water.",
+      "Unpassivated stainless steel, chipped enamel kettles, or acidic beer/wort contacting iron, brass, or mild steel.",
+      "Lipid oxidation in poorly stored pale malts."
+    ],
+    "preventionTips": [
+      "Filter iron-rich brewing water and avoid brewing with chipped enamel or non-stainless fittings.",
+      "Passivate new stainless steel equipment with citric or nitric acid."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["astringent", "chlorophenol"],
+    "permissibleStyleIds": []
+  },
+  {
+    "id": "musty",
+    "name": "Musty / Corked",
+    "emoji": "🍄",
+    "category": "Water & Packaging",
+    "chemicalCompound": "2,4,6-Trichloroanisole (TCA) & Geosmin",
+    "perceptionThreshold": "0.000005 ppm (5 ppt TCA)",
+    "typicalConcentration": "Undetectable in clean beer",
+    "meilgaardCode": "0820, 0821",
+    "detectedIn": ["Aroma", "Flavor"],
+    "disciplines": ["Beer", "Mead", "Cider"],
+    "stylePermissibility": "Always a Fault",
+    "description": "Damp basement, wet soil, mildew, or moldy wine-cork character from TCA or mold contamination.",
+    "aromaPerception": "Damp cellar, wet basement, mildew, moldy cork, or damp potting soil.",
+    "flavorPerception": "Earthy, moldy, damp cellar flavor that strips away fresh fruit and hop notes.",
+    "mouthfeelPerception": "Slightly flat or muted finish.",
+    "descriptors": ["Damp Basement", "Mildew", "Wet Soil", "Corked", "Moldy"],
+    "diagnosticContrasts": [
+      "vs. Earthy Hops (Fuggle/Golding): Earthy hops smell like clean dry forest floor or tea leaves; musty/corked smells damp, moldy, and like a wet cellar.",
+      "vs. Oxidized / Cardboard: Cardboard is papery; musty is moldy, damp soil or cork taint."
+    ],
+    "typicalOrigins": [
+      "Moldy grain, contaminated natural corks, or damp wooden barrels.",
+      "Chlorine sanitizer contacting mold/phenols in the brewery (forming TCA).",
+      "Geosmin in unfiltered municipal water during seasonal algae blooms."
+    ],
+    "preventionTips": [
+      "Keep malt storage dry, inspect corks and barrels, and never use chlorine near damp wood or cellar spaces.",
+      "Carbon-filter brewing water if municipal water tastes earthy."
+    ],
+    "whenAppropriate": "Always a fault.",
+    "confusedWithIds": ["oxidized"],
+    "permissibleStyleIds": []
+  }
+]

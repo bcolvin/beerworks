@@ -8,5 +8,6 @@ data class StyleIngredients(
     val malts: List<MaltVariety> = emptyList(),
     val honeys: List<HoneyVariety> = emptyList(),
     val pomes: List<PomeVariety> = emptyList(),
-    val yeasts: List<YeastStrain> = emptyList()
+    val yeasts: List<YeastStrain> = emptyList(),
+    val offFlavors: List<OffFlavor> = emptyList()
 )

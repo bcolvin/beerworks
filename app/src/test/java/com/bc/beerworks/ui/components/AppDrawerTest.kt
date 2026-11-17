@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.CandlestickChart
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.Nature
+import androidx.compose.material.icons.filled.Science
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -15,7 +16,7 @@ class AppDrawerTest {
     fun drawerDestinationItems_areNonNullAndContainsAllDestinations() {
         val items = DrawerDestination.items
 
-        assertThat(items).hasSize(9)
+        assertThat(items).hasSize(10)
         assertThat(items).doesNotContainNull()
         assertThat(items.map { it.route }).containsExactly(
             "style_list",
@@ -24,6 +25,7 @@ class AppDrawerTest {
             "honey",
             "pomes",
             "yeasts",
+            "off_flavors",
             "favorites",
             "review_history",
             "settings"
@@ -34,6 +36,8 @@ class AppDrawerTest {
         assertThat(DrawerDestination.Pomes.icon).isEqualTo(Icons.Default.Nature)
         assertThat(DrawerDestination.Yeast.icon).isEqualTo(Icons.Default.BubbleChart)
         assertThat(DrawerDestination.Yeast.title).isEqualTo("Yeast")
+        assertThat(DrawerDestination.OffFlavors.icon).isEqualTo(Icons.Default.Science)
+        assertThat(DrawerDestination.OffFlavors.title).isEqualTo("Off-Flavors")
         assertThat(DrawerDestination.Favorites.icon).isEqualTo(Icons.Default.Favorite)
         assertThat(DrawerDestination.Favorites.title).isEqualTo("Favorites")
     }

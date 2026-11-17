@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.seeder.DomainSeeder
 import com.bc.beerworks.data.local.seeder.HoneySeeder
 import com.bc.beerworks.data.local.seeder.HopSeeder
 import com.bc.beerworks.data.local.seeder.MaltSeeder
+import com.bc.beerworks.data.local.seeder.OffFlavorSeeder
 import com.bc.beerworks.data.local.seeder.PomeSeeder
 import com.bc.beerworks.data.local.seeder.StyleSeeder
 import com.bc.beerworks.data.local.seeder.YeastSeeder
@@ -30,7 +31,8 @@ object DatabaseInitializer {
             MaltSeeder(database.maltDao(), database.maltStyleCrossRefDao()),
             HoneySeeder(database.honeyDao(), database.honeyStyleCrossRefDao()),
             PomeSeeder(database.pomeDao(), database.pomeStyleCrossRefDao()),
-            YeastSeeder(database.yeastDao(), database.yeastStyleCrossRefDao())
+            YeastSeeder(database.yeastDao(), database.yeastStyleCrossRefDao()),
+            OffFlavorSeeder(database.offFlavorDao(), database.offFlavorStyleCrossRefDao())
         )
         coroutineScope {
             seeders.map { seeder ->

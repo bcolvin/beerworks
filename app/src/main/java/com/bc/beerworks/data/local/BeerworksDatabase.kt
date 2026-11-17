@@ -18,6 +18,8 @@ import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
+import com.bc.beerworks.data.local.dao.OffFlavorDao
+import com.bc.beerworks.data.local.dao.OffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.PomeDao
 import com.bc.beerworks.data.local.dao.PomeStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.YeastDao
@@ -41,6 +43,9 @@ import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltVarietyFtsEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleFtsEntity
+import com.bc.beerworks.data.local.entity.OffFlavorEntity
+import com.bc.beerworks.data.local.entity.OffFlavorFtsEntity
+import com.bc.beerworks.data.local.entity.OffFlavorStyleCrossRef
 import com.bc.beerworks.data.local.entity.PomeStyleCrossRef
 import com.bc.beerworks.data.local.entity.PomeVarietyEntity
 import com.bc.beerworks.data.local.entity.PomeVarietyFtsEntity
@@ -331,6 +336,61 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
     }
 }
 
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `off_flavors` (
+                `id` TEXT NOT NULL,
+                `name` TEXT NOT NULL,
+                `emoji` TEXT NOT NULL,
+                `category` TEXT NOT NULL,
+                `chemicalCompound` TEXT NOT NULL,
+                `perceptionThreshold` TEXT NOT NULL,
+                `typicalConcentration` TEXT NOT NULL,
+                `meilgaardCode` TEXT NOT NULL,
+                `detectedIn` TEXT NOT NULL,
+                `disciplines` TEXT NOT NULL,
+                `stylePermissibility` TEXT NOT NULL,
+                `description` TEXT NOT NULL,
+                `aromaPerception` TEXT NOT NULL,
+                `flavorPerception` TEXT NOT NULL,
+                `mouthfeelPerception` TEXT NOT NULL,
+                `descriptors` TEXT NOT NULL,
+                `diagnosticContrastsJson` TEXT NOT NULL,
+                `typicalOriginsJson` TEXT NOT NULL,
+                `preventionTipsJson` TEXT NOT NULL,
+                `whenAppropriate` TEXT NOT NULL,
+                `confusedWithIds` TEXT NOT NULL,
+                PRIMARY KEY(`id`)
+            )
+        """)
+        db.execSQL("""
+            CREATE VIRTUAL TABLE IF NOT EXISTS `off_flavors_fts` USING FTS4(
+                `name`, `chemicalCompound`, `category`, `meilgaardCode`, `description`,
+                `descriptors`, `diagnosticContrastsJson`, `typicalOriginsJson`,
+                `preventionTipsJson`, `whenAppropriate`,
+                content=`off_flavors`
+            )
+        """)
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `off_flavor_style_cross_ref` (
+                `offFlavorId` TEXT NOT NULL,
+                `styleId` TEXT NOT NULL,
+                `guidelineType` TEXT NOT NULL,
+                PRIMARY KEY(`offFlavorId`, `styleId`, `guidelineType`)
+            )
+        """)
+        db.execSQL("""
+            CREATE INDEX IF NOT EXISTS `index_off_flavor_style_cross_ref_offFlavorId`
+            ON `off_flavor_style_cross_ref` (`offFlavorId`)
+        """)
+        db.execSQL("""
+            CREATE INDEX IF NOT EXISTS `index_off_flavor_style_cross_ref_styleId_guidelineType`
+            ON `off_flavor_style_cross_ref` (`styleId`, `guidelineType`)
+        """)
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -357,9 +417,12 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
         PomeStyleCrossRef::class,
         YeastStrainEntity::class,
         YeastStrainFtsEntity::class,
-        YeastStyleCrossRef::class
+        YeastStyleCrossRef::class,
+        OffFlavorEntity::class,
+        OffFlavorFtsEntity::class,
+        OffFlavorStyleCrossRef::class
     ],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -379,6 +442,8 @@ abstract class BeerworksDatabase : RoomDatabase() {
     abstract fun pomeStyleCrossRefDao(): PomeStyleCrossRefDao
     abstract fun yeastDao(): YeastDao
     abstract fun yeastStyleCrossRefDao(): YeastStyleCrossRefDao
+    abstract fun offFlavorDao(): OffFlavorDao
+    abstract fun offFlavorStyleCrossRefDao(): OffFlavorStyleCrossRefDao
 
     companion object {
         @Volatile
@@ -391,7 +456,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

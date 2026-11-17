@@ -10,6 +10,7 @@ import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.IngredientCatalogRepository
 import com.bc.beerworks.data.repository.MaltRepository
+import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.data.repository.YeastRepository
 
@@ -22,12 +23,14 @@ class AppContainer(context: Context) {
     val honeyRepository: HoneyRepository = HoneyRepository(database)
     val pomeRepository: PomeRepository = PomeRepository(database)
     val yeastRepository: YeastRepository = YeastRepository(database)
+    val offFlavorRepository: OffFlavorRepository = OffFlavorRepository(database)
     val ingredientCatalogRepository: IngredientCatalogRepository = IngredientCatalogRepository(
         hopRepository = hopRepository,
         maltRepository = maltRepository,
         honeyRepository = honeyRepository,
         pomeRepository = pomeRepository,
-        yeastRepository = yeastRepository
+        yeastRepository = yeastRepository,
+        offFlavorRepository = offFlavorRepository
     )
 }
 

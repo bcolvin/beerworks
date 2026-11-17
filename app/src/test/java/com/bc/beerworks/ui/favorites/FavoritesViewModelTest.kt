@@ -7,6 +7,7 @@ import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
+import com.bc.beerworks.data.local.entity.OffFlavorEntity
 import com.bc.beerworks.data.local.entity.PomeVarietyEntity
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.model.GuidelineType
@@ -23,6 +24,8 @@ import com.bc.beerworks.data.repository.FakeHopStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakeMaltDao
 import com.bc.beerworks.data.repository.FakeMaltStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakeMeadDao
+import com.bc.beerworks.data.repository.FakeOffFlavorDao
+import com.bc.beerworks.data.repository.FakeOffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakePomeDao
 import com.bc.beerworks.data.repository.FakePomeStyleCrossRefDao
 import com.bc.beerworks.data.repository.FakePrefsManager
@@ -31,6 +34,7 @@ import com.bc.beerworks.data.repository.FakeYeastStyleCrossRefDao
 import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.MaltRepository
+import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.data.repository.YeastRepository
 import kotlinx.coroutines.Dispatchers
@@ -331,6 +335,43 @@ class FavoritesViewModelTest {
             favoriteIngredientDao = favIngredientDao
         )
 
+        val offFlavorRepository = OffFlavorRepository(
+            offFlavorDao = FakeOffFlavorDao(
+                listOf(
+                    OffFlavorEntity(
+                        id = "diacetyl",
+                        name = "Diacetyl",
+                        emoji = "🧈",
+                        category = "Fermentation & Yeast",
+                        chemicalCompound = "2,3-Butanedione",
+                        perceptionThreshold = "0.10 ppm",
+                        typicalConcentration = "0.02 ppm",
+                        meilgaardCode = "0620",
+                        detectedIn = "Aroma,Flavor,Mouthfeel",
+                        disciplines = "Beer,Mead,Cider",
+                        stylePermissibility = "Style-Permissible",
+                        description = "Butter and butterscotch.",
+                        aromaPerception = "Melted butter.",
+                        flavorPerception = "Butterscotch.",
+                        mouthfeelPerception = "Slick palate.",
+                        descriptors = "Butter,Butterscotch",
+                        diagnosticContrastsJson = "[]",
+                        typicalOriginsJson = "[]",
+                        preventionTipsJson = "[]",
+                        whenAppropriate = "",
+                        confusedWithIds = ""
+                    )
+                )
+            ),
+            offFlavorStyleCrossRefDao = FakeOffFlavorStyleCrossRefDao(),
+            bjcpStyleDao = bjcpDao,
+            baStyleDao = baDao,
+            meadStyleDao = meadDao,
+            ciderStyleDao = ciderDao,
+            defaultDispatcher = testDispatcher,
+            favoriteIngredientDao = favIngredientDao
+        )
+
         return FavoritesViewModel(
             beerStyleRepository = beerStyleRepository,
             hopRepository = hopRepository,
@@ -338,7 +379,37 @@ class FavoritesViewModelTest {
             honeyRepository = honeyRepository,
             pomeRepository = pomeRepository,
             yeastRepository = yeastRepository,
+            offFlavorRepository = offFlavorRepository,
             defaultDispatcher = testDispatcher
         )
+    }
+
+    @Test
+    fun uiState_includesFavoritedOffFlavors_andSupportsDisciplineFiltering() = runTest {
+        val favStyleDao = FakeFavDao()
+        val favIngredientDao = FakeFavoriteIngredientDao()
+        val prefsManager = FakePrefsManager()
+
+        favIngredientDao.addFavorite(FavoriteIngredientEntity("diacetyl", OffFlavorRepository.TYPE_OFF_FLAVOR))
+
+        val viewModel = createViewModel(
+            favStyleDao = favStyleDao,
+            favIngredientDao = favIngredientDao,
+            prefsManager = prefsManager
+        )
+
+        val collectJob = backgroundScope.launch {
+            viewModel.uiState.collect {}
+        }
+        runCurrent()
+
+        assertThat(viewModel.uiState.value.offFlavors.map { it.id }).containsExactly("diacetyl")
+        assertThat(viewModel.uiState.value.disciplineCounts[FavoriteDiscipline.OFF_FLAVORS]).isEqualTo(1)
+
+        viewModel.onToggleDiscipline(FavoriteDiscipline.OFF_FLAVORS)
+        runCurrent()
+        assertThat(viewModel.uiState.value.offFlavors.map { it.id }).containsExactly("diacetyl")
+
+        collectJob.cancel()
     }
 }

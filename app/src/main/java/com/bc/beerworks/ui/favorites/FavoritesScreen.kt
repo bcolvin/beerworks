@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.Hive
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Nature
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material3.AlertDialog
@@ -73,9 +74,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
+import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.ui.components.HoneyCard
 import com.bc.beerworks.ui.components.HopCard
 import com.bc.beerworks.ui.components.MaltCard
+import com.bc.beerworks.ui.components.OffFlavorCard
 import com.bc.beerworks.ui.components.PomeCard
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.components.YeastCard
@@ -89,6 +92,7 @@ fun FavoritesScreen(
     onHoneyClick: (String) -> Unit,
     onPomeClick: (String) -> Unit,
     onYeastClick: (String) -> Unit,
+    onOffFlavorClick: (String) -> Unit = {},
     onMenuClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -109,6 +113,7 @@ fun FavoritesScreen(
         onHoneyClick = onHoneyClick,
         onPomeClick = onPomeClick,
         onYeastClick = onYeastClick,
+        onOffFlavorClick = onOffFlavorClick,
         onMenuClick = onMenuClick
     )
 }
@@ -130,6 +135,7 @@ fun FavoritesContent(
     onHoneyClick: (String) -> Unit,
     onPomeClick: (String) -> Unit,
     onYeastClick: (String) -> Unit,
+    onOffFlavorClick: (String) -> Unit = {},
     onMenuClick: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -502,6 +508,38 @@ fun FavoritesContent(
                                     YeastCard(
                                         yeast = yeast,
                                         onClick = { onYeastClick(yeast.id) }
+                                    )
+                                }
+                            }
+                        }
+
+                        if (uiState.offFlavors.isNotEmpty()) {
+                            item(key = "header_off_flavors") {
+                                DisciplineSectionHeader(
+                                    icon = Icons.Default.Science,
+                                    title = "Off-Flavors",
+                                    count = uiState.offFlavors.size
+                                )
+                            }
+                            items(
+                                items = uiState.offFlavors,
+                                key = { "off_flavor_${it.id}" }
+                            ) { offFlavor ->
+                                val target = remember(offFlavor) {
+                                    FavoriteItemTarget.IngredientItem(
+                                        key = "off_flavor_${offFlavor.id}",
+                                        name = offFlavor.name,
+                                        id = offFlavor.id,
+                                        type = OffFlavorRepository.TYPE_OFF_FLAVOR
+                                    )
+                                }
+                                SwipeableFavoriteCard(
+                                    targetKey = target.key,
+                                    onSwipeRemove = { onRequestRemove(target) }
+                                ) {
+                                    OffFlavorCard(
+                                        offFlavor = offFlavor,
+                                        onClick = { onOffFlavorClick(offFlavor.id) }
                                     )
                                 }
                             }

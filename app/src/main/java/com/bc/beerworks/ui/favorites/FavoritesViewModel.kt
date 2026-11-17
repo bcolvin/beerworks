@@ -7,6 +7,7 @@ import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
 import com.bc.beerworks.data.model.MaltVariety
+import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.PomeVariety
 import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.BeerStyleRepository
@@ -14,6 +15,7 @@ import com.bc.beerworks.data.repository.HoneyRepository
 import com.bc.beerworks.data.repository.HopRepository
 import com.bc.beerworks.data.repository.IngredientCatalogRepository
 import com.bc.beerworks.data.repository.MaltRepository
+import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.data.repository.YeastRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,7 +36,8 @@ enum class FavoriteDiscipline(val label: String) {
     MALTS("Malts"),
     HONEY("Honey"),
     POMES("Pomes"),
-    YEAST("Yeast")
+    YEAST("Yeast"),
+    OFF_FLAVORS("Off-Flavors")
 }
 
 @Immutable
@@ -67,7 +70,8 @@ data class FavoritesUiState(
     val malts: List<MaltVariety> = emptyList(),
     val honeys: List<HoneyVariety> = emptyList(),
     val pomes: List<PomeVariety> = emptyList(),
-    val yeasts: List<YeastStrain> = emptyList()
+    val yeasts: List<YeastStrain> = emptyList(),
+    val offFlavors: List<OffFlavor> = emptyList()
 ) {
     val totalFavoritesCount: Int
         get() = disciplineCounts.values.sum()
@@ -77,7 +81,8 @@ data class FavoritesUiState(
 
     val hasMatchingItems: Boolean
         get() = styles.isNotEmpty() || hops.isNotEmpty() || malts.isNotEmpty() ||
-                honeys.isNotEmpty() || pomes.isNotEmpty() || yeasts.isNotEmpty()
+                honeys.isNotEmpty() || pomes.isNotEmpty() || yeasts.isNotEmpty() ||
+                offFlavors.isNotEmpty()
 
     val isFilterActive: Boolean
         get() = query.isNotBlank() || selectedDisciplines.isNotEmpty()
@@ -96,6 +101,7 @@ class FavoritesViewModel(
         honeyRepository: HoneyRepository,
         pomeRepository: PomeRepository,
         yeastRepository: YeastRepository,
+        offFlavorRepository: OffFlavorRepository? = null,
         defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     ) : this(
         beerStyleRepository = beerStyleRepository,
@@ -105,6 +111,7 @@ class FavoritesViewModel(
             honeyRepository = honeyRepository,
             pomeRepository = pomeRepository,
             yeastRepository = yeastRepository,
+            offFlavorRepository = offFlavorRepository,
             defaultDispatcher = defaultDispatcher
         ),
         defaultDispatcher = defaultDispatcher
@@ -137,7 +144,8 @@ class FavoritesViewModel(
             FavoriteDiscipline.MALTS to ingredients.malts.size,
             FavoriteDiscipline.HONEY to ingredients.honeys.size,
             FavoriteDiscipline.POMES to ingredients.pomes.size,
-            FavoriteDiscipline.YEAST to ingredients.yeasts.size
+            FavoriteDiscipline.YEAST to ingredients.yeasts.size,
+            FavoriteDiscipline.OFF_FLAVORS to ingredients.offFlavors.size
         )
 
         val activeSelected = selectedDisciplines.filter { (counts[it] ?: 0) > 0 }.toSet()
@@ -170,6 +178,10 @@ class FavoritesViewModel(
             if (q.isEmpty()) ingredients.yeasts else ingredients.yeasts.filter { it.matchesQuery(q) }
         } else emptyList()
 
+        val filteredOffFlavors = if (isDisciplineVisible(FavoriteDiscipline.OFF_FLAVORS)) {
+            if (q.isEmpty()) ingredients.offFlavors else ingredients.offFlavors.filter { it.matchesQuery(q) }
+        } else emptyList()
+
         FavoritesUiState(
             query = rawQuery,
             selectedDisciplines = activeSelected,
@@ -179,7 +191,8 @@ class FavoritesViewModel(
             malts = filteredMalts,
             honeys = filteredHoneys,
             pomes = filteredPomes,
-            yeasts = filteredYeasts
+            yeasts = filteredYeasts,
+            offFlavors = filteredOffFlavors
         )
     }.flowOn(defaultDispatcher).stateIn(
         scope = viewModelScope,
