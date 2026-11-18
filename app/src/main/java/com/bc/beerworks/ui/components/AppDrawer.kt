@@ -1,5 +1,6 @@
 package com.bc.beerworks.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,19 +9,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.BubbleChart
 import androidx.compose.material.icons.filled.CandlestickChart
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Grain
 import androidx.compose.material.icons.filled.Grass
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Hive
 import androidx.compose.material.icons.filled.Nature
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -37,14 +41,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-import com.bc.beerworks.data.model.GuidelineType
-
 sealed class DrawerDestination(
     val route: String,
     val title: String,
     val icon: ImageVector
 ) {
-    data object StyleGuide : DrawerDestination("style_list", "Style Guide", Icons.Default.SportsBar)
+    data object StyleGuide : DrawerDestination("style_list", "Style Guide", Icons.AutoMirrored.Filled.MenuBook)
     data object Hops : DrawerDestination("hops", "Hops", Icons.Default.Grass)
     data object Malt : DrawerDestination("malt", "Malts", Icons.Default.CandlestickChart)
     data object Honey : DrawerDestination("honey", "Honey", Icons.Default.Hive)
@@ -52,10 +54,13 @@ sealed class DrawerDestination(
     data object Yeast : DrawerDestination("yeasts", "Yeast", Icons.Default.BubbleChart)
     data object OffFlavors : DrawerDestination("off_flavors", "Off-Flavors", Icons.Default.Science)
     data object Favorites : DrawerDestination("favorites", "Favorites", Icons.Default.Favorite)
-    data object ReviewHistory : DrawerDestination("review_history", "Review History", Icons.Default.History)
+    data object ReviewHistory : DrawerDestination("review_history", "Reviews", Icons.Default.History)
     data object Settings : DrawerDestination("settings", "Settings", Icons.Default.Settings)
 
     companion object {
+        val ingredientItems: List<DrawerDestination>
+            get() = listOf(Hops, Malt, Honey, Pomes, Yeast)
+
         val items: List<DrawerDestination>
             get() = listOf(StyleGuide, Hops, Malt, Honey, Pomes, Yeast, OffFlavors, Favorites, ReviewHistory, Settings)
     }
@@ -66,7 +71,8 @@ fun AppDrawer(
     currentRoute: String,
     onNavigate: (DrawerDestination) -> Unit,
     modifier: Modifier = Modifier,
-    selectedGuideline: GuidelineType = GuidelineType.BJCP_2021,
+    ingredientsExpanded: Boolean = true,
+    onIngredientsExpandedChange: (Boolean) -> Unit = {},
     keepScreenOn: Boolean = false,
     onKeepScreenOnChange: ((Boolean) -> Unit)? = null
 ) {
@@ -91,24 +97,60 @@ fun AppDrawer(
         HorizontalDivider()
         Spacer(modifier = Modifier.height(12.dp))
 
-        DrawerDestination.items.forEach { item ->
-            val selected = currentRoute == item.route
-            val itemIcon = if (item is DrawerDestination.StyleGuide) {
-                getDisciplineIcon(selectedGuideline)
-            } else {
-                item.icon
-            }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            DrawerNavItem(
+                item = DrawerDestination.StyleGuide,
+                selected = currentRoute == DrawerDestination.StyleGuide.route,
+                onClick = { onNavigate(DrawerDestination.StyleGuide) }
+            )
+
+            val hasActiveIngredient = DrawerDestination.ingredientItems.any { it.route == currentRoute }
             NavigationDrawerItem(
-                label = { Text(text = item.title) },
-                icon = { Icon(imageVector = itemIcon, contentDescription = item.title) },
-                selected = selected,
-                onClick = { onNavigate(item) },
+                label = { Text(text = "Ingredients") },
+                icon = { Icon(imageVector = Icons.Default.Category, contentDescription = "Ingredients") },
+                badge = {
+                    Icon(
+                        imageVector = if (ingredientsExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = if (ingredientsExpanded) "Collapse Ingredients" else "Expand Ingredients"
+                    )
+                },
+                selected = !ingredientsExpanded && hasActiveIngredient,
+                onClick = { onIngredientsExpandedChange(!ingredientsExpanded) },
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
             )
+
+            AnimatedVisibility(visible = ingredientsExpanded) {
+                Column {
+                    DrawerDestination.ingredientItems.forEach { item ->
+                        DrawerNavItem(
+                            item = item,
+                            selected = currentRoute == item.route,
+                            onClick = { onNavigate(item) },
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+            }
+
+            listOf(
+                DrawerDestination.OffFlavors,
+                DrawerDestination.Favorites,
+                DrawerDestination.ReviewHistory,
+                DrawerDestination.Settings
+            ).forEach { item ->
+                DrawerNavItem(
+                    item = item,
+                    selected = currentRoute == item.route,
+                    onClick = { onNavigate(item) }
+                )
+            }
         }
 
         if (onKeepScreenOnChange != null) {
-            Spacer(modifier = Modifier.weight(1f))
             HorizontalDivider()
             Row(
                 modifier = Modifier
@@ -148,4 +190,20 @@ fun AppDrawer(
             }
         }
     }
+}
+
+@Composable
+private fun DrawerNavItem(
+    item: DrawerDestination,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    NavigationDrawerItem(
+        label = { Text(text = item.title) },
+        icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
+        selected = selected,
+        onClick = onClick,
+        modifier = modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+    )
 }

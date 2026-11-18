@@ -349,6 +349,11 @@ class BeerStyleRepository(
         }.flowOn(defaultDispatcher)
     }
 
+    fun getBjcpBeerStyles(): Flow<List<BeerStyle>> =
+        bjcpStyleDao.getAllStyles()
+            .map { entities -> entities.map { it.toDomainModel(isFavorite = false) } }
+            .flowOn(defaultDispatcher)
+
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {
         val isFav = favoriteStyleDao.isFavorite(id).first()
         return when (guidelineType) {

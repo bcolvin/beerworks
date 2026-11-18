@@ -297,3 +297,13 @@ _Avoid_: Detection limit, taste floor, cutoff level
 **Meilgaard Flavor Wheel**:
 The standardized three-tiered sensory terminology system (developed by Morten Meilgaard for the ASBC, EBC, and MBAA) assigning numeric reference codes (e.g., 0620 for Diacetyl, 0150 for Acetaldehyde) to distinct aroma, flavor, and mouthfeel attributes.
 _Avoid_: Aroma wheel code, ASBC number, flavor index
+
+### Scoresheets & Judging
+
+**Scoresheet**:
+A structured BJCP-style sensory evaluation record for a single beer entry, capturing the 50-point section breakdown (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression), per-section sensory descriptor chips, optional narrative notes, Stylistic Accuracy / Technical Merit / Intangibles ratings, detected Off-Flavors, bottle inspection, and entry metadata. Displayed under the "Reviews" section in the UI.
+_Avoid_: Tasting log, beer review record, judging card
+
+**BJCP Scoring Tier**:
+The standardized six-tier qualitative rating band corresponding to a Scoresheet's total score out of 50: Outstanding (45–50), Excellent (38–44), Very Good (30–37), Good (21–29), Fair (14–20), and Problematic (0–13).
+_Avoid_: Grade band, score rank, medal tier

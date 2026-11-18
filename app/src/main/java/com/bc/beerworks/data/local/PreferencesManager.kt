@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.ScoresheetFormType
 import com.bc.beerworks.data.model.TemperatureUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,6 +22,10 @@ interface PreferencesManager {
     suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit)
     val confirmFavoriteRemoval: Flow<Boolean>
     suspend fun setConfirmFavoriteRemoval(enabled: Boolean)
+    val ingredientsExpanded: Flow<Boolean>
+    suspend fun setIngredientsExpanded(expanded: Boolean)
+    val scoresheetFormType: Flow<ScoresheetFormType>
+    suspend fun setScoresheetFormType(formType: ScoresheetFormType)
 }
 
 class DefaultPreferencesManager(private val context: Context) : PreferencesManager {
@@ -28,6 +33,8 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     private val KEEP_SCREEN_ON_KEY = booleanPreferencesKey("keep_screen_on")
     private val TEMPERATURE_UNIT_KEY = stringPreferencesKey("temperature_unit")
     private val CONFIRM_FAVORITE_REMOVAL_KEY = booleanPreferencesKey("confirm_favorite_removal")
+    private val INGREDIENTS_EXPANDED_KEY = booleanPreferencesKey("ingredients_expanded")
+    private val SCORESHEET_FORM_TYPE_KEY = stringPreferencesKey("scoresheet_form_type")
 
     override val selectedGuideline: Flow<GuidelineType> = context.dataStore.data.map { prefs ->
         val name = prefs[GUIDELINE_KEY] ?: GuidelineType.BJCP_2021.name
@@ -68,6 +75,27 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     override suspend fun setConfirmFavoriteRemoval(enabled: Boolean) {
         context.dataStore.edit { prefs ->
             prefs[CONFIRM_FAVORITE_REMOVAL_KEY] = enabled
+        }
+    }
+
+    override val ingredientsExpanded: Flow<Boolean> = context.dataStore.data.map { prefs ->
+        prefs[INGREDIENTS_EXPANDED_KEY] ?: true
+    }
+
+    override suspend fun setIngredientsExpanded(expanded: Boolean) {
+        context.dataStore.edit { prefs ->
+            prefs[INGREDIENTS_EXPANDED_KEY] = expanded
+        }
+    }
+
+    override val scoresheetFormType: Flow<ScoresheetFormType> = context.dataStore.data.map { prefs ->
+        val name = prefs[SCORESHEET_FORM_TYPE_KEY] ?: ScoresheetFormType.SHORT_FORM.name
+        runCatching { ScoresheetFormType.valueOf(name) }.getOrDefault(ScoresheetFormType.SHORT_FORM)
+    }
+
+    override suspend fun setScoresheetFormType(formType: ScoresheetFormType) {
+        context.dataStore.edit { prefs ->
+            prefs[SCORESHEET_FORM_TYPE_KEY] = formType.name
         }
     }
 }

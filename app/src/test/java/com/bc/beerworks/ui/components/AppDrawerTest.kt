@@ -1,6 +1,7 @@
 package com.bc.beerworks.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.BubbleChart
 import androidx.compose.material.icons.filled.CandlestickChart
 import androidx.compose.material.icons.filled.Favorite
@@ -30,6 +31,7 @@ class AppDrawerTest {
             "review_history",
             "settings"
         )
+        assertThat(DrawerDestination.StyleGuide.icon).isEqualTo(Icons.AutoMirrored.Filled.MenuBook)
         assertThat(DrawerDestination.Hops.icon).isEqualTo(Icons.Default.Grass)
         assertThat(DrawerDestination.Malt.icon).isEqualTo(Icons.Default.CandlestickChart)
         assertThat(DrawerDestination.Malt.title).isEqualTo("Malts")
@@ -40,6 +42,14 @@ class AppDrawerTest {
         assertThat(DrawerDestination.OffFlavors.title).isEqualTo("Off-Flavors")
         assertThat(DrawerDestination.Favorites.icon).isEqualTo(Icons.Default.Favorite)
         assertThat(DrawerDestination.Favorites.title).isEqualTo("Favorites")
+        assertThat(DrawerDestination.ReviewHistory.title).isEqualTo("Reviews")
+        assertThat(DrawerDestination.ingredientItems).containsExactly(
+            DrawerDestination.Hops,
+            DrawerDestination.Malt,
+            DrawerDestination.Honey,
+            DrawerDestination.Pomes,
+            DrawerDestination.Yeast
+        )
     }
 
     @Test

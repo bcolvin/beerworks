@@ -22,6 +22,7 @@ import com.bc.beerworks.data.local.dao.OffFlavorDao
 import com.bc.beerworks.data.local.dao.OffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.local.dao.PomeDao
 import com.bc.beerworks.data.local.dao.PomeStyleCrossRefDao
+import com.bc.beerworks.data.local.dao.ScoresheetDao
 import com.bc.beerworks.data.local.dao.YeastDao
 import com.bc.beerworks.data.local.dao.YeastStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.BaStyleEntity
@@ -43,6 +44,7 @@ import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltVarietyFtsEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleFtsEntity
+import com.bc.beerworks.data.local.entity.ScoresheetEntity
 import com.bc.beerworks.data.local.entity.OffFlavorEntity
 import com.bc.beerworks.data.local.entity.OffFlavorFtsEntity
 import com.bc.beerworks.data.local.entity.OffFlavorStyleCrossRef
@@ -391,6 +393,79 @@ val MIGRATION_10_11 = object : Migration(10, 11) {
     }
 }
 
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `scoresheets` (
+                `id` TEXT NOT NULL,
+                `formType` TEXT NOT NULL,
+                `entryTitle` TEXT NOT NULL,
+                `brewer` TEXT NOT NULL,
+                `styleId` TEXT,
+                `styleName` TEXT NOT NULL,
+                `styleNumber` TEXT NOT NULL,
+                `evaluatedAtMillis` INTEGER NOT NULL,
+                `aromaScore` INTEGER NOT NULL,
+                `appearanceScore` INTEGER NOT NULL,
+                `flavorScore` INTEGER NOT NULL,
+                `mouthfeelScore` INTEGER NOT NULL,
+                `overallScore` INTEGER NOT NULL,
+                `aromaNotes` TEXT NOT NULL,
+                `appearanceNotes` TEXT NOT NULL,
+                `flavorNotes` TEXT NOT NULL,
+                `mouthfeelNotes` TEXT NOT NULL,
+                `overallNotes` TEXT NOT NULL,
+                `bottleInspectionOk` INTEGER NOT NULL,
+                `bottleInspectionNotes` TEXT NOT NULL,
+                `stylisticAccuracy` INTEGER NOT NULL,
+                `technicalMerit` INTEGER NOT NULL,
+                `intangibles` INTEGER NOT NULL,
+                `descriptorValues` TEXT NOT NULL,
+                `offFlavorLevels` TEXT NOT NULL,
+                `updatedAtMillis` INTEGER NOT NULL,
+                PRIMARY KEY(`id`)
+            )
+        """)
+    }
+}
+
+val MIGRATION_12_13 = object : Migration(12, 13) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS `scoresheets`")
+        db.execSQL("""
+            CREATE TABLE IF NOT EXISTS `scoresheets` (
+                `id` TEXT NOT NULL,
+                `formType` TEXT NOT NULL,
+                `entryTitle` TEXT NOT NULL,
+                `brewer` TEXT NOT NULL,
+                `styleId` TEXT,
+                `styleName` TEXT NOT NULL,
+                `styleNumber` TEXT NOT NULL,
+                `evaluatedAtMillis` INTEGER NOT NULL,
+                `aromaScore` INTEGER NOT NULL,
+                `appearanceScore` INTEGER NOT NULL,
+                `flavorScore` INTEGER NOT NULL,
+                `mouthfeelScore` INTEGER NOT NULL,
+                `overallScore` INTEGER NOT NULL,
+                `aromaNotes` TEXT NOT NULL,
+                `appearanceNotes` TEXT NOT NULL,
+                `flavorNotes` TEXT NOT NULL,
+                `mouthfeelNotes` TEXT NOT NULL,
+                `overallNotes` TEXT NOT NULL,
+                `bottleInspectionOk` INTEGER NOT NULL,
+                `bottleInspectionNotes` TEXT NOT NULL,
+                `stylisticAccuracy` INTEGER NOT NULL,
+                `technicalMerit` INTEGER NOT NULL,
+                `intangibles` INTEGER NOT NULL,
+                `descriptorValues` TEXT NOT NULL,
+                `offFlavorLevels` TEXT NOT NULL,
+                `updatedAtMillis` INTEGER NOT NULL,
+                PRIMARY KEY(`id`)
+            )
+        """)
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -420,9 +495,10 @@ val MIGRATION_10_11 = object : Migration(10, 11) {
         YeastStyleCrossRef::class,
         OffFlavorEntity::class,
         OffFlavorFtsEntity::class,
-        OffFlavorStyleCrossRef::class
+        OffFlavorStyleCrossRef::class,
+        ScoresheetEntity::class
     ],
-    version = 11,
+    version = 13,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -444,6 +520,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
     abstract fun yeastStyleCrossRefDao(): YeastStyleCrossRefDao
     abstract fun offFlavorDao(): OffFlavorDao
     abstract fun offFlavorStyleCrossRefDao(): OffFlavorStyleCrossRefDao
+    abstract fun scoresheetDao(): ScoresheetDao
 
     companion object {
         @Volatile
@@ -456,7 +533,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

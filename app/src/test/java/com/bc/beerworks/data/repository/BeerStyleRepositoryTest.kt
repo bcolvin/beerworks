@@ -1,6 +1,7 @@
 package com.bc.beerworks.data.repository
 
 import com.bc.beerworks.data.local.PreferencesManager
+import com.bc.beerworks.data.model.ScoresheetFormType
 import com.bc.beerworks.data.local.dao.BaStyleDao
 import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.CiderStyleDao
@@ -97,6 +98,8 @@ class FakePrefsManager : PreferencesManager {
     private val screenOnFlow = MutableStateFlow(false)
     private val tempUnitFlow = MutableStateFlow(TemperatureUnit.FAHRENHEIT)
     private val confirmFavRemovalFlow = MutableStateFlow(true)
+    private val ingredientsExpandedFlow = MutableStateFlow(true)
+    private val scoresheetFormTypeFlow = MutableStateFlow(ScoresheetFormType.SHORT_FORM)
     override val selectedGuideline: Flow<GuidelineType> = flow
     override suspend fun setGuideline(guidelineType: GuidelineType) { flow.value = guidelineType }
     override val keepScreenOn: Flow<Boolean> = screenOnFlow
@@ -105,6 +108,10 @@ class FakePrefsManager : PreferencesManager {
     override suspend fun setTemperatureUnit(temperatureUnit: TemperatureUnit) { tempUnitFlow.value = temperatureUnit }
     override val confirmFavoriteRemoval: Flow<Boolean> = confirmFavRemovalFlow
     override suspend fun setConfirmFavoriteRemoval(enabled: Boolean) { confirmFavRemovalFlow.value = enabled }
+    override val ingredientsExpanded: Flow<Boolean> = ingredientsExpandedFlow
+    override suspend fun setIngredientsExpanded(expanded: Boolean) { ingredientsExpandedFlow.value = expanded }
+    override val scoresheetFormType: Flow<ScoresheetFormType> = scoresheetFormTypeFlow
+    override suspend fun setScoresheetFormType(formType: ScoresheetFormType) { scoresheetFormTypeFlow.value = formType }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

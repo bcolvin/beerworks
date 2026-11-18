@@ -30,9 +30,9 @@ This backlog stores feature ideas, user requests, and future capabilities before
   - Compare 2–3 hop varieties side-by-side with overlaid/contrasting 8-axis sensory radar charts, alpha/beta acid ranges, and common beer styles.
   - Future expansion: Compare 2–3 malt profiles side-by-side (color Lovibond/EBC, extraction %, flavor contributions).
 
-- [ ] **Digital BJCP & BA Scoresheet Entry**
-  - Fill out shortform & longform scoresheets (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression).
-  - Score calculations and automated BJCP category validation.
+- [x] **Digital BJCP Beer Scoresheet Entry (Feature 011)**
+  - Record BJCP Beer scoresheets (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression) with per-section descriptor chips, optional notes, Bottle Inspection, 0–10 impressions, and canonical Off-Flavor fault chips.
+  - Future expansion: Mead, Cider, and BA scoresheet formats plus judge/location auto-population from user profile.
 
 - [ ] **AI / OCR Photo Digitizer for Handwritten Scoresheets**
   - Capture a photo of a physical scoresheet and parse it into a digital scoresheet automatically.
@@ -130,3 +130,9 @@ This backlog stores feature ideas, user requests, and future capabilities before
 
 - [x] **Extract AppContainer & Streamline MainActivity Navigation Wiring (Round 2 Candidate 5)**
   - Extract `AppContainer` and `inline fun <reified VM : ViewModel> viewModelFactory` to eliminate 13 anonymous `ViewModelProvider.Factory` blocks and inline `collectAsState()` calls in `MainActivity.kt`.
+
+---
+
+## 💡 Unsorted / Fresh Ideas
+
+- [ ] **Scoresheet Descriptor Guideline Quick-Peek (Long-Press)**: When a BJCP style is linked on a Scoresheet, press-and-holding any section descriptor chip (e.g., Aroma `Malt` for `5D`) opens a bottom sheet showing the exact excerpt from that style's guideline section (e.g., *"Low to medium grainy, sweet, or doughy malt character, often with a light honey and toasted cracker quality"*).

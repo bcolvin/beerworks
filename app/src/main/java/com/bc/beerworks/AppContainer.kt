@@ -12,6 +12,7 @@ import com.bc.beerworks.data.repository.IngredientCatalogRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.data.repository.PomeRepository
+import com.bc.beerworks.data.repository.ScoresheetRepository
 import com.bc.beerworks.data.repository.YeastRepository
 
 class AppContainer(context: Context) {
@@ -24,6 +25,7 @@ class AppContainer(context: Context) {
     val pomeRepository: PomeRepository = PomeRepository(database)
     val yeastRepository: YeastRepository = YeastRepository(database)
     val offFlavorRepository: OffFlavorRepository = OffFlavorRepository(database)
+    val scoresheetRepository: ScoresheetRepository = ScoresheetRepository(database.scoresheetDao(), prefsManager)
     val ingredientCatalogRepository: IngredientCatalogRepository = IngredientCatalogRepository(
         hopRepository = hopRepository,
         maltRepository = maltRepository,

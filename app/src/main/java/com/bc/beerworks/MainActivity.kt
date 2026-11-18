@@ -56,7 +56,10 @@ import com.bc.beerworks.ui.offflavors.OffFlavorsViewModel
 import com.bc.beerworks.ui.pomedetail.PomeDetailScreen
 import com.bc.beerworks.ui.pomes.PomesScreen
 import com.bc.beerworks.ui.pomes.PomesViewModel
-import com.bc.beerworks.ui.reviewhistory.ReviewHistoryContent
+import com.bc.beerworks.ui.reviews.ReviewsScreen
+import com.bc.beerworks.ui.reviews.ReviewsViewModel
+import com.bc.beerworks.ui.reviews.ScoresheetEditorScreen
+import com.bc.beerworks.ui.reviews.ScoresheetEditorViewModel
 import com.bc.beerworks.ui.settings.SettingsScreen
 import com.bc.beerworks.ui.settings.SettingsViewModel
 import com.bc.beerworks.ui.styledetail.StyleDetailScreen
@@ -91,9 +94,7 @@ fun BeerworksApp() {
     val container = remember { AppContainer(context) }
 
     val keepScreenOn by container.prefsManager.keepScreenOn.collectAsState(initial = false)
-    val selectedGuideline by container.beerStyleRepository.selectedGuideline.collectAsState(
-        initial = GuidelineType.BJCP_2021
-    )
+    val ingredientsExpanded by container.prefsManager.ingredientsExpanded.collectAsState(initial = true)
 
     DisposableEffect(keepScreenOn, activity) {
         if (keepScreenOn) {
@@ -122,7 +123,10 @@ fun BeerworksApp() {
         drawerContent = {
             AppDrawer(
                 currentRoute = currentRoute,
-                selectedGuideline = selectedGuideline,
+                ingredientsExpanded = ingredientsExpanded,
+                onIngredientsExpandedChange = { expanded ->
+                    scope.launch { container.prefsManager.setIngredientsExpanded(expanded) }
+                },
                 keepScreenOn = keepScreenOn,
                 onKeepScreenOnChange = { enabled ->
                     scope.launch { container.prefsManager.setKeepScreenOn(enabled) }
@@ -276,7 +280,56 @@ fun BeerworksApp() {
             }
 
             composable("review_history") {
-                ReviewHistoryContent(onMenuClick = openDrawer)
+                val viewModel: ReviewsViewModel = viewModel(
+                    factory = viewModelFactory {
+                        ReviewsViewModel(container.scoresheetRepository, container.offFlavorRepository)
+                    }
+                )
+                ReviewsScreen(
+                    viewModel = viewModel,
+                    onMenuClick = openDrawer,
+                    onAddScoresheet = { navController.navigate("scoresheet_editor") },
+                    onScoresheetClick = { id -> navController.navigate("scoresheet_editor/$id") }
+                )
+            }
+
+            composable("scoresheet_editor") {
+                val viewModel: ScoresheetEditorViewModel = viewModel(
+                    factory = viewModelFactory {
+                        ScoresheetEditorViewModel(
+                            scoresheetId = null,
+                            scoresheetRepository = container.scoresheetRepository,
+                            beerStyleRepository = container.beerStyleRepository,
+                            offFlavorRepository = container.offFlavorRepository
+                        )
+                    }
+                )
+                ScoresheetEditorScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = "scoresheet_editor/{scoresheetId}",
+                arguments = listOf(navArgument("scoresheetId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val scoresheetId = backStackEntry.arguments?.getString("scoresheetId")
+                val viewModel: ScoresheetEditorViewModel = viewModel(
+                    key = "scoresheet_$scoresheetId",
+                    factory = viewModelFactory {
+                        ScoresheetEditorViewModel(
+                            scoresheetId = scoresheetId,
+                            scoresheetRepository = container.scoresheetRepository,
+                            beerStyleRepository = container.beerStyleRepository,
+                            offFlavorRepository = container.offFlavorRepository
+                        )
+                    }
+                )
+                ScoresheetEditorScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() }
+                )
             }
 
             composable("settings") {
