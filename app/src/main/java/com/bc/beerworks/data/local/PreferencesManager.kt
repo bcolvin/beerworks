@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.TemperatureUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +24,8 @@ interface PreferencesManager {
     suspend fun setConfirmFavoriteRemoval(enabled: Boolean)
     val ingredientsExpanded: Flow<Boolean>
     suspend fun setIngredientsExpanded(expanded: Boolean)
+    val lastScoresheetDiscipline: Flow<ScoresheetDiscipline>
+    suspend fun setLastScoresheetDiscipline(discipline: ScoresheetDiscipline)
 }
 
 class DefaultPreferencesManager(private val context: Context) : PreferencesManager {
@@ -31,6 +34,7 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     private val TEMPERATURE_UNIT_KEY = stringPreferencesKey("temperature_unit")
     private val CONFIRM_FAVORITE_REMOVAL_KEY = booleanPreferencesKey("confirm_favorite_removal")
     private val INGREDIENTS_EXPANDED_KEY = booleanPreferencesKey("ingredients_expanded")
+    private val LAST_SCORESHEET_DISCIPLINE_KEY = stringPreferencesKey("last_scoresheet_discipline")
 
     override val selectedGuideline: Flow<GuidelineType> = context.dataStore.data.map { prefs ->
         val name = prefs[GUIDELINE_KEY] ?: GuidelineType.BJCP_2021.name
@@ -81,6 +85,17 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     override suspend fun setIngredientsExpanded(expanded: Boolean) {
         context.dataStore.edit { prefs ->
             prefs[INGREDIENTS_EXPANDED_KEY] = expanded
+        }
+    }
+
+    override val lastScoresheetDiscipline: Flow<ScoresheetDiscipline> = context.dataStore.data.map { prefs ->
+        val resolved = ScoresheetDiscipline.fromStorageValue(prefs[LAST_SCORESHEET_DISCIPLINE_KEY])
+        if (resolved.isSupported) resolved else ScoresheetDiscipline.BJCP_BEER
+    }
+
+    override suspend fun setLastScoresheetDiscipline(discipline: ScoresheetDiscipline) {
+        context.dataStore.edit { prefs ->
+            prefs[LAST_SCORESHEET_DISCIPLINE_KEY] = discipline.name
         }
     }
 }

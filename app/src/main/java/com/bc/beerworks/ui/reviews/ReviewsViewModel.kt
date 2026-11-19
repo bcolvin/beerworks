@@ -2,6 +2,7 @@ package com.bc.beerworks.ui.reviews
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bc.beerworks.data.model.MeadScoresheet
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.model.Scoresheet
 import com.bc.beerworks.data.model.ScoresheetDiscipline
@@ -70,7 +71,8 @@ class ReviewsViewModel(
                 sheet.entryTitle.contains(trimmed, ignoreCase = true) ||
                 sheet.styleName.contains(trimmed, ignoreCase = true) ||
                 sheet.styleNumber.contains(trimmed, ignoreCase = true) ||
-                sheet.brewer.contains(trimmed, ignoreCase = true)
+                sheet.brewer.contains(trimmed, ignoreCase = true) ||
+                (sheet is MeadScoresheet && sheet.specialIngredients.contains(trimmed, ignoreCase = true))
             matchesDiscipline && matchesQuery
         }
     }.stateIn(

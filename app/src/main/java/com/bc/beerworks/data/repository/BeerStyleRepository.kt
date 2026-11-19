@@ -354,6 +354,11 @@ class BeerStyleRepository(
             .map { entities -> entities.map { it.toDomainModel(isFavorite = false) } }
             .flowOn(defaultDispatcher)
 
+    fun getMeadStyles(): Flow<List<BeerStyle>> =
+        (meadStyleDao?.getAllStyles() ?: flowOf(emptyList()))
+            .map { entities -> entities.map { it.toDomainModel(isFavorite = false) } }
+            .flowOn(defaultDispatcher)
+
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {
         val isFav = favoriteStyleDao.isFavorite(id).first()
         return when (guidelineType) {

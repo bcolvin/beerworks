@@ -301,7 +301,7 @@ _Avoid_: Aroma wheel code, ASBC number, flavor index
 ### Scoresheets & Judging
 
 **Scoresheet**:
-A structured BJCP-style sensory evaluation record for a single beer entry, capturing the 50-point section breakdown (Aroma, Appearance, Flavor, Mouthfeel, Overall Impression), per-section sensory descriptor chips, optional narrative notes, Stylistic Accuracy / Technical Merit / Intangibles ratings, detected Off-Flavors, bottle inspection, and entry metadata. Displayed under the "Reviews" section in the UI.
+A structured BJCP sensory evaluation record for a single beverage entry across a supported Beverage Discipline, capturing a 50-point section breakdown (5 sections for Beer: Aroma 12, Appearance 3, Flavor 20, Mouthfeel 5, Overall Impression 10; 4 sections for Mead: Aroma 10, Appearance 6, Flavor 24, Overall Impression 10), per-section sensory descriptors, optional narrative notes, Stylistic Accuracy / Technical Merit / Intangibles ratings, detected Off-Flavors, bottle inspection, and entry metadata.
 _Avoid_: Tasting log, beer review record, judging card
 
 **BJCP Scoring Tier**:

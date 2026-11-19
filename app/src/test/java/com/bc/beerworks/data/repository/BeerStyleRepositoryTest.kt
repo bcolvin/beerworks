@@ -13,6 +13,7 @@ import com.bc.beerworks.data.local.entity.FavoriteStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.TemperatureUnit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,6 +99,7 @@ class FakePrefsManager : PreferencesManager {
     private val tempUnitFlow = MutableStateFlow(TemperatureUnit.FAHRENHEIT)
     private val confirmFavRemovalFlow = MutableStateFlow(true)
     private val ingredientsExpandedFlow = MutableStateFlow(true)
+    private val lastScoresheetDisciplineFlow = MutableStateFlow(ScoresheetDiscipline.BJCP_BEER)
     override val selectedGuideline: Flow<GuidelineType> = flow
     override suspend fun setGuideline(guidelineType: GuidelineType) { flow.value = guidelineType }
     override val keepScreenOn: Flow<Boolean> = screenOnFlow
@@ -108,6 +110,10 @@ class FakePrefsManager : PreferencesManager {
     override suspend fun setConfirmFavoriteRemoval(enabled: Boolean) { confirmFavRemovalFlow.value = enabled }
     override val ingredientsExpanded: Flow<Boolean> = ingredientsExpandedFlow
     override suspend fun setIngredientsExpanded(expanded: Boolean) { ingredientsExpandedFlow.value = expanded }
+    override val lastScoresheetDiscipline: Flow<ScoresheetDiscipline> = lastScoresheetDisciplineFlow
+    override suspend fun setLastScoresheetDiscipline(discipline: ScoresheetDiscipline) {
+        lastScoresheetDisciplineFlow.value = discipline
+    }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

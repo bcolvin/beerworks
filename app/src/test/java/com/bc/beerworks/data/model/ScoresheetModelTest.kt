@@ -38,10 +38,9 @@ class ScoresheetModelTest {
     }
 
     @Test
-    fun scoresheetEntity_roundTripsDomainModelAndIntensityMaps() {
-        val original = Scoresheet(
+    fun beerScoresheetEntity_roundTripsDomainModelAndIntensityMaps() {
+        val original = BeerScoresheet(
             id = "sheet-1",
-            discipline = ScoresheetDiscipline.BJCP_BEER,
             entryTitle = "Entry #42",
             brewer = "Jane Brewer",
             styleId = "21A",
@@ -70,9 +69,42 @@ class ScoresheetModelTest {
     }
 
     @Test
-    fun formatForShare_includesTotalScoreTierAndFaultNames() {
-        val sheet = Scoresheet(
-            discipline = ScoresheetDiscipline.BJCP_BEER,
+    fun meadScoresheetEntity_roundTripsDomainModelAndAdditionalInfo() {
+        val original = MeadScoresheet(
+            id = "mead-1",
+            entryTitle = "Orange Blossom Reserve",
+            brewer = "Alex Meadmaker",
+            styleId = "M1A",
+            styleName = "Dry Mead",
+            styleNumber = "M1A",
+            evaluatedAtMillis = 1_700_000_000_000L,
+            aromaScore = 9,
+            appearanceScore = 5,
+            flavorScore = 21,
+            overallScore = 9,
+            aromaNotes = "Delicate citrus blossom",
+            declaredCarbonation = "Still",
+            declaredSweetness = "Dry",
+            declaredStrength = "Standard",
+            specialIngredients = "Florida Orange Blossom honey",
+            descriptorValues = mapOf(
+                ScoresheetDescriptor.MEAD_AROMA_HONEY.key to "Med",
+                ScoresheetDescriptor.MEAD_FLAVOR_BALANCE.key to "Balanced"
+            ),
+            offFlavorLevels = mapOf("thp" to IntensityLevel.LOW)
+        )
+
+        val roundTripped = original.toEntity().toDomainModel()
+
+        assertThat(roundTripped).isEqualTo(original)
+        assertThat(roundTripped.totalScore).isEqualTo(44)
+        assertThat(roundTripped.scoringTier).isEqualTo(BjcpScoringTier.EXCELLENT)
+        assertThat((roundTripped as MeadScoresheet).hasAdditionalInfo).isTrue()
+    }
+
+    @Test
+    fun formatForShare_beerAndMeadIncludeDisciplineSectionsAndOptionalFields() {
+        val beer = BeerScoresheet(
             entryTitle = "West Coast Pale",
             styleNumber = "18B",
             styleName = "American Pale Ale",
@@ -86,13 +118,45 @@ class ScoresheetModelTest {
             overallNotes = "Crisp finish."
         )
 
-        val text = sheet.formatForShare(mapOf("acetaldehyde" to "Acetaldehyde"))
+        val beerText = beer.formatForShare(mapOf("acetaldehyde" to "Acetaldehyde"))
+        assertThat(beerText).contains("BJCP Beer Scoresheet")
+        assertThat(beerText).contains("• Aroma: 9 / 12")
+        assertThat(beerText).contains("• Mouthfeel: 4 / 5")
+        assertThat(beerText).contains("Total Score: 38 / 50 (Excellent)")
+        assertThat(beerText).contains("Off-Flavors: Acetaldehyde (Low)")
 
-        assertThat(text).contains("Entry: West Coast Pale")
-        assertThat(text).contains("Style: 18B - American Pale Ale")
-        assertThat(text).contains("Total Score: 38 / 50 (Excellent)")
-        assertThat(text).contains("Off-Flavors: Acetaldehyde (Low)")
-        assertThat(text).contains("Overall Comments: Crisp finish.")
+        val meadMinimal = MeadScoresheet(
+            entryTitle = "Traditional Dry",
+            styleNumber = "M1A",
+            styleName = "Dry Mead",
+            aromaScore = 8,
+            appearanceScore = 5,
+            flavorScore = 20,
+            overallScore = 8
+        )
+        val meadMinimalText = meadMinimal.formatForShare()
+        assertThat(meadMinimalText).contains("BJCP Mead Scoresheet")
+        assertThat(meadMinimalText).contains("• Aroma: 8 / 10")
+        assertThat(meadMinimalText).contains("• Appearance: 5 / 6")
+        assertThat(meadMinimalText).contains("• Flavor: 20 / 24")
+        assertThat(meadMinimalText).contains("• Overall Impression: 8 / 10")
+        assertThat(meadMinimalText).doesNotContain("Mouthfeel:")
+        assertThat(meadMinimalText).doesNotContain("Carbonation:")
+        assertThat(meadMinimalText).doesNotContain("Special Ingredients:")
+
+        val meadFull = meadMinimal.copy(
+            brewer = "Honey Bee Meadery",
+            declaredCarbonation = "Pétillant",
+            declaredSweetness = "Semi-Sweet",
+            declaredStrength = "Standard",
+            specialIngredients = "Tart Montmorency cherries"
+        )
+        val meadFullText = meadFull.formatForShare()
+        assertThat(meadFullText).contains("Meadmaker: Honey Bee Meadery")
+        assertThat(meadFullText).contains("Carbonation: Pétillant")
+        assertThat(meadFullText).contains("Sweetness: Semi-Sweet")
+        assertThat(meadFullText).contains("Strength: Standard")
+        assertThat(meadFullText).contains("Special Ingredients: Tart Montmorency cherries")
     }
 
     @Test
@@ -103,5 +167,21 @@ class ScoresheetModelTest {
         assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_MEAD")).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
         assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_CIDER")).isEqualTo(ScoresheetDiscipline.BJCP_CIDER)
         assertThat(ScoresheetDiscipline.fromStorageValue(null)).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+    }
+
+    @Test
+    fun scoresheetDescriptor_forSectionFiltersByDiscipline() {
+        val beerAroma = ScoresheetDescriptor.forSection(ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_BEER)
+        val meadAroma = ScoresheetDescriptor.forSection(ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_MEAD)
+
+        assertThat(beerAroma).contains(ScoresheetDescriptor.AROMA_MALT, ScoresheetDescriptor.AROMA_HOPS)
+        assertThat(beerAroma).doesNotContain(ScoresheetDescriptor.MEAD_AROMA_HONEY)
+
+        assertThat(meadAroma).contains(
+            ScoresheetDescriptor.MEAD_AROMA_HONEY,
+            ScoresheetDescriptor.MEAD_AROMA_FLORAL_FRUITY,
+            ScoresheetDescriptor.MEAD_AROMA_SPICES
+        )
+        assertThat(meadAroma).doesNotContain(ScoresheetDescriptor.AROMA_MALT)
     }
 }
