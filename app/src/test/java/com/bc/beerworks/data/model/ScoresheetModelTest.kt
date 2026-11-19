@@ -41,7 +41,7 @@ class ScoresheetModelTest {
     fun scoresheetEntity_roundTripsDomainModelAndIntensityMaps() {
         val original = Scoresheet(
             id = "sheet-1",
-            formType = ScoresheetFormType.LONG_FORM,
+            discipline = ScoresheetDiscipline.BJCP_BEER,
             entryTitle = "Entry #42",
             brewer = "Jane Brewer",
             styleId = "21A",
@@ -72,7 +72,7 @@ class ScoresheetModelTest {
     @Test
     fun formatForShare_includesTotalScoreTierAndFaultNames() {
         val sheet = Scoresheet(
-            formType = ScoresheetFormType.SHORT_FORM,
+            discipline = ScoresheetDiscipline.BJCP_BEER,
             entryTitle = "West Coast Pale",
             styleNumber = "18B",
             styleName = "American Pale Ale",
@@ -93,5 +93,15 @@ class ScoresheetModelTest {
         assertThat(text).contains("Total Score: 38 / 50 (Excellent)")
         assertThat(text).contains("Off-Flavors: Acetaldehyde (Low)")
         assertThat(text).contains("Overall Comments: Crisp finish.")
+    }
+
+    @Test
+    fun scoresheetDiscipline_normalizesLegacyStorageValuesToBeer() {
+        assertThat(ScoresheetDiscipline.fromStorageValue("SHORT_FORM")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+        assertThat(ScoresheetDiscipline.fromStorageValue("LONG_FORM")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+        assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_BEER")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+        assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_MEAD")).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
+        assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_CIDER")).isEqualTo(ScoresheetDiscipline.BJCP_CIDER)
+        assertThat(ScoresheetDiscipline.fromStorageValue(null)).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
     }
 }

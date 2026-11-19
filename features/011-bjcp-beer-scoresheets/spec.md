@@ -17,11 +17,12 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
 ## 📚 Domain & Architecture References
 - **Domain Vocabulary**: Strictly adhere to `GLOSSARY.md` (`Scoresheet`, `BJCP Scoring Tier`, `Off-Flavor`, `Beer Style`).
 - **Architectural Decisions**:
-  - `docs/adr/0009-bjcp-scoresheets-and-form-modes.md`: Unified `ScoresheetEntity` (`scoresheets`), `BJCP_2021`-scoped style linking, and single-back `ModalBottomSheet` inline reference sheets (`skipPartiallyExpanded = true`).
+  - `docs/adr/0009-bjcp-scoresheets-and-form-modes.md`: Unified `ScoresheetEntity` (`scoresheets`), `ScoresheetDiscipline` (`BJCP_BEER`, `BJCP_MEAD`, `BJCP_CIDER`) with legacy `SHORT_FORM`/`LONG_FORM` normalization, `BJCP_2021`-scoped Beer style linking, and single-back `ModalBottomSheet` inline reference sheets (`skipPartiallyExpanded = true`).
 - **Performance & UI Standards**: Follow `GEMINI.md`:
-  - Compose `@Immutable` domain and UI state models (`Scoresheet`, `ScoresheetEditorUiState`, `SectionGuidelineInfo`).
+  - Compose `@Immutable` domain and UI state models (`Scoresheet`, `ScoresheetDiscipline`, `ScoresheetEditorUiState`, `SectionGuidelineInfo`).
   - Offload repository Flow mapping to `Dispatchers.Default` via `.flowOn(Dispatchers.Default)`.
   - No placeholder/hint text in search fields (`OutlinedTextField`).
+  - Toggle `FilterChip`s on `ReviewsScreen` with no `"All"` chip (unselected = all items included).
   - No trailing navigation arrows/chevrons on list cards.
   - Neutral `onSurface` icon tinting on Share and Delete actions (no red trashcan tint).
 
@@ -31,32 +32,37 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
 
 ### 1. Data Pipeline & Persistence
 - [x] **Domain Model (`Scoresheet.kt`)**:
-  - `Scoresheet`: `id`, `formType`, `entryTitle` (Entry # or Beer Name), `brewer` (optional), `styleId` (optional `BJCP_2021` link), `styleName`, `styleNumber`, `evaluatedAtMillis`, integer section scores (`aromaScore` 0–12, `appearanceScore` 0–3, `flavorScore` 0–20, `mouthfeelScore` 0–5, `overallScore` 0–10; all starting at `0`), optional per-section notes (`aromaNotes`, `appearanceNotes`, `flavorNotes`, `mouthfeelNotes`, `overallNotes`), `bottleInspectionOk` (Boolean), `bottleInspectionNotes`, 0–10 impressions (`stylisticAccuracy`, `technicalMerit`, `intangibles`; all starting at `0`), `descriptorValues: Map<String, String>`, `offFlavorLevels: Map<String, IntensityLevel>`, and `updatedAtMillis`.
+  - `ScoresheetDiscipline`: `BJCP_BEER` (`"BJCP Beer"`, `"Beer"`, `"🍺"`, `isSupported = true`), `BJCP_MEAD` (`"BJCP Mead"`, `"Mead"`, `"🐝"`, `isSupported = false`), and `BJCP_CIDER` (`"BJCP Cider"`, `"Cider"`, `"🍏"`, `isSupported = false`). Includes `fromStorageValue()` normalizing `"BJCP_BEER"` and legacy `"SHORT_FORM"` / `"LONG_FORM"` values to `BJCP_BEER` (removing the short-form vs. long-form split).
+  - `Scoresheet`: `id`, `discipline: ScoresheetDiscipline`, `entryTitle` (Entry # or Beer Name), `brewer` (optional), `styleId` (optional `BJCP_2021` link), `styleName`, `styleNumber`, `evaluatedAtMillis`, integer section scores (`aromaScore` 0–12, `appearanceScore` 0–3, `flavorScore` 0–20, `mouthfeelScore` 0–5, `overallScore` 0–10; all starting at `0`), optional per-section notes (`aromaNotes`, `appearanceNotes`, `flavorNotes`, `mouthfeelNotes`, `overallNotes`), `bottleInspectionOk` (Boolean), `bottleInspectionNotes`, 0–10 impressions (`stylisticAccuracy`, `technicalMerit`, `intangibles`; all starting at `0`), `descriptorValues: Map<String, String>`, `offFlavorLevels: Map<String, IntensityLevel>`, and `updatedAtMillis`.
   - Computed `totalScore` (`/50`) and `scoringTier` (`BjcpScoringTier`: Outstanding 45–50, Excellent 38–44, Very Good 30–37, Good 21–29, Fair 14–20, Problematic 0–13 with official descriptions).
   - `ScoresheetDescriptor`: Section-grouped tap-cycle descriptors for `Aroma` (`Malt`, `Hops`, `Fermentation Character`), `Appearance` (`Color`, `Clarity`, `Head Size`, `Head Retention`, `Head Color`), `Flavor` (`Malt`, `Hops`, `Bitterness`, `Fermentation Character`, `Balance`, `Finish / Aftertaste`), and `Mouthfeel` (`Body`, `Carbonation`, `Warmth`, `Creaminess`, `Astringency`).
   - `IntensityLevel`: 4-state cycle (`Unset → Low → Medium → High → Unset`) for Off-Flavors.
-  - `formatForShare()`: Generates a formatted plain-text summary for the Android Sharesheet.
+  - `formatForShare()`: Generates a formatted plain-text summary for the Android Sharesheet prefixed with `"${discipline.displayName} Scoresheet"`.
 - [x] **Room Database (`BeerworksDatabase` v12 → v13)**:
-  - `ScoresheetEntity` (`scoresheets` table) and `ScoresheetDao` (`getAllScoresheets` ordered newest-first, `getScoresheetById`, `upsert`, `deleteById`).
+  - `ScoresheetEntity` (`scoresheets` table, retaining the `formType` column to persist `discipline.name` and decode legacy `"SHORT_FORM"` / `"LONG_FORM"` rows seamlessly) and `ScoresheetDao` (`getAllScoresheets` ordered newest-first, `getScoresheetById`, `upsert`, `deleteById`).
   - `MIGRATION_11_12` and `MIGRATION_12_13`.
 - [x] **Repository & Preferences**:
-  - `ScoresheetRepository` wired into `AppContainer`.
+  - `ScoresheetRepository` wired into `AppContainer` (exposing `getAllScoresheets()`, `getScoresheetById()`, `saveScoresheet()`, `deleteScoresheet()`).
   - `BeerStyleRepository.getBjcpBeerStyles()` exposing `BJCP_2021` styles independent of the currently selected guideline.
   - `PreferencesManager.ingredientsExpanded` persisting sidebar `"Ingredients"` group expand/collapse state.
 
 ### 2. Reviews List Screen (`ReviewsScreen` / route: `"review_history"`)
-- [x] **TopAppBar & Search**:
-  - Title `"Reviews"`, drawer menu button, and `+` (`Icons.Default.Add`) action to create a new Scoresheet.
+- [x] **TopAppBar, Search & Discipline Filter**:
+  - Title `"Reviews"`, drawer menu button, and `+` (`Icons.Default.Add`) action to navigate to `"scoresheet_editor"`.
   - Clean search field without hint/placeholder text filtering by entry title, style name/number, or brewer.
+  - Horizontal toggle `FilterChip` strip (`🍺 Beer (N)`, `🐝 Mead (N)`, `🍏 Cider (N)`) displayed below the search bar whenever `totalCount > 0` (no `"All"` chip per `GEMINI.md`; unselected = all disciplines included, multi-select = union of selected disciplines, combined with text search).
+  - Empty states distinguish `"No Reviews Yet"` (`totalCount == 0`, with `"New Scoresheet"` CTA) from `"No Matching Scoresheets"` (active search or discipline filter yields 0 items, with `"Clear Filters"` action).
 - [x] **Scoresheet Cards (`ScoresheetCard`)**:
-  - Displays Entry/Beer Name, linked/custom Style, optional Brewer, Date Evaluated, and `totalScore/50 • Tier` badge (no chevrons, no form-type badge).
+  - Displays Entry/Beer Name, linked/custom Style, optional Brewer, discipline & date (`${discipline.emoji} ${discipline.shortLabel} • $dateStr`), and `totalScore/50 • Tier` badge (no trailing navigation chevrons).
   - Per-card **Share** (Android `Intent.ACTION_SEND`) and **Delete** icons tinted `MaterialTheme.colorScheme.onSurface` (white in dark mode, no red trashcan tint).
   - Delete always prompts with a confirmation `AlertDialog`.
 
 ### 3. Scoresheet Editor Screen (`ScoresheetEditorScreen` / routes: `"scoresheet_editor"`, `"scoresheet_editor/{scoresheetId}"`)
-- [x] **TopAppBar & Scroll-Locked Total Score Bubble**:
-  - TopAppBar with Back, Delete (when editing existing, neutral `onSurface` tint, confirmation dialog), and Save (enabled when `entryTitle.isNotBlank()`); no Share action on the editor page.
-  - Scroll-locked Total Score bubble anchored directly beneath the TopAppBar showing `totalScore / 50`, active `BjcpScoringTier (range)`, and an `(i)` button opening `BjcpScoringGuideSheet` (`skipPartiallyExpanded = true`).
+- [x] **TopAppBar, Discipline Switcher & Scroll-Locked Total Score Bubble**:
+  - TopAppBar with Back, Delete (when editing existing, neutral `onSurface` tint, confirmation dialog), and Save (enabled only when `discipline.isSupported && entryTitle.isNotBlank()`); no Share action on the editor page. Title reflects mode and discipline (`"New <Discipline> Scoresheet"` / `"Edit <Discipline> Scoresheet"`).
+  - On new scoresheets (`isNew == true`), a `SingleChoiceSegmentedButtonRow` at the top of the editor lets the user switch between `🍺 Beer`, `🐝 Mead`, and `🍏 Cider`.
+  - Selecting an unsupported discipline (`BJCP_MEAD` or `BJCP_CIDER`) hides the Beer Total Score header and Beer scoring sections, disables `Save`, and renders `DisciplineComingSoonCard` with a one-tap `"Use BJCP Beer Scoresheet"` button while preserving any in-progress Beer draft in memory if switched back.
+  - Scroll-locked Total Score bubble (when `discipline.isSupported`) anchored directly beneath the TopAppBar showing `totalScore / 50`, active `BjcpScoringTier (range)`, and an `(i)` button opening `BjcpScoringGuideSheet` (`skipPartiallyExpanded = true`).
 - [x] **Entry Details Bubble**:
   - Header row with white `18.sp` bold `"Entry Details"` title on the left and a compact date picker button (`CalendarToday` icon + date, no `"Date Evaluated"` text) on the right.
   - Required `Entry # or Beer Name *`, optional `Brewer / Brewery`, typable searchable `BJCP Beer Style` dropdown (no up/down trailing arrow; clear button when non-empty) paired on the same row with an always-visible `MenuBook` `OutlinedIconButton` (greyed out/disabled until a BJCP style is linked; opens `StyleQuickPeekSheet` when enabled).
@@ -71,9 +77,9 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
   - All `ModalBottomSheet`s use `rememberModalBottomSheetState(skipPartiallyExpanded = true)` so they always dismiss on a single back press.
 
 ### 4. Accompanying Navigation, Settings & Catalog QoL Tweaks
-- [x] **Sidebar Drawer (`AppDrawer`)**:
-  - Renamed `"Review History"` → `"Reviews"`.
-  - Added persisted expandable/collapsible `"Ingredients"` group containing `Hops`, `Malts`, `Honey`, `Pomes`, and `Yeast`.
+- [x] **Sidebar Drawer & Navigation (`AppDrawer` / `MainActivity`)**:
+  - Renamed `"Review History"` → `"Reviews"` (preserving route `"review_history"` with `Icons.Default.History`, navigating to `"scoresheet_editor"` for new sheets and `"scoresheet_editor/{scoresheetId}"` when tapping an existing card).
+  - Added persisted expandable/collapsible `"Ingredients"` group (`PreferencesManager.ingredientsExpanded`) containing `Hops`, `Malts`, `Honey`, `Pomes`, and `Yeast`, highlighting the parent `"Ingredients"` item when collapsed and an ingredient route is active.
   - Replaced dynamic discipline icon on `"Style Guide"` with `Icons.AutoMirrored.Filled.MenuBook`.
 - [x] **Settings (`SettingsScreen`)**:
   - Removed `"Beerworks Reference"` card and restored `"Active Style Guideline"` card with a uniform-font dropdown selector and leading discipline emoji.
@@ -83,7 +89,8 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
 ---
 
 ## 🧪 Testing Plan
-- `ScoresheetModelTest`: 4-state `IntensityLevel` cycle, all 6 `BjcpScoringTier` score boundaries, `ScoresheetEntity` round-trip serialization, and `formatForShare()`.
-- `ScoresheetEditorViewModelTest`: Zero-initialized sliders, descriptor & off-flavor cycling, style linking, and save/delete persistence.
+- `ScoresheetModelTest`: 4-state `IntensityLevel` cycle, all 6 `BjcpScoringTier` score boundaries, `ScoresheetEntity` round-trip serialization, `formatForShare()`, and `ScoresheetDiscipline.fromStorageValue()` legacy `"SHORT_FORM"` / `"LONG_FORM"` normalization.
+- `ScoresheetEditorViewModelTest`: Zero-initialized sliders, descriptor & off-flavor cycling, style linking, save/delete persistence, discipline switching (disabling `canSave` for unsupported disciplines while preserving Beer draft), and ignoring discipline changes when editing existing saved scoresheets.
+- `ReviewsViewModelTest`: Multi-select discipline toggle filtering, per-discipline counts, combined discipline + search query filtering, and `clearFilters()`.
 - `AppDrawerTest`: `StyleGuide` icon, `"Reviews"` label, and `ingredientItems` membership.
-- Verified with `./gradlew testDebugUnitTest`.
+- Verified with `./gradlew --no-daemon --offline testDebugUnitTest assembleDebug`.

@@ -2,6 +2,7 @@ package com.bc.beerworks.ui.reviews
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,6 +32,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.Scoresheet
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.formatForShare
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -68,6 +72,9 @@ fun ReviewsScreen(
 ) {
     val scoresheets by viewModel.scoresheets.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val selectedDisciplines by viewModel.selectedDisciplines.collectAsState()
+    val disciplineCounts by viewModel.disciplineCounts.collectAsState()
+    val totalCount by viewModel.totalCount.collectAsState()
     val offFlavorNames by viewModel.offFlavorNames.collectAsState()
     val context = LocalContext.current
 
@@ -146,6 +153,27 @@ fun ReviewsScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
+            if (totalCount > 0) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ScoresheetDiscipline.entries.forEach { discipline ->
+                        val count = disciplineCounts[discipline] ?: 0
+                        FilterChip(
+                            selected = discipline in selectedDisciplines,
+                            onClick = { viewModel.toggleDiscipline(discipline) },
+                            label = {
+                                Text("${discipline.emoji} ${discipline.shortLabel} ($count)")
+                            }
+                        )
+                    }
+                }
+            }
+
             if (scoresheets.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -163,26 +191,31 @@ fun ReviewsScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = if (searchQuery.isBlank()) "No Reviews Yet" else "No Matching Scoresheets",
+                            text = if (totalCount == 0) "No Reviews Yet" else "No Matching Scoresheets",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = if (searchQuery.isBlank()) {
+                            text = if (totalCount == 0) {
                                 "Tap + to record a BJCP scoresheet."
                             } else {
-                                "Try a different entry name, brewer, or style."
+                                "Try a different entry name, brewer, style, or discipline filter."
                             },
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        if (searchQuery.isBlank()) {
+                        if (totalCount == 0) {
                             Spacer(modifier = Modifier.height(20.dp))
                             Button(onClick = onAddScoresheet) {
                                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text("New Scoresheet")
+                            }
+                        } else if (searchQuery.isNotBlank() || selectedDisciplines.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            TextButton(onClick = viewModel::clearFilters) {
+                                Text("Clear Filters")
                             }
                         }
                     }
@@ -300,7 +333,7 @@ private fun ScoresheetCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = dateStr,
+                    text = "${scoresheet.discipline.emoji} ${scoresheet.discipline.shortLabel} • $dateStr",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -7,9 +7,24 @@ import java.util.Locale
 import java.util.UUID
 
 @Immutable
-enum class ScoresheetFormType(val displayName: String) {
-    SHORT_FORM("Short-Form"),
-    LONG_FORM("Long-Form")
+enum class ScoresheetDiscipline(
+    val displayName: String,
+    val shortLabel: String,
+    val emoji: String,
+    val isSupported: Boolean
+) {
+    BJCP_BEER("BJCP Beer", "Beer", "🍺", isSupported = true),
+    BJCP_MEAD("BJCP Mead", "Mead", "🐝", isSupported = false),
+    BJCP_CIDER("BJCP Cider", "Cider", "🍏", isSupported = false);
+
+    companion object {
+        fun fromStorageValue(raw: String?): ScoresheetDiscipline = when (raw) {
+            BJCP_MEAD.name -> BJCP_MEAD
+            BJCP_CIDER.name -> BJCP_CIDER
+            // BJCP_BEER plus legacy "SHORT_FORM" / "LONG_FORM" Beer values all normalize to BJCP_BEER
+            else -> BJCP_BEER
+        }
+    }
 }
 
 @Immutable
@@ -148,7 +163,7 @@ enum class ScoresheetDescriptor(
 @Immutable
 data class Scoresheet(
     val id: String = UUID.randomUUID().toString(),
-    val formType: ScoresheetFormType = ScoresheetFormType.SHORT_FORM,
+    val discipline: ScoresheetDiscipline = ScoresheetDiscipline.BJCP_BEER,
     val entryTitle: String = "",
     val brewer: String = "",
     val styleId: String? = null,
@@ -188,7 +203,7 @@ fun Scoresheet.formatForShare(offFlavorNames: Map<String, String> = emptyMap()):
         .joinToString(" - ")
 
     return buildString {
-        appendLine("BJCP Beer Scoresheet")
+        appendLine("${discipline.displayName} Scoresheet")
         appendLine("Entry: $entryTitle")
         if (brewer.isNotBlank()) appendLine("Brewer: $brewer")
         if (styleDisplay.isNotBlank()) appendLine("Style: $styleDisplay")

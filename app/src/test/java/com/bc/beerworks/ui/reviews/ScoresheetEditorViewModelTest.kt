@@ -8,7 +8,7 @@ import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.model.ScoresheetDescriptor
-import com.bc.beerworks.data.model.ScoresheetFormType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
 import com.bc.beerworks.data.repository.FakeBjcpDao
@@ -71,7 +71,7 @@ class ScoresheetEditorViewModelTest {
         prefsManager: FakePrefsManager = FakePrefsManager(),
         scoresheetDao: FakeScoresheetDao = FakeScoresheetDao()
     ): Pair<ScoresheetEditorViewModel, ScoresheetRepository> {
-        val scoresheetRepo = ScoresheetRepository(scoresheetDao, prefsManager)
+        val scoresheetRepo = ScoresheetRepository(scoresheetDao)
         val bjcpDao = FakeBjcpDao(emptyList())
         val baDao = FakeBaDao()
         val styleRepo = BeerStyleRepository(bjcpDao, baDao, FakeFavDao(), prefsManager)
@@ -87,7 +87,7 @@ class ScoresheetEditorViewModelTest {
         advanceUntilIdle()
 
         val sheet = vm.uiState.value.scoresheet
-        assertThat(sheet.formType).isEqualTo(ScoresheetFormType.LONG_FORM)
+        assertThat(sheet.discipline).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
         assertThat(sheet.totalScore).isEqualTo(0)
         assertThat(sheet.aromaScore).isEqualTo(0)
         assertThat(sheet.appearanceScore).isEqualTo(0)
@@ -192,5 +192,41 @@ class ScoresheetEditorViewModelTest {
         advanceUntilIdle()
 
         assertThat(repo.getAllScoresheets().first()).isEmpty()
+    }
+
+    @Test
+    fun updateDiscipline_disablesSaveForComingSoonAndPreservesBeerDraft() = runTest {
+        val (vm, _) = createViewModel()
+        advanceUntilIdle()
+
+        vm.updateEntryTitle("House Pale")
+        assertThat(vm.uiState.value.canSave).isTrue()
+
+        vm.updateDiscipline(ScoresheetDiscipline.BJCP_MEAD)
+        assertThat(vm.uiState.value.scoresheet.discipline).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
+        assertThat(vm.uiState.value.canSave).isFalse()
+
+        vm.updateDiscipline(ScoresheetDiscipline.BJCP_BEER)
+        assertThat(vm.uiState.value.scoresheet.discipline).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+        assertThat(vm.uiState.value.scoresheet.entryTitle).isEqualTo("House Pale")
+        assertThat(vm.uiState.value.canSave).isTrue()
+    }
+
+    @Test
+    fun updateDiscipline_isIgnoredWhenEditingExistingScoresheet() = runTest {
+        val dao = FakeScoresheetDao()
+        val repo = ScoresheetRepository(dao)
+        val existing = com.bc.beerworks.data.model.Scoresheet(
+            id = "saved-1",
+            discipline = ScoresheetDiscipline.BJCP_BEER,
+            entryTitle = "Saved IPA"
+        )
+        repo.saveScoresheet(existing)
+
+        val (vm, _) = createViewModel(scoresheetId = "saved-1", scoresheetDao = dao)
+        advanceUntilIdle()
+
+        vm.updateDiscipline(ScoresheetDiscipline.BJCP_CIDER)
+        assertThat(vm.uiState.value.scoresheet.discipline).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
     }
 }

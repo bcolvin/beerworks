@@ -9,7 +9,7 @@ import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.model.Scoresheet
 import com.bc.beerworks.data.model.ScoresheetDescriptor
-import com.bc.beerworks.data.model.ScoresheetFormType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.formatForShare
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.OffFlavorRepository
@@ -31,7 +31,7 @@ data class ScoresheetEditorUiState(
     val styleQuery: String = ""
 ) {
     val canSave: Boolean
-        get() = scoresheet.entryTitle.isNotBlank()
+        get() = scoresheet.discipline.isSupported && scoresheet.entryTitle.isNotBlank()
 }
 
 class ScoresheetEditorViewModel(
@@ -76,12 +76,17 @@ class ScoresheetEditorViewModel(
                 }
             }
             _uiState.value = ScoresheetEditorUiState(
-                scoresheet = Scoresheet(formType = ScoresheetFormType.LONG_FORM),
+                scoresheet = Scoresheet(discipline = ScoresheetDiscipline.BJCP_BEER),
                 isNew = true,
                 isLoading = false,
                 styleQuery = ""
             )
         }
+    }
+
+    fun updateDiscipline(discipline: ScoresheetDiscipline) {
+        if (!_uiState.value.isNew) return
+        updateScoresheet { it.copy(discipline = discipline) }
     }
 
     fun updateEntryTitle(title: String) = updateScoresheet { it.copy(entryTitle = title) }

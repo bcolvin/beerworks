@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.Scoresheet
-import com.bc.beerworks.data.model.ScoresheetFormType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 
 @Entity(tableName = "scoresheets")
 data class ScoresheetEntity(
@@ -37,7 +37,7 @@ data class ScoresheetEntity(
 ) {
     fun toDomainModel(): Scoresheet = Scoresheet(
         id = id,
-        formType = runCatching { ScoresheetFormType.valueOf(formType) }.getOrDefault(ScoresheetFormType.SHORT_FORM),
+        discipline = ScoresheetDiscipline.fromStorageValue(formType),
         entryTitle = entryTitle,
         brewer = brewer,
         styleId = styleId,
@@ -67,7 +67,7 @@ data class ScoresheetEntity(
 
 fun Scoresheet.toEntity(): ScoresheetEntity = ScoresheetEntity(
     id = id,
-    formType = formType.name,
+    formType = discipline.name,
     entryTitle = entryTitle,
     brewer = brewer,
     styleId = styleId,

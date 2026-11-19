@@ -49,6 +49,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -73,6 +76,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bc.beerworks.data.model.BeerStyle
@@ -80,6 +85,7 @@ import com.bc.beerworks.data.model.BjcpScoringTier
 import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.ScoresheetDescriptor
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.ScoresheetSection
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -216,7 +222,11 @@ fun ScoresheetEditorScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = if (uiState.isNew) "New Scoresheet" else "Edit Scoresheet",
+                        text = if (uiState.isNew) {
+                            "New ${sheet.discipline.shortLabel} Scoresheet"
+                        } else {
+                            "Edit ${sheet.discipline.shortLabel} Scoresheet"
+                        },
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -259,58 +269,60 @@ fun ScoresheetEditorScreen(
                 }
         ) {
             // Scroll-locked Total Score Bubble anchored at the top
-            Surface(
-                color = MaterialTheme.colorScheme.background,
-                tonalElevation = 2.dp
-            ) {
-                Column {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f)
-                        )
-                    ) {
-                        Row(
+            if (sheet.discipline.isSupported) {
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    tonalElevation = 2.dp
+                ) {
+                    Column {
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 12.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "${sheet.totalScore} / 50",
-                                style = MaterialTheme.typography.headlineMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f)
                             )
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
-                                    text = "${sheet.scoringTier.label} (${sheet.scoringTier.rangeText})",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    text = "${sheet.totalScore} / 50",
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
                                 )
-                                IconButton(
-                                    onClick = {
-                                        dismissKeyboard()
-                                        showScoringGuide = true
-                                    },
-                                    modifier = Modifier.size(32.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Info,
-                                        contentDescription = "Scoring Guide Info",
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        modifier = Modifier.size(18.dp)
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = "${sheet.scoringTier.label} (${sheet.scoringTier.rangeText})",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
+                                    IconButton(
+                                        onClick = {
+                                            dismissKeyboard()
+                                            showScoringGuide = true
+                                        },
+                                        modifier = Modifier.size(32.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Info,
+                                            contentDescription = "Scoring Guide Info",
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                    }
                                 }
                             }
                         }
+                        HorizontalDivider()
                     }
-                    HorizontalDivider()
                 }
             }
 
@@ -321,6 +333,41 @@ fun ScoresheetEditorScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                if (uiState.isNew) {
+                    SingleChoiceSegmentedButtonRow(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        ScoresheetDiscipline.entries.forEachIndexed { index, discipline ->
+                            SegmentedButton(
+                                selected = sheet.discipline == discipline,
+                                onClick = {
+                                    dismissKeyboard()
+                                    viewModel.updateDiscipline(discipline)
+                                },
+                                shape = SegmentedButtonDefaults.itemShape(
+                                    index = index,
+                                    count = ScoresheetDiscipline.entries.size
+                                )
+                            ) {
+                                Text(
+                                    text = "${discipline.emoji} ${discipline.shortLabel}",
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    }
+                }
+
+                if (!sheet.discipline.isSupported) {
+                    DisciplineComingSoonCard(
+                        discipline = sheet.discipline,
+                        onSwitchToBeer = {
+                            dismissKeyboard()
+                            viewModel.updateDiscipline(ScoresheetDiscipline.BJCP_BEER)
+                        }
+                    )
+                } else {
                 val formattedDate = remember(sheet.evaluatedAtMillis) {
                     SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(sheet.evaluatedAtMillis))
                 }
@@ -686,6 +733,70 @@ fun ScoresheetEditorScreen(
             }
 
                 Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DisciplineComingSoonCard(
+    discipline: ScoresheetDiscipline,
+    onSwitchToBeer: () -> Unit
+) {
+    val detailText = when (discipline) {
+        ScoresheetDiscipline.BJCP_MEAD ->
+            "Dedicated BJCP Mead judging with Bouquet (10), Appearance (6), Flavor (24), Overall (10), and mead-specific descriptors will be added in a future update."
+        ScoresheetDiscipline.BJCP_CIDER ->
+            "Dedicated BJCP Cider judging with Aroma (10), Appearance (6), Flavor (24), Overall (10), and cider-specific descriptors will be added in a future update."
+        ScoresheetDiscipline.BJCP_BEER -> ""
+    }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = discipline.emoji,
+                fontSize = 44.sp
+            )
+            Surface(
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                Text(
+                    text = "Coming Soon",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                )
+            }
+            Text(
+                text = "${discipline.displayName} Scoresheet",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = detailText,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            OutlinedButton(onClick = onSwitchToBeer) {
+                Text("Use BJCP Beer Scoresheet")
             }
         }
     }
