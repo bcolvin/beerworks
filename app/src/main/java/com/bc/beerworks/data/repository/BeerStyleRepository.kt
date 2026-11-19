@@ -359,6 +359,11 @@ class BeerStyleRepository(
             .map { entities -> entities.map { it.toDomainModel(isFavorite = false) } }
             .flowOn(defaultDispatcher)
 
+    fun getCiderStyles(): Flow<List<BeerStyle>> =
+        (ciderStyleDao?.getAllStyles() ?: flowOf(emptyList()))
+            .map { entities -> entities.map { it.toDomainModel(isFavorite = false) } }
+            .flowOn(defaultDispatcher)
+
     suspend fun getStyleById(id: String, guidelineType: GuidelineType): BeerStyle? {
         val isFav = favoriteStyleDao.isFavorite(id).first()
         return when (guidelineType) {

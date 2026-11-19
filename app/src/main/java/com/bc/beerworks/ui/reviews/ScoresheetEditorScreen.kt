@@ -1,5 +1,6 @@
 package com.bc.beerworks.ui.reviews
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -74,6 +75,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -86,12 +91,15 @@ import androidx.compose.ui.unit.sp
 import com.bc.beerworks.data.model.BeerScoresheet
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.BjcpScoringTier
+import com.bc.beerworks.data.model.CiderScoresheet
+import com.bc.beerworks.data.model.FourSectionScoresheet
 import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.MeadScoresheet
 import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.ScoresheetDescriptor
 import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.ScoresheetSection
+import com.bc.beerworks.data.model.isCider
 import com.bc.beerworks.data.model.isMead
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -107,6 +115,7 @@ fun ScoresheetEditorScreen(
     val uiState by viewModel.uiState.collectAsState()
     val bjcpBeerStyles by viewModel.bjcpBeerStyles.collectAsState()
     val bjcpMeadStyles by viewModel.bjcpMeadStyles.collectAsState()
+    val bjcpCiderStyles by viewModel.bjcpCiderStyles.collectAsState()
     val offFlavors by viewModel.offFlavors.collectAsState()
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
@@ -119,24 +128,79 @@ fun ScoresheetEditorScreen(
     LaunchedEffect(Unit) {
         dismissKeyboard()
     }
-    LaunchedEffect(scrollState.isScrollInProgress) {
-        if (scrollState.isScrollInProgress) {
-            dismissKeyboard()
+
+    // Only dismiss the IME on genuine user scroll gestures, not Compose's programmatic BringIntoView
+    // scroll triggered when .imePadding() shrinks the viewport as the keyboard opens.
+    val nestedScrollConnection = remember(focusManager, keyboardController) {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (source == NestedScrollSource.UserInput && available.y != 0f) {
+                    dismissKeyboard()
+                }
+                return Offset.Zero
+            }
         }
     }
 
     var showDeleteConfirm by remember { mutableStateOf(false) }
+    var showDiscardConfirm by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     var quickPeekStyle by remember { mutableStateOf<BeerStyle?>(null) }
     var quickPeekOffFlavor by remember { mutableStateOf<OffFlavor?>(null) }
     var sectionInfoModal by remember { mutableStateOf<SectionGuidelineInfo?>(null) }
     var showScoringGuide by remember { mutableStateOf(false) }
 
+    val handleBackAttempt: () -> Unit = {
+        dismissKeyboard()
+        if (uiState.hasUnsavedChanges) {
+            showDiscardConfirm = true
+        } else {
+            onBack()
+        }
+    }
+
+    BackHandler(
+        enabled = uiState.hasUnsavedChanges &&
+            !showDiscardConfirm &&
+            !showDeleteConfirm &&
+            !showDatePicker &&
+            quickPeekStyle == null &&
+            quickPeekOffFlavor == null &&
+            sectionInfoModal == null &&
+            !showScoringGuide
+    ) {
+        handleBackAttempt()
+    }
+
+    if (showDiscardConfirm) {
+        AlertDialog(
+            onDismissRequest = { showDiscardConfirm = false },
+            title = { Text("Discard Unsaved Changes?") },
+            text = { Text("You have unsaved changes to this scoresheet. Leave without saving?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDiscardConfirm = false
+                        onBack()
+                    }
+                ) {
+                    Text("Discard", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDiscardConfirm = false }) {
+                    Text("Keep Editing")
+                }
+            }
+        )
+    }
+
     val sheet = uiState.scoresheet
-    val activeStyles = remember(sheet.discipline, bjcpBeerStyles, bjcpMeadStyles) {
+    val activeStyles = remember(sheet.discipline, bjcpBeerStyles, bjcpMeadStyles, bjcpCiderStyles) {
         when (sheet) {
-            is MeadScoresheet -> bjcpMeadStyles
             is BeerScoresheet -> bjcpBeerStyles
+            is MeadScoresheet -> bjcpMeadStyles
+            is CiderScoresheet -> bjcpCiderStyles
         }
     }
     val linkedStyle = remember(sheet.styleId, activeStyles) {
@@ -269,7 +333,7 @@ fun ScoresheetEditorScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = handleBackAttempt) {
                         Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -367,6 +431,7 @@ fun ScoresheetEditorScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .nestedScroll(nestedScrollConnection)
                     .verticalScroll(scrollState)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -397,20 +462,21 @@ fun ScoresheetEditorScreen(
                     }
                 }
 
-                if (!uiState.selectedDiscipline.isSupported) {
-                    DisciplineComingSoonCard(
-                        discipline = uiState.selectedDiscipline,
-                        onSwitchToBeer = {
-                            dismissKeyboard()
-                            viewModel.updateDiscipline(ScoresheetDiscipline.BJCP_BEER)
-                        }
-                    )
-                } else {
                 val formattedDate = remember(sheet.evaluatedAtMillis) {
                     SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(sheet.evaluatedAtMillis))
                 }
-                val isMead = sheet is MeadScoresheet
-                val styleLabel = if (isMead) "BJCP Mead Style" else "BJCP Beer Style"
+                val isFourSection = sheet is FourSectionScoresheet
+                val entryLabel = when (sheet) {
+                    is BeerScoresheet -> "Entry # or Beer Name *"
+                    is MeadScoresheet -> "Entry # or Mead Name *"
+                    is CiderScoresheet -> "Entry # or Cider Name *"
+                }
+                val makerLabel = when (sheet) {
+                    is BeerScoresheet -> "Brewer / Brewery (Optional)"
+                    is MeadScoresheet -> "Meadmaker / Meadery (Optional)"
+                    is CiderScoresheet -> "Cidermaker / Cidery (Optional)"
+                }
+                val styleLabel = "${sheet.discipline.displayName} Style"
 
                 // Entry Metadata Card
                 SectionCard(
@@ -439,7 +505,7 @@ fun ScoresheetEditorScreen(
                     OutlinedTextField(
                         value = sheet.entryTitle,
                         onValueChange = viewModel::updateEntryTitle,
-                        label = { Text(if (isMead) "Entry # or Mead Name *" else "Entry # or Beer Name *") },
+                        label = { Text(entryLabel) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -447,7 +513,7 @@ fun ScoresheetEditorScreen(
                     OutlinedTextField(
                         value = sheet.brewer,
                         onValueChange = viewModel::updateBrewer,
-                        label = { Text(if (isMead) "Meadmaker / Meadery (Optional)" else "Brewer / Brewery (Optional)") },
+                        label = { Text(makerLabel) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -545,22 +611,27 @@ fun ScoresheetEditorScreen(
                         }
                     }
 
-                    if (sheet is MeadScoresheet) {
+                    if (sheet is FourSectionScoresheet) {
                         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
-                        MeadAdditionalInfoSection(
+                        AdditionalInfoSection(
                             scoresheet = sheet,
                             isExistingWithData = !uiState.isNew && sheet.hasAdditionalInfo,
+                            specialIngredientsLabel = if (sheet is CiderScoresheet) {
+                                "Special Ingredients / Varietals (Optional)"
+                            } else {
+                                "Special Ingredients (Optional)"
+                            },
                             onCycleCarbonation = {
                                 dismissKeyboard()
-                                viewModel.cycleMeadCarbonation()
+                                viewModel.cycleDeclaredCarbonation()
                             },
                             onCycleSweetness = {
                                 dismissKeyboard()
-                                viewModel.cycleMeadSweetness()
+                                viewModel.cycleDeclaredSweetness()
                             },
                             onCycleStrength = {
                                 dismissKeyboard()
-                                viewModel.cycleMeadStrength()
+                                viewModel.cycleDeclaredStrength()
                             },
                             onSpecialIngredientsChange = viewModel::updateSpecialIngredients
                         )
@@ -610,9 +681,9 @@ fun ScoresheetEditorScreen(
                     )
                 }
 
-            val aromaMax = if (isMead) 10 else 12
-            val appearanceMax = if (isMead) 6 else 3
-            val flavorMax = if (isMead) 24 else 20
+            val aromaMax = if (isFourSection) 10 else 12
+            val appearanceMax = if (isFourSection) 6 else 3
+            val flavorMax = if (isFourSection) 24 else 20
 
             // Individual BJCP Scoring Bubble Sections with Info Buttons
             ScoringSectionCard(
@@ -627,10 +698,10 @@ fun ScoresheetEditorScreen(
                         maxScore = aromaMax,
                         linkedStyle = linkedStyle,
                         guidelineText = linkedStyle?.aroma.orEmpty(),
-                        fallbackTip = if (isMead) {
-                            "Evaluate honey aromatics, esters/floral notes, special ingredients, fermentation character, and alcohol presence against the target style."
-                        } else {
-                            "Evaluate malt, hops, fermentation esters/phenols, and any other aromatic components against the target style."
+                        fallbackTip = when (sheet) {
+                            is BeerScoresheet -> "Evaluate malt, hops, fermentation esters/phenols, and any other aromatic components against the target style."
+                            is MeadScoresheet -> "Evaluate honey aromatics, esters/floral notes, special ingredients, fermentation character, and alcohol presence against the target style."
+                            is CiderScoresheet -> "Evaluate apple/pear fruit aromatics, esters, special ingredients, oak/wood, fermentation character, and alcohol presence against the target style."
                         },
                         styleLabel = styleLabel
                     )
@@ -656,7 +727,7 @@ fun ScoresheetEditorScreen(
                         maxScore = appearanceMax,
                         linkedStyle = linkedStyle,
                         guidelineText = linkedStyle?.appearance.orEmpty(),
-                        fallbackTip = if (isMead) {
+                        fallbackTip = if (isFourSection) {
                             "Evaluate color, clarity, legs/viscosity, and carbonation against the target style."
                         } else {
                             "Evaluate color, clarity, head size, head retention, and head color against the target style."
@@ -680,7 +751,7 @@ fun ScoresheetEditorScreen(
                 hasLinkedStyle = linkedStyle != null,
                 onScoreChange = viewModel::updateFlavorScore,
                 onInfoClick = {
-                    val flavorText = if (isMead) {
+                    val flavorText = if (isFourSection) {
                         listOf(linkedStyle?.flavor, linkedStyle?.mouthfeel)
                             .filter { !it.isNullOrBlank() }
                             .joinToString("\n\n")
@@ -692,10 +763,10 @@ fun ScoresheetEditorScreen(
                         maxScore = flavorMax,
                         linkedStyle = linkedStyle,
                         guidelineText = flavorText,
-                        fallbackTip = if (isMead) {
-                            "Evaluate honey expression, sweetness, acidity, tannin, body, carbonation, alcohol warmth, balance, and finish against the target style."
-                        } else {
-                            "Evaluate malt, hops, bitterness, fermentation character, balance, and finish/aftertaste against the target style."
+                        fallbackTip = when (sheet) {
+                            is BeerScoresheet -> "Evaluate malt, hops, bitterness, fermentation character, balance, and finish/aftertaste against the target style."
+                            is MeadScoresheet -> "Evaluate honey expression, sweetness, acidity, tannin, body, carbonation, alcohol warmth, balance, and finish against the target style."
+                            is CiderScoresheet -> "Evaluate apple/pear character, sweetness, acidity, tannin/astringency, body, carbonation, alcohol warmth, balance, and finish against the target style."
                         },
                         styleLabel = styleLabel
                     )
@@ -748,10 +819,10 @@ fun ScoresheetEditorScreen(
                         maxScore = 10,
                         linkedStyle = linkedStyle,
                         guidelineText = linkedStyle?.overallImpression.orEmpty(),
-                        fallbackTip = if (isMead) {
-                            "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the meadmaker."
-                        } else {
-                            "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the brewer."
+                        fallbackTip = when (sheet) {
+                            is BeerScoresheet -> "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the brewer."
+                            is MeadScoresheet -> "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the meadmaker."
+                            is CiderScoresheet -> "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the cidermaker."
                         },
                         styleLabel = styleLabel
                     )
@@ -833,70 +904,6 @@ fun ScoresheetEditorScreen(
             }
 
                 Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun DisciplineComingSoonCard(
-    discipline: ScoresheetDiscipline,
-    onSwitchToBeer: () -> Unit
-) {
-    val detailText = when (discipline) {
-        ScoresheetDiscipline.BJCP_MEAD ->
-            "Dedicated BJCP Mead judging with Bouquet (10), Appearance (6), Flavor (24), Overall (10), and mead-specific descriptors will be added in a future update."
-        ScoresheetDiscipline.BJCP_CIDER ->
-            "Dedicated BJCP Cider judging with Aroma (10), Appearance (6), Flavor (24), Overall (10), and cider-specific descriptors will be added in a future update."
-        ScoresheetDiscipline.BJCP_BEER -> ""
-    }
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                text = discipline.emoji,
-                fontSize = 44.sp
-            )
-            Surface(
-                shape = RoundedCornerShape(10.dp),
-                color = MaterialTheme.colorScheme.primaryContainer
-            ) {
-                Text(
-                    text = "Coming Soon",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
-                )
-            }
-            Text(
-                text = "${discipline.displayName} Scoresheet",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = detailText,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            OutlinedButton(onClick = onSwitchToBeer) {
-                Text("Use BJCP Beer Scoresheet")
             }
         }
     }
@@ -904,9 +911,10 @@ private fun DisciplineComingSoonCard(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun MeadAdditionalInfoSection(
-    scoresheet: MeadScoresheet,
+private fun AdditionalInfoSection(
+    scoresheet: FourSectionScoresheet,
     isExistingWithData: Boolean,
+    specialIngredientsLabel: String,
     onCycleCarbonation: () -> Unit,
     onCycleSweetness: () -> Unit,
     onCycleStrength: () -> Unit,
@@ -960,17 +968,17 @@ private fun MeadAdditionalInfoSection(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    MeadDeclaredChip(
+                    DeclaredAttributeChip(
                         label = "Carbonation",
                         value = scoresheet.declaredCarbonation,
                         onClick = onCycleCarbonation
                     )
-                    MeadDeclaredChip(
+                    DeclaredAttributeChip(
                         label = "Sweetness",
                         value = scoresheet.declaredSweetness,
                         onClick = onCycleSweetness
                     )
-                    MeadDeclaredChip(
+                    DeclaredAttributeChip(
                         label = "Strength",
                         value = scoresheet.declaredStrength,
                         onClick = onCycleStrength
@@ -980,7 +988,7 @@ private fun MeadAdditionalInfoSection(
                 OutlinedTextField(
                     value = scoresheet.specialIngredients,
                     onValueChange = onSpecialIngredientsChange,
-                    label = { Text("Special Ingredients (Optional)") },
+                    label = { Text(specialIngredientsLabel) },
                     minLines = 1,
                     maxLines = 2,
                     modifier = Modifier.fillMaxWidth()
@@ -991,7 +999,7 @@ private fun MeadAdditionalInfoSection(
 }
 
 @Composable
-private fun MeadDeclaredChip(
+private fun DeclaredAttributeChip(
     label: String,
     value: String?,
     onClick: () -> Unit
@@ -1369,7 +1377,7 @@ private fun StyleQuickPeekSheet(style: BeerStyle) {
                 style = MaterialTheme.typography.bodyMedium
             )
         }
-        if (style.guidelineType.isMead) {
+        if (style.guidelineType.isMead || style.guidelineType.isCider) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween

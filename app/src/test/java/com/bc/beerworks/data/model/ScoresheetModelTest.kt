@@ -103,6 +103,40 @@ class ScoresheetModelTest {
     }
 
     @Test
+    fun ciderScoresheetEntity_roundTripsDomainModelAndAdditionalInfo() {
+        val original = CiderScoresheet(
+            id = "cider-1",
+            entryTitle = "Heritage Kingston",
+            brewer = "Orchard House Cidery",
+            styleId = "C1B",
+            styleName = "English Cider",
+            styleNumber = "C1B",
+            evaluatedAtMillis = 1_700_000_000_000L,
+            aromaScore = 9,
+            appearanceScore = 5,
+            flavorScore = 22,
+            overallScore = 9,
+            flavorNotes = "Crisp malic balance with firm bittersweet tannin",
+            declaredCarbonation = "Pétillant",
+            declaredSweetness = "Medium-Dry",
+            declaredStrength = "Standard",
+            specialIngredients = "Kingston Black, Dabinett",
+            descriptorValues = mapOf(
+                ScoresheetDescriptor.CIDER_AROMA_APPLE_PEAR.key to "High",
+                ScoresheetDescriptor.CIDER_FLAVOR_SWEETNESS.key to "Medium-Dry"
+            ),
+            offFlavorLevels = mapOf("thp" to IntensityLevel.LOW)
+        )
+
+        val roundTripped = original.toEntity().toDomainModel()
+
+        assertThat(roundTripped).isEqualTo(original)
+        assertThat(roundTripped.totalScore).isEqualTo(45)
+        assertThat(roundTripped.scoringTier).isEqualTo(BjcpScoringTier.OUTSTANDING)
+        assertThat((roundTripped as CiderScoresheet).hasAdditionalInfo).isTrue()
+    }
+
+    @Test
     fun formatForShare_beerAndMeadIncludeDisciplineSectionsAndOptionalFields() {
         val beer = BeerScoresheet(
             entryTitle = "West Coast Pale",
@@ -157,6 +191,31 @@ class ScoresheetModelTest {
         assertThat(meadFullText).contains("Sweetness: Semi-Sweet")
         assertThat(meadFullText).contains("Strength: Standard")
         assertThat(meadFullText).contains("Special Ingredients: Tart Montmorency cherries")
+
+        val cider = CiderScoresheet(
+            entryTitle = "Dry Bittersweet",
+            brewer = "Orchard Cidery",
+            styleNumber = "C1B",
+            styleName = "English Cider",
+            aromaScore = 8,
+            appearanceScore = 6,
+            flavorScore = 21,
+            overallScore = 9,
+            declaredCarbonation = "Still",
+            declaredSweetness = "Medium-Dry",
+            declaredStrength = "Standard",
+            specialIngredients = "Dabinett, Yarlington Mill"
+        )
+        val ciderText = cider.formatForShare()
+        assertThat(ciderText).contains("BJCP Cider Scoresheet")
+        assertThat(ciderText).contains("Cidermaker: Orchard Cidery")
+        assertThat(ciderText).contains("• Aroma: 8 / 10")
+        assertThat(ciderText).contains("• Appearance: 6 / 6")
+        assertThat(ciderText).contains("• Flavor: 21 / 24")
+        assertThat(ciderText).contains("• Overall Impression: 9 / 10")
+        assertThat(ciderText).contains("Sweetness: Medium-Dry")
+        assertThat(ciderText).contains("Special Ingredients: Dabinett, Yarlington Mill")
+        assertThat(ciderText).doesNotContain("Mouthfeel:")
     }
 
     @Test
@@ -173,15 +232,23 @@ class ScoresheetModelTest {
     fun scoresheetDescriptor_forSectionFiltersByDiscipline() {
         val beerAroma = ScoresheetDescriptor.forSection(ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_BEER)
         val meadAroma = ScoresheetDescriptor.forSection(ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_MEAD)
+        val ciderAroma = ScoresheetDescriptor.forSection(ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_CIDER)
 
         assertThat(beerAroma).contains(ScoresheetDescriptor.AROMA_MALT, ScoresheetDescriptor.AROMA_HOPS)
-        assertThat(beerAroma).doesNotContain(ScoresheetDescriptor.MEAD_AROMA_HONEY)
+        assertThat(beerAroma).doesNotContain(ScoresheetDescriptor.MEAD_AROMA_HONEY, ScoresheetDescriptor.CIDER_AROMA_APPLE_PEAR)
 
         assertThat(meadAroma).contains(
             ScoresheetDescriptor.MEAD_AROMA_HONEY,
             ScoresheetDescriptor.MEAD_AROMA_FLORAL_FRUITY,
             ScoresheetDescriptor.MEAD_AROMA_SPICES
         )
-        assertThat(meadAroma).doesNotContain(ScoresheetDescriptor.AROMA_MALT)
+        assertThat(meadAroma).doesNotContain(ScoresheetDescriptor.AROMA_MALT, ScoresheetDescriptor.CIDER_AROMA_APPLE_PEAR)
+
+        assertThat(ciderAroma).contains(
+            ScoresheetDescriptor.CIDER_AROMA_APPLE_PEAR,
+            ScoresheetDescriptor.CIDER_AROMA_OAK,
+            ScoresheetDescriptor.CIDER_AROMA_FRUITY_ESTERS
+        )
+        assertThat(ciderAroma).doesNotContain(ScoresheetDescriptor.AROMA_MALT, ScoresheetDescriptor.MEAD_AROMA_HONEY)
     }
 }

@@ -37,7 +37,11 @@ This backlog stores feature ideas, user requests, and future capabilities before
 - [x] **Digital BJCP Mead Scoresheet Entry (Feature 012)**
   - Record BJCP Mead scoresheets (Aroma 10, Appearance 6, Flavor 24, Overall Impression 10) backed by polymorphic `Scoresheet` (`BeerScoresheet` / `MeadScoresheet`) in `scoresheets` (`MIGRATION_13_14`).
   - Mead-scoped style linking (`M1`–`M4`), collapsible `"Additional Information"` (Carbonation, Sweetness, Strength chips + Special Ingredients), Mead sensory descriptors, and 24 Mead-relevant Off-Flavor chips.
-  - Future expansion: Cider and BA scoresheet formats plus judge/location auto-population from user profile.
+
+- [x] **Digital BJCP Cider Scoresheet Entry (Feature 013)**
+  - Record BJCP Cider scoresheets (Aroma 10, Appearance 6, Flavor 24, Overall Impression 10) sharing `FourSectionScoresheet` (`CiderScoresheet`) in `scoresheets`.
+  - Cider-scoped style linking (`C1`–`C2`), collapsible `"Additional Information"` (5-tier Sweetness, Carbonation, Strength chips + Special Ingredients / Varietals), Cider sensory descriptors, and 24 Cider-relevant Off-Flavor chips.
+  - Future expansion: BA scoresheet format plus judge/location auto-population from user profile.
 
 - [ ] **AI / OCR Photo Digitizer for Handwritten Scoresheets**
   - Capture a photo of a physical scoresheet and parse it into a digital scoresheet automatically.

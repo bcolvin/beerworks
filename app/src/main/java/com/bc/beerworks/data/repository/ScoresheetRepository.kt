@@ -5,6 +5,7 @@ import com.bc.beerworks.data.local.dao.ScoresheetDao
 import com.bc.beerworks.data.local.entity.toEntity
 import com.bc.beerworks.data.model.Scoresheet
 import com.bc.beerworks.data.model.ScoresheetDiscipline
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -14,7 +15,8 @@ import kotlinx.coroutines.withContext
 
 class ScoresheetRepository(
     private val scoresheetDao: ScoresheetDao,
-    private val preferencesManager: PreferencesManager? = null
+    private val preferencesManager: PreferencesManager? = null,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
 
     val lastScoresheetDiscipline: Flow<ScoresheetDiscipline> =
@@ -27,9 +29,9 @@ class ScoresheetRepository(
     fun getAllScoresheets(): Flow<List<Scoresheet>> =
         scoresheetDao.getAllScoresheets()
             .map { entities -> entities.map { it.toDomainModel() } }
-            .flowOn(Dispatchers.Default)
+            .flowOn(defaultDispatcher)
 
-    suspend fun getScoresheetById(id: String): Scoresheet? = withContext(Dispatchers.Default) {
+    suspend fun getScoresheetById(id: String): Scoresheet? = withContext(defaultDispatcher) {
         scoresheetDao.getScoresheetById(id)?.toDomainModel()
     }
 

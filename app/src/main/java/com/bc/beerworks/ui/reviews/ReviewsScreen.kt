@@ -20,7 +20,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.History
@@ -31,11 +33,15 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -44,6 +50,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,12 +80,14 @@ fun ReviewsScreen(
     val scoresheets by viewModel.scoresheets.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val selectedDisciplines by viewModel.selectedDisciplines.collectAsState()
+    val sortOption by viewModel.sortOption.collectAsState()
     val disciplineCounts by viewModel.disciplineCounts.collectAsState()
     val totalCount by viewModel.totalCount.collectAsState()
     val offFlavorNames by viewModel.offFlavorNames.collectAsState()
     val context = LocalContext.current
 
     var pendingDelete by remember { mutableStateOf<Scoresheet?>(null) }
+    var showSortMenu by remember { mutableStateOf(false) }
 
     pendingDelete?.let { target ->
         AlertDialog(
@@ -133,25 +142,85 @@ fun ReviewsScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = viewModel::onSearchQueryChange,
-                singleLine = true,
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-                },
-                trailingIcon = {
-                    if (searchQuery.isNotEmpty()) {
-                        IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                            Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear search")
-                        }
-                    }
-                },
-                shape = RoundedCornerShape(12.dp),
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = viewModel::onSearchQueryChange,
+                    singleLine = true,
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                                Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear search")
+                            }
+                        }
+                    },
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.weight(1f)
+                )
+
+                Box {
+                    OutlinedIconButton(
+                        onClick = { showSortMenu = true },
+                        modifier = Modifier.size(52.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Sort,
+                            contentDescription = "Sort Scoresheets",
+                            tint = if (sortOption == ReviewsSortOption.DATE_DESC) {
+                                MaterialTheme.colorScheme.onSurface
+                            } else {
+                                MaterialTheme.colorScheme.primary
+                            }
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showSortMenu,
+                        onDismissRequest = { showSortMenu = false }
+                    ) {
+                        ReviewsSortOption.entries.forEach { option ->
+                            val isSelected = option == sortOption
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = option.label,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (isSelected) {
+                                            MaterialTheme.colorScheme.primary
+                                        } else {
+                                            MaterialTheme.colorScheme.onSurface
+                                        }
+                                    )
+                                },
+                                trailingIcon = if (isSelected) {
+                                    {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                    }
+                                } else {
+                                    null
+                                },
+                                onClick = {
+                                    viewModel.onSortOptionChange(option)
+                                    showSortMenu = false
+                                }
+                            )
+                        }
+                    }
+                }
+            }
 
             if (totalCount > 0) {
                 Row(
@@ -205,18 +274,11 @@ fun ReviewsScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        if (totalCount == 0) {
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Button(onClick = onAddScoresheet) {
-                                Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("New Scoresheet")
-                            }
-                        } else if (searchQuery.isNotBlank() || selectedDisciplines.isNotEmpty()) {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            TextButton(onClick = viewModel::clearFilters) {
-                                Text("Clear Filters")
-                            }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Button(onClick = onAddScoresheet) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("New Scoresheet")
                         }
                     }
                 }
@@ -274,42 +336,71 @@ private fun ScoresheetCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
+            // Row 1: Date + Discipline type (left) + Share & Delete actions (right)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = scoresheet.entryTitle,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    if (styleDisplay.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = styleDisplay,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                    if (scoresheet.brewer.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = scoresheet.brewer,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                Text(
+                    text = "$dateStr • ${scoresheet.discipline.emoji} ${scoresheet.discipline.shortLabel}",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 24.dp) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        IconButton(onClick = onShare, modifier = Modifier.size(24.dp)) {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = "Share Scoresheet",
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.size(17.dp)
+                            )
+                        }
+                        IconButton(onClick = onDelete, modifier = Modifier.size(24.dp)) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete Scoresheet",
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.size(17.dp)
+                            )
+                        }
                     }
                 }
+            }
+
+            // Row 2: Brewery / Meadery / Cidery
+            if (scoresheet.brewer.isNotBlank()) {
+                Text(
+                    text = scoresheet.brewer,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Row 3: Entry # or Name (left) + Score badge (right)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = scoresheet.entryTitle,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
                 Spacer(modifier = Modifier.width(12.dp))
                 Surface(
                     shape = RoundedCornerShape(10.dp),
@@ -320,41 +411,20 @@ private fun ScoresheetCard(
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            // Row 4: Style (smaller text)
+            if (styleDisplay.isNotBlank()) {
                 Text(
-                    text = "${scoresheet.discipline.emoji} ${scoresheet.discipline.shortLabel} • $dateStr",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = styleDisplay,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    IconButton(onClick = onShare, modifier = Modifier.size(36.dp)) {
-                        Icon(
-                            imageVector = Icons.Default.Share,
-                            contentDescription = "Share Scoresheet",
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                    IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete Scoresheet",
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
             }
         }
     }

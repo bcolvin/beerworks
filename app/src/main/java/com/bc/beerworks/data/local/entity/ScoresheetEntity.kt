@@ -3,6 +3,8 @@ package com.bc.beerworks.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bc.beerworks.data.model.BeerScoresheet
+import com.bc.beerworks.data.model.CiderScoresheet
+import com.bc.beerworks.data.model.FourSectionScoresheet
 import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.MeadScoresheet
 import com.bc.beerworks.data.model.Scoresheet
@@ -47,6 +49,33 @@ data class ScoresheetEntity(
         val decodedOffFlavors = decodeIntensityMap(offFlavorLevels)
 
         return when (resolvedDiscipline) {
+            ScoresheetDiscipline.BJCP_BEER -> BeerScoresheet(
+                id = id,
+                entryTitle = entryTitle,
+                brewer = brewer,
+                styleId = styleId,
+                styleName = styleName,
+                styleNumber = styleNumber,
+                evaluatedAtMillis = evaluatedAtMillis,
+                aromaScore = aromaScore,
+                appearanceScore = appearanceScore,
+                flavorScore = flavorScore,
+                mouthfeelScore = mouthfeelScore,
+                overallScore = overallScore,
+                aromaNotes = aromaNotes,
+                appearanceNotes = appearanceNotes,
+                flavorNotes = flavorNotes,
+                mouthfeelNotes = mouthfeelNotes,
+                overallNotes = overallNotes,
+                bottleInspectionOk = bottleInspectionOk,
+                bottleInspectionNotes = bottleInspectionNotes,
+                stylisticAccuracy = stylisticAccuracy,
+                technicalMerit = technicalMerit,
+                intangibles = intangibles,
+                descriptorValues = decodedDescriptors,
+                offFlavorLevels = decodedOffFlavors,
+                updatedAtMillis = updatedAtMillis
+            )
             ScoresheetDiscipline.BJCP_MEAD -> MeadScoresheet(
                 id = id,
                 entryTitle = entryTitle,
@@ -76,8 +105,7 @@ data class ScoresheetEntity(
                 offFlavorLevels = decodedOffFlavors,
                 updatedAtMillis = updatedAtMillis
             )
-            ScoresheetDiscipline.BJCP_BEER,
-            ScoresheetDiscipline.BJCP_CIDER -> BeerScoresheet(
+            ScoresheetDiscipline.BJCP_CIDER -> CiderScoresheet(
                 id = id,
                 entryTitle = entryTitle,
                 brewer = brewer,
@@ -88,13 +116,15 @@ data class ScoresheetEntity(
                 aromaScore = aromaScore,
                 appearanceScore = appearanceScore,
                 flavorScore = flavorScore,
-                mouthfeelScore = mouthfeelScore,
                 overallScore = overallScore,
                 aromaNotes = aromaNotes,
                 appearanceNotes = appearanceNotes,
                 flavorNotes = flavorNotes,
-                mouthfeelNotes = mouthfeelNotes,
                 overallNotes = overallNotes,
+                declaredCarbonation = declaredCarbonation.takeIf { it.isNotBlank() },
+                declaredSweetness = declaredSweetness.takeIf { it.isNotBlank() },
+                declaredStrength = declaredStrength.takeIf { it.isNotBlank() },
+                specialIngredients = specialIngredients,
                 bottleInspectionOk = bottleInspectionOk,
                 bottleInspectionNotes = bottleInspectionNotes,
                 stylisticAccuracy = stylisticAccuracy,
@@ -135,10 +165,10 @@ fun Scoresheet.toEntity(): ScoresheetEntity = ScoresheetEntity(
     descriptorValues = encodeStringMap(descriptorValues),
     offFlavorLevels = encodeIntensityMap(offFlavorLevels),
     updatedAtMillis = updatedAtMillis,
-    declaredCarbonation = if (this is MeadScoresheet) declaredCarbonation.orEmpty() else "",
-    declaredSweetness = if (this is MeadScoresheet) declaredSweetness.orEmpty() else "",
-    declaredStrength = if (this is MeadScoresheet) declaredStrength.orEmpty() else "",
-    specialIngredients = if (this is MeadScoresheet) specialIngredients else ""
+    declaredCarbonation = if (this is FourSectionScoresheet) declaredCarbonation.orEmpty() else "",
+    declaredSweetness = if (this is FourSectionScoresheet) declaredSweetness.orEmpty() else "",
+    declaredStrength = if (this is FourSectionScoresheet) declaredStrength.orEmpty() else "",
+    specialIngredients = if (this is FourSectionScoresheet) specialIngredients else ""
 )
 
 internal fun encodeStringMap(map: Map<String, String>): String =

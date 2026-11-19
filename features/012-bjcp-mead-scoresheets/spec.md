@@ -50,7 +50,7 @@ Enable mead judges and meadmakers to create, edit, delete, search, filter, and s
 - [x] **Search & Discipline Filter**:
   - Existing `🐝 Mead (N)` toggle `FilterChip` filters Mead reviews cleanly alongside `🍺 Beer (N)`.
   - Text search matches `specialIngredients` on `MeadScoresheet` in addition to `entryTitle`, `styleName`, `styleNumber`, and `brewer`.
-  - `ScoresheetCard` preserves its existing clean layout (Title, Style, optional Meadmaker, `🐝 Mead • Date`, `totalScore/50 • Tier`).
+  - `ScoresheetCard` uses the shared compact 4-row layout (`1. Date • 🐝 Mead` + Share/Delete; `2. Meadmaker`; `3. Entry Name` + `Score/50 • Tier`; `4. Style`).
 
 ### 3. Scoresheet Editor Screen (`ScoresheetEditorScreen` / `ScoresheetEditorViewModel`)
 - [x] **Discipline Switcher, Remembered Default & Dirty-Draft Guard (New Sheets)**:

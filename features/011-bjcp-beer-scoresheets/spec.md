@@ -47,22 +47,26 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
   - `PreferencesManager.ingredientsExpanded` persisting sidebar `"Ingredients"` group expand/collapse state.
 
 ### 2. Reviews List Screen (`ReviewsScreen` / route: `"review_history"`)
-- [x] **TopAppBar, Search & Discipline Filter**:
+- [x] **TopAppBar, Search, Sort & Discipline Filter**:
   - Title `"Reviews"`, drawer menu button, and `+` (`Icons.Default.Add`) action to navigate to `"scoresheet_editor"`.
-  - Clean search field without hint/placeholder text filtering by entry title, style name/number, or brewer.
+  - Clean search field without hint/placeholder text filtering by entry title, style name/number, brewer, or special ingredients, paired with a Sort icon (`Icons.AutoMirrored.Filled.Sort`) opening a compact `DropdownMenu` to order by `Date (Newest)`, `Date (Oldest)`, `Score (High → Low)`, or `Score (Low → High)`.
   - Horizontal toggle `FilterChip` strip (`🍺 Beer (N)`, `🐝 Mead (N)`, `🍏 Cider (N)`) displayed below the search bar whenever `totalCount > 0` (no `"All"` chip per `GEMINI.md`; unselected = all disciplines included, multi-select = union of selected disciplines, combined with text search).
-  - Empty states distinguish `"No Reviews Yet"` (`totalCount == 0`, with `"New Scoresheet"` CTA) from `"No Matching Scoresheets"` (active search or discipline filter yields 0 items, with `"Clear Filters"` action).
+  - Empty states show `"No Reviews Yet"` (`totalCount == 0`) or `"No Matching Scoresheets"` (when filters/search match nothing) and always provide the `"New Scoresheet"` button.
 - [x] **Scoresheet Cards (`ScoresheetCard`)**:
-  - Displays Entry/Beer Name, linked/custom Style, optional Brewer, discipline & date (`${discipline.emoji} ${discipline.shortLabel} • $dateStr`), and `totalScore/50 • Tier` badge (no trailing navigation chevrons).
+  - Four-row card layout (no trailing navigation chevrons):
+    1. Date Evaluated + Beverage Discipline (`date • emoji + shortLabel`, left) + Share and Delete icons (right)
+    2. Optional Brewer / Meadmaker / Cidery
+    3. Entry # or Name (left) + `totalScore/50 • Tier` badge (right)
+    4. Optional linked/custom Style (`bodySmall`)
   - Per-card **Share** (Android `Intent.ACTION_SEND`) and **Delete** icons tinted `MaterialTheme.colorScheme.onSurface` (white in dark mode, no red trashcan tint).
   - Delete always prompts with a confirmation `AlertDialog`.
 
 ### 3. Scoresheet Editor Screen (`ScoresheetEditorScreen` / routes: `"scoresheet_editor"`, `"scoresheet_editor/{scoresheetId}"`)
-- [x] **TopAppBar, Discipline Switcher & Scroll-Locked Total Score Bubble**:
+- [x] **TopAppBar, Unsaved-Changes Guard, Discipline Switcher & Scroll-Locked Total Score Bubble**:
   - TopAppBar with Back, Delete (when editing existing, neutral `onSurface` tint, confirmation dialog), and Save (enabled only when `discipline.isSupported && entryTitle.isNotBlank()`); no Share action on the editor page. Title reflects mode and discipline (`"New <Discipline> Scoresheet"` / `"Edit <Discipline> Scoresheet"`).
-  - On new scoresheets (`isNew == true`), a `SingleChoiceSegmentedButtonRow` at the top of the editor lets the user switch between `🍺 Beer`, `🐝 Mead`, and `🍏 Cider`.
-  - Selecting an unsupported discipline (`BJCP_MEAD` or `BJCP_CIDER`) hides the Beer Total Score header and Beer scoring sections, disables `Save`, and renders `DisciplineComingSoonCard` with a one-tap `"Use BJCP Beer Scoresheet"` button while preserving any in-progress Beer draft in memory if switched back.
-  - Scroll-locked Total Score bubble (when `discipline.isSupported`) anchored directly beneath the TopAppBar showing `totalScore / 50`, active `BjcpScoringTier (range)`, and an `(i)` button opening `BjcpScoringGuideSheet` (`skipPartiallyExpanded = true`).
+  - Attempting to leave via the TopAppBar Back button or system Back gesture when `hasUnsavedChanges` is `true` prompts a `"Discard Unsaved Changes?"` confirmation `AlertDialog`.
+  - On new scoresheets (`isNew == true`), a `SingleChoiceSegmentedButtonRow` at the top of the editor lets the user switch between `🍺 Beer`, `🐝 Mead`, and `🍏 Cider` (all three supported; dirty-draft confirmation resets judging data when switching).
+  - Scroll-locked Total Score bubble anchored directly beneath the TopAppBar showing `totalScore / 50`, active `BjcpScoringTier (range)`, and an `(i)` button opening `BjcpScoringGuideSheet` (`skipPartiallyExpanded = true`).
 - [x] **Entry Details Bubble**:
   - Header row with white `18.sp` bold `"Entry Details"` title on the left and a compact date picker button (`CalendarToday` icon + date, no `"Date Evaluated"` text) on the right.
   - Required `Entry # or Beer Name *`, optional `Brewer / Brewery`, typable searchable `BJCP Beer Style` dropdown (no up/down trailing arrow; clear button when non-empty) paired on the same row with an always-visible `MenuBook` `OutlinedIconButton` (greyed out/disabled until a BJCP style is linked; opens `StyleQuickPeekSheet` when enabled).
@@ -73,7 +77,7 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
   - Headerless bubble above Off-Flavors containing `Stylistic Accuracy`, `Technical Merit`, and `Intangibles` sliders (`0..10`, starting at `0`).
   - `Off-Flavors & Faults` bubble with 4-state canonical `OffFlavor` chips (`Unset → Low → Med → High → Unset`) and long-press `OffFlavorQuickPeekSheet`.
 - [x] **Keyboard & Bottom Sheet UX**:
-  - Software keyboard starts closed on entry, opens only when tapping a text field, and collapses immediately on scroll, background tap, or interacting with sliders/chips/buttons.
+  - Software keyboard starts closed on entry, opens when tapping a text field (ignoring Compose's programmatic `BringIntoView` scroll from `.imePadding()`), and collapses on genuine user vertical drags (`NestedScrollSource.UserInput`), background tap, or interacting with sliders/chips/buttons.
   - All `ModalBottomSheet`s use `rememberModalBottomSheetState(skipPartiallyExpanded = true)` so they always dismiss on a single back press.
 
 ### 4. Accompanying Navigation, Settings & Catalog QoL Tweaks
@@ -90,7 +94,7 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
 
 ## 🧪 Testing Plan
 - `ScoresheetModelTest`: 4-state `IntensityLevel` cycle, all 6 `BjcpScoringTier` score boundaries, `ScoresheetEntity` round-trip serialization, `formatForShare()`, and `ScoresheetDiscipline.fromStorageValue()` legacy `"SHORT_FORM"` / `"LONG_FORM"` normalization.
-- `ScoresheetEditorViewModelTest`: Zero-initialized sliders, descriptor & off-flavor cycling, style linking, save/delete persistence, discipline switching (disabling `canSave` for unsupported disciplines while preserving Beer draft), and ignoring discipline changes when editing existing saved scoresheets.
-- `ReviewsViewModelTest`: Multi-select discipline toggle filtering, per-discipline counts, combined discipline + search query filtering, and `clearFilters()`.
+- `ScoresheetEditorViewModelTest`: Zero-initialized sliders, descriptor & off-flavor cycling, style linking, save/delete persistence, discipline switching, `hasUnsavedChanges` tracking/reverts, and ignoring discipline changes when editing existing saved scoresheets.
+- `ReviewsViewModelTest`: Multi-select discipline toggle filtering, per-discipline counts, combined discipline + search query filtering, and `ReviewsSortOption` (`DATE_DESC`, `DATE_ASC`, `SCORE_DESC`, `SCORE_ASC`).
 - `AppDrawerTest`: `StyleGuide` icon, `"Reviews"` label, and `ingredientItems` membership.
 - Verified with `./gradlew --no-daemon --offline testDebugUnitTest assembleDebug`.

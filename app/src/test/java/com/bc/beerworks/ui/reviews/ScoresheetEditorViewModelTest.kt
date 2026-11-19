@@ -1,11 +1,14 @@
 package com.bc.beerworks.ui.reviews
 
+import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.ScoresheetDao
+import com.bc.beerworks.data.local.entity.CiderStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.local.entity.ScoresheetEntity
 import com.bc.beerworks.data.model.BeerScoresheet
 import com.bc.beerworks.data.model.BeerStyle
+import com.bc.beerworks.data.model.CiderScoresheet
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.IntensityLevel
 import com.bc.beerworks.data.model.MeadScoresheet
@@ -77,6 +80,25 @@ private class FakeMeadDao(
     ): Flow<List<MeadStyleEntity>> = items
 }
 
+private class FakeCiderDao(
+    styles: List<CiderStyleEntity> = emptyList()
+) : CiderStyleDao {
+    private val items = MutableStateFlow(styles)
+    override suspend fun insertAll(styles: List<CiderStyleEntity>) { items.value = styles }
+    override fun getAllStyles(): Flow<List<CiderStyleEntity>> = items
+    override suspend fun getStyleById(id: String): CiderStyleEntity? = items.value.firstOrNull { it.id == id }
+    override fun getCategories(): Flow<List<String>> = flowOf(items.value.map { it.category }.distinct())
+    override fun filterStyles(isAbvActive: Int, minAbv: Double, maxAbv: Double, category: String?): Flow<List<CiderStyleEntity>> = items
+    override fun searchAndFilterStyles(
+        ftsQuery: String,
+        likeQuery: String,
+        isAbvActive: Int,
+        minAbv: Double,
+        maxAbv: Double,
+        category: String?
+    ): Flow<List<CiderStyleEntity>> = items
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class ScoresheetEditorViewModelTest {
 
@@ -96,9 +118,10 @@ class ScoresheetEditorViewModelTest {
         scoresheetId: String? = null,
         prefsManager: FakePrefsManager = FakePrefsManager(),
         scoresheetDao: FakeScoresheetDao = FakeScoresheetDao(),
-        meadDao: MeadStyleDao? = null
+        meadDao: MeadStyleDao? = null,
+        ciderDao: CiderStyleDao? = null
     ): Pair<ScoresheetEditorViewModel, ScoresheetRepository> {
-        val scoresheetRepo = ScoresheetRepository(scoresheetDao, prefsManager)
+        val scoresheetRepo = ScoresheetRepository(scoresheetDao, prefsManager, defaultDispatcher = testDispatcher)
         val bjcpDao = FakeBjcpDao(emptyList())
         val baDao = FakeBaDao()
         val styleRepo = BeerStyleRepository(
@@ -107,7 +130,8 @@ class ScoresheetEditorViewModelTest {
             FakeFavDao(),
             prefsManager,
             defaultDispatcher = testDispatcher,
-            meadStyleDao = meadDao
+            meadStyleDao = meadDao,
+            ciderStyleDao = ciderDao
         )
         val offFlavorRepo = mock(OffFlavorRepository::class.java)
         doReturn(flowOf(emptyList<OffFlavor>())).`when`(offFlavorRepo).getFilteredItems(OffFlavorFilterCriteria())
@@ -238,7 +262,7 @@ class ScoresheetEditorViewModelTest {
         vm.updateBottleInspectionOk(false)
         vm.updateBottleInspectionNotes("Low fill")
 
-        // Clean switch (no judging scores/style/descriptors/notes) switches silently & keeps header metadata
+        // Clean switch across Beer -> Mead -> Cider switches silently & keeps header metadata
         vm.updateDiscipline(ScoresheetDiscipline.BJCP_MEAD)
         assertThat(vm.uiState.value.pendingDisciplineSwitch).isNull()
         assertThat(vm.uiState.value.scoresheet).isInstanceOf(MeadScoresheet::class.java)
@@ -247,20 +271,17 @@ class ScoresheetEditorViewModelTest {
         assertThat(vm.uiState.value.scoresheet.bottleInspectionOk).isFalse()
         assertThat(vm.uiState.value.scoresheet.bottleInspectionNotes).isEqualTo("Low fill")
 
-        // Previewing unsupported Cider keeps Mead draft intact
         vm.updateDiscipline(ScoresheetDiscipline.BJCP_CIDER)
-        assertThat(vm.uiState.value.selectedDiscipline).isEqualTo(ScoresheetDiscipline.BJCP_CIDER)
-        assertThat(vm.uiState.value.canSave).isFalse()
-
-        vm.updateDiscipline(ScoresheetDiscipline.BJCP_MEAD)
-        assertThat(vm.uiState.value.selectedDiscipline).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
+        assertThat(vm.uiState.value.pendingDisciplineSwitch).isNull()
+        assertThat(vm.uiState.value.scoresheet).isInstanceOf(CiderScoresheet::class.java)
+        assertThat(vm.uiState.value.scoresheet.entryTitle).isEqualTo("House Entry")
         assertThat(vm.uiState.value.canSave).isTrue()
 
         // Add judging data -> switching to Beer triggers confirmation
         vm.updateFlavorScore(22)
         vm.updateDiscipline(ScoresheetDiscipline.BJCP_BEER)
         assertThat(vm.uiState.value.pendingDisciplineSwitch).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
-        assertThat(vm.uiState.value.scoresheet).isInstanceOf(MeadScoresheet::class.java)
+        assertThat(vm.uiState.value.scoresheet).isInstanceOf(CiderScoresheet::class.java)
 
         // Confirm resets judging data while keeping entry header metadata
         vm.confirmDisciplineSwitch()
@@ -326,9 +347,9 @@ class ScoresheetEditorViewModelTest {
         vm.updateAppearanceScore(8)
         vm.updateFlavorScore(30)
         vm.updateOverallScore(12)
-        vm.cycleMeadCarbonation()
-        vm.cycleMeadSweetness()
-        vm.cycleMeadStrength()
+        vm.cycleDeclaredCarbonation()
+        vm.cycleDeclaredSweetness()
+        vm.cycleDeclaredStrength()
         vm.updateSpecialIngredients("Local wildflower honey")
 
         val updated = vm.uiState.value.scoresheet as MeadScoresheet
@@ -355,7 +376,7 @@ class ScoresheetEditorViewModelTest {
     @Test
     fun updateDiscipline_isIgnoredWhenEditingExistingScoresheet() = runTest {
         val dao = FakeScoresheetDao()
-        val repo = ScoresheetRepository(dao)
+        val repo = ScoresheetRepository(dao, defaultDispatcher = testDispatcher)
         val existing = BeerScoresheet(
             id = "saved-1",
             entryTitle = "Saved IPA"
@@ -376,7 +397,7 @@ class ScoresheetEditorViewModelTest {
 
         // Seed an existing saved Beer scoresheet
         val existingBeer = BeerScoresheet(id = "beer-1", entryTitle = "Old Pale Ale")
-        ScoresheetRepository(dao, prefs).saveScoresheet(existingBeer)
+        ScoresheetRepository(dao, prefs, defaultDispatcher = testDispatcher).saveScoresheet(existingBeer)
 
         // Create and save a new Mead scoresheet
         val (firstNewVm, _) = createViewModel(prefsManager = prefs, scoresheetDao = dao)
@@ -402,5 +423,127 @@ class ScoresheetEditorViewModelTest {
         val (thirdNewVm, _) = createViewModel(prefsManager = prefs, scoresheetDao = dao)
         advanceUntilIdle()
         assertThat(thirdNewVm.uiState.value.selectedDiscipline).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
+    }
+
+    @Test
+    fun ciderScoresheet_clampsSectionMaxesCycles5TierSweetnessAndRemembersDefault() = runTest {
+        val ciderDao = FakeCiderDao(
+            listOf(
+                CiderStyleEntity(
+                    id = "C2D",
+                    name = "Ice Cider",
+                    category = "Specialty Cider & Perry",
+                    categoryNumber = "C2",
+                    number = "C2D",
+                    overallImpression = "Intense concentrated apple",
+                    aroma = "",
+                    appearance = "",
+                    flavor = "",
+                    mouthfeel = "",
+                    comments = "",
+                    history = "",
+                    characteristicIngredients = "",
+                    styleComparison = "",
+                    ogMin = 1.130,
+                    ogMax = 1.180,
+                    fgMin = 1.060,
+                    fgMax = 1.085,
+                    abvMin = 7.0,
+                    abvMax = 13.0,
+                    sweetness = "Sweet",
+                    carbonation = "Still, Pétillant",
+                    strength = "High Gravity",
+                    commercialExamples = "",
+                    tags = ""
+                )
+            )
+        )
+        val prefs = FakePrefsManager()
+        val dao = FakeScoresheetDao()
+        val (vm, repo) = createViewModel(prefsManager = prefs, scoresheetDao = dao, ciderDao = ciderDao)
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            vm.bjcpCiderStyles.collect()
+        }
+        advanceUntilIdle()
+
+        vm.updateDiscipline(ScoresheetDiscipline.BJCP_CIDER)
+        vm.updateEntryTitle("Winter Frost Ice Cider")
+        vm.selectBjcpStyle(vm.bjcpCiderStyles.value.first())
+
+        // Selecting C2D must not auto-populate collapsed Additional Information chips
+        val afterStyle = vm.uiState.value.scoresheet as CiderScoresheet
+        assertThat(afterStyle.declaredSweetness).isNull()
+        assertThat(afterStyle.declaredCarbonation).isNull()
+        assertThat(afterStyle.declaredStrength).isNull()
+
+        // Clamp bounds: 10 / 6 / 24 / 10, cycle 5-tier sweetness twice (Dry -> Medium-Dry) & strength (Session -> Standard -> High Gravity)
+        vm.updateAromaScore(14)
+        vm.updateAppearanceScore(9)
+        vm.updateFlavorScore(28)
+        vm.updateOverallScore(11)
+        vm.cycleDeclaredCarbonation()
+        vm.cycleDeclaredSweetness()
+        vm.cycleDeclaredSweetness()
+        vm.cycleDeclaredStrength()
+        vm.cycleDeclaredStrength()
+        vm.cycleDeclaredStrength()
+        vm.updateSpecialIngredients("Northern Spy, Kingston Black")
+
+        val updated = vm.uiState.value.scoresheet as CiderScoresheet
+        assertThat(updated.aromaScore).isEqualTo(10)
+        assertThat(updated.appearanceScore).isEqualTo(6)
+        assertThat(updated.flavorScore).isEqualTo(24)
+        assertThat(updated.overallScore).isEqualTo(10)
+        assertThat(updated.totalScore).isEqualTo(50)
+        assertThat(updated.declaredCarbonation).isEqualTo("Still")
+        assertThat(updated.declaredSweetness).isEqualTo("Medium-Dry")
+        assertThat(updated.declaredStrength).isEqualTo("High Gravity")
+
+        var saved = false
+        vm.save { saved = true }
+        advanceUntilIdle()
+        assertThat(saved).isTrue()
+
+        val persisted = repo.getAllScoresheets().first().single() as CiderScoresheet
+        assertThat(persisted.specialIngredients).isEqualTo("Northern Spy, Kingston Black")
+        assertThat(persisted.declaredSweetness).isEqualTo("Medium-Dry")
+        assertThat(persisted.totalScore).isEqualTo(50)
+
+        // Next new scoresheet starts with BJCP_CIDER selected
+        val (nextVm, _) = createViewModel(prefsManager = prefs, scoresheetDao = dao, ciderDao = ciderDao)
+        advanceUntilIdle()
+        assertThat(nextVm.uiState.value.selectedDiscipline).isEqualTo(ScoresheetDiscipline.BJCP_CIDER)
+        assertThat(nextVm.uiState.value.scoresheet).isInstanceOf(CiderScoresheet::class.java)
+    }
+
+    @Test
+    fun hasUnsavedChanges_tracksEditsRevertsAndCleanDisciplineSwitches() = runTest {
+        val prefs = FakePrefsManager()
+        val dao = FakeScoresheetDao()
+
+        // New sheet starts clean, even after switching discipline while untouched
+        val (newVm, repo) = createViewModel(prefsManager = prefs, scoresheetDao = dao)
+        advanceUntilIdle()
+        assertThat(newVm.uiState.value.hasUnsavedChanges).isFalse()
+
+        newVm.updateDiscipline(ScoresheetDiscipline.BJCP_MEAD)
+        assertThat(newVm.uiState.value.hasUnsavedChanges).isFalse()
+
+        newVm.updateEntryTitle("Unsaved Mead")
+        assertThat(newVm.uiState.value.hasUnsavedChanges).isTrue()
+
+        // Editing an existing saved sheet starts clean, becomes dirty on change, and clears if reverted
+        val saved = BeerScoresheet(id = "existing-1", entryTitle = "House Bitter", aromaScore = 9)
+        repo.saveScoresheet(saved)
+
+        val (editVm, _) = createViewModel(scoresheetId = "existing-1", prefsManager = prefs, scoresheetDao = dao)
+        advanceUntilIdle()
+        assertThat(editVm.uiState.value.hasUnsavedChanges).isFalse()
+
+        editVm.updateAromaScore(11)
+        assertThat(editVm.uiState.value.hasUnsavedChanges).isTrue()
+
+        editVm.updateAromaScore(9)
+        assertThat(editVm.uiState.value.hasUnsavedChanges).isFalse()
     }
 }
