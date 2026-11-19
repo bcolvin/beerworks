@@ -41,21 +41,6 @@ class StyleListViewModel(
         initialValue = emptyList()
     )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val styles: StateFlow<List<BeerStyle>> = _filterCriteria.flatMapLatest { criteria ->
-        repository.getFilteredStyles(criteria)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
-    )
-
-    val categories: StateFlow<List<String>> = repository.getCategories().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
-    )
-
     fun onQueryChange(query: String) {
         _filterCriteria.value = _filterCriteria.value.copy(query = query)
     }

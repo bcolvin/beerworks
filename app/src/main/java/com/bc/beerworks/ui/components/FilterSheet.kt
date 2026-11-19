@@ -40,8 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.ScoresheetDiscipline
 import com.bc.beerworks.data.model.isBeer
-import com.bc.beerworks.data.model.isCider
 import com.bc.beerworks.data.model.isMead
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
@@ -68,7 +68,6 @@ data class SrmPreset(
 @Composable
 fun FilterSheet(
     criteria: FilterCriteria,
-    categories: List<String>,
     onCriteriaChange: (FilterCriteria) -> Unit,
     onReset: () -> Unit,
     onDismiss: () -> Unit,
@@ -103,94 +102,37 @@ fun FilterSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (selectedGuideline == GuidelineType.BJCP_MEAD) {
-                // Sweetness Toggle Chips
+            if (!selectedGuideline.isBeer) {
+                val discipline = if (selectedGuideline.isMead) {
+                    ScoresheetDiscipline.BJCP_MEAD
+                } else {
+                    ScoresheetDiscipline.BJCP_CIDER
+                }
+
                 MeadFilterChipSection(
                     title = "Sweetness",
-                    options = listOf("Dry", "Semi-Sweet", "Sweet"),
+                    options = discipline.sweetnessOptions,
                     selectedOptions = criteria.selectedSweetness,
                     onToggle = { option ->
-                        val next = if (criteria.selectedSweetness.contains(option)) {
-                            criteria.selectedSweetness - option
-                        } else {
-                            criteria.selectedSweetness + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedSweetness = next))
+                        onCriteriaChange(criteria.copy(selectedSweetness = toggleSetOption(criteria.selectedSweetness, option)))
                     }
                 )
 
-                // Carbonation Toggle Chips
                 MeadFilterChipSection(
                     title = "Carbonation",
-                    options = listOf("Still", "Pétillant", "Sparkling"),
+                    options = discipline.carbonationOptions,
                     selectedOptions = criteria.selectedCarbonation,
                     onToggle = { option ->
-                        val next = if (criteria.selectedCarbonation.contains(option)) {
-                            criteria.selectedCarbonation - option
-                        } else {
-                            criteria.selectedCarbonation + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedCarbonation = next))
+                        onCriteriaChange(criteria.copy(selectedCarbonation = toggleSetOption(criteria.selectedCarbonation, option)))
                     }
                 )
 
-                // Strength Toggle Chips
                 MeadFilterChipSection(
                     title = "Strength",
-                    options = listOf("Hydromel", "Standard", "Sack"),
+                    options = discipline.strengthOptions,
                     selectedOptions = criteria.selectedStrength,
                     onToggle = { option ->
-                        val next = if (criteria.selectedStrength.contains(option)) {
-                            criteria.selectedStrength - option
-                        } else {
-                            criteria.selectedStrength + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedStrength = next))
-                    }
-                )
-            } else if (selectedGuideline.isCider) {
-                // Sweetness Toggle Chips
-                MeadFilterChipSection(
-                    title = "Sweetness",
-                    options = listOf("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet"),
-                    selectedOptions = criteria.selectedSweetness,
-                    onToggle = { option ->
-                        val next = if (criteria.selectedSweetness.contains(option)) {
-                            criteria.selectedSweetness - option
-                        } else {
-                            criteria.selectedSweetness + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedSweetness = next))
-                    }
-                )
-
-                // Carbonation Toggle Chips
-                MeadFilterChipSection(
-                    title = "Carbonation",
-                    options = listOf("Still", "Pétillant", "Sparkling"),
-                    selectedOptions = criteria.selectedCarbonation,
-                    onToggle = { option ->
-                        val next = if (criteria.selectedCarbonation.contains(option)) {
-                            criteria.selectedCarbonation - option
-                        } else {
-                            criteria.selectedCarbonation + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedCarbonation = next))
-                    }
-                )
-
-                // Strength Toggle Chips
-                MeadFilterChipSection(
-                    title = "Strength",
-                    options = listOf("Session", "Standard", "High Gravity"),
-                    selectedOptions = criteria.selectedStrength,
-                    onToggle = { option ->
-                        val next = if (criteria.selectedStrength.contains(option)) {
-                            criteria.selectedStrength - option
-                        } else {
-                            criteria.selectedStrength + option
-                        }
-                        onCriteriaChange(criteria.copy(selectedStrength = next))
+                        onCriteriaChange(criteria.copy(selectedStrength = toggleSetOption(criteria.selectedStrength, option)))
                     }
                 )
             } else {
@@ -324,6 +266,9 @@ fun FilterSheet(
     }
 }
 
+private fun toggleSetOption(current: Set<String>, option: String): Set<String> =
+    if (option in current) current - option else current + option
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 private fun MeadFilterChipSection(
@@ -377,7 +322,6 @@ fun FilterSheetPreview() {
     BeerworksTheme {
         FilterSheet(
             criteria = FilterCriteria(),
-            categories = listOf("Standard American Beer", "IPA"),
             onCriteriaChange = {},
             onReset = {},
             onDismiss = {}

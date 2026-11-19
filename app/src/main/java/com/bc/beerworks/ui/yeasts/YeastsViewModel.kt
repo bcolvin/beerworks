@@ -1,8 +1,6 @@
 package com.bc.beerworks.ui.yeasts
 
 import androidx.lifecycle.viewModelScope
-import com.bc.beerworks.data.local.PreferencesManager
-import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.data.repository.YeastRepository
@@ -14,20 +12,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 
 class YeastsViewModel(
-    yeastRepository: YeastRepository,
-    preferencesManager: PreferencesManager
+    yeastRepository: YeastRepository
 ) : IngredientListViewModel<YeastStrain, YeastFilterCriteria>(
     repository = yeastRepository,
     initialCriteria = YeastFilterCriteria()
 ) {
 
     val yeasts: StateFlow<List<YeastStrain>> = items
-
-    val temperatureUnit: StateFlow<TemperatureUnit> = preferencesManager.temperatureUnit.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = TemperatureUnit.FAHRENHEIT
-    )
 
     val classifications: StateFlow<List<String>> = yeastRepository.getAllClassifications().stateIn(
         scope = viewModelScope,

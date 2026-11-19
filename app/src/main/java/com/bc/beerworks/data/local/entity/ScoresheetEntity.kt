@@ -3,10 +3,8 @@ package com.bc.beerworks.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bc.beerworks.data.model.BeerScoresheet
-import com.bc.beerworks.data.model.CiderScoresheet
 import com.bc.beerworks.data.model.FourSectionScoresheet
 import com.bc.beerworks.data.model.IntensityLevel
-import com.bc.beerworks.data.model.MeadScoresheet
 import com.bc.beerworks.data.model.Scoresheet
 import com.bc.beerworks.data.model.ScoresheetDiscipline
 
@@ -76,36 +74,9 @@ data class ScoresheetEntity(
                 offFlavorLevels = decodedOffFlavors,
                 updatedAtMillis = updatedAtMillis
             )
-            ScoresheetDiscipline.BJCP_MEAD -> MeadScoresheet(
-                id = id,
-                entryTitle = entryTitle,
-                brewer = brewer,
-                styleId = styleId,
-                styleName = styleName,
-                styleNumber = styleNumber,
-                evaluatedAtMillis = evaluatedAtMillis,
-                aromaScore = aromaScore,
-                appearanceScore = appearanceScore,
-                flavorScore = flavorScore,
-                overallScore = overallScore,
-                aromaNotes = aromaNotes,
-                appearanceNotes = appearanceNotes,
-                flavorNotes = flavorNotes,
-                overallNotes = overallNotes,
-                declaredCarbonation = declaredCarbonation.takeIf { it.isNotBlank() },
-                declaredSweetness = declaredSweetness.takeIf { it.isNotBlank() },
-                declaredStrength = declaredStrength.takeIf { it.isNotBlank() },
-                specialIngredients = specialIngredients,
-                bottleInspectionOk = bottleInspectionOk,
-                bottleInspectionNotes = bottleInspectionNotes,
-                stylisticAccuracy = stylisticAccuracy,
-                technicalMerit = technicalMerit,
-                intangibles = intangibles,
-                descriptorValues = decodedDescriptors,
-                offFlavorLevels = decodedOffFlavors,
-                updatedAtMillis = updatedAtMillis
-            )
-            ScoresheetDiscipline.BJCP_CIDER -> CiderScoresheet(
+            ScoresheetDiscipline.BJCP_MEAD,
+            ScoresheetDiscipline.BJCP_CIDER -> FourSectionScoresheet(
+                discipline = resolvedDiscipline,
                 id = id,
                 entryTitle = entryTitle,
                 brewer = brewer,

@@ -235,7 +235,7 @@ fun BeerworksApp() {
 
             composable("yeasts") {
                 val viewModel: YeastsViewModel = viewModel(
-                    factory = viewModelFactory { YeastsViewModel(container.yeastRepository, container.prefsManager) }
+                    factory = viewModelFactory { YeastsViewModel(container.yeastRepository) }
                 )
                 YeastsScreen(
                     viewModel = viewModel,
@@ -260,7 +260,8 @@ fun BeerworksApp() {
                     factory = viewModelFactory {
                         FavoritesViewModel(
                             beerStyleRepository = container.beerStyleRepository,
-                            ingredientCatalogRepository = container.ingredientCatalogRepository
+                            ingredientCatalogRepository = container.ingredientCatalogRepository,
+                            preferencesManager = container.prefsManager
                         )
                     }
                 )
@@ -300,7 +301,8 @@ fun BeerworksApp() {
                             scoresheetId = null,
                             scoresheetRepository = container.scoresheetRepository,
                             beerStyleRepository = container.beerStyleRepository,
-                            offFlavorRepository = container.offFlavorRepository
+                            offFlavorRepository = container.offFlavorRepository,
+                            preferencesManager = container.prefsManager
                         )
                     }
                 )
@@ -322,7 +324,8 @@ fun BeerworksApp() {
                             scoresheetId = scoresheetId,
                             scoresheetRepository = container.scoresheetRepository,
                             beerStyleRepository = container.beerStyleRepository,
-                            offFlavorRepository = container.offFlavorRepository
+                            offFlavorRepository = container.offFlavorRepository,
+                            preferencesManager = container.prefsManager
                         )
                     }
                 )
@@ -334,7 +337,7 @@ fun BeerworksApp() {
 
             composable("settings") {
                 val settingsViewModel: SettingsViewModel = viewModel(
-                    factory = viewModelFactory { SettingsViewModel(container.beerStyleRepository) }
+                    factory = viewModelFactory { SettingsViewModel(container.prefsManager) }
                 )
                 SettingsScreen(
                     viewModel = settingsViewModel,
@@ -475,7 +478,12 @@ fun BeerworksApp() {
                 val viewModel: IngredientDetailViewModel<YeastStrain> = viewModel(
                     key = "yeast_$yeastId",
                     factory = viewModelFactory {
-                        IngredientDetailViewModel(container.yeastRepository, container.beerStyleRepository, yeastId)
+                        IngredientDetailViewModel(
+                            repository = container.yeastRepository,
+                            beerStyleRepository = container.beerStyleRepository,
+                            itemId = yeastId,
+                            preferencesManager = container.prefsManager
+                        )
                     }
                 )
                 YeastDetailScreen(

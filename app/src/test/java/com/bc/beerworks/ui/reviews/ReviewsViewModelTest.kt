@@ -4,8 +4,7 @@ import com.bc.beerworks.data.local.dao.ScoresheetDao
 import com.bc.beerworks.data.local.entity.ScoresheetEntity
 import com.bc.beerworks.data.local.entity.toEntity
 import com.bc.beerworks.data.model.BeerScoresheet
-import com.bc.beerworks.data.model.CiderScoresheet
-import com.bc.beerworks.data.model.MeadScoresheet
+import com.bc.beerworks.data.model.FourSectionScoresheet
 import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.model.Scoresheet
@@ -82,20 +81,23 @@ class ReviewsViewModelTest {
             styleName = "American IPA",
             brewer = "Alice"
         )
-        val mead = MeadScoresheet(
+        val mead = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_MEAD,
             id = "2",
             entryTitle = "Traditional Reserve",
             styleName = "Dry Mead",
             brewer = "Bob",
             specialIngredients = "Orange Blossom honey, vanilla bean"
         )
-        val meadTwo = MeadScoresheet(
+        val meadTwo = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_MEAD,
             id = "3",
             entryTitle = "West Orchard Cyser",
             styleName = "Cyser",
             brewer = "Carol"
         )
-        val cider = CiderScoresheet(
+        val cider = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_CIDER,
             id = "4",
             entryTitle = "Heritage Bittersweet",
             styleName = "English Cider",
@@ -171,7 +173,8 @@ class ReviewsViewModelTest {
             mouthfeelScore = 3,
             overallScore = 5 // 26
         )
-        val newestHigh = MeadScoresheet(
+        val newestHigh = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_MEAD,
             id = "newest-high",
             entryTitle = "Dry Mead",
             evaluatedAtMillis = 3000L,
@@ -180,7 +183,8 @@ class ReviewsViewModelTest {
             flavorScore = 20,
             overallScore = 8 // 42
         )
-        val midHighest = CiderScoresheet(
+        val midHighest = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_CIDER,
             id = "mid-highest",
             entryTitle = "English Cider",
             evaluatedAtMillis = 2500L,

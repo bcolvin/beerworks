@@ -2,6 +2,7 @@ package com.bc.beerworks.ui.ingredientdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.Ingredient
 import com.bc.beerworks.data.model.TemperatureUnit
@@ -21,7 +22,8 @@ open class IngredientDetailViewModel<T : Ingredient>(
     private val repository: IngredientRepository<T, *>,
     private val beerStyleRepository: BeerStyleRepository,
     val itemId: String,
-    relatedItemsProvider: (String) -> Flow<List<T>> = { flowOf(emptyList()) }
+    relatedItemsProvider: (String) -> Flow<List<T>> = { flowOf(emptyList()) },
+    preferencesManager: PreferencesManager? = null
 ) : ViewModel() {
 
     val item: StateFlow<T?> = repository.getItemById(itemId).stateIn(
@@ -60,9 +62,8 @@ open class IngredientDetailViewModel<T : Ingredient>(
         initialValue = false
     )
 
-    @Suppress("UNNECESSARY_SAFE_CALL", "USELESS_ELVIS")
     val temperatureUnit: StateFlow<TemperatureUnit> =
-        (beerStyleRepository.temperatureUnit ?: flowOf(TemperatureUnit.FAHRENHEIT)).stateIn(
+        (preferencesManager?.temperatureUnit ?: flowOf(TemperatureUnit.FAHRENHEIT)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = TemperatureUnit.FAHRENHEIT

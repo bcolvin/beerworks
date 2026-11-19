@@ -270,7 +270,8 @@ class IngredientDetailViewModelTest {
             repository = hopRepository,
             beerStyleRepository = beerStyleRepository,
             itemId = hopId,
-            relatedItemsProvider = hopRepository::getChildHops
+            relatedItemsProvider = hopRepository::getChildHops,
+            preferencesManager = prefsManager
         )
     }
 

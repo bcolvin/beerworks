@@ -111,7 +111,7 @@ class YeastsViewModelTest {
             baStyleDao = mock(BaStyleDao::class.java),
             defaultDispatcher = testDispatcher
         )
-        viewModel = YeastsViewModel(yeastRepository, prefsManager)
+        viewModel = YeastsViewModel(yeastRepository)
     }
 
     @After
@@ -128,7 +128,6 @@ class YeastsViewModelTest {
 
         assertThat(viewModel.yeasts.value).hasSize(2)
         assertThat(viewModel.filterCriteria.value).isEqualTo(YeastFilterCriteria())
-        assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.FAHRENHEIT)
         collectJob.cancel()
     }
 
@@ -186,19 +185,5 @@ class YeastsViewModelTest {
         assertThat(viewModel.filterCriteria.value).isEqualTo(YeastFilterCriteria(query = "search"))
         assertThat(viewModel.filterCriteria.value.selectedClassification).isNull()
         assertThat(viewModel.filterCriteria.value.minAttenuation).isNull()
-    }
-
-    @Test
-    fun temperatureUnit_reactsToPreferencesChange() = runTest {
-        val collectJob = backgroundScope.launch {
-            viewModel.temperatureUnit.collect {}
-        }
-        runCurrent()
-
-        prefsManager.setTemperatureUnit(TemperatureUnit.CELSIUS)
-        runCurrent()
-
-        assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.CELSIUS)
-        collectJob.cancel()
     }
 }

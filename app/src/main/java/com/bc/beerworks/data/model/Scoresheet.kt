@@ -6,24 +6,117 @@ import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
+private val LOW_MED_HIGH = listOf("Low", "Med", "High")
+private val CARBONATION_CLASSIFICATIONS = listOf("Still", "Pétillant", "Sparkling")
+private val MEAD_SWEETNESS_VALUES = listOf("Dry", "Semi-Sweet", "Sweet")
+private val MEAD_STRENGTH_VALUES = listOf("Hydromel", "Standard", "Sack")
+private val CIDER_SWEETNESS_VALUES = listOf("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet")
+private val CIDER_STRENGTH_VALUES = listOf("Session", "Standard", "High Gravity")
+private val FINISH_VALUES = listOf("Dry", "Balanced", "Sweet")
+
 @Immutable
 enum class ScoresheetDiscipline(
     val displayName: String,
     val shortLabel: String,
     val emoji: String,
-    val isSupported: Boolean
+    val makerLabel: String,
+    val entryFieldLabel: String,
+    val makerFieldLabel: String,
+    val specialIngredientsLabel: String,
+    val aromaMax: Int,
+    val appearanceMax: Int,
+    val flavorMax: Int,
+    val mouthfeelMax: Int,
+    val overallMax: Int,
+    val carbonationOptions: List<String>,
+    val sweetnessOptions: List<String>,
+    val strengthOptions: List<String>,
+    private val aromaTip: String,
+    private val appearanceTip: String,
+    private val flavorTip: String,
+    private val mouthfeelTip: String,
+    private val overallTip: String
 ) {
-    BJCP_BEER("BJCP Beer", "Beer", "🍺", isSupported = true),
-    BJCP_MEAD("BJCP Mead", "Mead", "🐝", isSupported = true),
-    BJCP_CIDER("BJCP Cider", "Cider", "🍏", isSupported = true);
+    BJCP_BEER(
+        displayName = "BJCP Beer",
+        shortLabel = "Beer",
+        emoji = "🍺",
+        makerLabel = "Brewer",
+        entryFieldLabel = "Entry # or Beer Name *",
+        makerFieldLabel = "Brewer / Brewery (Optional)",
+        specialIngredientsLabel = "",
+        aromaMax = 12,
+        appearanceMax = 3,
+        flavorMax = 20,
+        mouthfeelMax = 5,
+        overallMax = 10,
+        carbonationOptions = emptyList(),
+        sweetnessOptions = emptyList(),
+        strengthOptions = emptyList(),
+        aromaTip = "Evaluate malt, hops, fermentation esters/phenols, and any other aromatic components against the target style.",
+        appearanceTip = "Evaluate color, clarity, head size, head retention, and head color against the target style.",
+        flavorTip = "Evaluate malt, hops, bitterness, fermentation character, balance, and finish/aftertaste against the target style.",
+        mouthfeelTip = "Evaluate body, carbonation, alcoholic warmth, creaminess, and astringency against the target style.",
+        overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the brewer."
+    ),
+    BJCP_MEAD(
+        displayName = "BJCP Mead",
+        shortLabel = "Mead",
+        emoji = "🐝",
+        makerLabel = "Meadmaker",
+        entryFieldLabel = "Entry # or Mead Name *",
+        makerFieldLabel = "Meadmaker / Meadery (Optional)",
+        specialIngredientsLabel = "Special Ingredients (Optional)",
+        aromaMax = 10,
+        appearanceMax = 6,
+        flavorMax = 24,
+        mouthfeelMax = 0,
+        overallMax = 10,
+        carbonationOptions = CARBONATION_CLASSIFICATIONS,
+        sweetnessOptions = MEAD_SWEETNESS_VALUES,
+        strengthOptions = MEAD_STRENGTH_VALUES,
+        aromaTip = "Evaluate honey aromatics, esters/floral notes, special ingredients, fermentation character, and alcohol presence against the target style.",
+        appearanceTip = "Evaluate color, clarity, legs/viscosity, and carbonation against the target style.",
+        flavorTip = "Evaluate honey expression, sweetness, acidity, tannin, body, carbonation, alcohol warmth, balance, and finish against the target style.",
+        mouthfeelTip = "",
+        overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the meadmaker."
+    ),
+    BJCP_CIDER(
+        displayName = "BJCP Cider",
+        shortLabel = "Cider",
+        emoji = "🍏",
+        makerLabel = "Cidermaker",
+        entryFieldLabel = "Entry # or Cider Name *",
+        makerFieldLabel = "Cidermaker / Cidery (Optional)",
+        specialIngredientsLabel = "Special Ingredients / Varietals (Optional)",
+        aromaMax = 10,
+        appearanceMax = 6,
+        flavorMax = 24,
+        mouthfeelMax = 0,
+        overallMax = 10,
+        carbonationOptions = CARBONATION_CLASSIFICATIONS,
+        sweetnessOptions = CIDER_SWEETNESS_VALUES,
+        strengthOptions = CIDER_STRENGTH_VALUES,
+        aromaTip = "Evaluate apple/pear fruit aromatics, esters, special ingredients, oak/wood, fermentation character, and alcohol presence against the target style.",
+        appearanceTip = "Evaluate color, clarity, legs/viscosity, and carbonation against the target style.",
+        flavorTip = "Evaluate apple/pear character, sweetness, acidity, tannin/astringency, body, carbonation, alcohol warmth, balance, and finish against the target style.",
+        mouthfeelTip = "",
+        overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the cidermaker."
+    );
+
+    val hasMouthfeelSection: Boolean get() = mouthfeelMax > 0
+
+    fun sectionFallbackTip(section: ScoresheetSection?): String = when (section) {
+        ScoresheetSection.AROMA -> aromaTip
+        ScoresheetSection.APPEARANCE -> appearanceTip
+        ScoresheetSection.FLAVOR -> flavorTip
+        ScoresheetSection.MOUTHFEEL -> mouthfeelTip
+        null -> overallTip
+    }
 
     companion object {
-        fun fromStorageValue(raw: String?): ScoresheetDiscipline = when (raw) {
-            BJCP_MEAD.name -> BJCP_MEAD
-            BJCP_CIDER.name -> BJCP_CIDER
-            // BJCP_BEER plus legacy "SHORT_FORM" / "LONG_FORM" Beer values all normalize to BJCP_BEER
-            else -> BJCP_BEER
-        }
+        fun fromStorageValue(raw: String?): ScoresheetDiscipline =
+            entries.firstOrNull { it.name == raw } ?: BJCP_BEER
     }
 }
 
@@ -71,14 +164,6 @@ enum class ScoresheetSection(val title: String) {
     FLAVOR("Flavor"),
     MOUTHFEEL("Mouthfeel")
 }
-
-private val LOW_MED_HIGH = listOf("Low", "Med", "High")
-private val CARBONATION_CLASSIFICATIONS = listOf("Still", "Pétillant", "Sparkling")
-private val MEAD_SWEETNESS_VALUES = listOf("Dry", "Semi-Sweet", "Sweet")
-private val MEAD_STRENGTH_VALUES = listOf("Hydromel", "Standard", "Sack")
-private val CIDER_SWEETNESS_VALUES = listOf("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet")
-private val CIDER_STRENGTH_VALUES = listOf("Session", "Standard", "High Gravity")
-private val FINISH_VALUES = listOf("Dry", "Balanced", "Sweet")
 
 /** Cycles through [options] sequentially, returning null after the final option to unset. */
 fun cycleOption(current: String?, options: List<String>): String? {
@@ -375,6 +460,50 @@ sealed interface Scoresheet {
     val scoringTier: BjcpScoringTier
         get() = BjcpScoringTier.fromTotalScore(totalScore)
 
+    fun copyCommon(
+        entryTitle: String = this.entryTitle,
+        brewer: String = this.brewer,
+        styleId: String? = this.styleId,
+        styleNumber: String = this.styleNumber,
+        styleName: String = this.styleName,
+        evaluatedAtMillis: Long = this.evaluatedAtMillis,
+        aromaScore: Int = this.aromaScore,
+        appearanceScore: Int = this.appearanceScore,
+        flavorScore: Int = this.flavorScore,
+        overallScore: Int = this.overallScore,
+        aromaNotes: String = this.aromaNotes,
+        appearanceNotes: String = this.appearanceNotes,
+        flavorNotes: String = this.flavorNotes,
+        overallNotes: String = this.overallNotes,
+        bottleInspectionOk: Boolean = this.bottleInspectionOk,
+        bottleInspectionNotes: String = this.bottleInspectionNotes,
+        stylisticAccuracy: Int = this.stylisticAccuracy,
+        technicalMerit: Int = this.technicalMerit,
+        intangibles: Int = this.intangibles,
+        descriptorValues: Map<String, String> = this.descriptorValues,
+        offFlavorLevels: Map<String, IntensityLevel> = this.offFlavorLevels
+    ): Scoresheet
+
+    fun hasJudgingData(): Boolean =
+        styleId != null ||
+            styleName.isNotBlank() ||
+            styleNumber.isNotBlank() ||
+            aromaScore > 0 ||
+            appearanceScore > 0 ||
+            flavorScore > 0 ||
+            overallScore > 0 ||
+            aromaNotes.isNotBlank() ||
+            appearanceNotes.isNotBlank() ||
+            flavorNotes.isNotBlank() ||
+            overallNotes.isNotBlank() ||
+            stylisticAccuracy > 0 ||
+            technicalMerit > 0 ||
+            intangibles > 0 ||
+            descriptorValues.isNotEmpty() ||
+            offFlavorLevels.isNotEmpty()
+
+    fun sanitizedForSave(): Scoresheet
+
     companion object {
         fun createBlank(
             discipline: ScoresheetDiscipline,
@@ -393,15 +522,9 @@ sealed interface Scoresheet {
                 bottleInspectionOk = bottleInspectionOk,
                 bottleInspectionNotes = bottleInspectionNotes
             )
-            ScoresheetDiscipline.BJCP_MEAD -> MeadScoresheet(
-                id = id,
-                entryTitle = entryTitle,
-                brewer = brewer,
-                evaluatedAtMillis = evaluatedAtMillis,
-                bottleInspectionOk = bottleInspectionOk,
-                bottleInspectionNotes = bottleInspectionNotes
-            )
-            ScoresheetDiscipline.BJCP_CIDER -> CiderScoresheet(
+            ScoresheetDiscipline.BJCP_MEAD,
+            ScoresheetDiscipline.BJCP_CIDER -> FourSectionScoresheet(
+                discipline = discipline,
                 id = id,
                 entryTitle = entryTitle,
                 brewer = brewer,
@@ -411,31 +534,6 @@ sealed interface Scoresheet {
             )
         }
     }
-}
-
-/**
- * Shared contract for 4-section (10 / 6 / 24 / 10) BJCP Mead and Cider scoresheets
- * carrying optional entrant-declared Carbonation, Sweetness, Strength, and Special Ingredients.
- */
-@Immutable
-sealed interface FourSectionScoresheet : Scoresheet {
-    val declaredCarbonation: String?
-    val declaredSweetness: String?
-    val declaredStrength: String?
-    val specialIngredients: String
-
-    val carbonationOptions: List<String>
-    val sweetnessOptions: List<String>
-    val strengthOptions: List<String>
-
-    override val totalScore: Int
-        get() = aromaScore + appearanceScore + flavorScore + overallScore
-
-    val hasAdditionalInfo: Boolean
-        get() = declaredCarbonation != null ||
-            declaredSweetness != null ||
-            declaredStrength != null ||
-            specialIngredients.isNotBlank()
 }
 
 @Immutable
@@ -471,10 +569,66 @@ data class BeerScoresheet(
 
     override val totalScore: Int
         get() = aromaScore + appearanceScore + flavorScore + mouthfeelScore + overallScore
+
+    override fun hasJudgingData(): Boolean =
+        super.hasJudgingData() || mouthfeelScore > 0 || mouthfeelNotes.isNotBlank()
+
+    override fun sanitizedForSave(): BeerScoresheet = copy(entryTitle = entryTitle.trim())
+
+    override fun copyCommon(
+        entryTitle: String,
+        brewer: String,
+        styleId: String?,
+        styleNumber: String,
+        styleName: String,
+        evaluatedAtMillis: Long,
+        aromaScore: Int,
+        appearanceScore: Int,
+        flavorScore: Int,
+        overallScore: Int,
+        aromaNotes: String,
+        appearanceNotes: String,
+        flavorNotes: String,
+        overallNotes: String,
+        bottleInspectionOk: Boolean,
+        bottleInspectionNotes: String,
+        stylisticAccuracy: Int,
+        technicalMerit: Int,
+        intangibles: Int,
+        descriptorValues: Map<String, String>,
+        offFlavorLevels: Map<String, IntensityLevel>
+    ): BeerScoresheet = copy(
+        entryTitle = entryTitle,
+        brewer = brewer,
+        styleId = styleId,
+        styleNumber = styleNumber,
+        styleName = styleName,
+        evaluatedAtMillis = evaluatedAtMillis,
+        aromaScore = aromaScore,
+        appearanceScore = appearanceScore,
+        flavorScore = flavorScore,
+        overallScore = overallScore,
+        aromaNotes = aromaNotes,
+        appearanceNotes = appearanceNotes,
+        flavorNotes = flavorNotes,
+        overallNotes = overallNotes,
+        bottleInspectionOk = bottleInspectionOk,
+        bottleInspectionNotes = bottleInspectionNotes,
+        stylisticAccuracy = stylisticAccuracy,
+        technicalMerit = technicalMerit,
+        intangibles = intangibles,
+        descriptorValues = descriptorValues,
+        offFlavorLevels = offFlavorLevels
+    )
 }
 
+/**
+ * Unified 4-section (10 / 6 / 24 / 10) BJCP Mead and Cider scoresheet carrying optional
+ * entrant-declared Carbonation, Sweetness, Strength, and Special Ingredients.
+ */
 @Immutable
-data class MeadScoresheet(
+data class FourSectionScoresheet(
+    override val discipline: ScoresheetDiscipline = ScoresheetDiscipline.BJCP_MEAD,
     override val id: String = UUID.randomUUID().toString(),
     override val entryTitle: String = "",
     override val brewer: String = "",
@@ -490,10 +644,10 @@ data class MeadScoresheet(
     override val appearanceNotes: String = "",
     override val flavorNotes: String = "",
     override val overallNotes: String = "",
-    override val declaredCarbonation: String? = null,
-    override val declaredSweetness: String? = null,
-    override val declaredStrength: String? = null,
-    override val specialIngredients: String = "",
+    val declaredCarbonation: String? = null,
+    val declaredSweetness: String? = null,
+    val declaredStrength: String? = null,
+    val specialIngredients: String = "",
     override val bottleInspectionOk: Boolean = true,
     override val bottleInspectionNotes: String = "",
     override val stylisticAccuracy: Int = 0,
@@ -502,63 +656,79 @@ data class MeadScoresheet(
     override val descriptorValues: Map<String, String> = emptyMap(),
     override val offFlavorLevels: Map<String, IntensityLevel> = emptyMap(),
     override val updatedAtMillis: Long = System.currentTimeMillis()
-) : FourSectionScoresheet {
-    override val discipline: ScoresheetDiscipline
-        get() = ScoresheetDiscipline.BJCP_MEAD
-
-    override val carbonationOptions: List<String> get() = CARBONATION_CLASSIFICATIONS
-    override val sweetnessOptions: List<String> get() = MEAD_SWEETNESS_VALUES
-    override val strengthOptions: List<String> get() = MEAD_STRENGTH_VALUES
-
-    companion object {
-        val CARBONATION_OPTIONS: List<String> = CARBONATION_CLASSIFICATIONS
-        val SWEETNESS_OPTIONS: List<String> = MEAD_SWEETNESS_VALUES
-        val STRENGTH_OPTIONS: List<String> = MEAD_STRENGTH_VALUES
+) : Scoresheet {
+    init {
+        require(discipline == ScoresheetDiscipline.BJCP_MEAD || discipline == ScoresheetDiscipline.BJCP_CIDER) {
+            "FourSectionScoresheet requires BJCP_MEAD or BJCP_CIDER, got $discipline"
+        }
     }
-}
 
-@Immutable
-data class CiderScoresheet(
-    override val id: String = UUID.randomUUID().toString(),
-    override val entryTitle: String = "",
-    override val brewer: String = "",
-    override val styleId: String? = null,
-    override val styleName: String = "",
-    override val styleNumber: String = "",
-    override val evaluatedAtMillis: Long = System.currentTimeMillis(),
-    override val aromaScore: Int = 0,
-    override val appearanceScore: Int = 0,
-    override val flavorScore: Int = 0,
-    override val overallScore: Int = 0,
-    override val aromaNotes: String = "",
-    override val appearanceNotes: String = "",
-    override val flavorNotes: String = "",
-    override val overallNotes: String = "",
-    override val declaredCarbonation: String? = null,
-    override val declaredSweetness: String? = null,
-    override val declaredStrength: String? = null,
-    override val specialIngredients: String = "",
-    override val bottleInspectionOk: Boolean = true,
-    override val bottleInspectionNotes: String = "",
-    override val stylisticAccuracy: Int = 0,
-    override val technicalMerit: Int = 0,
-    override val intangibles: Int = 0,
-    override val descriptorValues: Map<String, String> = emptyMap(),
-    override val offFlavorLevels: Map<String, IntensityLevel> = emptyMap(),
-    override val updatedAtMillis: Long = System.currentTimeMillis()
-) : FourSectionScoresheet {
-    override val discipline: ScoresheetDiscipline
-        get() = ScoresheetDiscipline.BJCP_CIDER
+    val carbonationOptions: List<String> get() = discipline.carbonationOptions
+    val sweetnessOptions: List<String> get() = discipline.sweetnessOptions
+    val strengthOptions: List<String> get() = discipline.strengthOptions
 
-    override val carbonationOptions: List<String> get() = CARBONATION_CLASSIFICATIONS
-    override val sweetnessOptions: List<String> get() = CIDER_SWEETNESS_VALUES
-    override val strengthOptions: List<String> get() = CIDER_STRENGTH_VALUES
+    override val totalScore: Int
+        get() = aromaScore + appearanceScore + flavorScore + overallScore
 
-    companion object {
-        val CARBONATION_OPTIONS: List<String> = CARBONATION_CLASSIFICATIONS
-        val SWEETNESS_OPTIONS: List<String> = CIDER_SWEETNESS_VALUES
-        val STRENGTH_OPTIONS: List<String> = CIDER_STRENGTH_VALUES
-    }
+    val hasAdditionalInfo: Boolean
+        get() = declaredCarbonation != null ||
+            declaredSweetness != null ||
+            declaredStrength != null ||
+            specialIngredients.isNotBlank()
+
+    override fun hasJudgingData(): Boolean =
+        super.hasJudgingData() || hasAdditionalInfo
+
+    override fun sanitizedForSave(): FourSectionScoresheet = copy(
+        entryTitle = entryTitle.trim(),
+        specialIngredients = specialIngredients.trim()
+    )
+
+    override fun copyCommon(
+        entryTitle: String,
+        brewer: String,
+        styleId: String?,
+        styleNumber: String,
+        styleName: String,
+        evaluatedAtMillis: Long,
+        aromaScore: Int,
+        appearanceScore: Int,
+        flavorScore: Int,
+        overallScore: Int,
+        aromaNotes: String,
+        appearanceNotes: String,
+        flavorNotes: String,
+        overallNotes: String,
+        bottleInspectionOk: Boolean,
+        bottleInspectionNotes: String,
+        stylisticAccuracy: Int,
+        technicalMerit: Int,
+        intangibles: Int,
+        descriptorValues: Map<String, String>,
+        offFlavorLevels: Map<String, IntensityLevel>
+    ): FourSectionScoresheet = copy(
+        entryTitle = entryTitle,
+        brewer = brewer,
+        styleId = styleId,
+        styleNumber = styleNumber,
+        styleName = styleName,
+        evaluatedAtMillis = evaluatedAtMillis,
+        aromaScore = aromaScore,
+        appearanceScore = appearanceScore,
+        flavorScore = flavorScore,
+        overallScore = overallScore,
+        aromaNotes = aromaNotes,
+        appearanceNotes = appearanceNotes,
+        flavorNotes = flavorNotes,
+        overallNotes = overallNotes,
+        bottleInspectionOk = bottleInspectionOk,
+        bottleInspectionNotes = bottleInspectionNotes,
+        stylisticAccuracy = stylisticAccuracy,
+        technicalMerit = technicalMerit,
+        intangibles = intangibles,
+        descriptorValues = descriptorValues,
+        offFlavorLevels = offFlavorLevels
+    )
 }
 
 fun Scoresheet.formatForShare(offFlavorNames: Map<String, String> = emptyMap()): String {
@@ -566,16 +736,11 @@ fun Scoresheet.formatForShare(offFlavorNames: Map<String, String> = emptyMap()):
     val styleDisplay = listOf(styleNumber.takeIf { it.isNotBlank() }, styleName.takeIf { it.isNotBlank() })
         .filterNotNull()
         .joinToString(" - ")
-    val brewerLabel = when (this) {
-        is BeerScoresheet -> "Brewer"
-        is MeadScoresheet -> "Meadmaker"
-        is CiderScoresheet -> "Cidermaker"
-    }
 
     return buildString {
         appendLine("${discipline.displayName} Scoresheet")
         appendLine("Entry: $entryTitle")
-        if (brewer.isNotBlank()) appendLine("$brewerLabel: $brewer")
+        if (brewer.isNotBlank()) appendLine("${discipline.makerLabel}: $brewer")
         if (styleDisplay.isNotBlank()) appendLine("Style: $styleDisplay")
         appendLine("Date: $dateStr")
         if (this@formatForShare is FourSectionScoresheet) {
@@ -591,21 +756,13 @@ fun Scoresheet.formatForShare(offFlavorNames: Map<String, String> = emptyMap()):
         }
         appendLine()
         appendLine("Total Score: $totalScore / 50 (${scoringTier.label})")
-        when (this@formatForShare) {
-            is BeerScoresheet -> {
-                appendLine("• Aroma: $aromaScore / 12")
-                appendLine("• Appearance: $appearanceScore / 3")
-                appendLine("• Flavor: $flavorScore / 20")
-                appendLine("• Mouthfeel: $mouthfeelScore / 5")
-                appendLine("• Overall Impression: $overallScore / 10")
-            }
-            is FourSectionScoresheet -> {
-                appendLine("• Aroma: $aromaScore / 10")
-                appendLine("• Appearance: $appearanceScore / 6")
-                appendLine("• Flavor: $flavorScore / 24")
-                appendLine("• Overall Impression: $overallScore / 10")
-            }
+        appendLine("• Aroma: $aromaScore / ${discipline.aromaMax}")
+        appendLine("• Appearance: $appearanceScore / ${discipline.appearanceMax}")
+        appendLine("• Flavor: $flavorScore / ${discipline.flavorMax}")
+        if (this@formatForShare is BeerScoresheet) {
+            appendLine("• Mouthfeel: $mouthfeelScore / ${discipline.mouthfeelMax}")
         }
+        appendLine("• Overall Impression: $overallScore / ${discipline.overallMax}")
         appendLine()
         appendLine("Stylistic Accuracy: $stylisticAccuracy/10 • Technical Merit: $technicalMerit/10 • Intangibles: $intangibles/10")
 

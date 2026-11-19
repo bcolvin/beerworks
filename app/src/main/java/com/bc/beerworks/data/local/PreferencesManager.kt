@@ -89,8 +89,7 @@ class DefaultPreferencesManager(private val context: Context) : PreferencesManag
     }
 
     override val lastScoresheetDiscipline: Flow<ScoresheetDiscipline> = context.dataStore.data.map { prefs ->
-        val resolved = ScoresheetDiscipline.fromStorageValue(prefs[LAST_SCORESHEET_DISCIPLINE_KEY])
-        if (resolved.isSupported) resolved else ScoresheetDiscipline.BJCP_BEER
+        ScoresheetDiscipline.fromStorageValue(prefs[LAST_SCORESHEET_DISCIPLINE_KEY])
     }
 
     override suspend fun setLastScoresheetDiscipline(discipline: ScoresheetDiscipline) {

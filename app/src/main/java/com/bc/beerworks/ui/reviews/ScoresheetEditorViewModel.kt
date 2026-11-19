@@ -3,12 +3,12 @@ package com.bc.beerworks.ui.reviews
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.model.BeerScoresheet
 import com.bc.beerworks.data.model.BeerStyle
-import com.bc.beerworks.data.model.CiderScoresheet
 import com.bc.beerworks.data.model.FourSectionScoresheet
+import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.IntensityLevel
-import com.bc.beerworks.data.model.MeadScoresheet
 import com.bc.beerworks.data.model.OffFlavor
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.model.Scoresheet
@@ -19,14 +19,16 @@ import com.bc.beerworks.data.model.formatForShare
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.OffFlavorRepository
 import com.bc.beerworks.data.repository.ScoresheetRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+private const val MAX_STYLE_DROPDOWN_RESULTS = 25
 
 @Immutable
 data class ScoresheetEditorUiState(
@@ -36,10 +38,13 @@ data class ScoresheetEditorUiState(
     val pendingDisciplineSwitch: ScoresheetDiscipline? = null,
     val isNew: Boolean = true,
     val isLoading: Boolean = true,
-    val styleQuery: String = ""
+    val styleQuery: String = "",
+    val filteredStyles: List<BeerStyle> = emptyList(),
+    val linkedStyle: BeerStyle? = null,
+    val availableOffFlavors: List<OffFlavor> = emptyList()
 ) {
     val canSave: Boolean
-        get() = selectedDiscipline.isSupported && scoresheet.entryTitle.isNotBlank()
+        get() = scoresheet.entryTitle.isNotBlank()
 
     val hasUnsavedChanges: Boolean
         get() = !isLoading && initialScoresheet != null && scoresheet != initialScoresheet
@@ -49,70 +54,77 @@ class ScoresheetEditorViewModel(
     private val scoresheetId: String?,
     private val scoresheetRepository: ScoresheetRepository,
     beerStyleRepository: BeerStyleRepository,
-    offFlavorRepository: OffFlavorRepository
+    offFlavorRepository: OffFlavorRepository,
+    private val preferencesManager: PreferencesManager? = null
 ) : ViewModel() {
+
+    private var stylesByDiscipline: Map<ScoresheetDiscipline, List<BeerStyle>> = emptyMap()
+    private var allOffFlavors: List<OffFlavor> = emptyList()
 
     private val _uiState = MutableStateFlow(
         ScoresheetEditorUiState(isNew = scoresheetId == null)
     )
     val uiState: StateFlow<ScoresheetEditorUiState> = _uiState.asStateFlow()
 
-    val bjcpBeerStyles: StateFlow<List<BeerStyle>> = beerStyleRepository.getBjcpBeerStyles()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+    private val stylesByDisciplineFlow: Flow<Map<ScoresheetDiscipline, List<BeerStyle>>> = combine(
+        beerStyleRepository.getStyles(GuidelineType.BJCP_2021),
+        beerStyleRepository.getStyles(GuidelineType.BJCP_MEAD),
+        beerStyleRepository.getStyles(GuidelineType.BJCP_CIDER)
+    ) { beer, mead, cider ->
+        mapOf(
+            ScoresheetDiscipline.BJCP_BEER to beer,
+            ScoresheetDiscipline.BJCP_MEAD to mead,
+            ScoresheetDiscipline.BJCP_CIDER to cider
         )
+    }
 
-    val bjcpMeadStyles: StateFlow<List<BeerStyle>> = beerStyleRepository.getMeadStyles()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
-
-    val bjcpCiderStyles: StateFlow<List<BeerStyle>> = beerStyleRepository.getCiderStyles()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
-
-    val offFlavors: StateFlow<List<OffFlavor>> = offFlavorRepository.getFilteredItems(OffFlavorFilterCriteria())
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+    private val offFlavorsFlow: Flow<List<OffFlavor>> =
+        offFlavorRepository.getFilteredItems(OffFlavorFilterCriteria())
 
     init {
+        viewModelScope.launch {
+            stylesByDisciplineFlow.collect { map ->
+                stylesByDiscipline = map
+                updateState { this }
+            }
+        }
+        viewModelScope.launch {
+            offFlavorsFlow.collect { list ->
+                allOffFlavors = list
+                updateState { this }
+            }
+        }
         viewModelScope.launch {
             if (scoresheetId != null) {
                 val existing = scoresheetRepository.getScoresheetById(scoresheetId)
                 if (existing != null) {
                     val displayStyle = formatStyleDisplay(existing.styleNumber, existing.styleName)
-                    _uiState.value = ScoresheetEditorUiState(
-                        scoresheet = existing,
-                        initialScoresheet = existing,
-                        selectedDiscipline = existing.discipline,
-                        isNew = false,
-                        isLoading = false,
-                        styleQuery = displayStyle
-                    )
+                    updateState {
+                        ScoresheetEditorUiState(
+                            scoresheet = existing,
+                            initialScoresheet = existing,
+                            selectedDiscipline = existing.discipline,
+                            isNew = false,
+                            isLoading = false,
+                            styleQuery = displayStyle
+                        )
+                    }
                     return@launch
                 }
             }
-            val defaultDiscipline = scoresheetRepository.lastScoresheetDiscipline.first()
-                .let { if (it.isSupported) it else ScoresheetDiscipline.BJCP_BEER }
+            val defaultDiscipline = preferencesManager?.lastScoresheetDiscipline?.first()
+                ?: ScoresheetDiscipline.BJCP_BEER
             val blank = Scoresheet.createBlank(defaultDiscipline)
-            _uiState.value = ScoresheetEditorUiState(
-                scoresheet = blank,
-                initialScoresheet = blank,
-                selectedDiscipline = defaultDiscipline,
-                isNew = true,
-                isLoading = false,
-                styleQuery = ""
-            )
+            updateState {
+                ScoresheetEditorUiState(
+                    scoresheet = blank,
+                    initialScoresheet = blank,
+                    selectedDiscipline = defaultDiscipline,
+                    isNew = true,
+                    isLoading = false,
+                    styleQuery = ""
+                )
+            }
         }
     }
 
@@ -120,8 +132,8 @@ class ScoresheetEditorViewModel(
         val current = _uiState.value
         if (!current.isNew || current.selectedDiscipline == discipline) return
 
-        if (hasJudgingData(current.scoresheet)) {
-            _uiState.update { it.copy(pendingDisciplineSwitch = discipline) }
+        if (current.scoresheet.hasJudgingData()) {
+            updateState { copy(pendingDisciplineSwitch = discipline) }
         } else {
             applyDisciplineSwitch(discipline)
         }
@@ -133,13 +145,13 @@ class ScoresheetEditorViewModel(
     }
 
     fun dismissDisciplineSwitch() {
-        _uiState.update { it.copy(pendingDisciplineSwitch = null) }
+        updateState { copy(pendingDisciplineSwitch = null) }
     }
 
     private fun applyDisciplineSwitch(target: ScoresheetDiscipline) {
-        _uiState.update { state ->
-            val current = state.scoresheet
-            val hadNoEditsYet = state.initialScoresheet != null && current == state.initialScoresheet
+        updateState {
+            val current = scoresheet
+            val hadNoEditsYet = initialScoresheet != null && current == initialScoresheet
             val converted = Scoresheet.createBlank(
                 discipline = target,
                 id = current.id,
@@ -149,9 +161,9 @@ class ScoresheetEditorViewModel(
                 bottleInspectionOk = current.bottleInspectionOk,
                 bottleInspectionNotes = current.bottleInspectionNotes
             )
-            state.copy(
+            copy(
                 scoresheet = converted,
-                initialScoresheet = if (hadNoEditsYet) converted else state.initialScoresheet,
+                initialScoresheet = if (hadNoEditsYet) converted else initialScoresheet,
                 selectedDiscipline = target,
                 pendingDisciplineSwitch = null,
                 styleQuery = ""
@@ -159,38 +171,15 @@ class ScoresheetEditorViewModel(
         }
     }
 
-    private fun hasJudgingData(sheet: Scoresheet): Boolean {
-        val beerDirty = sheet is BeerScoresheet && (sheet.mouthfeelScore > 0 || sheet.mouthfeelNotes.isNotBlank())
-        val fourSectionDirty = sheet is FourSectionScoresheet && sheet.hasAdditionalInfo
-        return sheet.styleId != null ||
-            sheet.styleName.isNotBlank() ||
-            sheet.styleNumber.isNotBlank() ||
-            sheet.aromaScore > 0 ||
-            sheet.appearanceScore > 0 ||
-            sheet.flavorScore > 0 ||
-            sheet.overallScore > 0 ||
-            sheet.aromaNotes.isNotBlank() ||
-            sheet.appearanceNotes.isNotBlank() ||
-            sheet.flavorNotes.isNotBlank() ||
-            sheet.overallNotes.isNotBlank() ||
-            sheet.stylisticAccuracy > 0 ||
-            sheet.technicalMerit > 0 ||
-            sheet.intangibles > 0 ||
-            sheet.descriptorValues.isNotEmpty() ||
-            sheet.offFlavorLevels.isNotEmpty() ||
-            beerDirty ||
-            fourSectionDirty
-    }
-
     fun updateEntryTitle(title: String) = updateCommon(entryTitle = title)
     fun updateBrewer(brewer: String) = updateCommon(brewer = brewer)
     fun updateEvaluatedAt(millis: Long) = updateCommon(evaluatedAtMillis = millis)
 
     fun onStyleQueryChange(query: String) {
-        _uiState.update { state ->
-            state.copy(
+        updateState {
+            copy(
                 styleQuery = query,
-                scoresheet = state.scoresheet.copyCommon(
+                scoresheet = scoresheet.copyCommon(
                     styleId = null,
                     styleNumber = "",
                     styleName = query.trim()
@@ -201,10 +190,10 @@ class ScoresheetEditorViewModel(
 
     fun selectBjcpStyle(style: BeerStyle) {
         val display = formatStyleDisplay(style.number, style.name)
-        _uiState.update { state ->
-            state.copy(
+        updateState {
+            copy(
                 styleQuery = display,
-                scoresheet = state.scoresheet.copyCommon(
+                scoresheet = scoresheet.copyCommon(
                     styleId = style.id,
                     styleNumber = style.number,
                     styleName = style.name
@@ -213,35 +202,25 @@ class ScoresheetEditorViewModel(
         }
     }
 
-    fun updateAromaScore(score: Int) {
-        val max = when (_uiState.value.scoresheet) {
-            is BeerScoresheet -> 12
-            is FourSectionScoresheet -> 10
-        }
-        updateCommon(aromaScore = score.coerceIn(0, max))
+    fun updateAromaScore(score: Int) = updateScoresheet {
+        it.copyCommon(aromaScore = score.coerceIn(0, it.discipline.aromaMax))
     }
 
-    fun updateAppearanceScore(score: Int) {
-        val max = when (_uiState.value.scoresheet) {
-            is BeerScoresheet -> 3
-            is FourSectionScoresheet -> 6
-        }
-        updateCommon(appearanceScore = score.coerceIn(0, max))
+    fun updateAppearanceScore(score: Int) = updateScoresheet {
+        it.copyCommon(appearanceScore = score.coerceIn(0, it.discipline.appearanceMax))
     }
 
-    fun updateFlavorScore(score: Int) {
-        val max = when (_uiState.value.scoresheet) {
-            is BeerScoresheet -> 20
-            is FourSectionScoresheet -> 24
-        }
-        updateCommon(flavorScore = score.coerceIn(0, max))
+    fun updateFlavorScore(score: Int) = updateScoresheet {
+        it.copyCommon(flavorScore = score.coerceIn(0, it.discipline.flavorMax))
     }
 
-    fun updateMouthfeelScore(score: Int) {
-        updateBeer { it.copy(mouthfeelScore = score.coerceIn(0, 5)) }
+    fun updateMouthfeelScore(score: Int) = updateBeer {
+        it.copy(mouthfeelScore = score.coerceIn(0, it.discipline.mouthfeelMax))
     }
 
-    fun updateOverallScore(score: Int) = updateCommon(overallScore = score.coerceIn(0, 10))
+    fun updateOverallScore(score: Int) = updateScoresheet {
+        it.copyCommon(overallScore = score.coerceIn(0, it.discipline.overallMax))
+    }
 
     fun updateAromaNotes(notes: String) = updateCommon(aromaNotes = notes)
     fun updateAppearanceNotes(notes: String) = updateCommon(appearanceNotes = notes)
@@ -258,25 +237,25 @@ class ScoresheetEditorViewModel(
 
     fun cycleDeclaredCarbonation() {
         updateFourSection { sheet ->
-            sheet.copyDeclared(declaredCarbonation = cycleOption(sheet.declaredCarbonation, sheet.carbonationOptions))
+            sheet.copy(declaredCarbonation = cycleOption(sheet.declaredCarbonation, sheet.carbonationOptions))
         }
     }
 
     fun cycleDeclaredSweetness() {
         updateFourSection { sheet ->
-            sheet.copyDeclared(declaredSweetness = cycleOption(sheet.declaredSweetness, sheet.sweetnessOptions))
+            sheet.copy(declaredSweetness = cycleOption(sheet.declaredSweetness, sheet.sweetnessOptions))
         }
     }
 
     fun cycleDeclaredStrength() {
         updateFourSection { sheet ->
-            sheet.copyDeclared(declaredStrength = cycleOption(sheet.declaredStrength, sheet.strengthOptions))
+            sheet.copy(declaredStrength = cycleOption(sheet.declaredStrength, sheet.strengthOptions))
         }
     }
 
     fun updateSpecialIngredients(ingredients: String) {
         updateFourSection { sheet ->
-            sheet.copyDeclared(specialIngredients = ingredients)
+            sheet.copy(specialIngredients = ingredients)
         }
     }
 
@@ -302,21 +281,10 @@ class ScoresheetEditorViewModel(
         val current = _uiState.value
         if (!current.canSave) return
         viewModelScope.launch {
-            val trimmedTitle = current.scoresheet.entryTitle.trim()
-            val sanitized = when (val sheet = current.scoresheet) {
-                is BeerScoresheet -> sheet.copy(entryTitle = trimmedTitle)
-                is MeadScoresheet -> sheet.copy(
-                    entryTitle = trimmedTitle,
-                    specialIngredients = sheet.specialIngredients.trim()
-                )
-                is CiderScoresheet -> sheet.copy(
-                    entryTitle = trimmedTitle,
-                    specialIngredients = sheet.specialIngredients.trim()
-                )
-            }
+            val sanitized = current.scoresheet.sanitizedForSave()
             scoresheetRepository.saveScoresheet(sanitized)
             if (current.isNew) {
-                scoresheetRepository.setLastScoresheetDiscipline(sanitized.discipline)
+                preferencesManager?.setLastScoresheetDiscipline(sanitized.discipline)
             }
             onSaved()
         }
@@ -335,12 +303,42 @@ class ScoresheetEditorViewModel(
     }
 
     fun buildShareText(): String {
-        val names = offFlavors.value.associate { it.id to it.name }
-        return _uiState.value.scoresheet.formatForShare(names)
+        val current = _uiState.value
+        val names = current.availableOffFlavors.associate { it.id to it.name }
+        return current.scoresheet.formatForShare(names)
+    }
+
+    private inline fun updateState(transform: ScoresheetEditorUiState.() -> ScoresheetEditorUiState) {
+        _uiState.update { state -> transform(state).withCatalogProjections() }
+    }
+
+    private fun ScoresheetEditorUiState.withCatalogProjections(): ScoresheetEditorUiState {
+        val activeStyles = stylesByDiscipline[scoresheet.discipline].orEmpty()
+        val trimmedQuery = styleQuery.trim()
+        val projectedFilteredStyles = if (trimmedQuery.isEmpty()) {
+            activeStyles.take(MAX_STYLE_DROPDOWN_RESULTS)
+        } else {
+            activeStyles.filter { style ->
+                style.name.contains(trimmedQuery, ignoreCase = true) ||
+                    style.number.contains(trimmedQuery, ignoreCase = true) ||
+                    style.category.contains(trimmedQuery, ignoreCase = true)
+            }.take(MAX_STYLE_DROPDOWN_RESULTS)
+        }
+        val projectedLinkedStyle = scoresheet.styleId?.let { id ->
+            activeStyles.firstOrNull { it.id == id }
+        }
+        val projectedOffFlavors = allOffFlavors.filter {
+            it.disciplines.contains(scoresheet.discipline.shortLabel)
+        }
+        return copy(
+            filteredStyles = projectedFilteredStyles,
+            linkedStyle = projectedLinkedStyle,
+            availableOffFlavors = projectedOffFlavors
+        )
     }
 
     private inline fun updateScoresheet(transform: (Scoresheet) -> Scoresheet) {
-        _uiState.update { state -> state.copy(scoresheet = transform(state.scoresheet)) }
+        updateState { copy(scoresheet = transform(scoresheet)) }
     }
 
     private inline fun updateBeer(transform: (BeerScoresheet) -> BeerScoresheet) {
@@ -349,26 +347,6 @@ class ScoresheetEditorViewModel(
 
     private inline fun updateFourSection(transform: (FourSectionScoresheet) -> FourSectionScoresheet) {
         updateScoresheet { sheet -> if (sheet is FourSectionScoresheet) transform(sheet) else sheet }
-    }
-
-    private fun FourSectionScoresheet.copyDeclared(
-        declaredCarbonation: String? = this.declaredCarbonation,
-        declaredSweetness: String? = this.declaredSweetness,
-        declaredStrength: String? = this.declaredStrength,
-        specialIngredients: String = this.specialIngredients
-    ): FourSectionScoresheet = when (this) {
-        is MeadScoresheet -> copy(
-            declaredCarbonation = declaredCarbonation,
-            declaredSweetness = declaredSweetness,
-            declaredStrength = declaredStrength,
-            specialIngredients = specialIngredients
-        )
-        is CiderScoresheet -> copy(
-            declaredCarbonation = declaredCarbonation,
-            declaredSweetness = declaredSweetness,
-            declaredStrength = declaredStrength,
-            specialIngredients = specialIngredients
-        )
     }
 
     private fun updateCommon(
@@ -409,100 +387,6 @@ class ScoresheetEditorViewModel(
                 intangibles = intangibles ?: sheet.intangibles
             )
         }
-    }
-
-    private fun Scoresheet.copyCommon(
-        entryTitle: String = this.entryTitle,
-        brewer: String = this.brewer,
-        styleId: String? = this.styleId,
-        styleNumber: String = this.styleNumber,
-        styleName: String = this.styleName,
-        evaluatedAtMillis: Long = this.evaluatedAtMillis,
-        aromaScore: Int = this.aromaScore,
-        appearanceScore: Int = this.appearanceScore,
-        flavorScore: Int = this.flavorScore,
-        overallScore: Int = this.overallScore,
-        aromaNotes: String = this.aromaNotes,
-        appearanceNotes: String = this.appearanceNotes,
-        flavorNotes: String = this.flavorNotes,
-        overallNotes: String = this.overallNotes,
-        bottleInspectionOk: Boolean = this.bottleInspectionOk,
-        bottleInspectionNotes: String = this.bottleInspectionNotes,
-        stylisticAccuracy: Int = this.stylisticAccuracy,
-        technicalMerit: Int = this.technicalMerit,
-        intangibles: Int = this.intangibles,
-        descriptorValues: Map<String, String> = this.descriptorValues,
-        offFlavorLevels: Map<String, IntensityLevel> = this.offFlavorLevels
-    ): Scoresheet = when (this) {
-        is BeerScoresheet -> copy(
-            entryTitle = entryTitle,
-            brewer = brewer,
-            styleId = styleId,
-            styleNumber = styleNumber,
-            styleName = styleName,
-            evaluatedAtMillis = evaluatedAtMillis,
-            aromaScore = aromaScore,
-            appearanceScore = appearanceScore,
-            flavorScore = flavorScore,
-            overallScore = overallScore,
-            aromaNotes = aromaNotes,
-            appearanceNotes = appearanceNotes,
-            flavorNotes = flavorNotes,
-            overallNotes = overallNotes,
-            bottleInspectionOk = bottleInspectionOk,
-            bottleInspectionNotes = bottleInspectionNotes,
-            stylisticAccuracy = stylisticAccuracy,
-            technicalMerit = technicalMerit,
-            intangibles = intangibles,
-            descriptorValues = descriptorValues,
-            offFlavorLevels = offFlavorLevels
-        )
-        is MeadScoresheet -> copy(
-            entryTitle = entryTitle,
-            brewer = brewer,
-            styleId = styleId,
-            styleNumber = styleNumber,
-            styleName = styleName,
-            evaluatedAtMillis = evaluatedAtMillis,
-            aromaScore = aromaScore,
-            appearanceScore = appearanceScore,
-            flavorScore = flavorScore,
-            overallScore = overallScore,
-            aromaNotes = aromaNotes,
-            appearanceNotes = appearanceNotes,
-            flavorNotes = flavorNotes,
-            overallNotes = overallNotes,
-            bottleInspectionOk = bottleInspectionOk,
-            bottleInspectionNotes = bottleInspectionNotes,
-            stylisticAccuracy = stylisticAccuracy,
-            technicalMerit = technicalMerit,
-            intangibles = intangibles,
-            descriptorValues = descriptorValues,
-            offFlavorLevels = offFlavorLevels
-        )
-        is CiderScoresheet -> copy(
-            entryTitle = entryTitle,
-            brewer = brewer,
-            styleId = styleId,
-            styleNumber = styleNumber,
-            styleName = styleName,
-            evaluatedAtMillis = evaluatedAtMillis,
-            aromaScore = aromaScore,
-            appearanceScore = appearanceScore,
-            flavorScore = flavorScore,
-            overallScore = overallScore,
-            aromaNotes = aromaNotes,
-            appearanceNotes = appearanceNotes,
-            flavorNotes = flavorNotes,
-            overallNotes = overallNotes,
-            bottleInspectionOk = bottleInspectionOk,
-            bottleInspectionNotes = bottleInspectionNotes,
-            stylisticAccuracy = stylisticAccuracy,
-            technicalMerit = technicalMerit,
-            intangibles = intangibles,
-            descriptorValues = descriptorValues,
-            offFlavorLevels = offFlavorLevels
-        )
     }
 
     private fun formatStyleDisplay(number: String, name: String): String =

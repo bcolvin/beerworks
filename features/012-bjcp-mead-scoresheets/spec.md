@@ -18,9 +18,10 @@ Enable mead judges and meadmakers to create, edit, delete, search, filter, and s
 - **Domain Vocabulary**: Strictly adhere to `GLOSSARY.md` (`Scoresheet`, `Beverage Discipline`, `Mead Style`, `Mead Sweetness Classification`, `Mead Carbonation Classification`, `Mead Strength Classification`, `BJCP Scoring Tier`, `Off-Flavor`).
 - **Architectural Decisions**:
   - `docs/adr/0009-bjcp-scoresheets-and-form-modes.md`: Unified `scoresheets` persistence, `ScoresheetDiscipline`, and single-back `ModalBottomSheet` inline reference sheets (`skipPartiallyExpanded = true`).
-  - `docs/adr/0010-polymorphic-scoresheet-single-table.md`: `@Immutable sealed interface Scoresheet` (`BeerScoresheet`, `MeadScoresheet`) backed by the unified `scoresheets` Room table (`MIGRATION_13_14`).
+  - `docs/adr/0010-polymorphic-scoresheet-single-table.md`: `@Immutable sealed interface Scoresheet` (`BeerScoresheet`, concrete `FourSectionScoresheet` parameterized by `discipline`) backed by the unified `scoresheets` Room table (`MIGRATION_13_14`), with `ScoresheetDiscipline` as the single source of truth for section bounds, labels, and options.
+  - `docs/adr/0011-direct-preferences-seam-guideline-dispatch-and-editor-projection.md`: Direct `PreferencesManager` seam, unified `BeerStyleRepository.getStyles(GuidelineType)`, projected `ScoresheetEditorUiState`, and shared `StyleVitalStats` formatting (`"—"` fallback).
 - **Performance & UI Standards**: Follow `GEMINI.md`:
-  - Compose `@Immutable` domain and UI state models (`Scoresheet`, `BeerScoresheet`, `MeadScoresheet`, `ScoresheetEditorUiState`).
+  - Compose `@Immutable` domain and UI state models (`Scoresheet`, `BeerScoresheet`, `FourSectionScoresheet`, `ScoresheetEditorUiState`).
   - Offload repository Flow mapping to `Dispatchers.Default` via `.flowOn(Dispatchers.Default)`.
   - No placeholder/hint text in search fields (`OutlinedTextField`).
   - Toggle `FilterChip`s on `ReviewsScreen` with no `"All"` chip.
@@ -32,24 +33,24 @@ Enable mead judges and meadmakers to create, edit, delete, search, filter, and s
 
 ### 1. Data Pipeline & Persistence
 - [x] **Polymorphic Domain Model (`Scoresheet.kt`)**:
-  - Refactor `Scoresheet` into `@Immutable sealed interface Scoresheet` with `BeerScoresheet` and `MeadScoresheet` implementations (`ScoresheetDiscipline.BJCP_MEAD.isSupported = true`).
-  - `MeadScoresheet`: `id`, `entryTitle`, `brewer` (meadmaker), `styleId` (`BJCP_MEAD`), `styleName`, `styleNumber`, `evaluatedAtMillis`, integer section scores (`aromaScore` `0–10`, `appearanceScore` `0–6`, `flavorScore` `0–24`, `overallScore` `0–10`; all starting at `0`), optional per-section notes (`aromaNotes`, `appearanceNotes`, `flavorNotes`, `overallNotes`), `declaredCarbonation: String?`, `declaredSweetness: String?`, `declaredStrength: String?`, `specialIngredients: String`, `bottleInspectionOk`, `bottleInspectionNotes`, `0–10` impressions (`stylisticAccuracy`, `technicalMerit`, `intangibles`), `descriptorValues: Map<String, String>`, `offFlavorLevels: Map<String, IntensityLevel>`, and `updatedAtMillis`.
+  - Model `Scoresheet` as `@Immutable sealed interface Scoresheet` with `BeerScoresheet` and unified `FourSectionScoresheet(discipline = BJCP_MEAD | BJCP_CIDER)` implementations, with `ScoresheetDiscipline` owning section maximums, maker/field labels, and classification options.
+  - `FourSectionScoresheet` (`BJCP_MEAD`): `id`, `entryTitle`, `brewer` (meadmaker), `styleId` (`BJCP_MEAD`), `styleName`, `styleNumber`, `evaluatedAtMillis`, integer section scores (`aromaScore` `0–10`, `appearanceScore` `0–6`, `flavorScore` `0–24`, `overallScore` `0–10`; all starting at `0`), optional per-section notes (`aromaNotes`, `appearanceNotes`, `flavorNotes`, `overallNotes`), `declaredCarbonation: String?`, `declaredSweetness: String?`, `declaredStrength: String?`, `specialIngredients: String`, `bottleInspectionOk`, `bottleInspectionNotes`, `0–10` impressions (`stylisticAccuracy`, `technicalMerit`, `intangibles`), `descriptorValues: Map<String, String>`, `offFlavorLevels: Map<String, IntensityLevel>`, and `updatedAtMillis`.
   - Computed `totalScore` (`/50`) and `scoringTier` (`BjcpScoringTier`) shared via `Scoresheet`.
   - **Mead `ScoresheetDescriptor`s**:
     - **Aroma** (`0–10`): `Honey`, `Floral / Fruity`, `Spices / Adjuncts`, `Alcohol`, `Fermentation` (`Low / Med / High`).
     - **Appearance** (`0–6`): `Color` (`Straw / Gold / Amber / Dark / Pink / Red / Purple`), `Clarity` (`Opaque / Hazy / Brilliant`), `Legs / Viscosity` (`Light / Med / Heavy`), `Carbonation` (`Still / Pétillant / Sparkling`).
     - **Flavor** (`0–24`): `Honey`, `Spices / Adjuncts`, `Sweetness` (`Dry / Semi-Sweet / Sweet`), `Acidity` (`Low / Med / High`), `Tannin / Astringency` (`Low / Med / High`), `Body` (`Light / Med / Full`), `Carbonation` (`Still / Pétillant / Sparkling`), `Alcohol Warmth` (`Low / Med / High`), `Balance` (`Sweet / Balanced / Acidic`), `Finish` (`Dry / Balanced / Sweet`).
-  - `MeadScoresheet.formatForShare()`: Generates `"BJCP Mead Scoresheet"` plain-text summary including populated `Additional Information` lines only when set, the 4-section breakdown (`Aroma / 10`, `Appearance / 6`, `Flavor / 24`, `Overall Impression / 10`), impressions, descriptors, off-flavors, and notes.
+  - `formatForShare()`: Generates `"BJCP Mead Scoresheet"` plain-text summary including populated `Additional Information` lines only when set, the 4-section breakdown (`Aroma / 10`, `Appearance / 6`, `Flavor / 24`, `Overall Impression / 10`), impressions, descriptors, off-flavors, and notes.
 - [x] **Room Database (`BeerworksDatabase` v13 → v14)**:
   - Extend `ScoresheetEntity` with `declaredCarbonation`, `declaredSweetness`, `declaredStrength`, and `specialIngredients` columns (`TEXT NOT NULL DEFAULT ''`), migrated non-destructively via `MIGRATION_13_14`.
-  - Update `ScoresheetEntity.toDomainModel()` and `Scoresheet.toEntity()` to round-trip both `BeerScoresheet` and `MeadScoresheet`.
+  - Update `ScoresheetEntity.toDomainModel()` and `Scoresheet.toEntity()` to round-trip both `BeerScoresheet` and `FourSectionScoresheet`.
 - [x] **Repository (`BeerStyleRepository`)**:
-  - Expose `getMeadStyles(): Flow<List<BeerStyle>>` sourced from `MeadStyleDao` independent of the active Style Guide setting.
+  - Expose `getStyles(GuidelineType.BJCP_MEAD): Flow<List<BeerStyle>>` sourced from `MeadStyleDao` via the unified `GuidelineStyleSource` adapter map independent of the active Style Guide setting.
 
 ### 2. Reviews List Screen (`ReviewsScreen` / `ReviewsViewModel`)
 - [x] **Search & Discipline Filter**:
   - Existing `🐝 Mead (N)` toggle `FilterChip` filters Mead reviews cleanly alongside `🍺 Beer (N)`.
-  - Text search matches `specialIngredients` on `MeadScoresheet` in addition to `entryTitle`, `styleName`, `styleNumber`, and `brewer`.
+  - Text search matches `specialIngredients` on `FourSectionScoresheet` in addition to `entryTitle`, `styleName`, `styleNumber`, and `brewer`.
   - `ScoresheetCard` uses the shared compact 4-row layout (`1. Date • 🐝 Mead` + Share/Delete; `2. Meadmaker`; `3. Entry Name` + `Score/50 • Tier`; `4. Style`).
 
 ### 3. Scoresheet Editor Screen (`ScoresheetEditorScreen` / `ScoresheetEditorViewModel`)
@@ -75,7 +76,7 @@ Enable mead judges and meadmakers to create, edit, delete, search, filter, and s
 ---
 
 ## 🧪 Testing Plan
-- `ScoresheetModelTest`: `MeadScoresheet` 50-point calculation (`10/6/24/10`), `ScoresheetEntity` round-trip serialization for both `BeerScoresheet` and `MeadScoresheet`, Mead descriptor cycling, and `MeadScoresheet.formatForShare()` (populated vs. empty `Additional Information`).
+- `ScoresheetModelTest`: `FourSectionScoresheet` (`BJCP_MEAD`) 50-point calculation (`10/6/24/10`), `ScoresheetEntity` round-trip serialization for both `BeerScoresheet` and `FourSectionScoresheet`, Mead descriptor cycling, and `formatForShare()` (populated vs. empty `Additional Information`).
 - `ScoresheetEditorViewModelTest`: Mead score clamping (`10/6/24/10`), `MeadStyle` linking without auto-filling collapsed `Additional Information` chips, clean vs. dirty discipline switching with shared metadata preservation, Mead off-flavor filtering, and save/load persistence.
 - `ReviewsViewModelTest`: Filtering by `BJCP_MEAD` and searching by `specialIngredients`.
 - Verified with `./gradlew --no-daemon --offline testDebugUnitTest assembleDebug`.

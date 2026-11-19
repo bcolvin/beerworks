@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.favorites
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bc.beerworks.data.local.PreferencesManager
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.HoneyVariety
 import com.bc.beerworks.data.model.HopVariety
@@ -91,6 +92,7 @@ data class FavoritesUiState(
 class FavoritesViewModel(
     private val beerStyleRepository: BeerStyleRepository,
     private val ingredientCatalogRepository: IngredientCatalogRepository,
+    private val preferencesManager: PreferencesManager,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
 
@@ -102,6 +104,7 @@ class FavoritesViewModel(
         pomeRepository: PomeRepository,
         yeastRepository: YeastRepository,
         offFlavorRepository: OffFlavorRepository? = null,
+        preferencesManager: PreferencesManager,
         defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     ) : this(
         beerStyleRepository = beerStyleRepository,
@@ -114,6 +117,7 @@ class FavoritesViewModel(
             offFlavorRepository = offFlavorRepository,
             defaultDispatcher = defaultDispatcher
         ),
+        preferencesManager = preferencesManager,
         defaultDispatcher = defaultDispatcher
     )
 
@@ -126,7 +130,7 @@ class FavoritesViewModel(
     private val _pendingRemoval = MutableStateFlow<FavoriteItemTarget?>(null)
     val pendingRemoval: StateFlow<FavoriteItemTarget?> = _pendingRemoval.asStateFlow()
 
-    val confirmFavoriteRemoval: StateFlow<Boolean> = beerStyleRepository.confirmFavoriteRemoval.stateIn(
+    val confirmFavoriteRemoval: StateFlow<Boolean> = preferencesManager.confirmFavoriteRemoval.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = true
@@ -220,7 +224,7 @@ class FavoritesViewModel(
 
     fun onRequestRemove(target: FavoriteItemTarget) {
         viewModelScope.launch {
-            val shouldConfirm = beerStyleRepository.confirmFavoriteRemoval.first()
+            val shouldConfirm = preferencesManager.confirmFavoriteRemoval.first()
             if (shouldConfirm) {
                 _pendingRemoval.value = target
             } else {
@@ -234,7 +238,7 @@ class FavoritesViewModel(
         _pendingRemoval.value = null
         viewModelScope.launch {
             if (alwaysRemoveWithoutAsking) {
-                beerStyleRepository.setConfirmFavoriteRemoval(false)
+                preferencesManager.setConfirmFavoriteRemoval(false)
             }
             removeTarget(target)
         }

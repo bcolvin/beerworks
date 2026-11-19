@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import com.bc.beerworks.util.formattedAbvRange
+import com.bc.beerworks.util.formattedIbuRange
 
 data class MatchSnippet(
     val categoryLabel: String,
@@ -184,11 +186,7 @@ fun StyleCard(
                         Spacer(modifier = Modifier.width(8.dp))
                     }
 
-                    val abvText = when {
-                        style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
-                        style.abvMin != null -> "${style.abvMin}% ABV"
-                        else -> "N/A ABV"
-                    }
+                    val abvText = style.formattedAbvRange(suffix = "% ABV")
 
                     Text(
                         text = abvText,
@@ -206,17 +204,8 @@ fun StyleCard(
                 ) {
                     SrmRangeSwatch(minSrm = style.srmMin, maxSrm = style.srmMax)
 
-                    val abvText = when {
-                        style.abvMin != null && style.abvMax != null -> "${style.abvMin}–${style.abvMax}% ABV"
-                        style.abvMin != null -> "${style.abvMin}% ABV"
-                        else -> "N/A ABV"
-                    }
-
-                    val ibuText = when {
-                        style.ibuMin != null && style.ibuMax != null -> "${style.ibuMin.toInt()}–${style.ibuMax.toInt()} IBU"
-                        style.ibuMin != null -> "${style.ibuMin.toInt()} IBU"
-                        else -> "N/A IBU"
-                    }
+                    val abvText = style.formattedAbvRange(suffix = "% ABV")
+                    val ibuText = style.formattedIbuRange(suffix = " IBU")
 
                     Text(
                         text = "$abvText  •  $ibuText",

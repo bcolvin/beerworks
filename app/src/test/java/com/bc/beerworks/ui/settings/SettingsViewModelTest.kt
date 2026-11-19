@@ -2,10 +2,6 @@ package com.bc.beerworks.ui.settings
 
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.TemperatureUnit
-import com.bc.beerworks.data.repository.BeerStyleRepository
-import com.bc.beerworks.data.repository.FakeBaDao
-import com.bc.beerworks.data.repository.FakeBjcpDao
-import com.bc.beerworks.data.repository.FakeFavDao
 import com.bc.beerworks.data.repository.FakePrefsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,28 +33,14 @@ class SettingsViewModelTest {
 
     @Test
     fun selectedGuideline_defaultsToBJCP2021() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
 
         assertThat(viewModel.selectedGuideline.value).isEqualTo(GuidelineType.BJCP_2021)
     }
 
     @Test
     fun onGuidelineChange_updatesSelectedGuideline() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
         val collectJob = backgroundScope.launch {
             viewModel.selectedGuideline.collect {}
         }
@@ -77,28 +59,14 @@ class SettingsViewModelTest {
 
     @Test
     fun keepScreenOn_defaultsToFalse() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
 
         assertThat(viewModel.keepScreenOn.value).isFalse()
     }
 
     @Test
     fun onKeepScreenOnChange_updatesKeepScreenOn() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
         val collectJob = backgroundScope.launch {
             viewModel.keepScreenOn.collect {}
         }
@@ -117,28 +85,14 @@ class SettingsViewModelTest {
 
     @Test
     fun temperatureUnit_defaultsToFahrenheit() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
 
         assertThat(viewModel.temperatureUnit.value).isEqualTo(TemperatureUnit.FAHRENHEIT)
     }
 
     @Test
     fun onTemperatureUnitChange_updatesTemperatureUnit() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
         val collectJob = backgroundScope.launch {
             viewModel.temperatureUnit.collect {}
         }
@@ -157,14 +111,7 @@ class SettingsViewModelTest {
 
     @Test
     fun confirmFavoriteRemoval_defaultsToTrue_andUpdates() = runTest {
-        val repository = BeerStyleRepository(
-            FakeBjcpDao(emptyList()),
-            FakeBaDao(),
-            FakeFavDao(),
-            FakePrefsManager()
-        )
-
-        val viewModel = SettingsViewModel(repository)
+        val viewModel = SettingsViewModel(FakePrefsManager())
         val collectJob = backgroundScope.launch {
             viewModel.confirmFavoriteRemoval.collect {}
         }

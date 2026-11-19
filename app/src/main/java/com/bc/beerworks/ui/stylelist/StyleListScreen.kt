@@ -89,14 +89,12 @@ fun StyleListScreen(
     val groupedStyles by viewModel.groupedStyles.collectAsState()
     val expandedCategoryNumber by viewModel.expandedCategoryNumber.collectAsState()
     val criteria by viewModel.filterCriteria.collectAsState()
-    val categories by viewModel.categories.collectAsState()
     val selectedGuideline by viewModel.selectedGuideline.collectAsState()
 
     StyleListContent(
         groupedStyles = groupedStyles,
         expandedCategoryNumber = expandedCategoryNumber,
         criteria = criteria,
-        categories = categories,
         selectedGuideline = selectedGuideline,
         onGuidelineChange = viewModel::onGuidelineChange,
         onQueryChange = viewModel::onQueryChange,
@@ -122,7 +120,6 @@ fun StyleListContent(
     groupedStyles: List<BaseStyleGroup>,
     expandedCategoryNumber: String?,
     criteria: FilterCriteria,
-    categories: List<String>,
     selectedGuideline: GuidelineType = GuidelineType.BJCP_2021,
     onGuidelineChange: (GuidelineType) -> Unit = {},
     onQueryChange: (String) -> Unit,
@@ -433,7 +430,6 @@ fun StyleListContent(
             if (showFilterSheet) {
                 FilterSheet(
                     criteria = criteria,
-                    categories = categories,
                     selectedGuideline = selectedGuideline,
                     onCriteriaChange = onFilterCriteriaChange,
                     onReset = onResetFilters,
@@ -490,7 +486,6 @@ fun StyleListContentPreview() {
             ),
             expandedCategoryNumber = "1",
             criteria = FilterCriteria(),
-            categories = listOf("Standard American Beer"),
             onQueryChange = {},
             onFilterCriteriaChange = {},
             onResetFilters = {},

@@ -380,6 +380,7 @@ class FavoritesViewModelTest {
             pomeRepository = pomeRepository,
             yeastRepository = yeastRepository,
             offFlavorRepository = offFlavorRepository,
+            preferencesManager = prefsManager,
             defaultDispatcher = testDispatcher
         )
     }

@@ -25,7 +25,7 @@ class AppContainer(context: Context) {
     val pomeRepository: PomeRepository = PomeRepository(database)
     val yeastRepository: YeastRepository = YeastRepository(database)
     val offFlavorRepository: OffFlavorRepository = OffFlavorRepository(database)
-    val scoresheetRepository: ScoresheetRepository = ScoresheetRepository(database.scoresheetDao(), prefsManager)
+    val scoresheetRepository: ScoresheetRepository = ScoresheetRepository(database.scoresheetDao())
     val ingredientCatalogRepository: IngredientCatalogRepository = IngredientCatalogRepository(
         hopRepository = hopRepository,
         maltRepository = maltRepository,

@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.model.YeastStrain
 import com.bc.beerworks.ui.components.IngredientCatalogScaffold
@@ -33,14 +32,12 @@ fun YeastsScreen(
     val yeasts by viewModel.yeasts.collectAsState()
     val classifications by viewModel.classifications.collectAsState()
     val flocculations by viewModel.flocculations.collectAsState()
-    val temperatureUnit by viewModel.temperatureUnit.collectAsState()
 
     YeastsContent(
         yeasts = yeasts,
         criteria = criteria,
         classifications = classifications,
         flocculations = flocculations,
-        temperatureUnit = temperatureUnit,
         onQueryChange = viewModel::onQueryChange,
         onClassificationSelected = viewModel::onClassificationSelected,
         onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
@@ -57,7 +54,6 @@ fun YeastsContent(
     criteria: YeastFilterCriteria,
     classifications: List<String>,
     flocculations: List<String>,
-    temperatureUnit: TemperatureUnit,
     onQueryChange: (String) -> Unit,
     onClassificationSelected: (String?) -> Unit,
     onFilterCriteriaChange: (YeastFilterCriteria) -> Unit,

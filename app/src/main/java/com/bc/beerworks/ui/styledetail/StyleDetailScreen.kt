@@ -60,6 +60,11 @@ import com.bc.beerworks.data.model.isBeer
 import com.bc.beerworks.ui.components.SrmVerticalScrollbar
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.SrmColorConverter
+import com.bc.beerworks.util.formattedAbvRange
+import com.bc.beerworks.util.formattedFgRange
+import com.bc.beerworks.util.formattedIbuRange
+import com.bc.beerworks.util.formattedOgRange
+import com.bc.beerworks.util.formattedSrmRange
 
 @Composable
 fun StyleDetailScreen(
@@ -225,13 +230,13 @@ fun StyleDetailContent(
                 // Vital Statistics Card (moved below Commercial Examples)
                 DetailSectionCard(title = "Vital Statistics", titleColor = accentTitleColor) {
                     Column {
-                        StatRow("OG Range", formatRange(style.ogMin, style.ogMax, ""))
-                        StatRow("FG Range", formatRange(style.fgMin, style.fgMax, ""))
+                        StatRow("OG Range", style.formattedOgRange())
+                        StatRow("FG Range", style.formattedFgRange())
                         if (style.guidelineType.isBeer) {
-                            StatRow("IBU Range", formatRange(style.ibuMin, style.ibuMax, " IBU"))
-                            StatRow("SRM Range", formatRange(style.srmMin, style.srmMax, " SRM"))
+                            StatRow("IBU Range", style.formattedIbuRange(suffix = " IBU"))
+                            StatRow("SRM Range", style.formattedSrmRange(suffix = " SRM"))
                         }
-                        StatRow("ABV Range", formatRange(style.abvMin, style.abvMax, "%"))
+                        StatRow("ABV Range", style.formattedAbvRange(suffix = "%"))
                         if (!style.guidelineType.isBeer) {
                             style.sweetness?.let { if (it.isNotBlank()) StatRow("Sweetness", it) }
                             style.carbonation?.let { if (it.isNotBlank()) StatRow("Carbonation", it) }
@@ -480,14 +485,6 @@ fun StatRow(label: String, value: String) {
     ) {
         Text(text = "$label: ", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyMedium)
         Text(text = value, style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-fun formatRange(min: Double?, max: Double?, suffix: String): String {
-    return when {
-        min != null && max != null -> "$min – $max$suffix"
-        min != null -> "$min$suffix"
-        else -> "N/A"
     }
 }
 

@@ -442,4 +442,71 @@ class BeerStyleRepositoryTest {
         assertThat(favorites.map { it.id }).containsExactly("21A", "M1A", "C1A")
         assertThat(favorites.all { it.isFavorite }).isTrue()
     }
+
+    @Test
+    fun getCategoryGroup_queriesExplicitGuidelineEvenWhenDifferentGuidelineIsSelected() = runTest {
+        val dryMead = MeadStyleEntity(
+            id = "M1A", name = "Dry Mead", category = "Traditional Mead", categoryNumber = "M1", number = "M1A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "",
+            ogMin = 1.075, ogMax = 1.140, fgMin = 0.999, fgMax = 1.010, abvMin = 3.5, abvMax = 14.0,
+            sweetness = "Dry", carbonation = "Still", strength = "Standard", commercialExamples = "", tags = ""
+        )
+        val prefs = FakePrefsManager()
+        prefs.setGuideline(GuidelineType.BJCP_2021)
+        val favDao = FakeFavDao()
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(emptyList()),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = favDao,
+            preferencesManager = prefs,
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler),
+            meadStyleDao = FakeMeadDao(listOf(dryMead))
+        )
+        repository.toggleFavorite("M1A", GuidelineType.BJCP_MEAD, currentFavorite = false)
+
+        val group = repository.getCategoryGroup("M1", GuidelineType.BJCP_MEAD).first()
+
+        assertThat(group).isNotNull
+        assertThat(group?.guidelineType).isEqualTo(GuidelineType.BJCP_MEAD)
+        assertThat(group?.styles?.single()?.id).isEqualTo("M1A")
+        assertThat(group?.styles?.single()?.isFavorite).isTrue()
+    }
+
+    @Test
+    fun getNextStyle_returnsNextStyleWithItsOwnFavoriteState() = runTest {
+        val firstCider = CiderStyleEntity(
+            id = "C1A", name = "New World Cider", category = "Standard Cider", categoryNumber = "C1", number = "C1A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "",
+            ogMin = 1.045, ogMax = 1.065, fgMin = 0.995, fgMax = 1.020, abvMin = 4.5, abvMax = 8.0,
+            sweetness = "Dry", carbonation = "Sparkling", strength = "Standard", commercialExamples = "", tags = ""
+        )
+        val secondCider = CiderStyleEntity(
+            id = "C2D", name = "Ice Cider", category = "Specialty Cider", categoryNumber = "C2", number = "C2D",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "",
+            comments = "", history = "", characteristicIngredients = "", styleComparison = "",
+            ogMin = 1.130, ogMax = 1.180, fgMin = 1.060, fgMax = 1.085, abvMin = 7.0, abvMax = 13.0,
+            sweetness = "Sweet", carbonation = "Still", strength = "High Gravity", commercialExamples = "", tags = ""
+        )
+        val favDao = FakeFavDao()
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(emptyList()),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = favDao,
+            preferencesManager = FakePrefsManager(),
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler),
+            ciderStyleDao = FakeCiderDao(listOf(firstCider, secondCider))
+        )
+        // Favorite ONLY C1A, leave C2D unfavorited
+        repository.toggleFavorite("C1A", GuidelineType.BJCP_CIDER, currentFavorite = false)
+
+        val next = repository.getNextStyle("C1A", GuidelineType.BJCP_CIDER)
+
+        assertThat(next?.id).isEqualTo("C2D")
+        assertThat(next?.isFavorite).isFalse()
+
+        val allCiders = repository.getStyles(GuidelineType.BJCP_CIDER).first()
+        assertThat(allCiders.map { it.id }).containsExactly("C1A", "C2D")
+    }
 }

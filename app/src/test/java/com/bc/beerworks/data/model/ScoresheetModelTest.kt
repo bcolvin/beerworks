@@ -70,7 +70,8 @@ class ScoresheetModelTest {
 
     @Test
     fun meadScoresheetEntity_roundTripsDomainModelAndAdditionalInfo() {
-        val original = MeadScoresheet(
+        val original = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_MEAD,
             id = "mead-1",
             entryTitle = "Orange Blossom Reserve",
             brewer = "Alex Meadmaker",
@@ -99,12 +100,13 @@ class ScoresheetModelTest {
         assertThat(roundTripped).isEqualTo(original)
         assertThat(roundTripped.totalScore).isEqualTo(44)
         assertThat(roundTripped.scoringTier).isEqualTo(BjcpScoringTier.EXCELLENT)
-        assertThat((roundTripped as MeadScoresheet).hasAdditionalInfo).isTrue()
+        assertThat((roundTripped as FourSectionScoresheet).hasAdditionalInfo).isTrue()
     }
 
     @Test
     fun ciderScoresheetEntity_roundTripsDomainModelAndAdditionalInfo() {
-        val original = CiderScoresheet(
+        val original = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_CIDER,
             id = "cider-1",
             entryTitle = "Heritage Kingston",
             brewer = "Orchard House Cidery",
@@ -133,7 +135,7 @@ class ScoresheetModelTest {
         assertThat(roundTripped).isEqualTo(original)
         assertThat(roundTripped.totalScore).isEqualTo(45)
         assertThat(roundTripped.scoringTier).isEqualTo(BjcpScoringTier.OUTSTANDING)
-        assertThat((roundTripped as CiderScoresheet).hasAdditionalInfo).isTrue()
+        assertThat((roundTripped as FourSectionScoresheet).hasAdditionalInfo).isTrue()
     }
 
     @Test
@@ -159,7 +161,8 @@ class ScoresheetModelTest {
         assertThat(beerText).contains("Total Score: 38 / 50 (Excellent)")
         assertThat(beerText).contains("Off-Flavors: Acetaldehyde (Low)")
 
-        val meadMinimal = MeadScoresheet(
+        val meadMinimal = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_MEAD,
             entryTitle = "Traditional Dry",
             styleNumber = "M1A",
             styleName = "Dry Mead",
@@ -192,7 +195,8 @@ class ScoresheetModelTest {
         assertThat(meadFullText).contains("Strength: Standard")
         assertThat(meadFullText).contains("Special Ingredients: Tart Montmorency cherries")
 
-        val cider = CiderScoresheet(
+        val cider = FourSectionScoresheet(
+            discipline = ScoresheetDiscipline.BJCP_CIDER,
             entryTitle = "Dry Bittersweet",
             brewer = "Orchard Cidery",
             styleNumber = "C1B",
@@ -219,13 +223,34 @@ class ScoresheetModelTest {
     }
 
     @Test
-    fun scoresheetDiscipline_normalizesLegacyStorageValuesToBeer() {
-        assertThat(ScoresheetDiscipline.fromStorageValue("SHORT_FORM")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
-        assertThat(ScoresheetDiscipline.fromStorageValue("LONG_FORM")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+    fun scoresheetDiscipline_resolvesStorageValuesAndDefaultsUnknownToBeer() {
         assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_BEER")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
         assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_MEAD")).isEqualTo(ScoresheetDiscipline.BJCP_MEAD)
         assertThat(ScoresheetDiscipline.fromStorageValue("BJCP_CIDER")).isEqualTo(ScoresheetDiscipline.BJCP_CIDER)
+        assertThat(ScoresheetDiscipline.fromStorageValue("UNKNOWN")).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
         assertThat(ScoresheetDiscipline.fromStorageValue(null)).isEqualTo(ScoresheetDiscipline.BJCP_BEER)
+    }
+
+    @Test
+    fun scoresheetDiscipline_exposesSectionBoundsAndClassificationOptions() {
+        assertThat(ScoresheetDiscipline.BJCP_BEER.aromaMax).isEqualTo(12)
+        assertThat(ScoresheetDiscipline.BJCP_BEER.appearanceMax).isEqualTo(3)
+        assertThat(ScoresheetDiscipline.BJCP_BEER.flavorMax).isEqualTo(20)
+        assertThat(ScoresheetDiscipline.BJCP_BEER.mouthfeelMax).isEqualTo(5)
+        assertThat(ScoresheetDiscipline.BJCP_BEER.hasMouthfeelSection).isTrue()
+
+        assertThat(ScoresheetDiscipline.BJCP_MEAD.aromaMax).isEqualTo(10)
+        assertThat(ScoresheetDiscipline.BJCP_MEAD.appearanceMax).isEqualTo(6)
+        assertThat(ScoresheetDiscipline.BJCP_MEAD.flavorMax).isEqualTo(24)
+        assertThat(ScoresheetDiscipline.BJCP_MEAD.hasMouthfeelSection).isFalse()
+        assertThat(ScoresheetDiscipline.BJCP_MEAD.sweetnessOptions).containsExactly("Dry", "Semi-Sweet", "Sweet")
+
+        assertThat(ScoresheetDiscipline.BJCP_CIDER.aromaMax).isEqualTo(10)
+        assertThat(ScoresheetDiscipline.BJCP_CIDER.appearanceMax).isEqualTo(6)
+        assertThat(ScoresheetDiscipline.BJCP_CIDER.flavorMax).isEqualTo(24)
+        assertThat(ScoresheetDiscipline.BJCP_CIDER.hasMouthfeelSection).isFalse()
+        assertThat(ScoresheetDiscipline.BJCP_CIDER.sweetnessOptions)
+            .containsExactly("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet")
     }
 
     @Test
