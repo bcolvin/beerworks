@@ -83,7 +83,7 @@ fun AppDrawer(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Beerworks",
+                text = "Zymurgist Desk",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary

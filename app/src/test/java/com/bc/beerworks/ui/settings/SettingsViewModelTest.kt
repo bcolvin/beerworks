@@ -58,32 +58,6 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun keepScreenOn_defaultsToFalse() = runTest {
-        val viewModel = SettingsViewModel(FakePrefsManager())
-
-        assertThat(viewModel.keepScreenOn.value).isFalse()
-    }
-
-    @Test
-    fun onKeepScreenOnChange_updatesKeepScreenOn() = runTest {
-        val viewModel = SettingsViewModel(FakePrefsManager())
-        val collectJob = backgroundScope.launch {
-            viewModel.keepScreenOn.collect {}
-        }
-
-        viewModel.onKeepScreenOnChange(true)
-        runCurrent()
-
-        assertThat(viewModel.keepScreenOn.value).isTrue()
-
-        viewModel.onKeepScreenOnChange(false)
-        runCurrent()
-
-        assertThat(viewModel.keepScreenOn.value).isFalse()
-        collectJob.cancel()
-    }
-
-    @Test
     fun temperatureUnit_defaultsToFahrenheit() = runTest {
         val viewModel = SettingsViewModel(FakePrefsManager())
 

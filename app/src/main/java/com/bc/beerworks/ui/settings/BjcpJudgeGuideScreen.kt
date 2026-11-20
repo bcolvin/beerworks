@@ -78,6 +78,7 @@ object BjcpJudgeLinks {
     const val ONLINE_ENTRANCE_EXAM_PORTAL_URL = "https://app.bjcp.org/"
     const val BJCP_MAIN_WEBSITE_URL = "https://www.bjcp.org/"
     const val BEERWORKS_GITHUB_URL = "https://github.com/bcolvin/beerworks"
+    const val PRIVACY_POLICY_URL = "https://github.com/bcolvin/beerworks/blob/master/PRIVACY.md"
 
     fun buildCompetitionCalendarUrl(date: LocalDate = LocalDate.now()): String {
         val formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -570,7 +571,7 @@ private fun InAppStudyToolkitCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "Jump directly into Beerworks' offline reference guides and practice tools.",
+                        text = "Jump directly into Zymurgist Desk's offline reference guides and practice tools.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -824,7 +825,7 @@ private fun BjcpCommunityAttributionCard() {
                 )
             }
             Text(
-                text = "Much of the style reference data, sensory evaluation frameworks, off-flavor references, and scoresheet structures in Beerworks are made possible by the decades of volunteer work, research, and dedication of the Beer Judge Certification Program (BJCP) and its global community of judges, stewards, and exam directors.",
+                text = "Much of the style reference data, sensory evaluation frameworks, off-flavor references, and scoresheet structures in Zymurgist Desk are made possible by the decades of volunteer work, research, and dedication of the Beer Judge Certification Program (BJCP) and its global community of judges, stewards, and exam directors.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

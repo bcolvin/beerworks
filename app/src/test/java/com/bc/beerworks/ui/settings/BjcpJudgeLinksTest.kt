@@ -34,5 +34,7 @@ class BjcpJudgeLinksTest {
             .isEqualTo("https://www.bjcp.org/")
         assertThat(BjcpJudgeLinks.BEERWORKS_GITHUB_URL)
             .isEqualTo("https://github.com/bcolvin/beerworks")
+        assertThat(BjcpJudgeLinks.PRIVACY_POLICY_URL)
+            .isEqualTo("https://github.com/bcolvin/beerworks/blob/master/PRIVACY.md")
     }
 }

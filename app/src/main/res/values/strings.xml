@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">beerworks</string>
+    <string name="app_name">Zymurgist Desk</string>
+    <string name="launcher_name">Zymurgist</string>
 </resources>

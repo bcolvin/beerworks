@@ -1,18 +1,18 @@
-# 🍺 Beerworks
+# 🍺 Zymurgist Desk
 
-**Beerworks** is a modern, offline-first Android application designed for homebrewers and BJCP/Brewers Association beer judges. It provides sub-millisecond reference guidelines, sensory databases, digital scoresheet evaluation, and judge comparison tools.
+**Zymurgist Desk** is a modern, offline-first Android application designed for homebrewers, meadmakers, cidermakers, and BJCP/Brewers Association judges. It provides sub-millisecond reference guidelines, sensory databases, digital scoresheet evaluation, and judge comparison tools.
 
 ---
 
 ## 💡 Have an Idea or Feedback?
 
-Beerworks is built for the brewing and judging community! If you have a feature idea, style/ingredient suggestion, or bug report, please **[open an issue on GitHub](https://github.com/bcolvin/beerworks/issues)** to share it (feel free to glance at the [Project Goals & Vision](#-project-goals--vision) and [`BACKLOG.md`](./BACKLOG.md) below to see what's already on the roadmap).
+Zymurgist Desk is built for the brewing and judging community! If you have a feature idea, style/ingredient suggestion, or bug report, please **[open an issue on GitHub](https://github.com/bcolvin/beerworks/issues)** to share it (feel free to glance at the [Project Goals & Vision](#-project-goals--vision) and [`BACKLOG.md`](./BACKLOG.md) below to see what's already on the roadmap).
 
 ---
 
 ## 🎯 Project Goals & Vision
 
-Beerworks is structured into modular phases:
+Zymurgist Desk is structured into modular phases:
 
 1. **📖 Style Guidelines Reference Viewer (Implemented - Feature 001)**
    - Offline-first reference for **BJCP 2021** (34 categories) and **Brewers Association 2026** (158 styles).

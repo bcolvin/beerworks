@@ -20,12 +20,6 @@ class SettingsViewModel(
         initialValue = GuidelineType.BJCP_2021
     )
 
-    val keepScreenOn: StateFlow<Boolean> = preferencesManager.keepScreenOn.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = false
-    )
-
     val temperatureUnit: StateFlow<TemperatureUnit> = preferencesManager.temperatureUnit.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -41,12 +35,6 @@ class SettingsViewModel(
     fun onGuidelineChange(guidelineType: GuidelineType) {
         viewModelScope.launch {
             preferencesManager.setGuideline(guidelineType)
-        }
-    }
-
-    fun onKeepScreenOnChange(enabled: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.setKeepScreenOn(enabled)
         }
     }
 
