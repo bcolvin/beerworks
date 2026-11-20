@@ -1,5 +1,6 @@
 package com.bc.beerworks.ui.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DeviceThermostat
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.Card
@@ -55,7 +57,8 @@ import com.bc.beerworks.ui.theme.BeerworksTheme
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    onBecomeJudgeClick: () -> Unit = {}
 ) {
     val selectedGuideline by viewModel.selectedGuideline.collectAsState()
     val isScreenOn by viewModel.keepScreenOn.collectAsState()
@@ -71,7 +74,8 @@ fun SettingsScreen(
         onTemperatureUnitChange = viewModel::onTemperatureUnitChange,
         confirmFavoriteRemoval = confirmFavoriteRemoval,
         onConfirmFavoriteRemovalChange = viewModel::onConfirmFavoriteRemovalChange,
-        onMenuClick = onMenuClick
+        onMenuClick = onMenuClick,
+        onBecomeJudgeClick = onBecomeJudgeClick
     )
 }
 
@@ -86,7 +90,8 @@ fun SettingsContent(
     onTemperatureUnitChange: (TemperatureUnit) -> Unit = {},
     confirmFavoriteRemoval: Boolean = true,
     onConfirmFavoriteRemovalChange: (Boolean) -> Unit = {},
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    onBecomeJudgeClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -360,6 +365,47 @@ fun SettingsContent(
                         checked = confirmFavoriteRemoval,
                         onCheckedChange = onConfirmFavoriteRemovalChange
                     )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Interested in Becoming a Judge Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = onBecomeJudgeClick),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Gavel,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = "Interested in becoming a judge?",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = "Explore the BJCP certification pathway, Beer, Mead, and Cider exams, study tools, and upcoming competitions to judge or steward.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }

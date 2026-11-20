@@ -307,3 +307,23 @@ _Avoid_: Tasting log, beer review record, judging card
 **BJCP Scoring Tier**:
 The standardized six-tier qualitative rating band corresponding to a Scoresheet's total score out of 50: Outstanding (45–50), Excellent (38–44), Very Good (30–37), Good (21–29), Fair (14–20), and Problematic (0–13).
 _Avoid_: Grade band, score rank, medal tier
+
+**BJCP (Beer Judge Certification Program)**:
+The non-profit certifying organization established in 1985 that sanctions homebrew and craft beverage competitions, publishes Beer, Mead, and Cider style guidelines, and administers judge certification exams.
+_Avoid_: Beer Judge Program, BJCP Board
+
+**Competition Steward**:
+A competition volunteer who assists judges at the flight table by organizing, chilling, pouring, and verifying anonymous beverage entries and collecting completed scoresheets—requiring no prior certification or exam.
+_Avoid_: Flight helper, table assistant, pourer
+
+**BJCP Entrance Exam**:
+The timed, open-book online prerequisite examination assessing foundational knowledge of brewing processes, off-flavors, style guidelines, and judging procedures required before sitting for a Tasting Exam.
+_Avoid_: Screening quiz, preliminary test
+
+**BJCP Tasting Exam**:
+The 90-minute practical sensory evaluation exam in which candidates evaluate and score six beverages across a single Beverage Discipline (Beer, Mead, or Cider) on full scoresheets compared against proctor consensus.
+_Avoid_: Practical test, blind tasting test
+
+**BJCP Judge Rank**:
+The official credential tier earned by combining exam scores with competition Experience Points (Apprentice, Rank Pending, Recognized, Certified, National, Master, and Grand Master), alongside specialized Mead Judge and Cider Judge endorsements.
+_Avoid_: Judge level, certification grade

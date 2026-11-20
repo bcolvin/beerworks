@@ -60,6 +60,7 @@ import com.bc.beerworks.ui.reviews.ReviewsScreen
 import com.bc.beerworks.ui.reviews.ReviewsViewModel
 import com.bc.beerworks.ui.reviews.ScoresheetEditorScreen
 import com.bc.beerworks.ui.reviews.ScoresheetEditorViewModel
+import com.bc.beerworks.ui.settings.BjcpJudgeGuideScreen
 import com.bc.beerworks.ui.settings.SettingsScreen
 import com.bc.beerworks.ui.settings.SettingsViewModel
 import com.bc.beerworks.ui.styledetail.StyleDetailScreen
@@ -341,7 +342,39 @@ fun BeerworksApp() {
                 )
                 SettingsScreen(
                     viewModel = settingsViewModel,
-                    onMenuClick = openDrawer
+                    onMenuClick = openDrawer,
+                    onBecomeJudgeClick = { navController.navigate("bjcp_judge_guide") }
+                )
+            }
+
+            composable("bjcp_judge_guide") {
+                val settingsViewModel: SettingsViewModel = viewModel(
+                    factory = viewModelFactory { SettingsViewModel(container.prefsManager) }
+                )
+                BjcpJudgeGuideScreen(
+                    onBackClick = { navController.popBackStack() },
+                    onStudyStyleGuideline = { guidelineType ->
+                        settingsViewModel.onGuidelineChange(guidelineType)
+                        navController.navigate("style_list") {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    onStudyOffFlavors = {
+                        navController.navigate("off_flavors") {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    onPracticeScoresheet = {
+                        navController.navigate("scoresheet_editor")
+                    }
                 )
             }
 
