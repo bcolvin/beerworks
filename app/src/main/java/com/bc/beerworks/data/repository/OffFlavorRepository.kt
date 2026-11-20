@@ -1,12 +1,6 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.BeerworksDatabase
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.OffFlavorDao
 import com.bc.beerworks.data.local.dao.OffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.OffFlavorEntity
@@ -21,38 +15,15 @@ import kotlinx.coroutines.flow.flowOn
 class OffFlavorRepository(
     private val offFlavorDao: OffFlavorDao,
     private val offFlavorStyleCrossRefDao: OffFlavorStyleCrossRefDao,
-    bjcpStyleDao: BjcpStyleDao,
-    baStyleDao: BaStyleDao,
-    meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null,
+    styleLookup: StyleLookup,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    favoriteIngredientDao: FavoriteIngredientDao? = null,
-    favoriteStyleDao: FavoriteStyleDao? = null
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<OffFlavorEntity, OffFlavor, OffFlavorFilterCriteria>(
-    bjcpStyleDao,
-    baStyleDao,
-    meadStyleDao,
-    ciderStyleDao,
-    defaultDispatcher,
-    favoriteIngredientDao,
-    favoriteStyleDao
+    styleLookup = styleLookup,
+    defaultDispatcher = defaultDispatcher,
+    favoriteIngredientDao = favoriteIngredientDao
 ) {
     override val ingredientType: String = TYPE_OFF_FLAVOR
-
-    constructor(
-        database: BeerworksDatabase,
-        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    ) : this(
-        database.offFlavorDao(),
-        database.offFlavorStyleCrossRefDao(),
-        database.bjcpStyleDao(),
-        database.baStyleDao(),
-        database.meadStyleDao(),
-        database.ciderStyleDao(),
-        defaultDispatcher,
-        database.favoriteIngredientDao(),
-        database.favoriteStyleDao()
-    )
 
     override fun performSearch(criteria: OffFlavorFilterCriteria): Flow<List<OffFlavorEntity>> {
         val ftsQuery = buildFtsQuery(criteria.query)

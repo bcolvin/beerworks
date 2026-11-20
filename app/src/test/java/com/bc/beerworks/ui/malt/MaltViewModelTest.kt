@@ -81,8 +81,8 @@ class MaltViewModelTest {
 
         doReturn(flowOf(listOf("German Lager", "Czech Lager"))).`when`(mockBjcp).getCategories()
 
-        val maltRepo = MaltRepository(fakeMaltDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
         val styleRepo = BeerStyleRepository(mockBjcp, mockBa, mockFav, prefs, testDispatcher)
+        val maltRepo = MaltRepository(fakeMaltDao, fakeCrossRefDao, styleRepo, testDispatcher)
 
         return MaltViewModel(maltRepo, styleRepo)
     }

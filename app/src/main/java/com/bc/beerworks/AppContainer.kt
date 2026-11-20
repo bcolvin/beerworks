@@ -19,12 +19,43 @@ class AppContainer(context: Context) {
     val database: BeerworksDatabase = BeerworksDatabase.getInstance(context)
     val prefsManager: DefaultPreferencesManager = DefaultPreferencesManager(context)
     val beerStyleRepository: BeerStyleRepository = BeerStyleRepository(database, prefsManager)
-    val hopRepository: HopRepository = HopRepository(database)
-    val maltRepository: MaltRepository = MaltRepository(database)
-    val honeyRepository: HoneyRepository = HoneyRepository(database)
-    val pomeRepository: PomeRepository = PomeRepository(database)
-    val yeastRepository: YeastRepository = YeastRepository(database)
-    val offFlavorRepository: OffFlavorRepository = OffFlavorRepository(database)
+    private val favoriteIngredientDao = database.favoriteIngredientDao()
+    val hopRepository: HopRepository = HopRepository(
+        hopDao = database.hopDao(),
+        hopStyleCrossRefDao = database.hopStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
+    val maltRepository: MaltRepository = MaltRepository(
+        maltDao = database.maltDao(),
+        maltStyleCrossRefDao = database.maltStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
+    val honeyRepository: HoneyRepository = HoneyRepository(
+        honeyDao = database.honeyDao(),
+        honeyStyleCrossRefDao = database.honeyStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
+    val pomeRepository: PomeRepository = PomeRepository(
+        pomeDao = database.pomeDao(),
+        pomeStyleCrossRefDao = database.pomeStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
+    val yeastRepository: YeastRepository = YeastRepository(
+        yeastDao = database.yeastDao(),
+        yeastStyleCrossRefDao = database.yeastStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
+    val offFlavorRepository: OffFlavorRepository = OffFlavorRepository(
+        offFlavorDao = database.offFlavorDao(),
+        offFlavorStyleCrossRefDao = database.offFlavorStyleCrossRefDao(),
+        styleLookup = beerStyleRepository,
+        favoriteIngredientDao = favoriteIngredientDao
+    )
     val scoresheetRepository: ScoresheetRepository = ScoresheetRepository(database.scoresheetDao())
     val ingredientCatalogRepository: IngredientCatalogRepository = IngredientCatalogRepository(
         hopRepository = hopRepository,

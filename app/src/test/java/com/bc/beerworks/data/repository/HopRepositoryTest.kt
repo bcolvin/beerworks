@@ -1,7 +1,5 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
@@ -16,8 +14,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.doReturn
 
 class FakeHopDao(
     private var hops: List<HopVarietyEntity> = emptyList()
@@ -132,15 +128,15 @@ class HopRepositoryTest {
         radarGrassy = 1.8f
     )
 
+    private val emptyStyleLookup = StyleLookup { flowOf(emptyList()) }
+
     @Test
     fun getFilteredHops_mapsEntityToDomainModelCorrectly() = runTest {
         val testDispatcher = UnconfinedTestDispatcher(testScheduler)
         val fakeHopDao = FakeHopDao(listOf(testCitraEntity))
         val fakeCrossRefDao = FakeHopStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
 
-        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, emptyStyleLookup, testDispatcher)
 
         val hops = repository.getFilteredHops(HopFilterCriteria()).first()
 
@@ -162,10 +158,8 @@ class HopRepositoryTest {
         val testDispatcher = UnconfinedTestDispatcher(testScheduler)
         val fakeHopDao = FakeHopDao(listOf(testCitraEntity, testCascadeEntity))
         val fakeCrossRefDao = FakeHopStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
 
-        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, emptyStyleLookup, testDispatcher)
 
         val aromaHops = repository.getFilteredHops(HopFilterCriteria(selectedPurpose = "Aroma")).first()
         assertThat(aromaHops).hasSize(2)
@@ -181,10 +175,8 @@ class HopRepositoryTest {
         val testDispatcher = UnconfinedTestDispatcher(testScheduler)
         val fakeHopDao = FakeHopDao(listOf(testCitraEntity, testCascadeEntity))
         val fakeCrossRefDao = FakeHopStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
 
-        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, emptyStyleLookup, testDispatcher)
 
         val hop = repository.getHopById("citra").first()
         assertThat(hop).isNotNull
@@ -196,10 +188,8 @@ class HopRepositoryTest {
         val testDispatcher = UnconfinedTestDispatcher(testScheduler)
         val fakeHopDao = FakeHopDao(listOf(testCitraEntity, testCascadeEntity))
         val fakeCrossRefDao = FakeHopStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
 
-        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, emptyStyleLookup, testDispatcher)
 
         val childrenOfFuggle = repository.getChildHops("fuggle").first()
         assertThat(childrenOfFuggle).hasSize(1)
@@ -213,8 +203,6 @@ class HopRepositoryTest {
         val fakeCrossRefDao = FakeHopStyleCrossRefDao(
             styleIdsForHops = mapOf("citra" to listOf("21A"))
         )
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
 
         val styleEntity = BjcpStyleEntity(
             id = "21A", name = "American IPA", category = "IPA",
@@ -224,9 +212,12 @@ class HopRepositoryTest {
             fgMin = 1.008, fgMax = 1.014, abvMin = 5.5, abvMax = 7.5, srmMin = 6.0, srmMax = 14.0,
             commercialExamples = "Bell's Two Hearted", tags = "ipa, bitter"
         )
-        doReturn(flowOf(listOf(styleEntity))).`when`(mockBjcp).getAllStyles()
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_2021].orEmpty()
+            flowOf(listOf(styleEntity).filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
-        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
+        val repository = HopRepository(fakeHopDao, fakeCrossRefDao, styleLookup, testDispatcher)
 
         val styles = repository.getCommonStylesForHop("citra", GuidelineType.BJCP_2021).first()
         assertThat(styles).hasSize(1)

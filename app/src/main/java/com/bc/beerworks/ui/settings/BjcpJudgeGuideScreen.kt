@@ -571,7 +571,7 @@ private fun InAppStudyToolkitCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "Jump directly into Zymurgist Desk's offline reference guides and practice tools.",
+                        text = "Jump directly into Zymurgist Table's offline reference guides and practice tools.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -825,7 +825,7 @@ private fun BjcpCommunityAttributionCard() {
                 )
             }
             Text(
-                text = "Much of the style reference data, sensory evaluation frameworks, off-flavor references, and scoresheet structures in Zymurgist Desk are made possible by the decades of volunteer work, research, and dedication of the Beer Judge Certification Program (BJCP) and its global community of judges, stewards, and exam directors.",
+                text = "Much of the style reference data, sensory evaluation frameworks, off-flavor references, and scoresheet structures in Zymurgist Table are made possible by the decades of volunteer work, research, and dedication of the Beer Judge Certification Program (BJCP) and its global community of judges, stewards, and exam directors.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

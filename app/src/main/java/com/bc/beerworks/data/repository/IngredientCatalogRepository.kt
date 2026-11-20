@@ -30,14 +30,51 @@ open class IngredientCatalogRepository(
 ) {
     constructor(
         database: BeerworksDatabase,
+        styleLookup: StyleLookup,
         defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     ) : this(
-        hopRepository = HopRepository(database, defaultDispatcher),
-        maltRepository = MaltRepository(database, defaultDispatcher),
-        honeyRepository = HoneyRepository(database, defaultDispatcher),
-        pomeRepository = PomeRepository(database, defaultDispatcher),
-        yeastRepository = YeastRepository(database, defaultDispatcher),
-        offFlavorRepository = OffFlavorRepository(database, defaultDispatcher),
+        hopRepository = HopRepository(
+            database.hopDao(),
+            database.hopStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
+        maltRepository = MaltRepository(
+            database.maltDao(),
+            database.maltStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
+        honeyRepository = HoneyRepository(
+            database.honeyDao(),
+            database.honeyStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
+        pomeRepository = PomeRepository(
+            database.pomeDao(),
+            database.pomeStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
+        yeastRepository = YeastRepository(
+            database.yeastDao(),
+            database.yeastStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
+        offFlavorRepository = OffFlavorRepository(
+            database.offFlavorDao(),
+            database.offFlavorStyleCrossRefDao(),
+            styleLookup,
+            defaultDispatcher,
+            database.favoriteIngredientDao()
+        ),
         defaultDispatcher = defaultDispatcher
     )
 

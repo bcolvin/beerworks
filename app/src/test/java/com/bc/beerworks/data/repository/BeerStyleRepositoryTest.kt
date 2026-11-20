@@ -509,4 +509,55 @@ class BeerStyleRepositoryTest {
         val allCiders = repository.getStyles(GuidelineType.BJCP_CIDER).first()
         assertThat(allCiders.map { it.id }).containsExactly("C1A", "C2D")
     }
+
+    @Test
+    fun getStylesByIds_resolvesAcrossGuidelinesWithCanonicalOrderAndLiveFavoriteState() = runTest {
+        val bjcp10A = BjcpStyleEntity(
+            id = "10A", name = "Weissbier", category = "German Wheat Beer", categoryNumber = "10", number = "10A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 8.0, ibuMax = 15.0,
+            ogMin = 1.044, ogMax = 1.053, fgMin = 1.008, fgMax = 1.014, abvMin = 4.3, abvMax = 5.6,
+            srmMin = 2.0, srmMax = 6.0, commercialExamples = "", tags = ""
+        )
+        val bjcp2A = BjcpStyleEntity(
+            id = "2A", name = "International Pale Lager", category = "International Lager", categoryNumber = "2", number = "2A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 18.0, ibuMax = 25.0,
+            ogMin = 1.042, ogMax = 1.050, fgMin = 1.008, fgMax = 1.012, abvMin = 4.5, abvMax = 6.0,
+            srmMin = 2.0, srmMax = 6.0, commercialExamples = "", tags = ""
+        )
+        val meadM1A = MeadStyleEntity(
+            id = "M1A", name = "Dry Mead", category = "Traditional Mead", categoryNumber = "M1", number = "M1A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ogMin = 1.075, ogMax = 1.140,
+            fgMin = 0.999, fgMax = 1.010, abvMin = 3.5, abvMax = 14.0, sweetness = "Dry", carbonation = "Still",
+            strength = "Standard", commercialExamples = "", tags = ""
+        )
+        val favDao = FakeFavDao()
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(listOf(bjcp10A, bjcp2A)),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = favDao,
+            preferencesManager = FakePrefsManager(),
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler),
+            meadStyleDao = FakeMeadDao(listOf(meadM1A))
+        )
+
+        repository.toggleFavorite("2A", GuidelineType.BJCP_2021, currentFavorite = false)
+
+        val resolved = repository.getStylesByIds(
+            mapOf(
+                GuidelineType.BJCP_MEAD to setOf("M1A"),
+                GuidelineType.BJCP_2021 to setOf("10A", "2A")
+            )
+        ).first()
+
+        assertThat(resolved.map { it.id }).containsExactly("2A", "10A", "M1A")
+        assertThat(resolved.first { it.id == "2A" }.isFavorite).isTrue()
+        assertThat(resolved.first { it.id == "10A" }.isFavorite).isFalse()
+        assertThat(resolved.first { it.id == "M1A" }.isFavorite).isFalse()
+
+        val empty = repository.getStylesByIds(mapOf(GuidelineType.BJCP_2021 to emptySet())).first()
+        assertThat(empty).isEmpty()
+    }
 }

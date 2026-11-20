@@ -283,32 +283,23 @@ class FavoritesViewModelTest {
         val hopRepository = HopRepository(
             hopDao = FakeHopDao(listOf(sampleHop)),
             hopStyleCrossRefDao = FakeHopStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
             favoriteIngredientDao = favIngredientDao
         )
 
         val maltRepository = MaltRepository(
             maltDao = FakeMaltDao(listOf(sampleMalt)),
             maltStyleCrossRefDao = FakeMaltStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
             favoriteIngredientDao = favIngredientDao
         )
 
         val honeyRepository = HoneyRepository(
             honeyDao = FakeHoneyDao(emptyList<HoneyVarietyEntity>()),
             honeyStyleCrossRefDao = FakeHoneyStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
             favoriteIngredientDao = favIngredientDao
         )
@@ -316,10 +307,7 @@ class FavoritesViewModelTest {
         val pomeRepository = PomeRepository(
             pomeDao = FakePomeDao(emptyList<PomeVarietyEntity>()),
             pomeStyleCrossRefDao = FakePomeStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
             favoriteIngredientDao = favIngredientDao
         )
@@ -327,10 +315,7 @@ class FavoritesViewModelTest {
         val yeastRepository = YeastRepository(
             yeastDao = FakeYeastDao(emptyList<YeastStrainEntity>()),
             yeastStyleCrossRefDao = FakeYeastStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
             favoriteIngredientDao = favIngredientDao
         )
@@ -364,10 +349,7 @@ class FavoritesViewModelTest {
                 )
             ),
             offFlavorStyleCrossRefDao = FakeOffFlavorStyleCrossRefDao(),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = beerStyleRepository,
             defaultDispatcher = testDispatcher,
             favoriteIngredientDao = favIngredientDao
         )

@@ -1,23 +1,14 @@
 package com.bc.beerworks.ui.pomes
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.PomeVarietyEntity
 import com.bc.beerworks.data.model.PomeFilterCriteria
-import com.bc.beerworks.data.repository.BeerStyleRepository
-import com.bc.beerworks.data.repository.FakeBaDao
-import com.bc.beerworks.data.repository.FakeCiderDao
-import com.bc.beerworks.data.repository.FakeFavDao
-import com.bc.beerworks.data.repository.FakeMeadDao
 import com.bc.beerworks.data.repository.FakePomeDao
 import com.bc.beerworks.data.repository.FakePomeStyleCrossRefDao
-import com.bc.beerworks.data.repository.FakePrefsManager
 import com.bc.beerworks.data.repository.PomeRepository
+import com.bc.beerworks.data.repository.StyleLookup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -112,21 +103,11 @@ class PomesViewModelTest {
     ): PomesViewModel {
         val fakePomeDao = FakePomeDao(pomes)
         val fakeCrossRefDao = FakePomeStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
-        val mockMead = mock(MeadStyleDao::class.java)
-        val mockCider = mock(CiderStyleDao::class.java)
-        val mockFav = mock(FavoriteStyleDao::class.java)
-        val prefs = FakePrefsManager()
-
         val pomeRepo = PomeRepository(
-            fakePomeDao,
-            fakeCrossRefDao,
-            mockBjcp,
-            mockBa,
-            mockMead,
-            mockCider,
-            testDispatcher
+            pomeDao = fakePomeDao,
+            pomeStyleCrossRefDao = fakeCrossRefDao,
+            styleLookup = StyleLookup { flowOf(emptyList()) },
+            defaultDispatcher = testDispatcher
         )
 
         return PomesViewModel(pomeRepo)

@@ -1,9 +1,5 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.PomeDao
 import com.bc.beerworks.data.local.dao.PomeStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.CiderStyleEntity
@@ -19,7 +15,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class FakePomeDao(
     private var pomes: List<PomeVarietyEntity> = emptyList()
@@ -208,16 +203,15 @@ class PomeRepositoryTest {
         styleIdsForPomes: Map<String, List<String>> = mapOf("dabinett" to listOf("C1B")),
         styles: List<CiderStyleEntity> = listOf(englishCiderStyle)
     ): PomeRepository {
-        val ciderStyleDao = mock(CiderStyleDao::class.java)
-        org.mockito.Mockito.doReturn(flowOf(styles)).`when`(ciderStyleDao).getAllStyles()
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_CIDER].orEmpty()
+            flowOf(styles.filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
         return PomeRepository(
             pomeDao = FakePomeDao(pomes),
             pomeStyleCrossRefDao = FakePomeStyleCrossRefDao(styleIdsForPomes),
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
-            meadStyleDao = mock(MeadStyleDao::class.java),
-            ciderStyleDao = ciderStyleDao,
+            styleLookup = styleLookup,
             defaultDispatcher = testDispatcher
         )
     }

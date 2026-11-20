@@ -1,9 +1,5 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.OffFlavorDao
 import com.bc.beerworks.data.local.dao.OffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
@@ -19,8 +15,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.doReturn
-import org.mockito.Mockito.mock
 
 class FakeOffFlavorDao(
     private var offFlavors: List<OffFlavorEntity> = emptyList()
@@ -134,22 +128,12 @@ class OffFlavorRepositoryTest {
     private fun createRepository(
         offFlavors: List<OffFlavorEntity> = listOf(diacetylEntity, lightstruckEntity),
         styleIds: Map<String, List<String>> = mapOf("diacetyl" to listOf("3B")),
-        bjcpDao: BjcpStyleDao = mock(BjcpStyleDao::class.java)
+        styleLookup: StyleLookup = StyleLookup { flowOf(emptyList()) }
     ): OffFlavorRepository {
-        val baDao = mock(BaStyleDao::class.java)
-        val meadDao = mock(MeadStyleDao::class.java)
-        val ciderDao = mock(CiderStyleDao::class.java)
-        doReturn(flowOf(emptyList<Any>())).`when`(baDao).getAllStyles()
-        doReturn(flowOf(emptyList<Any>())).`when`(meadDao).getAllStyles()
-        doReturn(flowOf(emptyList<Any>())).`when`(ciderDao).getAllStyles()
-
         return OffFlavorRepository(
             offFlavorDao = FakeOffFlavorDao(offFlavors),
             offFlavorStyleCrossRefDao = FakeOffFlavorStyleCrossRefDao(styleIds),
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = styleLookup,
             defaultDispatcher = UnconfinedTestDispatcher()
         )
     }
@@ -200,7 +184,6 @@ class OffFlavorRepositoryTest {
 
     @Test
     fun getCommonStylesForItem_returnsPermissibleStyles_whileGetItemsForStyle_returnsEmpty() = runTest {
-        val bjcpDao = mock(BjcpStyleDao::class.java)
         val czechPils = BjcpStyleEntity(
             id = "3B", name = "Czech Premium Pale Lager", category = "Czech Lager",
             categoryNumber = "3", number = "3B", overallImpression = "Rich, refreshing",
@@ -210,9 +193,12 @@ class OffFlavorRepositoryTest {
             fgMin = 1.013, fgMax = 1.017, abvMin = 4.2, abvMax = 5.8,
             srmMin = 3.5, srmMax = 6.0, commercialExamples = "Pilsner Urquell", tags = ""
         )
-        doReturn(flowOf(listOf(czechPils))).`when`(bjcpDao).getAllStyles()
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_2021].orEmpty()
+            flowOf(listOf(czechPils).filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
-        val repo = createRepository(bjcpDao = bjcpDao)
+        val repo = createRepository(styleLookup = styleLookup)
 
         val permissibleStyles = repo.getCommonStylesForItem("diacetyl", GuidelineType.BJCP_2021).first()
         assertThat(permissibleStyles).hasSize(1)

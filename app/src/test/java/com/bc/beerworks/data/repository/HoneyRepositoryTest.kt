@@ -1,11 +1,7 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.HoneyDao
 import com.bc.beerworks.data.local.dao.HoneyStyleCrossRefDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.HoneyStyleCrossRef
 import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
@@ -19,7 +15,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class FakeHoneyDao(
     private var honeys: List<HoneyVarietyEntity> = emptyList()
@@ -176,18 +171,15 @@ class HoneyRepositoryTest {
     ): HoneyRepository {
         val honeyDao = FakeHoneyDao(honeys)
         val crossRefDao = FakeHoneyStyleCrossRefDao(styleIdsForHoneys, honeyIdsForStyles)
-        val bjcpDao = mock(BjcpStyleDao::class.java)
-        val baDao = mock(BaStyleDao::class.java)
-        val meadDao = mock(MeadStyleDao::class.java)
-        val ciderDao = mock(CiderStyleDao::class.java)
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_MEAD].orEmpty()
+            flowOf(meadStyles.filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
         return HoneyRepository(
             honeyDao = honeyDao,
             honeyStyleCrossRefDao = crossRefDao,
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
+            styleLookup = styleLookup,
             defaultDispatcher = testDispatcher
         )
     }

@@ -412,7 +412,7 @@ fun SettingsContent(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Explore the Zymurgist Desk source code, share ideas, or report issues on GitHub",
+                                text = "Explore the Zymurgist Table source code, share ideas, or report issues on GitHub",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -521,12 +521,12 @@ private fun LicensesAndAttributionsSheet(
 
             AttributionSection(
                 title = "Open Source License (GPLv3)",
-                body = "Zymurgist Desk application source code is licensed under the GNU General Public License, Version 3.0 (GPLv3). Android Jetpack, Room, DataStore, Compose, Coroutines, and Gson libraries are licensed under Apache 2.0."
+                body = "Zymurgist Table application source code is licensed under the GNU General Public License, Version 3.0 (GPLv3). Android Jetpack, Room, DataStore, Compose, Coroutines, and Gson libraries are licensed under Apache 2.0."
             )
 
             AttributionSection(
                 title = "Offline Privacy",
-                body = "Zymurgist Desk requests zero Android permissions and collects, stores remotely, or shares no personal data. All favorites, preferences, and scoresheets stay on your device."
+                body = "Zymurgist Table requests zero Android permissions and collects, stores remotely, or shares no personal data. All favorites, preferences, and scoresheets stay on your device."
             )
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))

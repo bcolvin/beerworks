@@ -1,14 +1,14 @@
 package com.bc.beerworks.ui.offflavors
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.entity.OffFlavorEntity
 import com.bc.beerworks.data.model.OffFlavorFilterCriteria
 import com.bc.beerworks.data.repository.FakeOffFlavorDao
 import com.bc.beerworks.data.repository.FakeOffFlavorStyleCrossRefDao
 import com.bc.beerworks.data.repository.OffFlavorRepository
+import com.bc.beerworks.data.repository.StyleLookup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -19,7 +19,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class OffFlavorsViewModelTest {
@@ -82,8 +81,7 @@ class OffFlavorsViewModelTest {
         val repository = OffFlavorRepository(
             offFlavorDao = FakeOffFlavorDao(listOf(diacetyl, dms)),
             offFlavorStyleCrossRefDao = FakeOffFlavorStyleCrossRefDao(),
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = StyleLookup { flowOf(emptyList()) },
             defaultDispatcher = testDispatcher
         )
         viewModel = OffFlavorsViewModel(repository)

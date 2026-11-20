@@ -2,6 +2,8 @@ package com.bc.beerworks.ui.reviews
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -67,10 +69,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -86,6 +85,7 @@ import com.bc.beerworks.data.model.ScoresheetSection
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -104,19 +104,6 @@ fun ScoresheetEditorScreen(
 
     LaunchedEffect(Unit) {
         dismissKeyboard()
-    }
-
-    // Only dismiss the IME on genuine user scroll gestures, not Compose's programmatic BringIntoView
-    // scroll triggered when .imePadding() shrinks the viewport as the keyboard opens.
-    val nestedScrollConnection = remember(focusManager, keyboardController) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if (source == NestedScrollSource.UserInput && available.y != 0f) {
-                    dismissKeyboard()
-                }
-                return Offset.Zero
-            }
-        }
     }
 
     var showDeleteConfirm by remember { mutableStateOf(false) }
@@ -396,7 +383,28 @@ fun ScoresheetEditorScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .nestedScroll(nestedScrollConnection)
+                    // Dismiss the IME only on real vertical pointer drags, not ContentInViewNode's
+                    // BringIntoView scroll (which reports NestedScrollSource.UserInput in Compose 1.7).
+                    .pointerInput(focusManager, keyboardController) {
+                        awaitEachGesture {
+                            val down = awaitFirstDown(
+                                requireUnconsumed = false,
+                                pass = PointerEventPass.Initial
+                            )
+                            val startPos = down.position
+                            while (true) {
+                                val event = awaitPointerEvent(pass = PointerEventPass.Initial)
+                                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                                if (!change.pressed) break
+                                val dx = abs(change.position.x - startPos.x)
+                                val dy = abs(change.position.y - startPos.y)
+                                if (dy > viewConfiguration.touchSlop && dy > dx) {
+                                    dismissKeyboard()
+                                    break
+                                }
+                            }
+                        }
+                    }
                     .verticalScroll(scrollState)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)

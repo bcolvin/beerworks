@@ -1,15 +1,8 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.YeastDao
 import com.bc.beerworks.data.local.dao.YeastStyleCrossRefDao
-import com.bc.beerworks.data.local.entity.BaStyleEntity
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
-import com.bc.beerworks.data.local.entity.CiderStyleEntity
-import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.local.entity.YeastStyleCrossRef
 import com.bc.beerworks.data.model.GuidelineType
@@ -22,8 +15,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.doReturn
-import org.mockito.Mockito.mock
 
 class FakeYeastDao(
     private var yeasts: List<YeastStrainEntity> = emptyList()
@@ -188,6 +179,7 @@ class YeastRepositoryTest {
 
     private val testEntities = listOf(chicoEntity, weizenEntity, ec1118Entity)
     private val testDispatcher = UnconfinedTestDispatcher()
+    private val emptyStyleLookup = StyleLookup { flowOf(emptyList()) }
 
     @Test
     fun getFilteredYeasts_mapsEntityToDomainCorrectly() = runTest {
@@ -196,8 +188,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -234,8 +225,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -255,8 +245,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -276,8 +265,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -296,8 +284,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -312,7 +299,6 @@ class YeastRepositoryTest {
         val fakeCrossRefDao = FakeYeastStyleCrossRefDao(
             styleIdsForYeasts = mapOf("chico-american-ale" to listOf("18B"))
         )
-        val mockBjcp = mock(BjcpStyleDao::class.java)
         val styleEntity = BjcpStyleEntity(
             id = "18B",
             name = "American Pale Ale",
@@ -341,13 +327,15 @@ class YeastRepositoryTest {
             commercialExamples = "",
             tags = ""
         )
-        doReturn(flowOf(listOf(styleEntity))).`when`(mockBjcp).getAllStyles()
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_2021].orEmpty()
+            flowOf(listOf(styleEntity).filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mockBjcp,
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = styleLookup,
             defaultDispatcher = testDispatcher
         )
 
@@ -364,8 +352,7 @@ class YeastRepositoryTest {
         val repo = YeastRepository(
             yeastDao = fakeDao,
             yeastStyleCrossRefDao = fakeCrossRefDao,
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = emptyStyleLookup,
             defaultDispatcher = testDispatcher
         )
 

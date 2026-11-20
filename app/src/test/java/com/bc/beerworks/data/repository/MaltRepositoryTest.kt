@@ -1,7 +1,5 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
@@ -17,8 +15,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.doReturn
 
 class FakeMaltDao(
     private var malts: List<MaltVarietyEntity> = emptyList()
@@ -175,15 +171,14 @@ class MaltRepositoryTest {
     )
 
     private val testDispatcher = UnconfinedTestDispatcher()
+    private val emptyStyleLookup = StyleLookup { flowOf(emptyList()) }
 
     @Test
     fun getMaltById_returnsMappedDomainModel() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity))
         val crossRefDao = FakeMaltStyleCrossRefDao()
-        val bjcpDao = mock(BjcpStyleDao::class.java)
-        val baDao = mock(BaStyleDao::class.java)
 
-        val repository = MaltRepository(maltDao, crossRefDao, bjcpDao, baDao, testDispatcher)
+        val repository = MaltRepository(maltDao, crossRefDao, emptyStyleLookup, testDispatcher)
 
         val malt = repository.getMaltById("pilsner_malt").first()
         assertThat(malt).isNotNull
@@ -197,7 +192,7 @@ class MaltRepositoryTest {
     @Test
     fun getFilteredMalts_filtersByCategory() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity, wheatEntity, chocolateEntity))
-        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), mock(BjcpStyleDao::class.java), mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
 
         val results = repository.getFilteredMalts(MaltFilterCriteria(selectedCategory = "Roasted & Dark")).first()
         assertThat(results).hasSize(1)
@@ -207,7 +202,7 @@ class MaltRepositoryTest {
     @Test
     fun getFilteredMalts_filtersByGrainType() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity, wheatEntity, chocolateEntity))
-        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), mock(BjcpStyleDao::class.java), mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
 
         val results = repository.getFilteredMalts(MaltFilterCriteria(selectedGrainType = "Wheat")).first()
         assertThat(results).hasSize(1)
@@ -217,7 +212,7 @@ class MaltRepositoryTest {
     @Test
     fun getFilteredMalts_filtersByDiastaticTier() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity, wheatEntity, chocolateEntity))
-        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), mock(BjcpStyleDao::class.java), mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
 
         val results = repository.getFilteredMalts(MaltFilterCriteria(selectedDiastaticTier = "None")).first()
         assertThat(results).hasSize(1)
@@ -227,7 +222,7 @@ class MaltRepositoryTest {
     @Test
     fun getFilteredMalts_filtersByFunctionalTags() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity, wheatEntity, chocolateEntity))
-        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), mock(BjcpStyleDao::class.java), mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
 
         val results = repository.getFilteredMalts(
             MaltFilterCriteria(selectedFunctionalTags = setOf("Head Retention"))
@@ -239,7 +234,7 @@ class MaltRepositoryTest {
     @Test
     fun getSubstituteMalts_resolvesCorrectEntities() = runTest(testDispatcher) {
         val maltDao = FakeMaltDao(listOf(pilsnerEntity, wheatEntity, chocolateEntity))
-        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), mock(BjcpStyleDao::class.java), mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, FakeMaltStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
 
         val substitutes = repository.getSubstituteMalts(listOf("chocolate_malt")).first()
         assertThat(substitutes).hasSize(1)
@@ -252,7 +247,6 @@ class MaltRepositoryTest {
         val crossRefDao = FakeMaltStyleCrossRefDao(
             styleIdsForMalts = mapOf("pilsner_malt" to listOf("5D"))
         )
-        val bjcpDao = mock(BjcpStyleDao::class.java)
         val styleEntity = BjcpStyleEntity(
             id = "5D",
             name = "German Pils",
@@ -264,9 +258,12 @@ class MaltRepositoryTest {
             ibuMin = 22.0, ibuMax = 40.0, ogMin = 1.044, ogMax = 1.050, fgMin = 1.008, fgMax = 1.013, abvMin = 4.4, abvMax = 5.2, srmMin = 2.0, srmMax = 4.0,
             commercialExamples = "Bitburger", tags = "lager,pils"
         )
-        doReturn(flowOf(listOf(styleEntity))).`when`(bjcpDao).getAllStyles()
+        val styleLookup = StyleLookup { idsByGuideline ->
+            val ids = idsByGuideline[GuidelineType.BJCP_2021].orEmpty()
+            flowOf(listOf(styleEntity).filter { ids.contains(it.id) }.map { it.toDomainModel() })
+        }
 
-        val repository = MaltRepository(maltDao, crossRefDao, bjcpDao, mock(BaStyleDao::class.java), testDispatcher)
+        val repository = MaltRepository(maltDao, crossRefDao, styleLookup, testDispatcher)
 
         val styles = repository.getCommonStylesForMalt("pilsner_malt", GuidelineType.BJCP_2021).first()
         assertThat(styles).hasSize(1)

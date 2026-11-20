@@ -1,14 +1,8 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.BeerworksDatabase
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.HopDao
 import com.bc.beerworks.data.local.dao.HopStyleCrossRefDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
@@ -23,38 +17,15 @@ import kotlinx.coroutines.flow.map
 class HopRepository(
     private val hopDao: HopDao,
     private val hopStyleCrossRefDao: HopStyleCrossRefDao,
-    bjcpStyleDao: BjcpStyleDao,
-    baStyleDao: BaStyleDao,
+    styleLookup: StyleLookup,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null,
-    favoriteIngredientDao: FavoriteIngredientDao? = null,
-    favoriteStyleDao: FavoriteStyleDao? = null
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<HopVarietyEntity, HopVariety, HopFilterCriteria>(
-    bjcpStyleDao,
-    baStyleDao,
-    meadStyleDao,
-    ciderStyleDao,
-    defaultDispatcher,
-    favoriteIngredientDao,
-    favoriteStyleDao
+    styleLookup = styleLookup,
+    defaultDispatcher = defaultDispatcher,
+    favoriteIngredientDao = favoriteIngredientDao
 ) {
     override val ingredientType: String = "HOP"
-
-    constructor(
-        database: BeerworksDatabase,
-        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    ) : this(
-        database.hopDao(),
-        database.hopStyleCrossRefDao(),
-        database.bjcpStyleDao(),
-        database.baStyleDao(),
-        defaultDispatcher,
-        database.meadStyleDao(),
-        database.ciderStyleDao(),
-        database.favoriteIngredientDao(),
-        database.favoriteStyleDao()
-    )
 
     override fun performSearch(criteria: HopFilterCriteria): Flow<List<HopVarietyEntity>> {
         val ftsQuery = buildFtsQuery(criteria.query)

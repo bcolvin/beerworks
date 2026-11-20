@@ -1,12 +1,6 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.BeerworksDatabase
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.dao.PomeDao
 import com.bc.beerworks.data.local.dao.PomeStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.PomeVarietyEntity
@@ -24,38 +18,15 @@ import kotlinx.coroutines.flow.map
 class PomeRepository(
     private val pomeDao: PomeDao,
     private val pomeStyleCrossRefDao: PomeStyleCrossRefDao,
-    bjcpStyleDao: BjcpStyleDao,
-    baStyleDao: BaStyleDao,
-    meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null,
+    styleLookup: StyleLookup,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    favoriteIngredientDao: FavoriteIngredientDao? = null,
-    favoriteStyleDao: FavoriteStyleDao? = null
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<PomeVarietyEntity, PomeVariety, PomeFilterCriteria>(
-    bjcpStyleDao,
-    baStyleDao,
-    meadStyleDao,
-    ciderStyleDao,
-    defaultDispatcher,
-    favoriteIngredientDao,
-    favoriteStyleDao
+    styleLookup = styleLookup,
+    defaultDispatcher = defaultDispatcher,
+    favoriteIngredientDao = favoriteIngredientDao
 ) {
     override val ingredientType: String = "POME"
-
-    constructor(
-        database: BeerworksDatabase,
-        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    ) : this(
-        database.pomeDao(),
-        database.pomeStyleCrossRefDao(),
-        database.bjcpStyleDao(),
-        database.baStyleDao(),
-        database.meadStyleDao(),
-        database.ciderStyleDao(),
-        defaultDispatcher,
-        database.favoriteIngredientDao(),
-        database.favoriteStyleDao()
-    )
 
     override fun performSearch(criteria: PomeFilterCriteria): Flow<List<PomeVarietyEntity>> {
         val ftsQuery = buildFtsQuery(criteria.query)

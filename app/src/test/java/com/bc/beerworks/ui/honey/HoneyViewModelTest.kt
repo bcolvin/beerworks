@@ -1,21 +1,11 @@
 package com.bc.beerworks.ui.honey
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.HoneyVarietyEntity
 import com.bc.beerworks.data.model.HoneyFilterCriteria
-import com.bc.beerworks.data.repository.BeerStyleRepository
-import com.bc.beerworks.data.repository.FakeBaDao
-import com.bc.beerworks.data.repository.FakeCiderDao
-import com.bc.beerworks.data.repository.FakeFavDao
 import com.bc.beerworks.data.repository.FakeHoneyDao
 import com.bc.beerworks.data.repository.FakeHoneyStyleCrossRefDao
-import com.bc.beerworks.data.repository.FakeMeadDao
-import com.bc.beerworks.data.repository.FakePrefsManager
 import com.bc.beerworks.data.repository.HoneyRepository
+import com.bc.beerworks.data.repository.StyleLookup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -81,23 +71,12 @@ class HoneyViewModelTest {
     ): HoneyViewModel {
         val fakeHoneyDao = FakeHoneyDao(honeys)
         val fakeCrossRefDao = FakeHoneyStyleCrossRefDao()
-        val mockBjcp = mock(BjcpStyleDao::class.java)
-        val mockBa = mock(BaStyleDao::class.java)
-        val mockMead = mock(MeadStyleDao::class.java)
-        val mockCider = mock(CiderStyleDao::class.java)
-        val mockFav = mock(FavoriteStyleDao::class.java)
-        val prefs = FakePrefsManager()
-
-        doReturn(flowOf(listOf("Traditional Mead", "Fruit Mead"))).`when`(mockMead).getCategories()
 
         val honeyRepo = HoneyRepository(
-            fakeHoneyDao,
-            fakeCrossRefDao,
-            mockBjcp,
-            mockBa,
-            mockMead,
-            mockCider,
-            testDispatcher
+            honeyDao = fakeHoneyDao,
+            honeyStyleCrossRefDao = fakeCrossRefDao,
+            styleLookup = StyleLookup { flowOf(emptyList()) },
+            defaultDispatcher = testDispatcher
         )
 
         return HoneyViewModel(honeyRepo)

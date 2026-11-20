@@ -1,14 +1,8 @@
 package com.bc.beerworks.data.repository
 
-import com.bc.beerworks.data.local.BeerworksDatabase
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
-import com.bc.beerworks.data.local.dao.CiderStyleDao
 import com.bc.beerworks.data.local.dao.FavoriteIngredientDao
-import com.bc.beerworks.data.local.dao.FavoriteStyleDao
 import com.bc.beerworks.data.local.dao.MaltDao
 import com.bc.beerworks.data.local.dao.MaltStyleCrossRefDao
-import com.bc.beerworks.data.local.dao.MeadStyleDao
 import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
@@ -23,38 +17,15 @@ import kotlinx.coroutines.flow.map
 class MaltRepository(
     private val maltDao: MaltDao,
     private val maltStyleCrossRefDao: MaltStyleCrossRefDao,
-    bjcpStyleDao: BjcpStyleDao,
-    baStyleDao: BaStyleDao,
+    styleLookup: StyleLookup,
     defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
-    meadStyleDao: MeadStyleDao? = null,
-    ciderStyleDao: CiderStyleDao? = null,
-    favoriteIngredientDao: FavoriteIngredientDao? = null,
-    favoriteStyleDao: FavoriteStyleDao? = null
+    favoriteIngredientDao: FavoriteIngredientDao? = null
 ) : BaseIngredientRepository<MaltVarietyEntity, MaltVariety, MaltFilterCriteria>(
-    bjcpStyleDao,
-    baStyleDao,
-    meadStyleDao,
-    ciderStyleDao,
-    defaultDispatcher,
-    favoriteIngredientDao,
-    favoriteStyleDao
+    styleLookup = styleLookup,
+    defaultDispatcher = defaultDispatcher,
+    favoriteIngredientDao = favoriteIngredientDao
 ) {
     override val ingredientType: String = "MALT"
-
-    constructor(
-        database: BeerworksDatabase,
-        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    ) : this(
-        database.maltDao(),
-        database.maltStyleCrossRefDao(),
-        database.bjcpStyleDao(),
-        database.baStyleDao(),
-        defaultDispatcher,
-        database.meadStyleDao(),
-        database.ciderStyleDao(),
-        database.favoriteIngredientDao(),
-        database.favoriteStyleDao()
-    )
 
     override fun performSearch(criteria: MaltFilterCriteria): Flow<List<MaltVarietyEntity>> {
         val ftsQuery = buildFtsQuery(criteria.query)

@@ -80,8 +80,8 @@ class HopsViewModelTest {
 
         doReturn(flowOf(listOf("IPA", "Czech Lager"))).`when`(mockBjcp).getCategories()
 
-        val hopRepo = HopRepository(fakeHopDao, fakeCrossRefDao, mockBjcp, mockBa, testDispatcher)
         val styleRepo = BeerStyleRepository(mockBjcp, mockBa, mockFav, prefs, testDispatcher)
+        val hopRepo = HopRepository(fakeHopDao, fakeCrossRefDao, styleRepo, testDispatcher)
 
         val viewModel = HopsViewModel(hopRepo, styleRepo)
         return viewModel to hopRepo

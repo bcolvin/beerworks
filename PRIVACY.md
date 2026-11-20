@@ -1,4 +1,4 @@
-# Privacy Policy for Zymurgist Desk
+# Privacy Policy for Zymurgist Table
 
 **Effective Date:** November 19, 2026  
 **Application ID:** `com.bc.beerworks`  
@@ -6,11 +6,11 @@
 
 ## Summary
 
-**Zymurgist Desk** is a 100% offline-first Android application. It does **not** collect, transmit, store remotely, sell, or share any personal or usage data.
+**Zymurgist Table** is a 100% offline-first Android application. It does **not** collect, transmit, store remotely, sell, or share any personal or usage data.
 
 ## Permissions & Network Access
 
-- **Zero Android Permissions:** Zymurgist Desk declares no `<uses-permission>` entries in its Android manifest. It has no `INTERNET`, location, camera, microphone, contacts, or external storage permissions.
+- **Zero Android Permissions:** Zymurgist Table declares no `<uses-permission>` entries in its Android manifest. It has no `INTERNET`, location, camera, microphone, contacts, or external storage permissions.
 - **No Analytics, Telemetry, or Ads:** The app contains no advertising SDKs, analytics trackers, or crash-reporting services.
 
 ## Local On-Device Storage
@@ -23,14 +23,14 @@ All user-created content and preferences remain strictly on your device:
 
 ## User-Initiated External Actions
 
-Zymurgist Desk only interacts with external apps when you explicitly choose to do so:
+Zymurgist Table only interacts with external apps when you explicitly choose to do so:
 
 - **External Web Links:** Tapping links to BJCP portals (`app.bjcp.org`, `www.bjcp.org`) or the GitHub repository (`github.com/bcolvin/beerworks`) opens your device's default web browser via an Android `ACTION_VIEW` intent. Once opened, those external websites are governed by their own privacy policies.
 - **Sharing Scoresheets:** Tapping **Share** on a saved scoresheet opens the standard Android share sheet (`ACTION_SEND`) with plain text generated from that scoresheet so you can send it to an app of your choice.
 
 ## Children's Privacy
 
-Zymurgist Desk is an educational brewing and beverage judging reference tool intended for adults of legal drinking age in their jurisdiction and does not knowingly collect any information from anyone, including children.
+Zymurgist Table is an educational brewing and beverage judging reference tool intended for adults of legal drinking age in their jurisdiction and does not knowingly collect any information from anyone, including children.
 
 ## Changes to This Policy
 

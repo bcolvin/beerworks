@@ -244,18 +244,6 @@ class IngredientDetailViewModelTest {
         val meadDao = FakeMeadDao(listOf(braggotStyle))
         val ciderDao = FakeCiderDao(listOf(hoppedCiderStyle))
 
-        val hopRepository = HopRepository(
-            hopDao = fakeHopDao,
-            hopStyleCrossRefDao = crossRefDao,
-            bjcpStyleDao = bjcpDao,
-            baStyleDao = baDao,
-            defaultDispatcher = testDispatcher,
-            meadStyleDao = meadDao,
-            ciderStyleDao = ciderDao,
-            favoriteIngredientDao = fakeFavIngredientDao,
-            favoriteStyleDao = fakeFavStyleDao
-        )
-
         val beerStyleRepository = BeerStyleRepository(
             bjcpStyleDao = bjcpDao,
             baStyleDao = baDao,
@@ -264,6 +252,14 @@ class IngredientDetailViewModelTest {
             defaultDispatcher = testDispatcher,
             meadStyleDao = meadDao,
             ciderStyleDao = ciderDao
+        )
+
+        val hopRepository = HopRepository(
+            hopDao = fakeHopDao,
+            hopStyleCrossRefDao = crossRefDao,
+            styleLookup = beerStyleRepository,
+            defaultDispatcher = testDispatcher,
+            favoriteIngredientDao = fakeFavIngredientDao
         )
 
         return IngredientDetailViewModel(

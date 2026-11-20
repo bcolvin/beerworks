@@ -34,7 +34,7 @@ class BeerStyleRepository(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
     meadStyleDao: MeadStyleDao? = null,
     ciderStyleDao: CiderStyleDao? = null
-) {
+) : StyleLookup {
     constructor(
         database: BeerworksDatabase,
         preferencesManager: PreferencesManager,
@@ -241,14 +241,30 @@ class BeerStyleRepository(
                 combine(sources.values.map { it.getAllStyles() }) { lists ->
                     lists.flatMap { entities ->
                         entities.filter { favSet.contains(it.id) }.map { it.toDomainModel(true) }
-                    }.sortedWith(
-                        compareBy<BeerStyle> { it.guidelineType.ordinal }
-                            .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
-                            .thenBy { it.categoryNumber }
-                            .thenBy { it.number }
-                    )
+                    }.sortedWith(CANONICAL_STYLE_COMPARATOR)
                 }
             }
+        }.flowOn(defaultDispatcher)
+    }
+
+    override fun getStylesByIds(styleIdsByGuideline: Map<GuidelineType, Set<String>>): Flow<List<BeerStyle>> {
+        val nonEmpty = styleIdsByGuideline.filterValues { it.isNotEmpty() }
+        if (nonEmpty.isEmpty()) return flowOf(emptyList())
+
+        val perGuidelineFlows = nonEmpty.map { (guidelineType, idSet) ->
+            sourceFor(guidelineType).getAllStyles().map { entities ->
+                entities.filter { idSet.contains(it.id) }
+            }
+        }
+
+        return combine(
+            combine(perGuidelineFlows) { lists -> lists.flatMap { it } },
+            getFavoriteIds()
+        ) { matchingEntities, favoriteIds ->
+            val favSet = favoriteIds.toSet()
+            matchingEntities
+                .map { it.toDomainModel(favSet.contains(it.id)) }
+                .sortedWith(CANONICAL_STYLE_COMPARATOR)
         }.flowOn(defaultDispatcher)
     }
 
@@ -268,12 +284,7 @@ class BeerStyleRepository(
             val rawQuery = criteria.query.trim()
             val isSearchActive = rawQuery.isNotBlank()
             val likeQuery = "%$rawQuery%"
-            val cleanedFtsTokens = rawQuery.split("\\s+".toRegex())
-                .map { it.replace(Regex("[^a-zA-Z0-9]"), "") }
-                .filter { it.isNotBlank() }
-            val ftsQuery = if (cleanedFtsTokens.isNotEmpty()) {
-                cleanedFtsTokens.joinToString(" ") { "$it*" }
-            } else ""
+            val ftsQuery = buildFtsQuery(rawQuery)
 
             val isSrmActive = if (criteria.minSrm > 0.0 || criteria.maxSrm < 40.0) 1 else 0
             val isAbvActive = if (criteria.minAbv > 0.0 || criteria.maxAbv < 20.0) 1 else 0
@@ -413,5 +424,13 @@ class BeerStyleRepository(
         val nextEntity = entities.getOrNull(currentIndex + 1) ?: return@withContext null
         val isNextFav = favoriteStyleDao.isFavorite(nextEntity.id).first()
         nextEntity.toDomainModel(isNextFav)
+    }
+
+    private companion object {
+        val CANONICAL_STYLE_COMPARATOR: Comparator<BeerStyle> =
+            compareBy<BeerStyle> { it.guidelineType.ordinal }
+                .thenBy { it.categoryNumber.toIntOrNull() ?: Int.MAX_VALUE }
+                .thenBy { it.categoryNumber }
+                .thenBy { it.number }
     }
 }

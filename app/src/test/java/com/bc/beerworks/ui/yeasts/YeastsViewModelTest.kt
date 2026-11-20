@@ -1,16 +1,16 @@
 package com.bc.beerworks.ui.yeasts
 
-import com.bc.beerworks.data.local.dao.BaStyleDao
-import com.bc.beerworks.data.local.dao.BjcpStyleDao
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.model.TemperatureUnit
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.repository.FakePrefsManager
 import com.bc.beerworks.data.repository.FakeYeastDao
 import com.bc.beerworks.data.repository.FakeYeastStyleCrossRefDao
+import com.bc.beerworks.data.repository.StyleLookup
 import com.bc.beerworks.data.repository.YeastRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -21,7 +21,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class YeastsViewModelTest {
@@ -107,8 +106,7 @@ class YeastsViewModelTest {
         yeastRepository = YeastRepository(
             yeastDao = FakeYeastDao(listOf(chico, ec1118)),
             yeastStyleCrossRefDao = FakeYeastStyleCrossRefDao(),
-            bjcpStyleDao = mock(BjcpStyleDao::class.java),
-            baStyleDao = mock(BaStyleDao::class.java),
+            styleLookup = StyleLookup { flowOf(emptyList()) },
             defaultDispatcher = testDispatcher
         )
         viewModel = YeastsViewModel(yeastRepository)
