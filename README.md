@@ -4,6 +4,12 @@
 
 ---
 
+## 💡 Have an Idea or Feedback?
+
+Beerworks is built for the brewing and judging community! If you have a feature idea, style/ingredient suggestion, or bug report, please **[open an issue on GitHub](https://github.com/bcolvin/beerworks/issues)** to share it (feel free to glance at the [Project Goals & Vision](#-project-goals--vision) and [`BACKLOG.md`](./BACKLOG.md) below to see what's already on the roadmap).
+
+---
+
 ## 🎯 Project Goals & Vision
 
 Beerworks is structured into modular phases:

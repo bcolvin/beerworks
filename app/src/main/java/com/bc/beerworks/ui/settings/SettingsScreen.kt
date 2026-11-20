@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DeviceThermostat
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Gavel
@@ -46,6 +49,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,6 +64,7 @@ fun SettingsScreen(
     onMenuClick: () -> Unit,
     onBecomeJudgeClick: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     val selectedGuideline by viewModel.selectedGuideline.collectAsState()
     val isScreenOn by viewModel.keepScreenOn.collectAsState()
     val temperatureUnit by viewModel.temperatureUnit.collectAsState()
@@ -75,7 +80,8 @@ fun SettingsScreen(
         confirmFavoriteRemoval = confirmFavoriteRemoval,
         onConfirmFavoriteRemovalChange = viewModel::onConfirmFavoriteRemovalChange,
         onMenuClick = onMenuClick,
-        onBecomeJudgeClick = onBecomeJudgeClick
+        onBecomeJudgeClick = onBecomeJudgeClick,
+        onSourceCodeClick = { context.openExternalUrl(BjcpJudgeLinks.BEERWORKS_GITHUB_URL) }
     )
 }
 
@@ -91,7 +97,8 @@ fun SettingsContent(
     confirmFavoriteRemoval: Boolean = true,
     onConfirmFavoriteRemovalChange: (Boolean) -> Unit = {},
     onMenuClick: () -> Unit,
-    onBecomeJudgeClick: () -> Unit = {}
+    onBecomeJudgeClick: () -> Unit = {},
+    onSourceCodeClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -406,6 +413,60 @@ fun SettingsContent(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Open Source / GitHub Repository Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = onSourceCodeClick),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Code,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = "Have an idea or want to see how the App is made?",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "Explore the Beerworks source code, share ideas, or report issues on GitHub",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                        contentDescription = "Opens in browser",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
                 }
             }
         }

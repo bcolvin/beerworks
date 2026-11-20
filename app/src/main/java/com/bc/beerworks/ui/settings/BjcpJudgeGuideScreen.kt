@@ -1,5 +1,6 @@
 package com.bc.beerworks.ui.settings
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -76,10 +77,17 @@ object BjcpJudgeLinks {
     const val UPCOMING_TASTING_EXAMS_URL = "https://app.bjcp.org/upcoming-tasting-exams"
     const val ONLINE_ENTRANCE_EXAM_PORTAL_URL = "https://app.bjcp.org/"
     const val BJCP_MAIN_WEBSITE_URL = "https://www.bjcp.org/"
+    const val BEERWORKS_GITHUB_URL = "https://github.com/bcolvin/beerworks"
 
     fun buildCompetitionCalendarUrl(date: LocalDate = LocalDate.now()): String {
         val formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE)
         return "$COMPETITION_CALENDAR_BASE?start_date=$formattedDate"
+    }
+}
+
+internal fun Context.openExternalUrl(url: String) {
+    runCatching {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 }
 
@@ -101,12 +109,7 @@ fun BjcpJudgeGuideScreen(
     currentDate: LocalDate = LocalDate.now()
 ) {
     val context = LocalContext.current
-    val openExternalUrl: (String) -> Unit = { url ->
-        runCatching {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        }
-    }
+    val openExternalUrl: (String) -> Unit = { url -> context.openExternalUrl(url) }
 
     var pathwayExpanded by rememberSaveable { mutableStateOf(true) }
     var examTracksExpanded by rememberSaveable { mutableStateOf(false) }
