@@ -17,7 +17,7 @@
 
 All user-created content and preferences remain strictly on your device:
 
-- **App Preferences (`DataStore`):** Selected style guideline, temperature unit (`°F` / `°C`), drawer state, and confirmation toggles.
+- **App Preferences (`DataStore`):** Selected style guideline, temperature unit (`°F` / `°C`), drawer state, last selected scoresheet discipline, and confirmation toggles.
 - **Favorites & Digital Scoresheets (`Room` SQLite):** Bookmarked styles, ingredients, off-flavors, and your personal Beer, Mead, and Cider evaluation scoresheets.
 - **Backups:** Depending on your Android system settings, Android Auto Backup may back up app data to your personal Google Drive account under Android's standard OS backup rules.
 
