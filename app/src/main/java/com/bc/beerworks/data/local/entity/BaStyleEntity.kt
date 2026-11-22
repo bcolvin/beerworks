@@ -84,6 +84,7 @@ data class BaStyleEntity(
             when {
                 maxAbv <= 4.2 -> result.add("session-strength")
                 minAbv >= 7.5 || maxAbv >= 8.5 -> result.add("high-strength")
+                else -> result.add("standard-strength")
             }
         }
 

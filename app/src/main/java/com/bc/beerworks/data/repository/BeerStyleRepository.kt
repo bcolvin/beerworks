@@ -14,6 +14,7 @@ import com.bc.beerworks.data.model.BaseStyleGroup
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.util.normalizeStyleTagKey
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -312,6 +313,17 @@ class BeerStyleRepository(
                                 val matchesStrength = criteria.selectedStrength.isEmpty() ||
                                     criteria.selectedStrength.any { style.strength?.contains(it, ignoreCase = true) == true }
                                 matchesSweetness && matchesCarbonation && matchesStrength
+                            }
+                        }
+                    }
+                    .let { list ->
+                        if (criteria.selectedTags.isEmpty()) {
+                            list
+                        } else {
+                            val requiredTags = criteria.selectedTags.map(::normalizeStyleTagKey).toSet()
+                            list.filter { style ->
+                                val styleTagKeys = style.tags.map(::normalizeStyleTagKey).toSet()
+                                requiredTags.all { it in styleTagKeys }
                             }
                         }
                     }

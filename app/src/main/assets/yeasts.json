@@ -20,17 +20,93 @@
     "isPhenolic": false,
     "description": "The quintessential American craft ale strain originating from a legendary California craft brewery. Famous for its exceptionally clean, neutral profile that allows assertive hop aromatics and malt character to shine with crisp balance.",
     "pitchingDynamics": "Rapid start with short lag phase; ferments vigorously and attenuates predictably with low diacetyl production and clean finish.",
-    "descriptors": ["clean", "crisp", "neutral", "balanced", "light citrus", "hop-forward"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP001", "productName": "California Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1056", "productName": "American Ale", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "US-05", "productName": "SafAle American", "form": "Dry" },
-      { "laboratory": "Imperial Yeast", "productCode": "A07", "productName": "Flagship", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-004", "productName": "West Coast Ale I", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "BRY-97", "productName": "American West Coast", "form": "Dry" }
+    "descriptors": [
+      "clean",
+      "crisp",
+      "neutral",
+      "balanced",
+      "light citrus",
+      "hop-forward"
     ],
-    "substituteIds": ["california-ale-v", "pacific-northwest-ale", "lutra-kveik"],
-    "commonStyleIds": ["18B", "19A", "21A", "21B", "18A", "12C", "10A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP001",
+        "productName": "California Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1056",
+        "productName": "American Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "US-05",
+        "productName": "SafAle American",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "A07",
+        "productName": "Flagship",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-004",
+        "productName": "West Coast Ale I",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "BRY-97",
+        "productName": "American West Coast",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "california-ale-v",
+      "pacific-northwest-ale",
+      "lutra-kveik"
+    ],
+    "commonStyleIds": [
+      "18B",
+      "19A",
+      "21A",
+      "21B",
+      "18A",
+      "12C",
+      "1D",
+      "1C",
+      "20A",
+      "20C",
+      "22B",
+      "22C",
+      "22D",
+      "27B",
+      "27C",
+      "27E",
+      "27G",
+      "28D",
+      "29A",
+      "29B",
+      "29C",
+      "29D",
+      "30A",
+      "30B",
+      "30C",
+      "30D",
+      "31A",
+      "31B",
+      "32B",
+      "33A",
+      "33B",
+      "34A",
+      "34B",
+      "34C"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.8,
       "fruityEsters": 1.5,
@@ -63,13 +139,44 @@
     "isPhenolic": false,
     "description": "A powerhouse West Coast ale strain renowned for high attenuation velocity, tight flocculation, and ultra-clean neutral profile. Clears faster than Chico while achieving an even crisper, drier finish.",
     "pitchingDynamics": "Exceptionally fast fermentation; drops bright quickly post-fermentation with compact yeast cake.",
-    "descriptors": ["ultra-clean", "crisp", "dry", "neutral", "fast-clearing"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP090", "productName": "San Diego Super Ale", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-009", "productName": "Super San Diego", "form": "Liquid" }
+    "descriptors": [
+      "ultra-clean",
+      "crisp",
+      "dry",
+      "neutral",
+      "fast-clearing"
     ],
-    "substituteIds": ["chico-american-ale", "whitbread-dry"],
-    "commonStyleIds": ["21A", "21B", "22A", "18B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP090",
+        "productName": "San Diego Super Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-009",
+        "productName": "Super San Diego",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "chico-american-ale",
+      "whitbread-dry"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "22A",
+      "18B",
+      "1D",
+      "20A",
+      "20C",
+      "22B",
+      "22C",
+      "22D",
+      "30B"
+    ],
     "radarProfile": {
       "cleanNeutral": 5.0,
       "fruityEsters": 1.0,
@@ -102,13 +209,40 @@
     "isPhenolic": false,
     "description": "A classic Oregon/Washington microbrewery workhorse that leaves a touch more residual malt sweetness and pleasant, round fruity esters (crisp apple and woodsy berry) than Chico.",
     "pitchingDynamics": "Steady fermenter with reliable head formation and clean krausen drop.",
-    "descriptors": ["malty", "round", "soft fruit", "apple", "balanced", "woody"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP051", "productName": "California Ale V", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1332", "productName": "Northwest Ale", "form": "Liquid" }
+    "descriptors": [
+      "malty",
+      "round",
+      "soft fruit",
+      "apple",
+      "balanced",
+      "woody"
     ],
-    "substituteIds": ["chico-american-ale", "fullers-esb"],
-    "commonStyleIds": ["19A", "18B", "15B", "19C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP051",
+        "productName": "California Ale V",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1332",
+        "productName": "Northwest Ale",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "chico-american-ale",
+      "fullers-esb"
+    ],
+    "commonStyleIds": [
+      "19A",
+      "18B",
+      "15B",
+      "19C",
+      "20A",
+      "22B"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.8,
       "fruityEsters": 2.6,
@@ -141,15 +275,49 @@
     "isPhenolic": false,
     "description": "The cult strain that ignited the Hazy / New England IPA revolution. Produces lush, distinctive ripe peach, apricot, and tropical stone fruit esters that synergize harmoniously with modern aromatic dry hops.",
     "pitchingDynamics": "Moderate flocculation; contributes to lasting stable colloidal turbidity in combination with oats and wheat.",
-    "descriptors": ["ripe peach", "apricot", "stone fruit", "tropical", "soft", "juicy"],
-    "commercialEquivalents": [
-      { "laboratory": "Imperial Yeast", "productCode": "A01", "productName": "House", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-052", "productName": "DIPA Ale", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP095", "productName": "Burlington Ale", "form": "Liquid" },
-      { "laboratory": "The Yeast Bay", "productCode": "TYB-001", "productName": "Vermont Ale", "form": "Liquid" }
+    "descriptors": [
+      "ripe peach",
+      "apricot",
+      "stone fruit",
+      "tropical",
+      "soft",
+      "juicy"
     ],
-    "substituteIds": ["london-ale-iii", "chico-american-ale"],
-    "commonStyleIds": ["21C", "21A", "22A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "A01",
+        "productName": "House",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-052",
+        "productName": "DIPA Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP095",
+        "productName": "Burlington Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "The Yeast Bay",
+        "productCode": "TYB-001",
+        "productName": "Vermont Ale",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "london-ale-iii",
+      "chico-american-ale"
+    ],
+    "commonStyleIds": [
+      "21C",
+      "21A",
+      "22A"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.2,
       "fruityEsters": 4.5,
@@ -182,16 +350,60 @@
     "isPhenolic": false,
     "description": "Originally from Manchester, this strain has become the benchmark choice for Hazy IPAs worldwide. Leaves delicate malt sweetness, velvety mouthfeel, and pleasant pineapple and passion fruit esters.",
     "pitchingDynamics": "True top-cropper with high flocculation; forms thick creamy krausen head and bio-transforms hop terpenes actively.",
-    "descriptors": ["pineapple", "passionfruit", "soft sweetness", "velvety", "tropical", "mild malt"],
-    "commercialEquivalents": [
-      { "laboratory": "Wyeast", "productCode": "1318", "productName": "London Ale III", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "A38", "productName": "Juice", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-011", "productName": "British Ale V", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP066", "productName": "London Fog", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "Verdant", "productName": "Verdant IPA", "form": "Dry" }
+    "descriptors": [
+      "pineapple",
+      "passionfruit",
+      "soft sweetness",
+      "velvety",
+      "tropical",
+      "mild malt"
     ],
-    "substituteIds": ["vermont-conan", "fullers-esb"],
-    "commonStyleIds": ["21C", "11A", "11B", "11C", "13A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1318",
+        "productName": "London Ale III",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "A38",
+        "productName": "Juice",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-011",
+        "productName": "British Ale V",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP066",
+        "productName": "London Fog",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "Verdant",
+        "productName": "Verdant IPA",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "vermont-conan",
+      "fullers-esb"
+    ],
+    "commonStyleIds": [
+      "21C",
+      "11A",
+      "11B",
+      "11C",
+      "13A",
+      "12A",
+      "17A",
+      "27D"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.0,
       "fruityEsters": 4.2,
@@ -224,16 +436,74 @@
     "isPhenolic": false,
     "description": "The classic Fuller's strain from Griffin Brewery in London. Renowned for its very high flocculation, dropping brilliant bright without fining, while accentuating rich bready malts and marmalade esters.",
     "pitchingDynamics": "Flocculates extremely early; gentle aeration or rousing may be needed on high-gravity worts to ensure full attenuation.",
-    "descriptors": ["orange marmalade", "toffee", "bready", "rich malt", "flocculent", "bright"],
-    "commercialEquivalents": [
-      { "laboratory": "Wyeast", "productCode": "1968", "productName": "London ESB", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP002", "productName": "English Ale", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "A09", "productName": "Pub", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-016", "productName": "British Ale I", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "London", "productName": "London ESB", "form": "Dry" }
+    "descriptors": [
+      "orange marmalade",
+      "toffee",
+      "bready",
+      "rich malt",
+      "flocculent",
+      "bright"
     ],
-    "substituteIds": ["london-ale-iii", "whitbread-dry"],
-    "commonStyleIds": ["11A", "11B", "11C", "13A", "13B", "15B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1968",
+        "productName": "London ESB",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP002",
+        "productName": "English Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "A09",
+        "productName": "Pub",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-016",
+        "productName": "British Ale I",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "London",
+        "productName": "London ESB",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "london-ale-iii",
+      "whitbread-dry"
+    ],
+    "commonStyleIds": [
+      "11A",
+      "11B",
+      "11C",
+      "13A",
+      "13B",
+      "15B",
+      "12A",
+      "12B",
+      "14A",
+      "14B",
+      "14C",
+      "16D",
+      "17A",
+      "17B",
+      "17C",
+      "22D",
+      "27D",
+      "30A",
+      "30B",
+      "30C",
+      "32B",
+      "33A"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.5,
       "fruityEsters": 3.5,
@@ -266,15 +536,65 @@
     "isPhenolic": false,
     "description": "A drier British ale isolate famous for rapid fermentation and clean, crisp finish. Accentuates hop bitterness and roasty dry porter/stout malts without dominant ester interference.",
     "pitchingDynamics": "Fast starter with strong flocculation; forms compact trub layer.",
-    "descriptors": ["dry", "crisp", "subtle apple", "clean", "bitterness-forward"],
-    "commercialEquivalents": [
-      { "laboratory": "Fermentis", "productCode": "S-04", "productName": "SafAle English Ale", "form": "Dry" },
-      { "laboratory": "White Labs", "productCode": "WLP007", "productName": "Dry English Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1098", "productName": "British Ale", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "A04", "productName": "Dry English", "form": "Liquid" }
+    "descriptors": [
+      "dry",
+      "crisp",
+      "subtle apple",
+      "clean",
+      "bitterness-forward"
     ],
-    "substituteIds": ["fullers-esb", "chico-american-ale"],
-    "commonStyleIds": ["11B", "11C", "13C", "15B", "15C", "20B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Fermentis",
+        "productCode": "S-04",
+        "productName": "SafAle English Ale",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP007",
+        "productName": "Dry English Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1098",
+        "productName": "British Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "A04",
+        "productName": "Dry English",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "fullers-esb",
+      "chico-american-ale"
+    ],
+    "commonStyleIds": [
+      "11B",
+      "11C",
+      "13C",
+      "15B",
+      "15C",
+      "20B",
+      "12A",
+      "12B",
+      "14A",
+      "14B",
+      "14C",
+      "16C",
+      "16D",
+      "17A",
+      "17B",
+      "17C",
+      "20C",
+      "27D",
+      "27G",
+      "33B"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.0,
       "fruityEsters": 2.0,
@@ -307,14 +627,51 @@
     "isPhenolic": false,
     "description": "Traditional Dublin stout strain imparting smooth, soft palate mouthfeel with subtle woody and dark fruit notes that integrate seamlessly with roasted barley and chocolate malt.",
     "pitchingDynamics": "Consistent and clean; keeps diacetyl low when given sufficient post-fermentation maturation.",
-    "descriptors": ["smooth", "woody", "light plum", "roast-enhancing", "mellow"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP004", "productName": "Irish Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1084", "productName": "Irish Ale", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "Nottingham", "productName": "Nottingham Ale", "form": "Dry" }
+    "descriptors": [
+      "smooth",
+      "woody",
+      "light plum",
+      "roast-enhancing",
+      "mellow"
     ],
-    "substituteIds": ["whitbread-dry", "fullers-esb"],
-    "commonStyleIds": ["15A", "15B", "15C", "16A", "16B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP004",
+        "productName": "Irish Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1084",
+        "productName": "Irish Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "Nottingham",
+        "productName": "Nottingham Ale",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "whitbread-dry",
+      "fullers-esb"
+    ],
+    "commonStyleIds": [
+      "15A",
+      "15B",
+      "15C",
+      "16A",
+      "16B",
+      "14A",
+      "14B",
+      "14C",
+      "16C",
+      "16D",
+      "17C",
+      "20C"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.7,
       "fruityEsters": 2.2,
@@ -347,15 +704,56 @@
     "isPhenolic": true,
     "description": "The quintessential Belgian farmhouse strain famous for high temperature tolerance, bone-dry attenuation, and an intricate mosaic of black pepper, clove, tart citrus, and rustic earthy notes. STA1+ positive.",
     "pitchingDynamics": "Known to stall at 1.035 if temperature drops; thrives when allowed to free-rise into the high 80s °F.",
-    "descriptors": ["black pepper", "earthy", "spicy", "tart lemon", "bone-dry", "complex"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP565", "productName": "Belgian Saison I", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3724", "productName": "Belgian Saison", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "BE-134", "productName": "SafAle Abbaye/Saison", "form": "Dry" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-027", "productName": "Belgian Saison I", "form": "Liquid" }
+    "descriptors": [
+      "black pepper",
+      "earthy",
+      "spicy",
+      "tart lemon",
+      "bone-dry",
+      "complex"
     ],
-    "substituteIds": ["french-saison", "ardenne-achouffe"],
-    "commonStyleIds": ["25B", "25C", "26A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP565",
+        "productName": "Belgian Saison I",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3724",
+        "productName": "Belgian Saison",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "BE-134",
+        "productName": "SafAle Abbaye/Saison",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-027",
+        "productName": "Belgian Saison I",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "french-saison",
+      "ardenne-achouffe"
+    ],
+    "commonStyleIds": [
+      "25B",
+      "25C",
+      "26A",
+      "29A",
+      "29C",
+      "29D",
+      "30D",
+      "31B",
+      "34A",
+      "34B"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.5,
       "fruityEsters": 3.8,
@@ -388,15 +786,52 @@
     "isPhenolic": true,
     "description": "A rapid, non-stalling French farmhouse strain that ferments effortlessly at room temperature. Delivers a clean pepper spice and silkier, higher glycerol mouthfeel than Dupont. STA1+ positive.",
     "pitchingDynamics": "Extremely fast and aggressive fermenter; does not suffer from temperature-related stalls.",
-    "descriptors": ["peppery", "subtle clove", "silky", "lemon zest", "quince", "dry"],
-    "commercialEquivalents": [
-      { "laboratory": "Wyeast", "productCode": "3711", "productName": "French Saison", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "Belle Saison", "productName": "Belle Saison", "form": "Dry" },
-      { "laboratory": "White Labs", "productCode": "WLP590", "productName": "French Saison", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-026", "productName": "French Saison", "form": "Liquid" }
+    "descriptors": [
+      "peppery",
+      "subtle clove",
+      "silky",
+      "lemon zest",
+      "quince",
+      "dry"
     ],
-    "substituteIds": ["saison-dupont", "bastogne-ale"],
-    "commonStyleIds": ["25B", "25A", "24A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3711",
+        "productName": "French Saison",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "Belle Saison",
+        "productName": "Belle Saison",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP590",
+        "productName": "French Saison",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-026",
+        "productName": "French Saison",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "saison-dupont",
+      "bastogne-ale"
+    ],
+    "commonStyleIds": [
+      "25B",
+      "25A",
+      "24A",
+      "24C",
+      "29B",
+      "30A"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.0,
       "fruityEsters": 3.2,
@@ -429,15 +864,55 @@
     "isPhenolic": true,
     "description": "The world-famous Westmalle Trappist strain. Produces complex ripe pear, plum, and banana esters underpinned by spicy clove and peppery phenols with a dry, warming alcoholic finish.",
     "pitchingDynamics": "Vigorous top-fermenter producing copious rising foam; generous headspace or blow-off tube required.",
-    "descriptors": ["ripe banana", "pear", "dark fruit", "peppery clove", "warming", "trappist"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP530", "productName": "Abbey Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3787", "productName": "Trappist High Gravity", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "BE-256", "productName": "SafAle Abbaye", "form": "Dry" },
-      { "laboratory": "Imperial Yeast", "productCode": "B48", "productName": "Triple", "form": "Liquid" }
+    "descriptors": [
+      "ripe banana",
+      "pear",
+      "dark fruit",
+      "peppery clove",
+      "warming",
+      "trappist"
     ],
-    "substituteIds": ["chimay-trappist", "ardenne-achouffe"],
-    "commonStyleIds": ["26A", "26B", "26C", "26D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP530",
+        "productName": "Abbey Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3787",
+        "productName": "Trappist High Gravity",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "BE-256",
+        "productName": "SafAle Abbaye",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "B48",
+        "productName": "Triple",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "chimay-trappist",
+      "ardenne-achouffe"
+    ],
+    "commonStyleIds": [
+      "26A",
+      "26B",
+      "26C",
+      "26D",
+      "30C",
+      "30D",
+      "31B",
+      "33A",
+      "33B"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.8,
       "fruityEsters": 4.6,
@@ -470,13 +945,38 @@
     "isPhenolic": true,
     "description": "Isolated from Scourmont Abbey, this strain yields rich dark fruit notes of fig, raisin, and candied plum alongside mild peppery spice, making it the premiere choice for Dubbels and Dark Strong Ales.",
     "pitchingDynamics": "Smooth fermenter; works well starting cooler around 66°F and rising to 72°F for ester expression.",
-    "descriptors": ["fig", "raisin", "candied plum", "clove", "malt-rich", "complex"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP500", "productName": "Monastery Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1214", "productName": "Belgian Abbey", "form": "Liquid" }
+    "descriptors": [
+      "fig",
+      "raisin",
+      "candied plum",
+      "clove",
+      "malt-rich",
+      "complex"
     ],
-    "substituteIds": ["westmalle-abbey", "ardenne-achouffe"],
-    "commonStyleIds": ["26B", "26D", "26C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP500",
+        "productName": "Monastery Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1214",
+        "productName": "Belgian Abbey",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "westmalle-abbey",
+      "ardenne-achouffe"
+    ],
+    "commonStyleIds": [
+      "26B",
+      "26D",
+      "26C",
+      "30C"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.0,
       "fruityEsters": 4.4,
@@ -509,14 +1009,43 @@
     "isPhenolic": true,
     "description": "A versatile Ardennes Belgian ale strain expressing balanced spicy phenolics, candied citrus peel, and gentle apple/pear esters without excessive banana sweetness.",
     "pitchingDynamics": "Dependable attenuation and high tolerance to thermal ramps.",
-    "descriptors": ["candied citrus", "black pepper", "clove", "spicy", "pear", "balanced"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP550", "productName": "Belgian Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3522", "productName": "Belgian Ardennes", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "B45", "productName": "Gnome", "form": "Liquid" }
+    "descriptors": [
+      "candied citrus",
+      "black pepper",
+      "clove",
+      "spicy",
+      "pear",
+      "balanced"
     ],
-    "substituteIds": ["westmalle-abbey", "bastogne-ale"],
-    "commonStyleIds": ["25B", "26A", "26C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP550",
+        "productName": "Belgian Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3522",
+        "productName": "Belgian Ardennes",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "B45",
+        "productName": "Gnome",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "westmalle-abbey",
+      "bastogne-ale"
+    ],
+    "commonStyleIds": [
+      "25B",
+      "26A",
+      "26C"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.5,
       "fruityEsters": 3.6,
@@ -549,14 +1078,43 @@
     "isPhenolic": true,
     "description": "Pierre Celis' historic Hoegaarden revival yeast. Leaves characteristic cloudy haze, tart lactic crispness, and delicate floral/coriander-like spicy phenols that complement unmalted raw wheat and orange peel.",
     "pitchingDynamics": "Low flocculation retains cloudy wheat haze in suspension for authentic visual appeal.",
-    "descriptors": ["tart", "citrus", "coriander spice", "floral", "cloudy", "refreshing"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP400", "productName": "Belgian Wit Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3944", "productName": "Belgian Witbier", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "T-58", "productName": "SafAle Specialty", "form": "Dry" }
+    "descriptors": [
+      "tart",
+      "citrus",
+      "coriander spice",
+      "floral",
+      "cloudy",
+      "refreshing"
     ],
-    "substituteIds": ["weihenstephan-weizen", "bastogne-ale"],
-    "commonStyleIds": ["24A", "24B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP400",
+        "productName": "Belgian Wit Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3944",
+        "productName": "Belgian Witbier",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "T-58",
+        "productName": "SafAle Specialty",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "weihenstephan-weizen",
+      "bastogne-ale"
+    ],
+    "commonStyleIds": [
+      "24A",
+      "24B",
+      "29B"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.8,
       "fruityEsters": 3.2,
@@ -589,15 +1147,51 @@
     "isPhenolic": true,
     "description": "The benchmark Bavarian Hefeweizen strain from the world's oldest operating brewery. Generates the classic harmony of isoamyl acetate (banana) and 4-vinyl guaiacol (clove) with dense billowing krausen.",
     "pitchingDynamics": "Fermenting at 64°F yields prominent clove phenols; fermenting at 70°F+ dramatically increases banana ester intensity.",
-    "descriptors": ["banana", "clove", "bubblegum", "vanilla", "wheat haze", "creamy"],
-    "commercialEquivalents": [
-      { "laboratory": "Wyeast", "productCode": "3068", "productName": "Weihenstephan Weizen", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP300", "productName": "Hefeweizen Ale", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "WB-06", "productName": "SafAle Wheat", "form": "Dry" },
-      { "laboratory": "Lallemand", "productCode": "Munich Classic", "productName": "Bavarian Wheat", "form": "Dry" }
+    "descriptors": [
+      "banana",
+      "clove",
+      "bubblegum",
+      "vanilla",
+      "wheat haze",
+      "creamy"
     ],
-    "substituteIds": ["munich-weizen", "belgian-witbier"],
-    "commonStyleIds": ["10A", "10B", "10C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3068",
+        "productName": "Weihenstephan Weizen",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP300",
+        "productName": "Hefeweizen Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "WB-06",
+        "productName": "SafAle Wheat",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "Munich Classic",
+        "productName": "Bavarian Wheat",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "munich-weizen",
+      "belgian-witbier"
+    ],
+    "commonStyleIds": [
+      "10A",
+      "10B",
+      "10C",
+      "27H",
+      "27I"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.6,
       "fruityEsters": 4.8,
@@ -630,13 +1224,37 @@
     "isPhenolic": true,
     "description": "An alternative Bavarian wheat strain highlighting rich clove, nutmeg, and allspice phenols with subtle apple and vanilla notes rather than overpowering bubblegum banana sweetness.",
     "pitchingDynamics": "Ideal for Dunkles Weissbier and Weizenbock where dark malt complexity demands restrained banana ester levels.",
-    "descriptors": ["clove", "allspice", "nutmeg", "baked apple", "vanilla", "rich"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP380", "productName": "Munich Wheat", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3638", "productName": "Bavarian Wheat", "form": "Liquid" }
+    "descriptors": [
+      "clove",
+      "allspice",
+      "nutmeg",
+      "baked apple",
+      "vanilla",
+      "rich"
     ],
-    "substituteIds": ["weihenstephan-weizen"],
-    "commonStyleIds": ["10B", "10C", "10A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP380",
+        "productName": "Munich Wheat",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3638",
+        "productName": "Bavarian Wheat",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "weihenstephan-weizen"
+    ],
+    "commonStyleIds": [
+      "10B",
+      "10C",
+      "10A",
+      "27H"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.2,
       "fruityEsters": 3.4,
@@ -669,14 +1287,45 @@
     "isPhenolic": false,
     "description": "The historic Pilsner Urquell lager yeast from 1842. Imparts soft, malty, and rich mouthfeel with delicate sulfur that dissipates during lagering, complementing Saaz spicy hops.",
     "pitchingDynamics": "Pitch cold at 48–50°F; benefits from an end-of-fermentation diacetyl rest at 60°F before extended cold conditioning.",
-    "descriptors": ["malty", "soft", "rich", "clean sulfur", "noble hop-forward", "bready"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP800", "productName": "Pilsner Lager", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2001", "productName": "Urquell Lager", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "W-34/70", "productName": "SafLager Weihenstephan", "form": "Dry" }
+    "descriptors": [
+      "malty",
+      "soft",
+      "rich",
+      "clean sulfur",
+      "noble hop-forward",
+      "bready"
     ],
-    "substituteIds": ["munich-lager", "budvar-czech-lager"],
-    "commonStyleIds": ["3B", "3A", "3C", "3D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP800",
+        "productName": "Pilsner Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2001",
+        "productName": "Urquell Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "W-34/70",
+        "productName": "SafLager Weihenstephan",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "munich-lager",
+      "budvar-czech-lager"
+    ],
+    "commonStyleIds": [
+      "3B",
+      "3A",
+      "3C",
+      "3D",
+      "27F"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.6,
       "fruityEsters": 0.8,
@@ -709,15 +1358,69 @@
     "isPhenolic": false,
     "description": "The most widely used commercial lager strain in the world (Weihenstephaner 34/70). Ultra-clean, dependable, and forgiving, producing brilliantly crisp lagers with minimal sulfur or diacetyl.",
     "pitchingDynamics": "Tolerates higher temperature ranges (up to 65°F under pressure) while maintaining remarkably clean lager character.",
-    "descriptors": ["ultra-clean", "crisp", "crackery malt", "balanced", "reliable"],
-    "commercialEquivalents": [
-      { "laboratory": "Fermentis", "productCode": "W-34/70", "productName": "SafLager Weihenstephan", "form": "Dry" },
-      { "laboratory": "White Labs", "productCode": "WLP830", "productName": "German Lager", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2124", "productName": "Bohemian Lager", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "L17", "productName": "Harvest", "form": "Liquid" }
+    "descriptors": [
+      "ultra-clean",
+      "crisp",
+      "crackery malt",
+      "balanced",
+      "reliable"
     ],
-    "substituteIds": ["bohemian-lager", "augustiner-lager", "lutra-kveik"],
-    "commonStyleIds": ["4A", "4B", "5A", "5B", "5C", "5D", "6A", "6B", "6C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Fermentis",
+        "productCode": "W-34/70",
+        "productName": "SafLager Weihenstephan",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP830",
+        "productName": "German Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2124",
+        "productName": "Bohemian Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "L17",
+        "productName": "Harvest",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "bohemian-lager",
+      "augustiner-lager",
+      "lutra-kveik"
+    ],
+    "commonStyleIds": [
+      "4A",
+      "4B",
+      "5A",
+      "5B",
+      "5C",
+      "5D",
+      "6A",
+      "6B",
+      "6C",
+      "2C",
+      "4C",
+      "8A",
+      "8B",
+      "9A",
+      "9B",
+      "9C",
+      "24C",
+      "27F",
+      "32A",
+      "32B",
+      "33A",
+      "34A",
+      "34B"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.9,
       "fruityEsters": 0.5,
@@ -750,14 +1453,48 @@
     "isPhenolic": false,
     "description": "Sourced from Munich's oldest independent brewery, Augustiner. Enhances pillowy, bread dough maltiness and rounded mouthfeel in pale lagers without drying out the finish excessively.",
     "pitchingDynamics": "Slower initial takeoff than 34/70; benefits from generous pitch rate and slow cold fermentation.",
-    "descriptors": ["bread dough", "pillowy malt", "soft", "rich", "golden", "clean"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP860", "productName": "Munich Helles", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2308", "productName": "Munich Lager", "form": "Liquid" },
-      { "laboratory": "Imperial Yeast", "productCode": "L13", "productName": "Global", "form": "Liquid" }
+    "descriptors": [
+      "bread dough",
+      "pillowy malt",
+      "soft",
+      "rich",
+      "golden",
+      "clean"
     ],
-    "substituteIds": ["munich-lager", "bohemian-lager"],
-    "commonStyleIds": ["4A", "5A", "6A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP860",
+        "productName": "Munich Helles",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2308",
+        "productName": "Munich Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "L13",
+        "productName": "Global",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "munich-lager",
+      "bohemian-lager"
+    ],
+    "commonStyleIds": [
+      "4A",
+      "5A",
+      "6A",
+      "4C",
+      "8A",
+      "8B",
+      "9A",
+      "32A"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.5,
       "fruityEsters": 0.9,
@@ -790,14 +1527,42 @@
     "isPhenolic": false,
     "description": "The yeast behind Budweiser Budvar (Czechvar). Slightly drier than the Plzeň strain, with distinct noble hop accentuation and clean, crisp mineral character.",
     "pitchingDynamics": "Very clean profile with moderate sulfur during fermentation that clears completely with cold storage.",
-    "descriptors": ["crisp", "mineral", "dry", "noble hop", "refreshing"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP802", "productName": "Czech Budejovice", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2000", "productName": "Budvar Lager", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "S-23", "productName": "SafLager European", "form": "Dry" }
+    "descriptors": [
+      "crisp",
+      "mineral",
+      "dry",
+      "noble hop",
+      "refreshing"
     ],
-    "substituteIds": ["bohemian-lager", "munich-lager"],
-    "commonStyleIds": ["3B", "3C", "3D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP802",
+        "productName": "Czech Budejovice",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2000",
+        "productName": "Budvar Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "S-23",
+        "productName": "SafLager European",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "bohemian-lager",
+      "munich-lager"
+    ],
+    "commonStyleIds": [
+      "3B",
+      "3C",
+      "3D"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.7,
       "fruityEsters": 0.7,
@@ -830,15 +1595,60 @@
     "isPhenolic": false,
     "description": "A hybrid ale strain fermented cool in Cologne and conditioned like a lager. Imparts crisp delicate winey, white grape, and pear notes with lager-like cleanness and refreshing tart bite.",
     "pitchingDynamics": "Ferment at 60–62°F for crisp profile; cold condition at 34°F for 3–4 weeks for brilliant clarity.",
-    "descriptors": ["white wine", "pear", "crisp", "lager-like", "subtle tartness", "bright"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP029", "productName": "Kölsch Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2565", "productName": "Kölsch", "form": "Liquid" },
-      { "laboratory": "Fermentis", "productCode": "K-97", "productName": "SafAle German Ale", "form": "Dry" },
-      { "laboratory": "Imperial Yeast", "productCode": "G03", "productName": "Dieter", "form": "Liquid" }
+    "descriptors": [
+      "white wine",
+      "pear",
+      "crisp",
+      "lager-like",
+      "subtle tartness",
+      "bright"
     ],
-    "substituteIds": ["dusseldorf-alt", "munich-lager"],
-    "commonStyleIds": ["5B", "1A", "1B", "18A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP029",
+        "productName": "Kölsch Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2565",
+        "productName": "Kölsch",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Fermentis",
+        "productCode": "K-97",
+        "productName": "SafAle German Ale",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Imperial Yeast",
+        "productCode": "G03",
+        "productName": "Dieter",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "dusseldorf-alt",
+      "munich-lager"
+    ],
+    "commonStyleIds": [
+      "5B",
+      "1A",
+      "1B",
+      "18A",
+      "1C",
+      "1D",
+      "9C",
+      "24C",
+      "27B",
+      "27C",
+      "27E",
+      "28D",
+      "29A",
+      "31A"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.4,
       "fruityEsters": 2.2,
@@ -871,13 +1681,38 @@
     "isPhenolic": false,
     "description": "Traditional top-fermenting German ale strain from the old-town brewpubs of Düsseldorf. Clean with gentle nutty malt focus, accentuating firm noble hop bitterness without ester interference.",
     "pitchingDynamics": "Consistent and steady; clean cold lagering completes flavor maturation.",
-    "descriptors": ["nutty", "clean", "toasty malt", "firm bitterness", "crisp"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP036", "productName": "Düsseldorf Alt", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "1007", "productName": "German Ale", "form": "Liquid" }
+    "descriptors": [
+      "nutty",
+      "clean",
+      "toasty malt",
+      "firm bitterness",
+      "crisp"
     ],
-    "substituteIds": ["kolsch-yeast", "california-common-yeast"],
-    "commonStyleIds": ["7B", "7A", "5B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP036",
+        "productName": "Düsseldorf Alt",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "1007",
+        "productName": "German Ale",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "kolsch-yeast",
+      "california-common-yeast"
+    ],
+    "commonStyleIds": [
+      "7B",
+      "7A",
+      "5B",
+      "27E",
+      "32A"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.3,
       "fruityEsters": 1.5,
@@ -910,13 +1745,35 @@
     "isPhenolic": false,
     "description": "Historic San Francisco Steam Beer yeast. A true lager strain adapted to ferment at warm ale temperatures while retaining lager-like crispness with pleasant rustic woody and light fruit notes.",
     "pitchingDynamics": "Thrives at 60–65°F without producing harsh fusels or heavy sulfur.",
-    "descriptors": ["rustic woody", "crisp", "caramel malt", "firm", "toasted"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP810", "productName": "San Francisco Lager", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2112", "productName": "California Lager", "form": "Liquid" }
+    "descriptors": [
+      "rustic woody",
+      "crisp",
+      "caramel malt",
+      "firm",
+      "toasted"
     ],
-    "substituteIds": ["dusseldorf-alt", "chico-american-ale"],
-    "commonStyleIds": ["19C", "7B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP810",
+        "productName": "San Francisco Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2112",
+        "productName": "California Lager",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "dusseldorf-alt",
+      "chico-american-ale"
+    ],
+    "commonStyleIds": [
+      "19B",
+      "7B"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.8,
       "fruityEsters": 1.8,
@@ -949,14 +1806,50 @@
     "isPhenolic": false,
     "description": "The quintessential Norwegian farmhouse kveik isolate from Gjernes farm in Voss. Ferments at extraordinary temperatures (up to 104°F) without off-flavors, completing in 48 hours with distinctive orange peel and citrus aroma.",
     "pitchingDynamics": "Extreme thermotolerance and rapid fermentation; underpitching (1 tsp slurry per 5 gallons) drives bright orange citrus ester expression.",
-    "descriptors": ["orange peel", "citrus", "clean", "speedy", "earthy", "bright"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "LalBrew Voss", "productName": "Voss Kveik", "form": "Dry" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-061", "productName": "Voss Kveik", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP515", "productName": "Voss Kveik", "form": "Liquid" }
+    "descriptors": [
+      "orange peel",
+      "citrus",
+      "clean",
+      "speedy",
+      "earthy",
+      "bright"
     ],
-    "substituteIds": ["hornindal-kveik", "lutra-kveik", "chico-american-ale"],
-    "commonStyleIds": ["21A", "21B", "18B", "C1A", "M1A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "LalBrew Voss",
+        "productName": "Voss Kveik",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-061",
+        "productName": "Voss Kveik",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP515",
+        "productName": "Voss Kveik",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "hornindal-kveik",
+      "lutra-kveik",
+      "chico-american-ale"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21B",
+      "18B",
+      "C1A",
+      "M1A",
+      "27I",
+      "31A",
+      "34C",
+      "M4C"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.0,
       "fruityEsters": 4.2,
@@ -989,13 +1882,42 @@
     "isPhenolic": false,
     "description": "Traditional Norwegian kveik culture from Terje Raftevold in Hornindal. Ferments furiously hot, producing a tropical fruit bouquet of pineapple, mango, and caramel that complements hop-forward ales and meads.",
     "pitchingDynamics": "Very high alcohol tolerance; ferments high-gravity worts and musts rapidly with minimal fusel alcohol production.",
-    "descriptors": ["pineapple", "mango", "guava", "caramel", "tropical", "fast"],
-    "commercialEquivalents": [
-      { "laboratory": "Omega Yeast", "productCode": "OYL-091", "productName": "Hornindal Kveik", "form": "Liquid" },
-      { "laboratory": "Mainiacal Brewing", "productCode": "Kveik Raftevold", "productName": "Raftevold Hornindal", "form": "Liquid" }
+    "descriptors": [
+      "pineapple",
+      "mango",
+      "guava",
+      "caramel",
+      "tropical",
+      "fast"
     ],
-    "substituteIds": ["voss-kveik", "vermont-conan"],
-    "commonStyleIds": ["21A", "21C", "22A", "M1A", "M2A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-091",
+        "productName": "Hornindal Kveik",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Mainiacal Brewing",
+        "productCode": "Kveik Raftevold",
+        "productName": "Raftevold Hornindal",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "voss-kveik",
+      "vermont-conan"
+    ],
+    "commonStyleIds": [
+      "21A",
+      "21C",
+      "22A",
+      "M1A",
+      "M2A",
+      "27I",
+      "34C",
+      "M4C"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.0,
       "fruityEsters": 4.6,
@@ -1028,13 +1950,41 @@
     "isPhenolic": false,
     "description": "An isolated ultra-clean sub-strain of Hornindal kveik developed by Omega Yeast. Ferments lightning fast with pseudo-lager cleanness at high temperatures, widely used in pseudo-lagers, clean ciders, and seltzers.",
     "pitchingDynamics": "Can finish grain-to-glass pseudo-lagers in less than a week; drops crystal clear with tight yeast bed.",
-    "descriptors": ["ultra-clean", "neutral", "crisp", "pseudo-lager", "lightning-fast"],
-    "commercialEquivalents": [
-      { "laboratory": "Omega Yeast", "productCode": "OYL-071", "productName": "Lutra Kveik", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-071D", "productName": "Lutra Dry Kveik", "form": "Dry" }
+    "descriptors": [
+      "ultra-clean",
+      "neutral",
+      "crisp",
+      "pseudo-lager",
+      "lightning-fast"
     ],
-    "substituteIds": ["chico-american-ale", "munich-lager", "california-ale-v"],
-    "commonStyleIds": ["1A", "1B", "4A", "5B", "C1A", "M1A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-071",
+        "productName": "Lutra Kveik",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-071D",
+        "productName": "Lutra Dry Kveik",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "chico-american-ale",
+      "munich-lager",
+      "california-ale-v"
+    ],
+    "commonStyleIds": [
+      "1A",
+      "1B",
+      "4A",
+      "5B",
+      "C1A",
+      "M1A",
+      "1C"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.9,
       "fruityEsters": 1.0,
@@ -1067,14 +2017,51 @@
     "isPhenolic": true,
     "description": "The quintessential wild yeast of Belgian Lambic and Gueuze. Produces complex rustic barnyard, horse blanket, leather, and ripe cherry pie aromatics over extended aging, scavenging complex dextrins.",
     "pitchingDynamics": "Slow secondary fermentation pace; matures in wood barrels over 6–24 months.",
-    "descriptors": ["barnyard", "horse blanket", "leather", "cherry pie", "funk", "dry tartness"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP650", "productName": "Brettanomyces bruxellensis", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "5112", "productName": "Brettanomyces bruxellensis", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-202", "productName": "Brett Bruxellensis", "form": "Liquid" }
+    "descriptors": [
+      "barnyard",
+      "horse blanket",
+      "leather",
+      "cherry pie",
+      "funk",
+      "dry tartness"
     ],
-    "substituteIds": ["brett-claussenii", "lambic-blend"],
-    "commonStyleIds": ["23A", "23B", "23D", "23F", "28A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP650",
+        "productName": "Brettanomyces bruxellensis",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "5112",
+        "productName": "Brettanomyces bruxellensis",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-202",
+        "productName": "Brett Bruxellensis",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "brett-claussenii",
+      "lambic-blend"
+    ],
+    "commonStyleIds": [
+      "23A",
+      "23B",
+      "23D",
+      "23F",
+      "28A",
+      "28B",
+      "28C",
+      "29C",
+      "33B",
+      "34C",
+      "C2F"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.0,
       "fruityEsters": 3.0,
@@ -1107,14 +2094,45 @@
     "isPhenolic": true,
     "description": "Originally isolated from historic English stock ales and old stouts by N. Hjelte Claussen. A gentler Brett strain delivering delightful pineapple, leather, and tropical fruit notes with softer barnyard funk.",
     "pitchingDynamics": "Excellent in 100% Brett primary fermentations where it emphasizes juicy pineapple and mango aromatics.",
-    "descriptors": ["pineapple", "leather", "mild funk", "tropical", "soft", "complex"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP645", "productName": "Brettanomyces claussenii", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "5223", "productName": "Brettanomyces claussenii", "form": "Liquid" },
-      { "laboratory": "Omega Yeast", "productCode": "OYL-201", "productName": "Brett Claussenii", "form": "Liquid" }
+    "descriptors": [
+      "pineapple",
+      "leather",
+      "mild funk",
+      "tropical",
+      "soft",
+      "complex"
     ],
-    "substituteIds": ["brett-bruxellensis"],
-    "commonStyleIds": ["28A", "23A", "17D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP645",
+        "productName": "Brettanomyces claussenii",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "5223",
+        "productName": "Brettanomyces claussenii",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-201",
+        "productName": "Brett Claussenii",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "brett-bruxellensis"
+    ],
+    "commonStyleIds": [
+      "28A",
+      "23A",
+      "17D",
+      "17B",
+      "28C",
+      "M4B"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.5,
       "fruityEsters": 4.5,
@@ -1147,13 +2165,44 @@
     "isPhenolic": false,
     "description": "The premier kettle souring and co-fermentation lactic acid bacteria. Drops unhopped wort pH from 5.2 to below 3.4 in under 24–36 hours with clean, bright citrus acidity and no diacetyl or butyric off-flavors.",
     "pitchingDynamics": "Extremely hop sensitive (inhibited by > 5–8 IBUs); pitches directly into kettle at 85–90°F before boiling and hopping.",
-    "descriptors": ["clean lactic sour", "lemon citrus", "crisp", "tart", "bright", "kettle-sour"],
-    "commercialEquivalents": [
-      { "laboratory": "Omega Yeast", "productCode": "OYL-605", "productName": "Lactobacillus Blend", "form": "Liquid" },
-      { "laboratory": "Lallemand", "productCode": "Sour Pitch", "productName": "WildBrew Sour Pitch", "form": "Dry" }
+    "descriptors": [
+      "clean lactic sour",
+      "lemon citrus",
+      "crisp",
+      "tart",
+      "bright",
+      "kettle-sour"
     ],
-    "substituteIds": ["pediococcus-damnosus", "lambic-blend"],
-    "commonStyleIds": ["23A", "23G", "27A", "C1A", "M1A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Omega Yeast",
+        "productCode": "OYL-605",
+        "productName": "Lactobacillus Blend",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Lallemand",
+        "productCode": "Sour Pitch",
+        "productName": "WildBrew Sour Pitch",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "pediococcus-damnosus",
+      "lambic-blend"
+    ],
+    "commonStyleIds": [
+      "23A",
+      "23G",
+      "27A",
+      "C1A",
+      "M1A",
+      "27C",
+      "28B",
+      "28C",
+      "28D",
+      "C2F"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.5,
       "fruityEsters": 2.0,
@@ -1186,13 +2235,38 @@
     "isPhenolic": false,
     "description": "Slow-growing lactic acid bacteria critical for traditional Flanders Red, Oud Bruin, and Lambic. Capable of driving deep lactic sourness into high-hop and high-alcohol environments.",
     "pitchingDynamics": "Produces significant diacetyl and viscous exopolysaccharides (ropiness) which Brettanomyces breaks down over 12+ months.",
-    "descriptors": ["deep lactic sour", "intense tart", "complex", "barrel-sour", "vintage"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP661", "productName": "Pediococcus damnosus", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "5733", "productName": "Pediococcus", "form": "Liquid" }
+    "descriptors": [
+      "deep lactic sour",
+      "intense tart",
+      "complex",
+      "barrel-sour",
+      "vintage"
     ],
-    "substituteIds": ["lactobacillus-plantarum", "lambic-blend"],
-    "commonStyleIds": ["23B", "23C", "23D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP661",
+        "productName": "Pediococcus damnosus",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "5733",
+        "productName": "Pediococcus",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "lactobacillus-plantarum",
+      "lambic-blend"
+    ],
+    "commonStyleIds": [
+      "23B",
+      "23C",
+      "23D",
+      "28B",
+      "28C"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.5,
       "fruityEsters": 1.5,
@@ -1225,13 +2299,41 @@
     "isPhenolic": true,
     "description": "A complex harmonious culture containing Belgian ale yeast, multiple Brettanomyces strains, and lactic bacteria designed to replicate traditional spontaneously fermented Belgian Lambic.",
     "pitchingDynamics": "Long fermentation over 12–24 months; forms thick protective pellicle in carboy or oak barrel.",
-    "descriptors": ["barnyard", "tart lactic", "sour cherry", "oak", "citric", "leather"],
-    "commercialEquivalents": [
-      { "laboratory": "Wyeast", "productCode": "3278", "productName": "Belgian Lambic Blend", "form": "Liquid" },
-      { "laboratory": "White Labs", "productCode": "WLP655", "productName": "Belgian Sour Mix I", "form": "Liquid" }
+    "descriptors": [
+      "barnyard",
+      "tart lactic",
+      "sour cherry",
+      "oak",
+      "citric",
+      "leather"
     ],
-    "substituteIds": ["brett-bruxellensis", "pediococcus-damnosus"],
-    "commonStyleIds": ["23D", "23E", "23F", "23B", "23C"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3278",
+        "productName": "Belgian Lambic Blend",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP655",
+        "productName": "Belgian Sour Mix I",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "brett-bruxellensis",
+      "pediococcus-damnosus"
+    ],
+    "commonStyleIds": [
+      "23D",
+      "23E",
+      "23F",
+      "23B",
+      "23C",
+      "28B",
+      "28C"
+    ],
     "radarProfile": {
       "cleanNeutral": 0.0,
       "fruityEsters": 3.2,
@@ -1264,13 +2366,45 @@
     "isPhenolic": false,
     "description": "The world's most renowned Champagne strain (Prise de Mousse). Celebrated for its robust killer factor (K2), immense 18% alcohol tolerance, and neutral profile, making it the industry standard for traditional meads, sparkling ciders, and stuck fermentations.",
     "pitchingDynamics": "Extremely reliable and vigorous; ferments in cold or nutrient-deficient conditions effortlessly.",
-    "descriptors": ["neutral", "clean", "sparkling", "dry", "crisp", "champagne"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "EC-1118", "productName": "Lalvin EC-1118", "form": "Dry" },
-      { "laboratory": "Red Star", "productCode": "Premier Blanc", "productName": "Pasteur Champagne", "form": "Dry" }
+    "descriptors": [
+      "neutral",
+      "clean",
+      "sparkling",
+      "dry",
+      "crisp",
+      "champagne"
     ],
-    "substituteIds": ["lalvin-k1-v1116", "safcider-ab-1"],
-    "commonStyleIds": ["M1A", "M1B", "M1C", "M4A", "C1A", "C1D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "EC-1118",
+        "productName": "Lalvin EC-1118",
+        "form": "Dry"
+      },
+      {
+        "laboratory": "Red Star",
+        "productCode": "Premier Blanc",
+        "productName": "Pasteur Champagne",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-k1-v1116",
+      "safcider-ab-1"
+    ],
+    "commonStyleIds": [
+      "M1A",
+      "M1B",
+      "M1C",
+      "M4A",
+      "C1A",
+      "C1D",
+      "29D",
+      "M4C",
+      "C2C",
+      "C2D",
+      "C2F"
+    ],
     "radarProfile": {
       "cleanNeutral": 5.0,
       "fruityEsters": 1.0,
@@ -1303,12 +2437,35 @@
     "isPhenolic": false,
     "description": "The gold standard for fruit meads (Melomels) and high-acid ciders. Converts 20–40% of malic acid into lactic acid during fermentation (malo-ethanolic fermentation), softening sharp acidity while producing luscious tropical banana, passionfruit, and stone fruit esters.",
     "pitchingDynamics": "Moderate nitrogen demand; needs rehydration with Go-Ferm and staggered nutrient additions (SNA).",
-    "descriptors": ["tropical fruit", "candied banana", "peach", "malic-softening", "smooth", "fruity"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "71B", "productName": "Lalvin 71B-1122", "form": "Dry" }
+    "descriptors": [
+      "tropical fruit",
+      "candied banana",
+      "peach",
+      "malic-softening",
+      "smooth",
+      "fruity"
     ],
-    "substituteIds": ["lalvin-d47", "qa23-yeast"],
-    "commonStyleIds": ["M2A", "M2B", "M2C", "M2D", "M2E", "C1A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "71B",
+        "productName": "Lalvin 71B-1122",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-d47",
+      "qa23-yeast"
+    ],
+    "commonStyleIds": [
+      "M2A",
+      "M2B",
+      "M2C",
+      "M2D",
+      "M2E",
+      "C1A",
+      "C2B"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.5,
       "fruityEsters": 4.8,
@@ -1341,12 +2498,34 @@
     "isPhenolic": false,
     "description": "Top choice for traditional varietal meads and full-bodied ciders. Emphasizes floral blossom notes, ripe pear, and velvety glycerol mouthfeel when fermented cool (below 68°F).",
     "pitchingDynamics": "Temperature sensitive: fermentation above 70°F can generate higher fusel alcohols; keep cellar cool for best silky results.",
-    "descriptors": ["ripe pear", "floral blossom", "silky glycerol", "full-bodied", "velvety"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "D-47", "productName": "Lalvin ICV D-47", "form": "Dry" }
+    "descriptors": [
+      "ripe pear",
+      "floral blossom",
+      "silky glycerol",
+      "full-bodied",
+      "velvety"
     ],
-    "substituteIds": ["lalvin-71b", "qa23-yeast"],
-    "commonStyleIds": ["M1A", "M1B", "M1C", "M3A", "C1B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "D-47",
+        "productName": "Lalvin ICV D-47",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-71b",
+      "qa23-yeast"
+    ],
+    "commonStyleIds": [
+      "M1A",
+      "M1B",
+      "M1C",
+      "M3A",
+      "C1B",
+      "M4B",
+      "C2D"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.2,
       "fruityEsters": 3.8,
@@ -1379,12 +2558,34 @@
     "isPhenolic": false,
     "description": "Selected in the Portuguese Vinho Verde region for high beta-glucosidase enzymatic activity. Frees bound aromatic terpenes in honey blossoms, white wine grapes, and heirloom dessert apples, producing vibrant passionfruit and citrus notes.",
     "pitchingDynamics": "Low nutrient requirements; ferments cleanly even in clarified musts.",
-    "descriptors": ["passionfruit", "lime citrus", "floral terpene", "bright", "crisp"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "QA23", "productName": "Lalvin QA23", "form": "Dry" }
+    "descriptors": [
+      "passionfruit",
+      "lime citrus",
+      "floral terpene",
+      "bright",
+      "crisp"
     ],
-    "substituteIds": ["lalvin-71b", "lalvin-ec-1118"],
-    "commonStyleIds": ["M1A", "M1B", "M2A", "C1A", "C1B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "QA23",
+        "productName": "Lalvin QA23",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-71b",
+      "lalvin-ec-1118"
+    ],
+    "commonStyleIds": [
+      "M1A",
+      "M1B",
+      "M2A",
+      "C1A",
+      "C1B",
+      "29D",
+      "C2E"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.8,
       "fruityEsters": 4.5,
@@ -1417,12 +2618,30 @@
     "isPhenolic": false,
     "description": "Renowned Pinot Noir strain from Burgundy developed by the BIVB. Emphasizes ripe red fruit, cherry, raspberry, and spicy berry complexity while extracting and stabilizing anthocyanin color pigments in dark fruit melomels (blackberry, black currant).",
     "pitchingDynamics": "High nitrogen demand: requires structured Fermaid-O / Fermaid-K additions to prevent hydrogen sulfide.",
-    "descriptors": ["ripe cherry", "raspberry", "black currant", "earthy spice", "rich color"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "RC-212", "productName": "Lalvin RC-212", "form": "Dry" }
+    "descriptors": [
+      "ripe cherry",
+      "raspberry",
+      "black currant",
+      "earthy spice",
+      "rich color"
     ],
-    "substituteIds": ["lalvin-71b", "lalvin-d47"],
-    "commonStyleIds": ["M2C", "M2D", "M2E"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "RC-212",
+        "productName": "Lalvin RC-212",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-71b",
+      "lalvin-d47"
+    ],
+    "commonStyleIds": [
+      "M2C",
+      "M2D",
+      "M2E"
+    ],
     "radarProfile": {
       "cleanNeutral": 1.8,
       "fruityEsters": 4.2,
@@ -1455,12 +2674,34 @@
     "isPhenolic": false,
     "description": "Vigorous killer-factor yeast that retains fresh floral and herbal aromatics in high-temperature or stressful fermentations. Excellent for varietal traditional meads, ice ciders, and challenging high-gravity fruit fermentations.",
     "pitchingDynamics": "Extremely robust across wide temperature range (50–95°F); low nutrient consumption.",
-    "descriptors": ["fresh floral", "subtle herbs", "candied citrus", "resilient", "dry"],
-    "commercialEquivalents": [
-      { "laboratory": "Lallemand", "productCode": "K1-V1116", "productName": "Lalvin K1-V1116", "form": "Dry" }
+    "descriptors": [
+      "fresh floral",
+      "subtle herbs",
+      "candied citrus",
+      "resilient",
+      "dry"
     ],
-    "substituteIds": ["lalvin-ec-1118", "qa23-yeast"],
-    "commonStyleIds": ["M1A", "M1B", "M1C", "C1A", "C1D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Lallemand",
+        "productCode": "K1-V1116",
+        "productName": "Lalvin K1-V1116",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-ec-1118",
+      "qa23-yeast"
+    ],
+    "commonStyleIds": [
+      "M1A",
+      "M1B",
+      "M1C",
+      "C1A",
+      "C1D",
+      "C2C",
+      "C2D"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.8,
       "fruityEsters": 3.0,
@@ -1493,13 +2734,42 @@
     "isPhenolic": false,
     "description": "Traditional West Country English cider strain that preserves natural crisp apple flavor and velvety tannin structure. Accentuates bittersweet apple character without stripping body or mouthfeel.",
     "pitchingDynamics": "Ferments steadily without surging; leaves desirable round mouthfeel and pleasant lingering apple aromatics.",
-    "descriptors": ["crisp apple", "ripe orchard", "tannin-preserving", "velvety", "balanced"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP775", "productName": "English Cider Yeast", "form": "Liquid" },
-      { "laboratory": "Mangrove Jack's", "productCode": "M02", "productName": "Cider Yeast", "form": "Dry" }
+    "descriptors": [
+      "crisp apple",
+      "ripe orchard",
+      "tannin-preserving",
+      "velvety",
+      "balanced"
     ],
-    "substituteIds": ["safcider-tf-6", "safcider-ab-1", "lalvin-71b"],
-    "commonStyleIds": ["C1A", "C1B", "C1C", "C1E", "M2B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP775",
+        "productName": "English Cider Yeast",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Mangrove Jack's",
+        "productCode": "M02",
+        "productName": "Cider Yeast",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "safcider-tf-6",
+      "safcider-ab-1",
+      "lalvin-71b"
+    ],
+    "commonStyleIds": [
+      "C1A",
+      "C1B",
+      "C1C",
+      "C1E",
+      "M2B",
+      "C2B",
+      "C2E",
+      "C2F"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.2,
       "fruityEsters": 4.0,
@@ -1532,12 +2802,33 @@
     "isPhenolic": false,
     "description": "Fermentis specialized cider strain developed for fruity, aromatic sweet and medium ciders. Maximizes production of lush banana, pear, and red apple esters while imparting smooth mouthfeel.",
     "pitchingDynamics": "Fast implantation and clean fermentation kinetics; excellent aromatic persistence.",
-    "descriptors": ["candied apple", "banana", "pear", "fruity", "smooth", "tutti-frutti"],
-    "commercialEquivalents": [
-      { "laboratory": "Fermentis", "productCode": "TF-6", "productName": "SafCider TF-6", "form": "Dry" }
+    "descriptors": [
+      "candied apple",
+      "banana",
+      "pear",
+      "fruity",
+      "smooth",
+      "tutti-frutti"
     ],
-    "substituteIds": ["english-cider-yeast", "lalvin-71b"],
-    "commonStyleIds": ["C1A", "C1B", "C2A", "M2B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Fermentis",
+        "productCode": "TF-6",
+        "productName": "SafCider TF-6",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "english-cider-yeast",
+      "lalvin-71b"
+    ],
+    "commonStyleIds": [
+      "C1A",
+      "C1B",
+      "C2A",
+      "M2B",
+      "C2B"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.0,
       "fruityEsters": 4.8,
@@ -1570,12 +2861,34 @@
     "isPhenolic": false,
     "description": "Selected for balanced, crisp traditional ciders. Provides balanced ester production alongside clean crisp acidity, ensuring crisp drinkability across dessert apples and bittersweet varieties.",
     "pitchingDynamics": "Wide temperature band; killer factor active to prevent wild yeast spoilage.",
-    "descriptors": ["crisp apple", "balanced", "clean", "citrus hint", "refreshing", "dry"],
-    "commercialEquivalents": [
-      { "laboratory": "Fermentis", "productCode": "AB-1", "productName": "SafCider AB-1", "form": "Dry" }
+    "descriptors": [
+      "crisp apple",
+      "balanced",
+      "clean",
+      "citrus hint",
+      "refreshing",
+      "dry"
     ],
-    "substituteIds": ["english-cider-yeast", "lalvin-ec-1118"],
-    "commonStyleIds": ["C1A", "C1B", "C1C", "C1D"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Fermentis",
+        "productCode": "AB-1",
+        "productName": "SafCider AB-1",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "english-cider-yeast",
+      "lalvin-ec-1118"
+    ],
+    "commonStyleIds": [
+      "C1A",
+      "C1B",
+      "C1C",
+      "C1D",
+      "C2C",
+      "C2E"
+    ],
     "radarProfile": {
       "cleanNeutral": 3.8,
       "fruityEsters": 3.2,
@@ -1608,12 +2921,31 @@
     "isPhenolic": false,
     "description": "Targeted at ultra-crisp, refreshing, dry ciders. Produces delicate green apple and floral aromatics with a sharp, vibrant acidity profile that pairs wonderfully with culinary dessert fruit.",
     "pitchingDynamics": "Rapid assimilation of sugars; settles fast with high clarity.",
-    "descriptors": ["green apple", "citric crisp", "floral", "sharp", "bright", "extra-dry"],
-    "commercialEquivalents": [
-      { "laboratory": "Fermentis", "productCode": "AC-4", "productName": "SafCider AC-4", "form": "Dry" }
+    "descriptors": [
+      "green apple",
+      "citric crisp",
+      "floral",
+      "sharp",
+      "bright",
+      "extra-dry"
     ],
-    "substituteIds": ["safcider-ab-1", "lalvin-ec-1118"],
-    "commonStyleIds": ["C1A", "C1D", "C2A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Fermentis",
+        "productCode": "AC-4",
+        "productName": "SafCider AC-4",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "safcider-ab-1",
+      "lalvin-ec-1118"
+    ],
+    "commonStyleIds": [
+      "C1A",
+      "C1D",
+      "C2A"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.0,
       "fruityEsters": 2.8,
@@ -1646,12 +2978,34 @@
     "isPhenolic": false,
     "description": "Dedicated high-nitrogen-efficiency dry mead yeast. Preserves delicate honey floral notes and botanical nuances with high alcohol tolerance (18%) and clear flocculation.",
     "pitchingDynamics": "Dependable dry pitch; produces clean finish across traditional and spiced meads (Metheglins).",
-    "descriptors": ["honey floral", "neutral ester", "high tolerance", "clean", "mellow"],
-    "commercialEquivalents": [
-      { "laboratory": "Mangrove Jack's", "productCode": "M05", "productName": "Mead Yeast", "form": "Dry" }
+    "descriptors": [
+      "honey floral",
+      "neutral ester",
+      "high tolerance",
+      "clean",
+      "mellow"
     ],
-    "substituteIds": ["lalvin-ec-1118", "lalvin-d47"],
-    "commonStyleIds": ["M1A", "M1B", "M1C", "M3A", "M3B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "Mangrove Jack's",
+        "productCode": "M05",
+        "productName": "Mead Yeast",
+        "form": "Dry"
+      }
+    ],
+    "substituteIds": [
+      "lalvin-ec-1118",
+      "lalvin-d47"
+    ],
+    "commonStyleIds": [
+      "M1A",
+      "M1B",
+      "M1C",
+      "M3A",
+      "M3B",
+      "M4B",
+      "M4C"
+    ],
     "radarProfile": {
       "cleanNeutral": 4.2,
       "fruityEsters": 2.5,
@@ -1684,13 +3038,36 @@
     "isPhenolic": true,
     "description": "Isolated from the Ardennes region, this strain produces mild spicy phenols and gentle stone fruit esters, accentuating specialty caramel and biscuit malts in Belgian Pale and Amber Ales.",
     "pitchingDynamics": "Well-behaved fermentation; clean top krausen.",
-    "descriptors": ["earthy spice", "biscuit", "mild clove", "caramel", "stone fruit"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP510", "productName": "Bastogne Belgian Ale", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "3538", "productName": "Leuven Pale Ale", "form": "Liquid" }
+    "descriptors": [
+      "earthy spice",
+      "biscuit",
+      "mild clove",
+      "caramel",
+      "stone fruit"
     ],
-    "substituteIds": ["ardenne-achouffe", "westmalle-abbey"],
-    "commonStyleIds": ["24B", "25A", "26A"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP510",
+        "productName": "Bastogne Belgian Ale",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "3538",
+        "productName": "Leuven Pale Ale",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "ardenne-achouffe",
+      "westmalle-abbey"
+    ],
+    "commonStyleIds": [
+      "24B",
+      "25A",
+      "26A"
+    ],
     "radarProfile": {
       "cleanNeutral": 2.2,
       "fruityEsters": 3.0,
@@ -1723,13 +3100,41 @@
     "isPhenolic": false,
     "description": "The classic American commercial lager strain. Imparts minimal ester and sulfur character, yielding an ultra-clean, dry profile designed to highlight delicate rice, corn, and two-row barley.",
     "pitchingDynamics": "Clean and fast; requires thorough lagering and carbon filtration for commercial clarity.",
-    "descriptors": ["ultra-clean", "neutral", "dry", "corn-flattering", "refreshing"],
-    "commercialEquivalents": [
-      { "laboratory": "White Labs", "productCode": "WLP840", "productName": "American Lager", "form": "Liquid" },
-      { "laboratory": "Wyeast", "productCode": "2007", "productName": "Pilsen Lager", "form": "Liquid" }
+    "descriptors": [
+      "ultra-clean",
+      "neutral",
+      "dry",
+      "corn-flattering",
+      "refreshing"
     ],
-    "substituteIds": ["munich-lager", "lutra-kveik"],
-    "commonStyleIds": ["1A", "1B", "2A", "2B"],
+    "commercialEquivalents": [
+      {
+        "laboratory": "White Labs",
+        "productCode": "WLP840",
+        "productName": "American Lager",
+        "form": "Liquid"
+      },
+      {
+        "laboratory": "Wyeast",
+        "productCode": "2007",
+        "productName": "Pilsen Lager",
+        "form": "Liquid"
+      }
+    ],
+    "substituteIds": [
+      "munich-lager",
+      "lutra-kveik"
+    ],
+    "commonStyleIds": [
+      "1A",
+      "1B",
+      "2A",
+      "2B",
+      "1C",
+      "2C",
+      "27F",
+      "27G"
+    ],
     "radarProfile": {
       "cleanNeutral": 5.0,
       "fruityEsters": 0.4,

@@ -48,6 +48,7 @@ Allow cider judges, cidermakers, and brewers to reference the complete BJCP Cide
 
 ### Filtering & Search
 - [x] **Multi-Select Toggle Filter Chips**: On `FilterSheet`, when cider is active, replace SRM/IBU sliders with multi-select toggle chips for Cider Sweetness (5 tiers), Carbonation (3 tiers), and Strength (3 tiers).
+- [x] **Clickable Descriptor Chip Filtering**: Tapping style descriptor chips on `StyleCard` within `StyleListScreen` toggles normalized tag filters using multi-select **AND** matching, synced with the removable active-chip bar below the search box.
 - [x] **Weighted Relevance Search**: Leverage search ranking weighting Style Name/Number (10), Overall Impression and Commercial Examples (5), and other sensory fields (1).
 
 ### Style Detail Screen

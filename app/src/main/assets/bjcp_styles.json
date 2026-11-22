@@ -87,7 +87,7 @@
     "srmmin": "10",
     "srmmax": "17",
     "commercialexamples": "Anderson Valley Boont Amber Ale, Bell's Amber Ale, Full Sail Amber, North Coast Red Seal Ale, Saint Arnold Amber Ale, Tröegs Hopback Amber Ale",
-    "tags": "standard-strength, amber-color, top-fermented, northamerica, craft-style, amber-ale-family, balanced, hoppy"
+    "tags": "standard-strength, amber-color, top-fermented, north-america, craft-style, amber-ale-family, balanced, hoppy"
   },
   {
     "name": "American Barleywine",
@@ -114,7 +114,7 @@
     "srmmin": "9",
     "srmmax": "18",
     "commercialexamples": "Anchor Old Foghorn, Bell's Third Coast Old Ale, East End Gratitude, Hair of the Dog Doggie Claws, Sierra Nevada Bigfoot",
-    "tags": "very-high-strength, amber-color, top-fermented, northamerica, craft-style, strong-ale-family, bitter, hoppy"
+    "tags": "very-high-strength, amber-color, top-fermented, north-america, craft-style, strong-ale-family, bitter, hoppy"
   },
   {
     "name": "American Brown Ale",
@@ -141,7 +141,7 @@
     "srmmin": "18",
     "srmmax": "35",
     "commercialexamples": "Avery Ellie's Brown Ale, Big Sky Moose Drool Brown Ale, Brooklyn Brown Ale, Bell's Best Brown, Smuttynose Old Brown Dog Ale, Telluride Face Down Brown",
-    "tags": "standard-strength, dark-color, top-fermented, northamerica, craft-style, brown-ale-family, balanced, hoppy"
+    "tags": "standard-strength, dark-color, top-fermented, north-america, craft-style, brown-ale-family, balanced, hoppy"
   },
   {
     "name": "American IPA",
@@ -168,7 +168,7 @@
     "srmmin": "6",
     "srmmax": "14",
     "commercialexamples": "Bell's Two-Hearted Ale, Cigar City Jai Alai, Fat Heads Head Hunter IPA, Firestone Walker Union Jack, Maine Lunch, Russian River Blind Pig IPA",
-    "tags": "high-strength, pale-color, top-fermented, north america, craft-style, ipa-family, bitter, hoppy"
+    "tags": "high-strength, pale-color, top-fermented, north-america, craft-style, ipa-family, bitter, hoppy"
   },
   {
     "name": "American Lager",
@@ -249,7 +249,7 @@
     "srmmin": "5",
     "srmmax": "10",
     "commercialexamples": "Deschutes Mirror Pond Pale Ale, Half Acre Daisy Cutter Pale Ale, Great Lakes Burning River, La Cumbre Acclimated APA, Sierra Nevada Pale Ale, Stone Pale Ale 2.0",
-    "tags": "standard-strength, pale-color, top-fermented, northamerica, craft-style, pale-ale-family, bitter, hoppy"
+    "tags": "standard-strength, pale-color, top-fermented, north-america, craft-style, pale-ale-family, bitter, hoppy"
   },
   {
     "name": "American Porter",
@@ -276,7 +276,7 @@
     "srmmin": "22",
     "srmmax": "40",
     "commercialexamples": "Anchor Porter, Bell's Porter, Deschutes Black Butte Porter, Great Lakes Edmund Fitzgerald Porter, Sierra Nevada Porter, Smuttynose Robust Porter",
-    "tags": "standard-strength, dark-color, top-fermented, northamerica, craft-style, porter-family, bitter, roasty, hoppy"
+    "tags": "standard-strength, dark-color, top-fermented, north-america, craft-style, porter-family, bitter, roasty, hoppy"
   },
   {
     "name": "American Stout",
@@ -303,7 +303,7 @@
     "srmmin": "30",
     "srmmax": "40",
     "commercialexamples": "Avery Out of Bounds Stout, Bell's Kalamazoo Stout, Deschutes Obsidian Stout, Sierra Nevada Stout, Trillium Secret Stairs",
-    "tags": "high-strength, dark-color, top-fermented, northamerica, craft-style, stout-family, bitter, roasty, hoppy"
+    "tags": "high-strength, dark-color, top-fermented, north-america, craft-style, stout-family, bitter, roasty, hoppy"
   },
   {
     "name": "American Strong Ale",
@@ -330,7 +330,7 @@
     "srmmin": "7",
     "srmmax": "18",
     "commercialexamples": "Arrogant Bastard Ale, Fat Head's Bone Head, Great Lakes Nosferatu, Oskar Blues G'Knight, Port Brewing Shark Attack Double Red Ale",
-    "tags": "high-strength, amber-color, top-fermented, northamerica, craft-style, strong-ale-family, bitter, hoppy"
+    "tags": "high-strength, amber-color, top-fermented, north-america, craft-style, strong-ale-family, bitter, hoppy"
   },
   {
     "name": "American Wheat Beer",
@@ -357,7 +357,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Bell's Oberon, Boulevard Unfiltered Wheat Beer, GoodLife Sweet As! Pacific Ale, Goose Island 312 Urban Wheat Ale, Widmer Hefeweizen",
-    "tags": "standard-strength, pale-color, any-fermentation, northamerica, craft-style, wheat-beer-family, balanced"
+    "tags": "standard-strength, pale-color, any-fermentation, north-america, craft-style, wheat-beer-family, balanced"
   },
   {
     "name": "Australian Sparkling Ale",
@@ -456,7 +456,7 @@
     "srmmin": "4",
     "srmmax": "6",
     "commercialexamples": "Affligem Blond, Corsendonk Blond, Grimbergen Blonde, La Trappe Blond, Leffe Blond, Val-Dieu Blonde",
-    "tags": "high-strength, pale-color, top-fermented, western europe, traditional-style, balanced"
+    "tags": "high-strength, pale-color, top-fermented, western-europe, traditional-style, balanced"
   },
   {
     "name": "Belgian Dark Strong Ale",
@@ -511,7 +511,7 @@
     "srmmin": "10",
     "srmmax": "17",
     "commercialexamples": "Chimay Red, Corsendonk Bruin, La Trappe Dubbel, Rochefort 6, St. Bernardus Pater 6, Westmalle Dubbel",
-    "tags": "high-strength, amber-color, top-fermented, westerneurope, traditional-style, malty"
+    "tags": "high-strength, amber-color, top-fermented, western-europe, traditional-style, malty"
   },
   {
     "name": "Belgian Golden Strong Ale",
@@ -538,7 +538,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Brigand, Delirium Tremens, Duvel, Judas, Lucifer, Russian River Damnation",
-    "tags": "very-high-strength, pale-color, top-fermented, westerneurope, traditional-style, bitter"
+    "tags": "very-high-strength, pale-color, top-fermented, western-europe, traditional-style, bitter"
   },
   {
     "name": "Belgian Pale Ale",
@@ -592,7 +592,7 @@
     "srmmin": "3",
     "srmmax": "5",
     "commercialexamples": "Chimay Gold, La Trappe Puur, Russian River Redemption, St. Bernardus Extra 4, Westmalle Extra, Westvleteren Blond",
-    "tags": "standard-strength, pale-color, top-fermented, westerneurope, craft-style, bitter, hoppy"
+    "tags": "standard-strength, pale-color, top-fermented, western-europe, craft-style, bitter, hoppy"
   },
   {
     "name": "Belgian Tripel",
@@ -619,7 +619,7 @@
     "srmmin": "4.5",
     "srmmax": "7",
     "commercialexamples": "Chimay Tripel, La Rulles Tripel, La Trappe Tripel, St. Bernardus Tripel, Val-Dieu Triple, Westmalle Tripel",
-    "tags": "high-strength, pale-color, top-fermented, westerneurope, traditional-style, bitter"
+    "tags": "high-strength, pale-color, top-fermented, western-europe, traditional-style, bitter"
   },
   {
     "name": "Berliner Weisse",
@@ -646,7 +646,7 @@
     "srmmin": "2",
     "srmmax": "3",
     "commercialexamples": "Bayerischer Bahnhof Berliner Style Weisse, Berliner Berg Berliner Weisse, Brauerei Meierei Weiße, Lemke Berlin Budike Weisse, Schell's Brewing Company Schelltheiss, Urban Chestnut Ku'damm",
-    "tags": "session-strength, pale-color, top-fermented, centraleurope, traditional-style, wheat-beer-family, sour"
+    "tags": "session-strength, pale-color, top-fermented, central-europe, traditional-style, wheat-beer-family, sour"
   },
   {
     "name": "Best Bitter",
@@ -673,7 +673,7 @@
     "srmmin": "8",
     "srmmax": "16",
     "commercialexamples": "Adnams Southwold Bitter, Fuller's London Pride, Harvey's Sussex Best Bitter, Salopian Darwin's Origin, Surrey Hills Shere Drop, Timothy Taylor Landlord",
-    "tags": "standard-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, bitter"
+    "tags": "standard-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, bitter"
   },
   {
     "name": "Bière de Garde",
@@ -701,7 +701,7 @@
     "srmmin": "6",
     "srmmax": "19",
     "commercialexamples": "Ch'Ti Blonde, Jenlain Ambrée, La Choulette Brune, Russian River Perdition, Saint Sylvestre 3 Monts Blonde, Two Brothers Domaine Dupage",
-    "tags": "high-strength, pale-color, amber-color, any fermentation, lagered, western-europe, traditional-style, amber-ale-family, malty"
+    "tags": "high-strength, pale-color, amber-color, any-fermentation, lagered, western-europe, traditional-style, amber-ale-family, malty"
   },
   {
     "name": "Blonde Ale",
@@ -728,7 +728,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Firestone Walker 805, Kona Big Wave Golden Ale, Real Ale Firemans #4 Blonde Ale, Russian River Aud Blonde, Victory Summer Love, Widmer Citra Summer Blonde Brew",
-    "tags": "standard-strength, pale-color, any-fermentation, northamerica, craft-style, pale-ale-family, balanced"
+    "tags": "standard-strength, pale-color, top-fermented, north-america, craft-style, pale-ale-family, balanced"
   },
   {
     "name": "Brett Beer",
@@ -746,7 +746,7 @@
     "stylecomparison": "Compared to the same beer style without Brett, a Brett Beer will be drier, more highly attenuated, fruitier, lighter in body, and slightly funkier as it ages. Less sourness and depth than Belgian 'wild' ales.",
     "entryinstructions": "The entrant must specify either a Base Style, or provide a description of the ingredients, specs, or desired character. The entrant may specify the strains of Brett used.",
     "commercialexamples": "Boulevard Saison Brett, Hill Farmstead Arthur, Logsdon Seizoen Bretta, Lost Abbey Brett Devo, Russian River Sanctification, The Bruery Saison Rue",
-    "tags": "wild-fermentation, north-america, craft-style, specialtybeer"
+    "tags": "wild-fermentation, north-america, craft-style, specialty-beer"
   },
   {
     "name": "British Brown Ale",
@@ -773,7 +773,7 @@
     "srmmin": "12",
     "srmmax": "22",
     "commercialexamples": "AleSmith Nut Brown Ale, Cigar City Maduro Brown Ale, Maxim Double Maxim, Newcastle Brown Ale, Riggwelter Yorkshire Ale, Samuel Smith's Nut Brown Ale",
-    "tags": "standard-strength, amber-color, top-fermented, britishisles, traditional-style, brown-ale-family, malty"
+    "tags": "standard-strength, amber-color, top-fermented, british-isles, traditional-style, brown-ale-family, malty"
   },
   {
     "name": "British Golden Ale",
@@ -800,7 +800,7 @@
     "srmmin": "2",
     "srmmax": "5",
     "commercialexamples": "Adnams Explorer, Crouch Vale Brewers Gold, Golden Hill Exmoor Gold, Hop Back Summer Lightning, Oakham JHB, Spitfire Golden Ale",
-    "tags": "standard-strength, pale-color, top-fermented, britishisles, craft-style, pale-ale-family, bitter, hoppy"
+    "tags": "standard-strength, pale-color, top-fermented, british-isles, craft-style, pale-ale-family, bitter, hoppy"
   },
   {
     "name": "British Strong Ale",
@@ -917,7 +917,7 @@
     "srmmin": "2",
     "srmmax": "5",
     "commercialexamples": "Genesee Cream Ale, Liebotschaner Cream Ale, Kiwanda Pre-Prohibition Cream Ale, Little Kings Cream Ale, Sleeman Cream Ale, Sun King Sunlight Cream Ale",
-    "tags": "standard-strength, pale-color, any-fermentation, northamerica, traditional-style, pale-ale-family, balanced"
+    "tags": "standard-strength, pale-color, any-fermentation, north-america, traditional-style, pale-ale-family, balanced"
   },
   {
     "name": "Czech Amber Lager",
@@ -1052,7 +1052,7 @@
     "srmmin": "14",
     "srmmax": "25",
     "commercialexamples": "Brain's Dark, Greene King XX Mild, Hobson's Champion Mild, Mighty Oak Oscar Wilde, Moorhouse Black Cat, Theakston Traditional Mild",
-    "tags": "session-strength, dark-color, top-fermented, britishisles, traditional-style, brown-ale-family, malty"
+    "tags": "session-strength, dark-color, top-fermented, british-isles, traditional-style, brown-ale-family, malty"
   },
   {
     "name": "Doppelbock",
@@ -1080,7 +1080,7 @@
     "srmmin": "6",
     "srmmax": "25",
     "commercialexamples": "Dark Versions – Andechs Doppelbock Dunkel, Ayinger Celebrator, Paulaner Salvator, Spaten Optimator, Tröegs Troegenator, Weihenstephaner Korbinian; Pale Versions – Eggenberg Urbock 23º, Meinel Doppelbock Hell, Plank Bavarian Heller Doppelbock, Riegele Auris 19, Schönbuch Doppelbock Hell, Staffelberg-Bräu Zwergator",
-    "tags": "high-strength, amber-color, pale-color, bottom fermented, lagered, central-europe, traditional-style, bockfamily, malty"
+    "tags": "high-strength, amber-color, pale-color, bottom-fermented, lagered, central-europe, traditional-style, bock-family, malty"
   },
   {
     "name": "Double IPA",
@@ -1107,7 +1107,7 @@
     "srmmin": "6",
     "srmmax": "14",
     "commercialexamples": "Columbus Brewing Bohdi, Fat Head's Hop Juju, Port Brewing Hop-15, Russian River Pliny the Elder, Stone Ruination Double IPA 2.0, Wicked Weed Freak of Nature",
-    "tags": "very-high-strength, pale-color, top-fermented, northamerica, craft-style, ipa-family, bitter, hoppy"
+    "tags": "very-high-strength, pale-color, top-fermented, north-america, craft-style, ipa-family, bitter, hoppy"
   },
   {
     "name": "Dunkles Bock",
@@ -1161,7 +1161,7 @@
     "srmmin": "14",
     "srmmax": "23",
     "commercialexamples": "Ayinger Urweisse, Ettaler Benediktiner Weißbier Dunkel, Franziskaner Hefe-Weisse Dunkel, Hirsch Dunkel Weisse, Tucher Dunkles Hefe Weizen, Weihenstephaner Hefeweißbier Dunkel",
-    "tags": "standard-strength, amber-color, top-fermented, centraleurope, traditional-style, wheat-beer-family, malty"
+    "tags": "standard-strength, amber-color, top-fermented, central-europe, traditional-style, wheat-beer-family, malty"
   },
   {
     "name": "Eisbock",
@@ -1215,7 +1215,7 @@
     "srmmin": "8",
     "srmmax": "22",
     "commercialexamples": "Burton Bridge Thomas Sykes Old Ale, Coniston No. 9 Barley Wine, Fuller's Golden Pride, Hogs Back A over T, J.W. Lee's Vintage Harvest Ale, Robinson's Old Tom",
-    "tags": "very-high-strength, amber-color, top-fermented, britishisles, traditional-style, strong-ale-family, malty"
+    "tags": "very-high-strength, amber-color, top-fermented, british-isles, traditional-style, strong-ale-family, malty"
   },
   {
     "name": "English IPA",
@@ -1269,7 +1269,7 @@
     "srmmin": "20",
     "srmmax": "30",
     "commercialexamples": "Bateman's Salem Porter, Burton Bridge Burton Porter, Fuller's London Porter, Nethergate Old Growler Porter, RCH Old Slug Porter, Samuel Smith Taddy Porter",
-    "tags": "standard-strength, dark-color, top-fermented, britishisles, traditional-style, porter-family, malty, roasty"
+    "tags": "standard-strength, dark-color, top-fermented, british-isles, traditional-style, porter-family, malty, roasty"
   },
   {
     "name": "Experimental Beer",
@@ -1414,7 +1414,7 @@
     "srmmin": "3",
     "srmmax": "7",
     "commercialexamples": "3 Fonteinen Schaerbeekse Kriek, Cantillon Fou' Foune, Cantillon Lou Pepe Framboise, Cantillon Vigneronne, Hanssens Oude Kriek, Oude Kriek Boon",
-    "tags": "standard-strength, pale-color, wild-fermented, westerneurope, traditional-style, wheat-beer-family, sour, fruit"
+    "tags": "standard-strength, pale-color, wild-fermentation, western-europe, traditional-style, wheat-beer-family, sour, fruit"
   },
   {
     "name": "Fruit and Spice Beer",
@@ -1540,7 +1540,7 @@
     "srmmin": "3",
     "srmmax": "4",
     "commercialexamples": "Anderson Valley Gose, Bayerisch Bahnhof Leipziger Gose, Original Ritterguts Gose, Westbrook Gose",
-    "tags": "standard-strength, pale-color, top-fermented, centraleurope, historical-style, wheat-beer-family, sour, spice"
+    "tags": "standard-strength, pale-color, top-fermented, central-europe, historical-style, wheat-beer-family, sour, spice"
   },
   {
     "name": "Grape Ale",
@@ -1595,7 +1595,7 @@
     "srmmin": "5",
     "srmmax": "6",
     "commercialexamples": "3 Fonteinen Oud Gueuze, Cantillon Classic Gueuze 100% Lambic, Girardin Gueuze 1882 (Black label), Hanssens Oude Gueuze, Lindemans Gueuze Cuvée René, Oude Gueuze Boon",
-    "tags": "high-strength, pale-color, wild-fermented, westerneurope, traditional-style, wheat-beer-family, aged, sour"
+    "tags": "high-strength, pale-color, wild-fermentation, western-europe, traditional-style, wheat-beer-family, aged, sour"
   },
   {
     "name": "Hazy IPA",
@@ -1622,7 +1622,7 @@
     "srmmin": "3",
     "srmmax": "7",
     "commercialexamples": "Belching Beaver Hazers Gonna Haze, Hill Farmstead Susan, Other Half Green Diamonds Double IPA, Pinthouse Electric Jellyfish, Tree House Julius, Trillium Congress Street, WeldWerks Juicy Bits",
-    "tags": "high-strength, pale-color, top-fermented, northamerica, craft-style, ipa-family, bitter, hoppy"
+    "tags": "high-strength, pale-color, top-fermented, north-america, craft-style, ipa-family, bitter, hoppy"
   },
   {
     "name": "Helles Bock",
@@ -1694,7 +1694,7 @@
     "srmmin": "11",
     "srmmax": "20",
     "commercialexamples": "Apocalypse Brew Works 1912",
-    "tags": "standard-strength, amber-color, top-fermented, northamerica, historical-style, balanced"
+    "tags": "standard-strength, amber-color, top-fermented, north-america, historical-style, balanced"
   },
   {
     "name": "Historical Beer: Lichtenhainer",
@@ -1721,7 +1721,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Live Oak Lichtenhainer, Wöllnitzer Weissbier",
-    "tags": "standard-strength, pale-color, top-fermented, centraleurope, historical-style, wheat-beer-family, sour, smoke"
+    "tags": "standard-strength, pale-color, top-fermented, central-europe, historical-style, wheat-beer-family, sour, smoke"
   },
   {
     "name": "Historical Beer: London Brown Ale",
@@ -1748,7 +1748,7 @@
     "srmmin": "22",
     "srmmax": "35",
     "commercialexamples": "Harveys Bloomsbury Brown Ale, Mann's Brown Ale",
-    "tags": "session-strength, dark-color, top-fermented, britishisles, historical-style, brown-ale-family, malty, sweet"
+    "tags": "session-strength, dark-color, top-fermented, british-isles, historical-style, brown-ale-family, malty, sweet"
   },
   {
     "name": "Historical Beer: Piwo Grodziskie",
@@ -1775,7 +1775,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Live Oak Grodziskie",
-    "tags": "session-strength, pale-color, top-fermented, centraleurope, historical-style, wheat-beer-family, bitter, smoke"
+    "tags": "session-strength, pale-color, top-fermented, central-europe, historical-style, wheat-beer-family, bitter, smoke"
   },
   {
     "name": "Historical Beer: Pre-Prohibition Lager",
@@ -1829,7 +1829,7 @@
     "srmmin": "20",
     "srmmax": "30",
     "commercialexamples": "Stegmaier Porter, Yuengling Porter",
-    "tags": "standard-strength, dark-color, any-fermentation, northamerica, historical-style, porter-family, malty"
+    "tags": "standard-strength, dark-color, any-fermentation, north-america, historical-style, porter-family, malty"
   },
   {
     "name": "Historical Beer: Roggenbier",
@@ -1856,7 +1856,7 @@
     "srmmin": "14",
     "srmmax": "19",
     "commercialexamples": "Thurn und Taxis Roggen",
-    "tags": "standard-strength, amber-color, top-fermented, centraleurope, historical-style, wheat-beer-family"
+    "tags": "standard-strength, amber-color, top-fermented, central-europe, historical-style, wheat-beer-family"
   },
   {
     "name": "Historical Beer: Sahti",
@@ -1883,7 +1883,7 @@
     "srmmin": "4",
     "srmmax": "22",
     "commercialexamples": "Now made year-round by several breweries in Finland.",
-    "tags": "high-strength, amber-color, top-fermented, centraleurope, historical-style, spice"
+    "tags": "high-strength, amber-color, top-fermented, central-europe, historical-style, spice"
   },
   {
     "name": "Imperial Stout",
@@ -1910,7 +1910,7 @@
     "srmmin": "30",
     "srmmax": "40",
     "commercialexamples": "American – Bell’s Expedition Stout, Great Divide Yeti Imperial Stout, North Coast Old Rasputin Imperial Stout, Oskar Blues Ten Fidy, Sierra Nevada Narwhal Imperial Stout; English – 2SP Brewing Co The Russian, Courage Imperial Russian Stout, Le Coq Imperial Extra Double Stout, Samuel Smith Imperial Stout, Thornbridge Saint Petersburg",
-    "tags": "very-high-strength, dark-color, top-fermented, britishisles, north-america, traditional-style, craft-style, stout-family, malty, bitter, roasty"
+    "tags": "very-high-strength, dark-color, top-fermented, british-isles, north-america, traditional-style, craft-style, stout-family, malty, bitter, roasty"
   },
   {
     "name": "International Amber Lager",
@@ -2046,7 +2046,7 @@
     "srmmin": "9",
     "srmmax": "14",
     "commercialexamples": "Franciscan Well Rebel Red, Kilkenny Irish Beer, Murphy's Irish Red, O'Hara's Irish Red Ale, Porterhouse Nitro Red Ale, Smithwick's Irish Ale",
-    "tags": "standard-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, balanced"
+    "tags": "standard-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, balanced"
   },
   {
     "name": "Irish Stout",
@@ -2073,7 +2073,7 @@
     "srmmin": "25",
     "srmmax": "40",
     "commercialexamples": "Beamish Irish Stout, Belhaven Black Stout, Guinness Draught, Murphy's Irish Stout, O'Hara's Irish Stout, Porterhouse Irish Stout",
-    "tags": "standard-strength, dark-color, top-fermented, britishisles, traditional-style, stout-family, bitter, roasty"
+    "tags": "standard-strength, dark-color, top-fermented, british-isles, traditional-style, stout-family, bitter, roasty"
   },
   {
     "name": "Kolsch",
@@ -2127,7 +2127,7 @@
     "srmmin": "3",
     "srmmax": "6",
     "commercialexamples": "Cantillon Grand Cru Bruocsella. In the Brussels area, many specialty cafés have draught lambic from Boon, De Cam, Cantillon, Drie Fonteinen, Lindemans, Timmermans, Girardin and others.",
-    "tags": "standard-strength, pale-color, wild-fermented, westerneurope, traditional-style, wheat-beer-family, sour"
+    "tags": "standard-strength, pale-color, wild-fermentation, western-europe, traditional-style, wheat-beer-family, sour"
   },
   {
     "name": "Marzen",
@@ -2172,7 +2172,7 @@
     "stylecomparison": "A sour and funky version of a base style, but do not necessarily have to be as sour or as funky as some traditional European sour examples.",
     "entryinstructions": "The entrant must specify a description of the beer, identifying yeast or bacteria used and either a Base Style, or the ingredients, specs, or target character of the beer.",
     "commercialexamples": "Boulevard Love Child, Jester King Le Petit Prince, Jolly Pumpkin Oro de Calabaza, Lost Abbey Ghosts in the Forest, New Belgium Le Terroir, Russian River Temptation",
-    "tags": "wild-fermentation, north-america, craft-style, specialtybeer, sour"
+    "tags": "wild-fermentation, north-america, craft-style, specialty-beer, sour"
   },
   {
     "name": "Mixed-Style Beer",
@@ -2217,7 +2217,7 @@
     "srmmin": "17",
     "srmmax": "28",
     "commercialexamples": "Ayinger Altbairisch Dunkel, Ettaler Kloster-Dunkel, Eittinger Urtyp Dunkel, Hacker-Pschorr Münchner Dunkel, Hofbräuhaus Dunkel, Weltenburger Kloster Barock-Dunkel",
-    "tags": "standard-strength, dark-color, bottom-fermented, lagered, central-europe, traditional-style, malty, dark-lagerfamily"
+    "tags": "standard-strength, dark-color, bottom-fermented, lagered, central-europe, traditional-style, malty, dark-lager-family"
   },
   {
     "name": "Munich Helles",
@@ -2271,7 +2271,7 @@
     "srmmin": "22",
     "srmmax": "40",
     "commercialexamples": "Anderson Valley Barney Flats Oatmeal Stout, Broughton Stout Jock, St-Ambroise Oatmeal Stout, Samuel Smith Oatmeal Stout, Summit Oatmeal Stout, Young's London Stout",
-    "tags": "standard-strength, dark-color, top-fermented, britishisles, traditional-style, stout-family, balanced, roasty"
+    "tags": "standard-strength, dark-color, top-fermented, british-isles, traditional-style, stout-family, balanced, roasty"
   },
   {
     "name": "Old Ale",
@@ -2325,7 +2325,7 @@
     "srmmin": "8",
     "srmmax": "14",
     "commercialexamples": "Bateman's XB, Brains Bitter, Brakspear Gravity, Fuller's Chiswick Bitter, Greene King IPA, Tetley's Original Bitter",
-    "tags": "session-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, bitter"
+    "tags": "session-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, bitter"
   },
   {
     "name": "Oud Bruin",
@@ -2352,7 +2352,7 @@
     "srmmin": "17",
     "srmmax": "22",
     "commercialexamples": "Ichtegem Oud Bruin, Liefmans Goudenband, Liefmans Oud Bruin, Petrus Roodbruin, pFriem Oud Bruin, VanderGhinste Roodbruin",
-    "tags": "standard-strength, dark-color, top-fermented, westerneurope, traditional-style, malty, sour"
+    "tags": "standard-strength, dark-color, top-fermented, western-europe, traditional-style, malty, sour"
   },
   {
     "name": "Rauchbier",
@@ -2407,7 +2407,7 @@
     "srmmin": "5",
     "srmmax": "22",
     "commercialexamples": "Ellezelloise Saison 2000, Lefebvre Saison 1900, Saison Dupont, Saison de Pipaix, Saison Voisin, Boulevard Tank 7",
-    "tags": "standard-strength, pale-color, top-fermented, westerneurope, traditional-style, bitter"
+    "tags": "standard-strength, pale-color, top-fermented, western-europe, traditional-style, bitter"
   },
   {
     "name": "Schwarzbier",
@@ -2434,7 +2434,7 @@
     "srmmin": "19",
     "srmmax": "30",
     "commercialexamples": "Chuckanut Schwarz Lager, Devils Backbone Schwartz Bier, Köstritzer Schwarzbier, Kulmbacher Mönchshof Schwarzbier, Neuzeller Original Badebier, pFriem Schwarzbier",
-    "tags": "standard-strength, dark-color, bottom-fermented, lagered, central-europe, traditional-style, balanced, dark-lagerfamily"
+    "tags": "standard-strength, dark-color, bottom-fermented, lagered, central-europe, traditional-style, balanced, dark-lager-family"
   },
   {
     "name": "Scottish Export",
@@ -2461,7 +2461,7 @@
     "srmmin": "12",
     "srmmax": "20",
     "commercialexamples": "Belhaven Scottish Ale, Broughton Wee Jock 80 Shilling, Caledonian Edinburgh Castle, McEwan's 80/-, McEwan's Export, Traquair Bear Ale",
-    "tags": "standard-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, malty"
+    "tags": "standard-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, malty"
   },
   {
     "name": "Scottish Heavy",
@@ -2488,7 +2488,7 @@
     "srmmin": "12",
     "srmmax": "20",
     "commercialexamples": "McEwan's 70/-, Orkney Raven Ale",
-    "tags": "session-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, malty"
+    "tags": "session-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, malty"
   },
   {
     "name": "Scottish Light",
@@ -2515,7 +2515,7 @@
     "srmmin": "17",
     "srmmax": "25",
     "commercialexamples": "Belhaven Best, McEwan's 60/-",
-    "tags": "session-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, malty"
+    "tags": "session-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, malty"
   },
   {
     "name": "Specialty Fruit Beer",
@@ -2563,7 +2563,7 @@
     "characteristicingredients": "Pilsner or very pale base malts with up to 40% adjuncts. No crystal malt or lactose. Enzymes, such as amyloglucosidase. Highly aromatic, oil-heavy, modern American or New World hops used in a variety of late-hopping or post-boil procedures to emphasize hop aroma and flavor and to minimize bitterness. Neutral yeast.",
     "stylecomparison": "Less malt flavor, bitterness, and color than an American IPA, and much drier and more highly carbonated. Dry-hopped like an American IPA. Similar aroma and flavor as a Hazy IPA but without sweetness and with much less haze. Very pale, highly carbonated, and dry like a Belgian Golden Strong Ale but not as strong and without Belgian yeast character.",
     "commercialexamples": "Drake's Brightside Extra Brut IPA, Fair State Brewing Co-Op The Brut Squad, Ommegang Brut IPA",
-    "tags": "high-strength, pale-color, top-fermented, north america, craft-style, ipa-family, specialty-family, bitter, hoppy"
+    "tags": "high-strength, pale-color, top-fermented, north-america, craft-style, ipa-family, specialty-family, bitter, hoppy"
   },
   {
     "name": "Specialty Smoked Beer",
@@ -2689,7 +2689,7 @@
     "srmmin": "8",
     "srmmax": "18",
     "commercialexamples": "Bass Ale, Bateman's Triple XB, Robinsons Trooper, Samuel Smith's Organic Pale Ale, Shepherd Neame Bishop's Finger, Summit Extra Pale Ale",
-    "tags": "standard-strength, amber-color, top-fermented, britishisles, traditional-style, amber-ale-family, bitter"
+    "tags": "standard-strength, amber-color, top-fermented, british-isles, traditional-style, amber-ale-family, bitter"
   },
   {
     "name": "Sweet Stout",
@@ -2716,7 +2716,7 @@
     "srmmin": "30",
     "srmmax": "40",
     "commercialexamples": "Bristol Beer Factory Milk Stout, Firestone Nitro Merlin Milk Stout, Left Hand Milk Stout, Lancaster Milk Stout, Mackeson's XXX Stout, Marston's Pearl Jet Stout",
-    "tags": "standard-strength, dark-color, top-fermented, britishisles, traditional-style, stout-family, malty, roasty, sweet"
+    "tags": "standard-strength, dark-color, top-fermented, british-isles, traditional-style, stout-family, malty, roasty, sweet"
   },
   {
     "name": "Tropical Stout",
@@ -2825,7 +2825,7 @@
     "srmmin": "2",
     "srmmax": "6",
     "commercialexamples": "Ayinger Bräuweisse, Distelhäuser Hell Weizen, Hacker-Pschorr Hefeweißbier, Hofbräuhaus Münchner Weisse, Schneider Weisse Original Weissbier, Weihenstephaner Hefeweißbier",
-    "tags": "standard-strength, pale-color, top-fermented, centraleurope, traditional-style, wheat-beer-family, malty"
+    "tags": "standard-strength, pale-color, top-fermented, central-europe, traditional-style, wheat-beer-family, malty"
   },
   {
     "name": "Weizenbock",
@@ -2880,7 +2880,7 @@
     "srmmin": "6",
     "srmmax": "14",
     "commercialexamples": "The Bruery White Oak, Castelain Winter Ale, Perennial Heart of Gold, Two Brothers Bare Tree",
-    "tags": "very-high-strength, amber-color, top-fermented, northamerica, craft-style, strong-ale-family, wheat-beer-family, balanced, hoppy"
+    "tags": "very-high-strength, amber-color, top-fermented, north-america, craft-style, strong-ale-family, wheat-beer-family, balanced, hoppy"
   },
   {
     "name": "Wild Specialty Beer",
@@ -2898,7 +2898,7 @@
     "stylecomparison": "Like a fruit, herb, spice, or wood beer, but sour or funky.",
     "entryinstructions": "Entrant must specify any Specialty-Type Ingredient (e.g., fruit, spice, herb, or wood) used. Entrant must specify either a description of the beer, identifying yeast or bacteria used and either a Base Style, or the ingredients, specs, or target character of the beer. A general description of the special nature of the beer can cover all the required items.",
     "commercialexamples": "Cascade Bourbonic Plague, Jester King Atrial Rubicite, New Belgium Dominga Mimosa Sour, New Glarus Wisconsin Belgian Red, Russian River Supplication, The Lost Abbey Cuvee de Tomme",
-    "tags": "wild-fermentation, north-america, craft-style, specialtybeer, sour, fruit"
+    "tags": "wild-fermentation, north-america, craft-style, specialty-beer, sour, fruit"
   },
   {
     "name": "Winter Seasonal Beer",
@@ -2943,7 +2943,7 @@
     "srmmin": "2",
     "srmmax": "4",
     "commercialexamples": "Allagash White, Blanche de Bruxelles, Celis White, Hoegaarden White, Ommegang Witte, St. Bernardus Wit",
-    "tags": "standard-strength, pale-color, top-fermented, westerneurope, traditional-style, wheat-beer-family, spice"
+    "tags": "standard-strength, pale-color, top-fermented, western-europe, traditional-style, wheat-beer-family, spice"
   },
   {
     "name": "Wood-Aged Beer",

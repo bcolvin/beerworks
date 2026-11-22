@@ -7,6 +7,7 @@ import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.FilterCriteria
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.repository.BeerStyleRepository
+import com.bc.beerworks.util.normalizeStyleTagKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -59,6 +60,14 @@ class StyleListViewModel(
 
     fun onFilterCriteriaChange(criteria: FilterCriteria) {
         _filterCriteria.value = criteria
+    }
+
+    fun toggleTagFilter(tagKey: String) {
+        val normalized = normalizeStyleTagKey(tagKey)
+        if (normalized.isEmpty()) return
+        val current = _filterCriteria.value.selectedTags
+        val updated = if (normalized in current) current - normalized else current + normalized
+        _filterCriteria.value = _filterCriteria.value.copy(selectedTags = updated)
     }
 
     fun resetFilters() {

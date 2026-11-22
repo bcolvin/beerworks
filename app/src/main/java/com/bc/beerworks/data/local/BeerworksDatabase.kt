@@ -475,6 +475,17 @@ val MIGRATION_13_14 = object : Migration(13, 14) {
     }
 }
 
+val MIGRATION_14_15 = object : Migration(14, 15) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Clear updated static catalog tables so DatabaseInitializer re-seeds them while preserving user favorites and scoresheets.
+        db.execSQL("DELETE FROM `bjcp_styles`")
+        db.execSQL("INSERT INTO `bjcp_styles_fts`(`bjcp_styles_fts`) VALUES('rebuild')")
+        db.execSQL("DELETE FROM `yeast_style_cross_ref`")
+        db.execSQL("DELETE FROM `yeasts`")
+        db.execSQL("INSERT INTO `yeasts_fts`(`yeasts_fts`) VALUES('rebuild')")
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -507,7 +518,7 @@ val MIGRATION_13_14 = object : Migration(13, 14) {
         OffFlavorStyleCrossRef::class,
         ScoresheetEntity::class
     ],
-    version = 14,
+    version = 15,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -542,7 +553,7 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

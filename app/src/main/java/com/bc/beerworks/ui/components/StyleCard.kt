@@ -3,6 +3,8 @@ package com.bc.beerworks.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import com.bc.beerworks.util.formatStyleDescriptorChips
 import com.bc.beerworks.util.formattedAbvRange
 import com.bc.beerworks.util.formattedIbuRange
 
@@ -99,6 +102,13 @@ fun getMaxOverallImpressionLines(searchQuery: String = ""): Int {
     return MAX_OVERALL_IMPRESSION_LINES
 }
 
+/**
+ * Formats and orders style tags consistently for display on [StyleCard].
+ */
+fun formatStyleDescriptorTags(tags: List<String>): List<String> =
+    formatStyleDescriptorChips(tags).map { it.label }
+
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun StyleCard(
     style: BeerStyle,
@@ -106,7 +116,9 @@ fun StyleCard(
     modifier: Modifier = Modifier,
     onToggleFavorite: (() -> Unit)? = null,
     searchQuery: String = "",
-    maxOverallImpressionLines: Int = MAX_OVERALL_IMPRESSION_LINES
+    maxOverallImpressionLines: Int = MAX_OVERALL_IMPRESSION_LINES,
+    selectedTags: Set<String> = emptySet(),
+    onTagClick: ((String) -> Unit)? = null
 ) {
     val primaryColor = MaterialTheme.colorScheme.primary
     val matchSnippet = remember(style, searchQuery, primaryColor) {
@@ -141,9 +153,7 @@ fun StyleCard(
                     Text(
                         text = style.name,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = style.category,
@@ -245,21 +255,23 @@ fun StyleCard(
                 }
             }
 
-            // Flavor / Character Descriptor Chips (e.g. for Cider / apples or tagged styles)
-            val descriptorTags = remember(style.tags) {
-                style.tags
-                    .filterNot { it.startsWith("standard-") || it.startsWith("specialty-") }
-                    .map { tag ->
-                        tag.split("-").joinToString(" ") { word ->
-                            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-                        }
-                    }
+            // Flavor / Character Descriptor Chips
+            val descriptorChips = remember(style.tags) {
+                formatStyleDescriptorChips(style.tags)
             }
-            if (descriptorTags.isNotEmpty()) {
+            if (descriptorChips.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
-                SingleRowChipLayout(spacing = 6.dp) {
-                    descriptorTags.forEach { tag ->
-                        DescriptorChip(text = tag)
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    descriptorChips.forEach { chip ->
+                        DescriptorChip(
+                            text = chip.label,
+                            selected = chip.key in selectedTags,
+                            onClick = onTagClick?.let { callback -> { callback(chip.key) } }
+                        )
                     }
                 }
             }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -25,6 +26,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -32,6 +34,7 @@ import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -76,6 +79,7 @@ import com.bc.beerworks.ui.components.FilterSheet
 import com.bc.beerworks.ui.components.MAX_OVERALL_IMPRESSION_LINES
 import com.bc.beerworks.ui.components.StyleCard
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import com.bc.beerworks.util.formatStyleTagLabel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 
@@ -99,6 +103,7 @@ fun StyleListScreen(
         onGuidelineChange = viewModel::onGuidelineChange,
         onQueryChange = viewModel::onQueryChange,
         onFilterCriteriaChange = viewModel::onFilterCriteriaChange,
+        onTagToggle = viewModel::toggleTagFilter,
         onResetFilters = viewModel::resetFilters,
         onCategoryClick = { group ->
             viewModel.setExpandedCategory(group.categoryNumber)
@@ -124,6 +129,7 @@ fun StyleListContent(
     onGuidelineChange: (GuidelineType) -> Unit = {},
     onQueryChange: (String) -> Unit,
     onFilterCriteriaChange: (FilterCriteria) -> Unit,
+    onTagToggle: (String) -> Unit = {},
     onResetFilters: () -> Unit,
     onCategoryClick: (BaseStyleGroup) -> Unit,
     onToggleExpand: (String) -> Unit,
@@ -341,6 +347,32 @@ fun StyleListContent(
                         )
                     )
                 }
+
+                if (criteria.selectedTags.isNotEmpty()) {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(
+                            items = criteria.selectedTags.toList(),
+                            key = { it }
+                        ) { tagKey ->
+                            FilterChip(
+                                selected = true,
+                                onClick = { onTagToggle(tagKey) },
+                                label = { Text(text = formatStyleTagLabel(tagKey)) },
+                                trailingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Remove ${formatStyleTagLabel(tagKey)} filter",
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
             }
         }
     ) { innerPadding ->
@@ -395,7 +427,9 @@ fun StyleListContent(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     groupedStyles.forEach { group ->
-                        val isExpanded = expandedCategoryNumber == group.categoryNumber || criteria.query.isNotBlank()
+                        val isExpanded = expandedCategoryNumber == group.categoryNumber ||
+                            criteria.query.isNotBlank() ||
+                            criteria.selectedTags.isNotEmpty()
 
                         item(key = "cat_${group.categoryNumber}_${group.categoryName}") {
                             CategoryCard(
@@ -417,6 +451,8 @@ fun StyleListContent(
                                         style = style,
                                         searchQuery = criteria.query,
                                         maxOverallImpressionLines = MAX_OVERALL_IMPRESSION_LINES,
+                                        selectedTags = criteria.selectedTags,
+                                        onTagClick = onTagToggle,
                                         onClick = { onStyleClick(style) },
                                         onToggleFavorite = { onToggleFavorite(style) }
                                     )

@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -131,14 +132,16 @@ fun StyleDetailContent(
 
     Scaffold(
         topBar = {
+            val fullTitle = "${style.number} ${style.name}"
             TopAppBar(
+                expandedHeight = if (fullTitle.length > 26) 76.dp else TopAppBarDefaults.TopAppBarExpandedHeight,
                 title = {
                     Column {
                         Text(
-                            text = "${style.number} ${style.name}",
+                            text = fullTitle,
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1,
+                            maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
                         Text(

@@ -250,4 +250,30 @@ class StyleListViewModelTest {
         assertThat(viewModel.selectedGuideline.value).isEqualTo(com.bc.beerworks.data.model.GuidelineType.BJCP_CIDER)
         collectJob.cancel()
     }
+
+    @Test
+    fun toggleTagFilter_addsRemovesNormalizesAndResetsWithFilters() = runTest {
+        val repository = BeerStyleRepository(
+            FakeBjcpDao(emptyList()),
+            FakeBaDao(),
+            FakeFavDao(),
+            FakePrefsManager(),
+            testDispatcher
+        )
+
+        val viewModel = StyleListViewModel(repository)
+
+        viewModel.toggleTagFilter("Lagered")
+        viewModel.toggleTagFilter("top fermented")
+
+        assertThat(viewModel.filterCriteria.value.selectedTags).containsExactlyInAnyOrder("lagered", "top-fermented")
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isTrue()
+
+        viewModel.toggleTagFilter("lagered")
+        assertThat(viewModel.filterCriteria.value.selectedTags).containsExactly("top-fermented")
+
+        viewModel.resetFilters()
+        assertThat(viewModel.filterCriteria.value.selectedTags).isEmpty()
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isFalse()
+    }
 }

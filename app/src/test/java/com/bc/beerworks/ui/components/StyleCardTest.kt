@@ -82,4 +82,56 @@ class StyleCardTest {
     fun maxOverallImpressionLines_constantIsTen() {
         assertThat(MAX_OVERALL_IMPRESSION_LINES).isEqualTo(10)
     }
+
+    @Test
+    fun formatStyleDescriptorTags_ordersFermentationAndConditioningBeforeStrengthAndColor() {
+        val result = formatStyleDescriptorTags(
+            listOf(
+                "standard-strength",
+                "pale-color",
+                "bottom-fermented",
+                "lagered",
+                "central-europe",
+                "traditional-style",
+                "pilsner-family",
+                "balanced",
+                "hoppy"
+            )
+        )
+
+        assertThat(result).containsExactly(
+            "Bottom Fermented",
+            "Lagered",
+            "Standard Strength",
+            "Pale Color",
+            "Balanced",
+            "Hoppy",
+            "Central Europe",
+            "Traditional Style",
+            "Pilsner Family"
+        )
+    }
+
+    @Test
+    fun formatStyleDescriptorTags_preservesStandardAndSpecialtyAndNormalizesAliasesAndIpa() {
+        val result = formatStyleDescriptorTags(
+            listOf(
+                "specialty-beer",
+                "northamerica",
+                "britishisles",
+                "any fermentation",
+                "ipa-family",
+                "standard-strength"
+            )
+        )
+
+        assertThat(result).containsExactly(
+            "Any Fermentation",
+            "Standard Strength",
+            "North America",
+            "British Isles",
+            "Specialty Beer",
+            "IPA Family"
+        )
+    }
 }

@@ -15,7 +15,8 @@ data class FilterCriteria(
     val favoritesOnly: Boolean = false,
     val selectedSweetness: Set<String> = emptySet(),
     val selectedCarbonation: Set<String> = emptySet(),
-    val selectedStrength: Set<String> = emptySet()
+    val selectedStrength: Set<String> = emptySet(),
+    val selectedTags: Set<String> = emptySet()
 ) {
     val isFilterActive: Boolean
         get() = minSrm > 0.0 || maxSrm < 40.0 ||
@@ -25,5 +26,6 @@ data class FilterCriteria(
                 favoritesOnly ||
                 selectedSweetness.isNotEmpty() ||
                 selectedCarbonation.isNotEmpty() ||
-                selectedStrength.isNotEmpty()
+                selectedStrength.isNotEmpty() ||
+                selectedTags.isNotEmpty()
 }

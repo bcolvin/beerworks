@@ -560,4 +560,54 @@ class BeerStyleRepositoryTest {
         val empty = repository.getStylesByIds(mapOf(GuidelineType.BJCP_2021 to emptySet())).first()
         assertThat(empty).isEmpty()
     }
+
+    @Test
+    fun getFilteredStyles_appliesMultiSelectAndTagFilteringWithNormalization() = runTest {
+        val pilsner3B = BjcpStyleEntity(
+            id = "3B", name = "Czech Premium Pale Lager", category = "Czech Lager", categoryNumber = "3", number = "3B",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 30.0, ibuMax = 45.0,
+            ogMin = 1.044, ogMax = 1.060, fgMin = 1.013, fgMax = 1.017, abvMin = 4.2, abvMax = 5.8,
+            srmMin = 3.5, srmMax = 6.0, commercialExamples = "",
+            tags = "standard-strength, pale-color, bottom-fermented, lagered, central-europe"
+        )
+        val kolsch5B = BjcpStyleEntity(
+            id = "5B", name = "Kolsch", category = "Pale Malty European Lager", categoryNumber = "5", number = "5B",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 18.0, ibuMax = 30.0,
+            ogMin = 1.044, ogMax = 1.050, fgMin = 1.007, fgMax = 1.011, abvMin = 4.4, abvMax = 5.2,
+            srmMin = 3.5, srmMax = 5.0, commercialExamples = "",
+            tags = "standard-strength, pale-color, top-fermented, lagered, central-europe"
+        )
+        val blonde18A = BjcpStyleEntity(
+            id = "18A", name = "Blonde Ale", category = "Pale American Ale", categoryNumber = "18", number = "18A",
+            overallImpression = "", aroma = "", appearance = "", flavor = "", mouthfeel = "", comments = "",
+            history = "", characteristicIngredients = "", styleComparison = "", ibuMin = 15.0, ibuMax = 28.0,
+            ogMin = 1.038, ogMax = 1.054, fgMin = 1.008, fgMax = 1.013, abvMin = 3.8, abvMax = 5.5,
+            srmMin = 3.0, srmMax = 6.0, commercialExamples = "",
+            tags = "standard-strength, pale-color, top-fermented, northamerica"
+        )
+        val repository = BeerStyleRepository(
+            bjcpStyleDao = FakeBjcpDao(listOf(pilsner3B, kolsch5B, blonde18A)),
+            baStyleDao = FakeBaDao(),
+            favoriteStyleDao = FakeFavDao(),
+            preferencesManager = FakePrefsManager(),
+            defaultDispatcher = kotlinx.coroutines.test.UnconfinedTestDispatcher(testScheduler)
+        )
+
+        val lageredOnly = repository.getFilteredStyles(
+            FilterCriteria(selectedTags = setOf("lagered"))
+        ).first()
+        assertThat(lageredOnly.map { it.id }).containsExactly("3B", "5B")
+
+        val topFermentedAndLagered = repository.getFilteredStyles(
+            FilterCriteria(selectedTags = setOf("top-fermented", "lagered"))
+        ).first()
+        assertThat(topFermentedAndLagered.map { it.id }).containsExactly("5B")
+
+        val normalizedAliasMatch = repository.getFilteredStyles(
+            FilterCriteria(selectedTags = setOf("north-america"))
+        ).first()
+        assertThat(normalizedAliasMatch.map { it.id }).containsExactly("18A")
+    }
 }
