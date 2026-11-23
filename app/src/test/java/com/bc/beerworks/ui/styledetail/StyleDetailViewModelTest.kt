@@ -1,8 +1,10 @@
 package com.bc.beerworks.ui.styledetail
 
 import com.bc.beerworks.data.local.entity.BjcpStyleEntity
+import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopVariety
+import com.bc.beerworks.data.model.MaltVariety
 import com.bc.beerworks.data.model.StyleIngredients
 import com.bc.beerworks.data.repository.BeerStyleRepository
 import com.bc.beerworks.data.repository.FakeBaDao
@@ -15,6 +17,7 @@ import com.bc.beerworks.data.repository.IngredientCatalogRepository
 import com.bc.beerworks.data.repository.MaltRepository
 import com.bc.beerworks.data.repository.PomeRepository
 import com.bc.beerworks.data.repository.YeastRepository
+import com.bc.beerworks.ui.ingredientdetail.shouldExpandAssociatedStylesByDefault
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -212,5 +215,89 @@ class StyleDetailViewModelTest {
         assertThat(viewModel.ingredients.value).isEqualTo(
             StyleIngredients(hops = listOf(cascadeHop))
         )
+    }
+
+    @Test
+    fun baseStyleDependentIngredientNote_returnsExpectedMessageOnlyForBjcpStylesWithMissingHopsOrMalts() {
+        val bjcpStyle = BeerStyle(
+            id = "29A", name = "Fruit Beer", category = "Fruit Beer", categoryNumber = "29",
+            number = "29A", overallImpression = "", aroma = "", appearance = "", flavor = "",
+            mouthfeel = "", comments = "", history = "", characteristicIngredients = "",
+            styleComparison = "", ibuMin = null, ibuMax = null, ogMin = null, ogMax = null,
+            fgMin = null, fgMax = null, abvMin = null, abvMax = null, srmMin = null, srmMax = null,
+            commercialExamples = "", tags = emptyList(), guidelineType = GuidelineType.BJCP_2021
+        )
+        val baStyle = bjcpStyle.copy(guidelineType = GuidelineType.BA_2026)
+        val hop = HopVariety(
+            id = "cascade",
+            name = "Cascade",
+            origin = "US",
+            countryCode = "US",
+            purpose = "Aroma",
+            alphaAcidMin = 4.5,
+            alphaAcidMax = 7.0,
+            betaAcidMin = 4.5,
+            betaAcidMax = 7.0,
+            sensoryCategories = emptyList(),
+            descriptors = emptyList(),
+            description = "",
+            parentHopIds = emptyList(),
+            substituteIds = emptyList(),
+            radarProfile = null
+        )
+        val malt = MaltVariety(
+            id = "malted_rye",
+            name = "Malted Rye",
+            category = "Base Malt",
+            grainType = "Rye",
+            origin = "DE",
+            countryCode = "DE",
+            colorMin = 3.0,
+            colorMax = 4.0,
+            diastaticPowerLintner = 100,
+            extractPotentialDbfg = 80.0,
+            maxGristPercentage = 40,
+            description = "",
+            typicalUsage = "",
+            functionalTags = emptyList(),
+            descriptors = emptyList(),
+            commercialExamples = emptyList(),
+            substituteIds = emptyList(),
+            radarProfile = null
+        )
+
+        assertThat(baseStyleDependentIngredientNote(bjcpStyle, StyleIngredients()))
+            .isEqualTo("Common Malts & Hops: Varies depending on the declared base style.")
+        assertThat(
+            baseStyleDependentIngredientNote(
+                bjcpStyle,
+                StyleIngredients(malts = listOf(malt))
+            )
+        )
+            .isEqualTo("Common Hops: Varies depending on the declared base style.")
+        assertThat(
+            baseStyleDependentIngredientNote(
+                bjcpStyle,
+                StyleIngredients(hops = listOf(hop))
+            )
+        )
+            .isEqualTo("Common Malts & Grains: Varies depending on the declared base style.")
+        assertThat(
+            baseStyleDependentIngredientNote(
+                bjcpStyle,
+                StyleIngredients(hops = listOf(hop), malts = listOf(malt))
+            )
+        )
+            .isNull()
+        assertThat(baseStyleDependentIngredientNote(baStyle, StyleIngredients()))
+            .isNull()
+    }
+
+    @Test
+    fun shouldExpandAssociatedStylesByDefault_collapsesAboveThreshold() {
+        assertThat(shouldExpandAssociatedStylesByDefault(1)).isTrue()
+        assertThat(shouldExpandAssociatedStylesByDefault(4)).isTrue()
+        assertThat(shouldExpandAssociatedStylesByDefault(5)).isFalse()
+        assertThat(shouldExpandAssociatedStylesByDefault(25)).isFalse()
     }
 }

@@ -6,6 +6,9 @@ import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopFilterCriteria
+import com.bc.beerworks.data.model.HopSensoryProfileFilter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -14,6 +17,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.io.File
 
 class FakeHopDao(
     private var hops: List<HopVarietyEntity> = emptyList()
@@ -165,9 +169,105 @@ class HopRepositoryTest {
         assertThat(aromaHops).hasSize(2)
         assertThat(aromaHops.map { it.id }).containsExactlyInAnyOrder("cascade", "citra")
 
-        val tropicalHops = repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Tropical Fruit")).first()
+        val tropicalHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Tropical"))
+                .first()
         assertThat(tropicalHops).hasSize(1)
         assertThat(tropicalHops[0].id).isEqualTo("citra")
+
+        val pineyHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Piney")).first()
+        assertThat(pineyHops).hasSize(1)
+        assertThat(pineyHops[0].id).isEqualTo("cascade")
+    }
+
+    @Test
+    fun getFilteredHops_sensoryProfileSupportsGrassyAndWordBoundaryOther() = runTest {
+        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+        val fuggleEntity = testCascadeEntity.copy(
+            id = "fuggle",
+            name = "Fuggle",
+            descriptors = "Earthy,Damp Wood,Green Tea",
+            radarCitrus = 1.2f,
+            radarTropical = 0.5f,
+            radarFloral = 2.0f,
+            radarHerbal = 3.5f,
+            radarSpicy = 2.2f,
+            radarPiney = 1.0f,
+            radarEarthy = 4.6f,
+            radarGrassy = 3.0f
+        )
+        // Citra has "Grapefruit" and Galaxy has "Pineapple" -> neither should match "grape" or "apple" in Other
+        val galaxyEntity = testCitraEntity.copy(
+            id = "galaxy",
+            name = "Galaxy",
+            descriptors = "Passionfruit,Pineapple,Citrus",
+            radarGrassy = 1.0f
+        )
+        val fakeHopDao = FakeHopDao(listOf(testCitraEntity, galaxyEntity, fuggleEntity))
+        val repository =
+            HopRepository(fakeHopDao, FakeHopStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
+
+        val grassyHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Grassy"))
+                .first()
+        assertThat(grassyHops.map { it.id }).containsExactly("fuggle")
+
+        val otherHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Other")).first()
+        assertThat(otherHops.map { it.id }).containsExactly("fuggle")
+    }
+
+    private data class JsonHopAsset(
+        val id: String,
+        val descriptors: List<String> = emptyList(),
+        val radarProfile: Map<String, Float> = emptyMap()
+    )
+
+    @Test
+    fun allNineSensoryProfileFilterOptionsMatchHopsInCatalog() {
+        val assetsDir = listOf(File("src/main/assets"), File("app/src/main/assets"))
+            .first { it.isDirectory }
+        val hopType = object : TypeToken<List<JsonHopAsset>>() {}.type
+        val rawHops: List<JsonHopAsset> =
+            Gson().fromJson(File(assetsDir, "hops.json").readText(), hopType)
+
+        val entities = rawHops.map { raw ->
+            HopVarietyEntity(
+                id = raw.id,
+                name = raw.id,
+                origin = "",
+                countryCode = "",
+                purpose = "Dual-Purpose",
+                alphaAcidMin = 0.0,
+                alphaAcidMax = 0.0,
+                betaAcidMin = 0.0,
+                betaAcidMax = 0.0,
+                sensoryCategories = "",
+                descriptors = raw.descriptors.joinToString(","),
+                description = "",
+                parentHopIds = "",
+                substituteIds = "",
+                radarCitrus = raw.radarProfile["citrus"],
+                radarTropical = raw.radarProfile["tropical"],
+                radarFloral = raw.radarProfile["floral"],
+                radarHerbal = raw.radarProfile["herbal"],
+                radarSpicy = raw.radarProfile["spicy"],
+                radarPiney = raw.radarProfile["piney"],
+                radarEarthy = raw.radarProfile["earthy"],
+                radarGrassy = raw.radarProfile["grassy"]
+            )
+        }
+
+        HopSensoryProfileFilter.OPTIONS.forEach { option ->
+            val matching = entities.filter { HopSensoryProfileFilter.matches(it, option) }
+            assertThat(matching)
+                .describedAs(
+                    "Expected non-empty hop matches for sensory filter option '%s'",
+                    option
+                )
+                .isNotEmpty()
+        }
     }
 
     @Test

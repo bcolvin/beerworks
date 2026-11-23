@@ -65,6 +65,7 @@ fun PomesContent(
         onQueryChange = onQueryChange,
         onResetFilters = onResetFilters,
         onMenuClick = onMenuClick,
+        filterKey = criteria,
         filterSheet = { onDismiss ->
             PomeFilterSheet(
                 criteria = criteria,

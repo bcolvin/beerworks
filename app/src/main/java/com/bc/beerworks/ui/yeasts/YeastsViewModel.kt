@@ -41,6 +41,12 @@ class YeastsViewModel(
         }
     }
 
+    fun onEsterProfileSelected(esterProfile: String?) {
+        updateCriteria { current ->
+            current.copy(selectedEsterProfile = if (current.selectedEsterProfile == esterProfile) null else esterProfile)
+        }
+    }
+
     fun onMinAttenuationChange(minAtt: Double?) {
         updateCriteria { current ->
             current.copy(minAttenuation = minAtt)

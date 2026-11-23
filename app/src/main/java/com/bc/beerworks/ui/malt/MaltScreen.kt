@@ -66,6 +66,7 @@ fun MaltContent(
         onQueryChange = onQueryChange,
         onResetFilters = onResetFilters,
         onMenuClick = onMenuClick,
+        filterKey = criteria,
         filterSheet = { onDismiss ->
             MaltFilterSheet(
                 criteria = criteria,

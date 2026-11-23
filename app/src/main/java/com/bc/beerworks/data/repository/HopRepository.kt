@@ -7,6 +7,7 @@ import com.bc.beerworks.data.local.entity.HopVarietyEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.data.model.HopFilterCriteria
+import com.bc.beerworks.data.model.HopSensoryProfileFilter
 import com.bc.beerworks.data.model.HopVariety
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -32,17 +33,25 @@ class HopRepository(
         val isAlphaFiltered = if (criteria.isAlphaFiltered) 1 else 0
         val originsList = criteria.selectedOrigins.toList()
 
+        val selectedSensory = criteria.selectedSensoryCategory
+
         return hopDao.searchAndFilterHops(
             ftsQuery = ftsQuery,
             purpose = criteria.selectedPurpose,
-            sensoryCategory = criteria.selectedSensoryCategory,
+            sensoryCategory = null,
             isAlphaFiltered = isAlphaFiltered,
             minAlpha = criteria.minAlphaAcid,
             maxAlpha = criteria.maxAlphaAcid,
             originCount = originsList.size,
             origins = originsList,
             baseCategory = criteria.selectedBaseCategory
-        )
+        ).map { entities ->
+            if (selectedSensory == null) {
+                entities
+            } else {
+                entities.filter { HopSensoryProfileFilter.matches(it, selectedSensory) }
+            }
+        }
     }
 
     override fun fetchById(id: String): Flow<HopVarietyEntity?> = hopDao.getHopById(id)

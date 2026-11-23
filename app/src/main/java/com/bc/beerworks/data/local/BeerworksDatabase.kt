@@ -44,13 +44,13 @@ import com.bc.beerworks.data.local.entity.MaltVarietyEntity
 import com.bc.beerworks.data.local.entity.MaltVarietyFtsEntity
 import com.bc.beerworks.data.local.entity.MeadStyleEntity
 import com.bc.beerworks.data.local.entity.MeadStyleFtsEntity
-import com.bc.beerworks.data.local.entity.ScoresheetEntity
 import com.bc.beerworks.data.local.entity.OffFlavorEntity
 import com.bc.beerworks.data.local.entity.OffFlavorFtsEntity
 import com.bc.beerworks.data.local.entity.OffFlavorStyleCrossRef
 import com.bc.beerworks.data.local.entity.PomeStyleCrossRef
 import com.bc.beerworks.data.local.entity.PomeVarietyEntity
 import com.bc.beerworks.data.local.entity.PomeVarietyFtsEntity
+import com.bc.beerworks.data.local.entity.ScoresheetEntity
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.local.entity.YeastStrainFtsEntity
 import com.bc.beerworks.data.local.entity.YeastStyleCrossRef
@@ -486,6 +486,18 @@ val MIGRATION_14_15 = object : Migration(14, 15) {
     }
 }
 
+val MIGRATION_15_16 = object : Migration(15, 16) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Clear updated hop and malt catalog tables so DatabaseInitializer re-seeds them while preserving user favorites and scoresheets.
+        db.execSQL("DELETE FROM `hop_style_cross_ref`")
+        db.execSQL("DELETE FROM `hops`")
+        db.execSQL("INSERT INTO `hops_fts`(`hops_fts`) VALUES('rebuild')")
+        db.execSQL("DELETE FROM `malt_style_cross_ref`")
+        db.execSQL("DELETE FROM `malts`")
+        db.execSQL("INSERT INTO `malts_fts`(`malts_fts`) VALUES('rebuild')")
+    }
+}
+
 @Database(
     entities = [
         BjcpStyleEntity::class,
@@ -518,7 +530,7 @@ val MIGRATION_14_15 = object : Migration(14, 15) {
         OffFlavorStyleCrossRef::class,
         ScoresheetEntity::class
     ],
-    version = 15,
+    version = 16,
     exportSchema = false
 )
 abstract class BeerworksDatabase : RoomDatabase() {
@@ -553,7 +565,20 @@ abstract class BeerworksDatabase : RoomDatabase() {
                     BeerworksDatabase::class.java,
                     "beerworks.db"
                 )
-                    .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15)
+                    .addMigrations(
+                        MIGRATION_4_5,
+                        MIGRATION_5_6,
+                        MIGRATION_6_7,
+                        MIGRATION_7_8,
+                        MIGRATION_8_9,
+                        MIGRATION_9_10,
+                        MIGRATION_10_11,
+                        MIGRATION_11_12,
+                        MIGRATION_12_13,
+                        MIGRATION_13_14,
+                        MIGRATION_14_15,
+                        MIGRATION_15_16
+                    )
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

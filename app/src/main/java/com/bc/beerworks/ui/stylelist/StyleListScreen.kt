@@ -16,10 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,10 +25,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -78,6 +74,7 @@ import com.bc.beerworks.ui.components.CategoryCard
 import com.bc.beerworks.ui.components.FilterSheet
 import com.bc.beerworks.ui.components.MAX_OVERALL_IMPRESSION_LINES
 import com.bc.beerworks.ui.components.StyleCard
+import com.bc.beerworks.ui.components.rememberFilterResetLazyListState
 import com.bc.beerworks.ui.theme.BeerworksTheme
 import com.bc.beerworks.util.formatStyleTagLabel
 import kotlinx.coroutines.flow.filter
@@ -142,15 +139,15 @@ fun StyleListContent(
     val density = LocalDensity.current
     val bottomPaddingPx = remember(density) { with(density) { 16.dp.roundToPx() } }
     val spacingPx = remember(density) { with(density) { 10.dp.roundToPx() } }
-    val listState = remember(criteria) { LazyListState(0, 0) }
-
-    LaunchedEffect(criteria, groupedStyles) {
-        if (groupedStyles.isNotEmpty()) {
-            listState.scrollToItem(0)
-        }
-    }
+    val listState = rememberFilterResetLazyListState(
+        filterKey = criteria to selectedGuideline,
+        hasItems = groupedStyles.isNotEmpty()
+    )
+    var previousExpandedCategory by remember { mutableStateOf(expandedCategoryNumber) }
 
     LaunchedEffect(expandedCategoryNumber) {
+        if (expandedCategoryNumber == previousExpandedCategory) return@LaunchedEffect
+        previousExpandedCategory = expandedCategoryNumber
         val targetCatNum = expandedCategoryNumber ?: return@LaunchedEffect
         val targetGroup = groupedStyles.firstOrNull { it.categoryNumber == targetCatNum } ?: return@LaunchedEffect
         if (targetGroup.styles.isEmpty()) return@LaunchedEffect

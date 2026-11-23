@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.bc.beerworks.data.model.YeastEsterProfileFilter
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import kotlin.math.roundToInt
 
@@ -101,7 +102,40 @@ fun YeastFilterSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 2. Flocculation
+            // 2. Ester & Fermentation Profile
+            Text(
+                text = "Ester & Fermentation Profile",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                YeastEsterProfileFilter.OPTIONS.forEach { profileOption ->
+                    val isSelected = criteria.selectedEsterProfile == profileOption
+                    FilterChip(
+                        selected = isSelected,
+                        onClick = {
+                            val newProfile = if (isSelected) null else profileOption
+                            onFilterChange(criteria.copy(selectedEsterProfile = newProfile))
+                        },
+                        label = {
+                            Text(
+                                text = profileOption,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // 3. Flocculation
             Text(
                 text = "Flocculation",
                 style = MaterialTheme.typography.titleSmall,

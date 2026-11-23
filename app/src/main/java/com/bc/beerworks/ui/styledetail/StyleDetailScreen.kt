@@ -3,6 +3,7 @@ package com.bc.beerworks.ui.styledetail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -267,6 +267,10 @@ fun StyleDetailContent(
                     )
                 }
 
+                baseStyleDependentIngredientNote(style, ingredients)?.let { note ->
+                    BaseStyleIngredientNoteCard(note = note)
+                }
+
                 if (ingredients.honeys.isNotEmpty()) {
                     CollapsibleIngredientSectionCard(
                         title = "Recommended Honeys",
@@ -347,7 +351,11 @@ fun SrmBottomBanner(
             .fillMaxWidth()
             .height(52.dp)
             .background(brush)
-            .border(width = 1.dp, color = Color.White.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
+            .border(
+                width = 1.dp,
+                color = Color.White.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(16.dp)
+            ),
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -426,7 +434,11 @@ fun <T : Ingredient> CollapsibleIngredientSectionCard(
                                             .size(10.dp)
                                             .clip(CircleShape)
                                             .background(swatchColor(item))
-                                            .border(0.5.dp, Color.White.copy(alpha = 0.5f), CircleShape)
+                                            .border(
+                                                0.5.dp,
+                                                Color.White.copy(alpha = 0.5f),
+                                                CircleShape
+                                            )
                                     )
                                     Spacer(modifier = Modifier.size(6.dp))
                                 }
@@ -442,6 +454,46 @@ fun <T : Ingredient> CollapsibleIngredientSectionCard(
                 }
             }
         }
+    }
+}
+
+internal fun baseStyleDependentIngredientNote(
+    style: BeerStyle,
+    ingredients: StyleIngredients
+): String? {
+    if (style.guidelineType != GuidelineType.BJCP_2021) return null
+    return when {
+        ingredients.malts.isEmpty() && ingredients.hops.isEmpty() ->
+            "Common Malts & Hops: Varies depending on the declared base style."
+
+        ingredients.malts.isEmpty() ->
+            "Common Malts & Grains: Varies depending on the declared base style."
+
+        ingredients.hops.isEmpty() ->
+            "Common Hops: Varies depending on the declared base style."
+
+        else -> null
+    }
+}
+
+@Composable
+private fun BaseStyleIngredientNoteCard(
+    note: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Text(
+            text = note,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+        )
     }
 }
 

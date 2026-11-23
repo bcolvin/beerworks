@@ -1,7 +1,7 @@
 package com.bc.beerworks.ui.yeasts
 
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
-import com.bc.beerworks.data.model.TemperatureUnit
+import com.bc.beerworks.data.model.YeastEsterProfileFilter
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.repository.FakePrefsManager
 import com.bc.beerworks.data.repository.FakeYeastDao
@@ -171,9 +171,26 @@ class YeastsViewModelTest {
     }
 
     @Test
+    fun onEsterProfileSelected_togglesProfileAndUpdatesFilterState() = runTest {
+        viewModel.onEsterProfileSelected(YeastEsterProfileFilter.CLEAN_NEUTRAL)
+        runCurrent()
+        assertThat(viewModel.filterCriteria.value.selectedEsterProfile).isEqualTo(
+            YeastEsterProfileFilter.CLEAN_NEUTRAL
+        )
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isTrue()
+        assertThat(viewModel.filterCriteria.value.activeFilterCount).isEqualTo(1)
+
+        viewModel.onEsterProfileSelected(YeastEsterProfileFilter.CLEAN_NEUTRAL)
+        runCurrent()
+        assertThat(viewModel.filterCriteria.value.selectedEsterProfile).isNull()
+        assertThat(viewModel.filterCriteria.value.isFilterActive).isFalse()
+    }
+
+    @Test
     fun resetFilters_preservesQueryAndClearsOtherCriteria() = runTest {
         viewModel.onQueryChange("search")
         viewModel.onClassificationSelected("Ale")
+        viewModel.onEsterProfileSelected(YeastEsterProfileFilter.CLEAN_NEUTRAL)
         viewModel.onMinAttenuationChange(75.0)
         runCurrent()
 
@@ -182,6 +199,7 @@ class YeastsViewModelTest {
 
         assertThat(viewModel.filterCriteria.value).isEqualTo(YeastFilterCriteria(query = "search"))
         assertThat(viewModel.filterCriteria.value.selectedClassification).isNull()
+        assertThat(viewModel.filterCriteria.value.selectedEsterProfile).isNull()
         assertThat(viewModel.filterCriteria.value.minAttenuation).isNull()
     }
 }

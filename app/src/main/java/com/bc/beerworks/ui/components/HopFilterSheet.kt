@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.HopFilterCriteria
+import com.bc.beerworks.data.model.HopSensoryProfileFilter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -89,6 +90,38 @@ fun HopFilterSheet(
                         label = {
                             Text(
                                 text = purposeOption,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Sensory Profile Section
+            Text(
+                text = "Sensory Profile",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                HopSensoryProfileFilter.OPTIONS.forEach { sensoryOption ->
+                    val isSelected = criteria.selectedSensoryCategory == sensoryOption
+                    FilterChip(
+                        selected = isSelected,
+                        onClick = {
+                            val newSensory = if (isSelected) null else sensoryOption
+                            onFilterChange(criteria.copy(selectedSensoryCategory = newSensory))
+                        },
+                        label = {
+                            Text(
+                                text = sensoryOption,
                                 maxLines = 1,
                                 softWrap = false
                             )

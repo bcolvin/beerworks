@@ -6,6 +6,7 @@ import com.bc.beerworks.data.local.dao.YeastStyleCrossRefDao
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.model.BeerStyle
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.YeastEsterProfileFilter
 import com.bc.beerworks.data.model.YeastFilterCriteria
 import com.bc.beerworks.data.model.YeastStrain
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,6 +31,7 @@ class YeastRepository(
 
     override fun performSearch(criteria: YeastFilterCriteria): Flow<List<YeastStrainEntity>> {
         val ftsQuery = buildFtsQuery(criteria.query)
+        val selectedEsterProfile = criteria.selectedEsterProfile
 
         return yeastDao.searchAndFilterYeasts(
             ftsQuery = ftsQuery,
@@ -38,7 +40,13 @@ class YeastRepository(
             minAttenuation = criteria.minAttenuation,
             minAlcoholTolerance = criteria.minAlcoholTolerance,
             styleId = criteria.selectedStyleId
-        )
+        ).map { entities ->
+            if (selectedEsterProfile == null) {
+                entities
+            } else {
+                entities.filter { YeastEsterProfileFilter.matches(it, selectedEsterProfile) }
+            }
+        }
     }
 
     override fun fetchById(id: String): Flow<YeastStrainEntity?> = yeastDao.getYeastById(id)

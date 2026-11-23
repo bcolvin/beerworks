@@ -19,6 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
@@ -33,6 +35,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -262,6 +268,9 @@ fun <T : Ingredient> IngredientSubstitutesCard(
 
 /**
  * Shared section card rendering associated beverage styles ([StyleCard] list).
+ *
+ * Collapses automatically when more than [AUTO_COLLAPSE_STYLE_THRESHOLD] styles are linked
+ * so staple ingredients remain scannable without cluttering the detail screen.
  */
 @Composable
 fun AssociatedStylesSection(
@@ -272,8 +281,12 @@ fun AssociatedStylesSection(
 ) {
     if (styles.isEmpty()) return
 
+    var expanded by remember { mutableStateOf(shouldExpandAssociatedStylesByDefault(styles.size)) }
+
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
@@ -285,19 +298,37 @@ fun AssociatedStylesSection(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(
-                text = "$title (${styles.size})",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-            styles.forEach { style ->
-                StyleCard(
-                    style = style,
-                    onClick = { onStyleClick(style) },
-                    onToggleFavorite = { onToggleStyleFavorite(style) }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$title (${styles.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
                 )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            if (expanded) {
+                styles.forEach { style ->
+                    StyleCard(
+                        style = style,
+                        onClick = { onStyleClick(style) },
+                        onToggleFavorite = { onToggleStyleFavorite(style) }
+                    )
+                }
             }
         }
     }
 }
+
+private const val AUTO_COLLAPSE_STYLE_THRESHOLD = 4
+
+internal fun shouldExpandAssociatedStylesByDefault(styleCount: Int): Boolean =
+    styleCount <= AUTO_COLLAPSE_STYLE_THRESHOLD

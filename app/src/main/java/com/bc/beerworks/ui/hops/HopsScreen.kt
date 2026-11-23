@@ -62,6 +62,7 @@ fun HopsContent(
         onQueryChange = onQueryChange,
         onResetFilters = onResetFilters,
         onMenuClick = onMenuClick,
+        filterKey = criteria,
         filterSheet = { onDismiss ->
             HopFilterSheet(
                 criteria = criteria,

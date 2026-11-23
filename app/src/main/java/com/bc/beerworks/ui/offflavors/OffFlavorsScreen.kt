@@ -68,6 +68,7 @@ fun OffFlavorsContent(
         onQueryChange = onQueryChange,
         onResetFilters = onResetFilters,
         onMenuClick = onMenuClick,
+        filterKey = criteria,
         quickFilterStrip = {
             Row(
                 modifier = Modifier

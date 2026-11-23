@@ -6,7 +6,10 @@ import com.bc.beerworks.data.local.entity.BjcpStyleEntity
 import com.bc.beerworks.data.local.entity.YeastStrainEntity
 import com.bc.beerworks.data.local.entity.YeastStyleCrossRef
 import com.bc.beerworks.data.model.GuidelineType
+import com.bc.beerworks.data.model.YeastEsterProfileFilter
 import com.bc.beerworks.data.model.YeastFilterCriteria
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -15,6 +18,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.io.File
 
 class FakeYeastDao(
     private var yeasts: List<YeastStrainEntity> = emptyList()
@@ -357,5 +361,141 @@ class YeastRepositoryTest {
         )
 
         assertThat(repo.getYeastCount()).isEqualTo(3)
+    }
+
+    @Test
+    fun getFilteredYeasts_filtersByEsterAndFermentationProfile() = runTest {
+        val subtleKolsch = chicoEntity.copy(
+            id = "kolsch-yeast",
+            name = "Kölsch Yeast",
+            radarClean = 4.4f,
+            radarFruity = 2.2f,
+            radarSpicy = 0.0f
+        )
+        val saisonDupont = weizenEntity.copy(
+            id = "saison-dupont",
+            name = "Saison Dupont",
+            isPhenolic = true,
+            radarClean = 0.5f,
+            radarFruity = 3.8f,
+            radarSpicy = 4.8f,
+            radarTart = 3.5f,
+            radarFunky = 3.2f
+        )
+        val fakeDao = FakeYeastDao(testEntities + listOf(subtleKolsch, saisonDupont))
+        val repo = YeastRepository(
+            yeastDao = fakeDao,
+            yeastStyleCrossRefDao = FakeYeastStyleCrossRefDao(),
+            styleLookup = emptyStyleLookup,
+            defaultDispatcher = testDispatcher
+        )
+
+        val clean = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.CLEAN_NEUTRAL)
+        ).first()
+        assertThat(clean.map { it.id }).containsExactlyInAnyOrder(
+            "chico-american-ale",
+            "lalvin-ec-1118",
+            "kolsch-yeast"
+        )
+
+        val subtle = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.SUBTLE_ESTERS)
+        ).first()
+        assertThat(subtle.map { it.id }).containsExactly("kolsch-yeast")
+
+        val fruity = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.FRUITY_HIGH_ESTERS)
+        ).first()
+        assertThat(fruity.map { it.id }).containsExactlyInAnyOrder(
+            "weihenstephan-weizen",
+            "saison-dupont"
+        )
+
+        val spicy = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.SPICY_PHENOLIC)
+        ).first()
+        assertThat(spicy.map { it.id }).containsExactlyInAnyOrder(
+            "weihenstephan-weizen",
+            "saison-dupont"
+        )
+
+        val tart = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.TART_SOUR)
+        ).first()
+        assertThat(tart.map { it.id }).containsExactly("saison-dupont")
+
+        val funky = repo.getFilteredYeasts(
+            YeastFilterCriteria(selectedEsterProfile = YeastEsterProfileFilter.FUNKY_WILD)
+        ).first()
+        assertThat(funky.map { it.id }).containsExactly("saison-dupont")
+    }
+
+    private data class JsonYeastAsset(
+        val id: String,
+        val isPhenolic: Boolean = false,
+        val radarProfile: Map<String, Float> = emptyMap()
+    )
+
+    @Test
+    fun allEsterProfileOptionsMatchYeastsInCatalogAndEveryStrainIsCovered() {
+        val assetsDir = listOf(File("src/main/assets"), File("app/src/main/assets"))
+            .first { it.isDirectory }
+        val yeastType = object : TypeToken<List<JsonYeastAsset>>() {}.type
+        val rawYeasts: List<JsonYeastAsset> =
+            Gson().fromJson(File(assetsDir, "yeasts.json").readText(), yeastType)
+
+        val entities = rawYeasts.map { raw ->
+            YeastStrainEntity(
+                id = raw.id,
+                name = raw.id,
+                scientificName = "",
+                origin = "",
+                countryCode = "",
+                discipline = "Beer",
+                classification = "Ale",
+                form = "Both",
+                attenuationMin = 70.0,
+                attenuationMax = 80.0,
+                flocculation = "Medium",
+                tempMinC = 18.0,
+                tempMaxC = 22.0,
+                tempMinF = 64.0,
+                tempMaxF = 72.0,
+                alcoholTolerance = 10.0,
+                isDiastaticus = false,
+                isPhenolic = raw.isPhenolic,
+                description = "",
+                pitchingDynamics = "",
+                descriptors = "",
+                commercialEquivalentsJson = "[]",
+                substituteIds = "",
+                radarClean = raw.radarProfile["cleanNeutral"],
+                radarFruity = raw.radarProfile["fruityEsters"],
+                radarSpicy = raw.radarProfile["spicyPhenols"],
+                radarTart = raw.radarProfile["tartAcidity"],
+                radarFunky = raw.radarProfile["funkyEarthy"],
+                radarSulfury = raw.radarProfile["sulfuryCrisp"],
+                radarAlcohol = raw.radarProfile["alcoholWarmth"],
+                radarMouthfeel = raw.radarProfile["mouthfeelSweetness"]
+            )
+        }
+
+        YeastEsterProfileFilter.OPTIONS.forEach { option ->
+            assertThat(entities.filter { YeastEsterProfileFilter.matches(it, option) })
+                .describedAs("Expected non-empty yeast matches for ester profile '%s'", option)
+                .isNotEmpty()
+        }
+
+        entities.forEach { entity ->
+            val matchedAny =
+                YeastEsterProfileFilter.OPTIONS.any { YeastEsterProfileFilter.matches(entity, it) }
+            assertThat(matchedAny)
+                .describedAs(
+                    "Expected strain '%s' to match at least one ester/fermentation profile",
+                    entity.id
+                )
+                .isTrue()
+        }
     }
 }
