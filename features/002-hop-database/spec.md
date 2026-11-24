@@ -37,10 +37,13 @@ Provide an offline-first, visually rich reference database of global hop varieti
   - Borderless pill search bar (`OutlinedTextField` with leading search icon, trailing clear button, no placeholder hint text per `GEMINI.md`, and auto-clearing focus on scroll or background tap).
   - Top bar with drawer menu button and `FilterActionIcon` (tap to open `HopFilterSheet`, long-press to reset active filters while preserving search query).
 - [x] **Advanced Filter Sheet (`HopFilterSheet`)**: Bottom modal sheet with:
-  - Alpha Acid % range slider (0% to 20%).
+    - Purpose selection chips (`Aroma`, `Bittering`, `Dual-Purpose`).
+    - Sensory Profile selection chips (`Citrus`, `Tropical`, `Floral`, `Herbal`, `Spicy`, `Piney`,
+      `Earthy`, `Grassy`, `Other`), matching primary 8-axis radar scores at `>= 3.5` (`>= 2.5` for
+      `Grassy`) sorted strongest-first, and word-boundary non-8-axis descriptors for `Other`.
+    - Alpha Acid % range slider (0% to 25%).
   - Origin country multi-select chips.
-  - Purpose selection chips.
-  - Sensory category selection chips.
+    - Common Beer Style category selection chips.
 - [x] **Glanceable `HopCard` Items (`IngredientCardScaffold`)**:
   - Strict 4-row vertical layout (`GEMINI.md`):
     1. Header row: Origin flag emoji + bold hop name on the left, color-coded `PurposeBadge` (`IngredientBadge`) on the top right.
@@ -57,7 +60,9 @@ Provide an offline-first, visually rich reference database of global hop varieti
 - [x] **Graceful Radar Fallback**: When numeric radar profile data is absent for a hop, hide the radar chart and display sensory category chips alongside the full aroma descriptor cloud.
 - [x] **Lineage & Genetics Section**: Displays parent hop chips and dynamically resolved child descendant chips. Tapping any lineage chip navigates directly to that hop's detail screen.
 - [x] **Hop Substitutes Section (`IngredientSubstitutesCard`)**: Displays alternative hop chips with comparable brewing profiles. Tapping any substitute chip navigates directly to that hop's profile.
-- [x] **Common Beer Styles Section (`AssociatedStylesSection`)**: Displays clickable style cards associated with the hop. Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
+- [x] **Common Beer Styles Section (`AssociatedStylesSection`)**: Displays clickable style cards
+  associated with the hop (auto-collapsed when more than 4 styles are linked to keep staple
+  ingredients uncluttered). Tapping a style navigates directly to `style_detail/{id}/{guideline}`.
 
 ### 4. Bidirectional Style Guide Integration (`StyleDetailScreen`)
 - [x] **Collapsible "Common Hops" Section**: On `StyleDetailScreen`, add a card titled `"Common Hops (N)"` below the guideline sensory sections.

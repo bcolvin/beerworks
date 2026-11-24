@@ -49,7 +49,18 @@ class HopRepository(
             if (selectedSensory == null) {
                 entities
             } else {
-                entities.filter { HopSensoryProfileFilter.matches(it, selectedSensory) }
+                val filtered =
+                    entities.filter { HopSensoryProfileFilter.matches(it, selectedSensory) }
+                if (selectedSensory == "Other") {
+                    filtered
+                } else {
+                    filtered.sortedByDescending {
+                        HopSensoryProfileFilter.score(
+                            it,
+                            selectedSensory
+                        )
+                    }
+                }
             }
         }
     }

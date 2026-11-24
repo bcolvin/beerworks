@@ -69,6 +69,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bc.beerworks.data.model.GuidelineType
 import com.bc.beerworks.ui.theme.BeerworksTheme
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -80,10 +82,44 @@ object BjcpJudgeLinks {
     const val BEERWORKS_GITHUB_URL = "https://github.com/bcolvin/beerworks"
     const val PRIVACY_POLICY_URL = "https://github.com/bcolvin/beerworks/blob/master/PRIVACY.md"
 
+    val SUGGEST_CATEGORIES = listOf("Hop", "Yeast", "Malt", "Honey", "Pome", "Style", "Off-Flavor")
+
     fun buildCompetitionCalendarUrl(date: LocalDate = LocalDate.now()): String {
         val formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE)
         return "$COMPETITION_CALENDAR_BASE?start_date=$formattedDate"
     }
+
+    fun buildSuggestComponentIssueUrl(
+        category: String,
+        itemName: String = "",
+        details: String = ""
+    ): String {
+        val cleanCategory = category.trim().ifEmpty { "Ingredient" }
+        val cleanName = itemName.trim()
+        val cleanDetails = details.trim()
+        val title = if (cleanName.isNotEmpty()) {
+            "[$cleanCategory] Missing / Update: $cleanName"
+        } else {
+            "[$cleanCategory] Missing / Update request"
+        }
+        val body = buildString {
+            appendLine("### Requested Component")
+            appendLine("- **Category:** $cleanCategory")
+            appendLine("- **Name:** ${cleanName.ifEmpty { "_(please enter name)_" }}")
+            appendLine()
+            appendLine("### Details / Reference")
+            appendLine(cleanDetails.ifEmpty { "_(Optional: lab code, origin, style IDs, alpha acids, or source link)_" })
+        }.trimEnd()
+
+        return "$BEERWORKS_GITHUB_URL/issues/new?title=${encodeQueryParam(title)}&body=${
+            encodeQueryParam(
+                body
+            )
+        }"
+    }
+
+    private fun encodeQueryParam(value: String): String =
+        URLEncoder.encode(value, StandardCharsets.UTF_8.name()).replace("+", "%20")
 }
 
 internal fun Context.openExternalUrl(url: String) {

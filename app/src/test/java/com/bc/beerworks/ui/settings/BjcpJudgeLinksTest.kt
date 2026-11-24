@@ -2,6 +2,8 @@ package com.bc.beerworks.ui.settings
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import java.time.LocalDate
 
 class BjcpJudgeLinksTest {
@@ -36,5 +38,35 @@ class BjcpJudgeLinksTest {
             .isEqualTo("https://github.com/bcolvin/beerworks")
         assertThat(BjcpJudgeLinks.PRIVACY_POLICY_URL)
             .isEqualTo("https://github.com/bcolvin/beerworks/blob/master/PRIVACY.md")
+    }
+
+    @Test
+    fun buildSuggestComponentIssueUrl_encodesCategoryNameAndDetailsIntoGithubIssueUrl() {
+        val url = BjcpJudgeLinks.buildSuggestComponentIssueUrl(
+            category = "Hop",
+            itemName = "Riwaka Cryo",
+            details = "NZ Hops, tropical citrus"
+        )
+
+        assertThat(url).startsWith("https://github.com/bcolvin/beerworks/issues/new?")
+        val decoded = URLDecoder.decode(url, StandardCharsets.UTF_8.name())
+        assertThat(decoded).contains("title=[Hop] Missing / Update: Riwaka Cryo")
+        assertThat(decoded).contains("- **Category:** Hop")
+        assertThat(decoded).contains("- **Name:** Riwaka Cryo")
+        assertThat(decoded).contains("NZ Hops, tropical citrus")
+    }
+
+    @Test
+    fun buildSuggestComponentIssueUrl_handlesBlankNameAndDetailsWithPlaceholders() {
+        val url = BjcpJudgeLinks.buildSuggestComponentIssueUrl(
+            category = "Yeast",
+            itemName = "   ",
+            details = ""
+        )
+
+        val decoded = URLDecoder.decode(url, StandardCharsets.UTF_8.name())
+        assertThat(decoded).contains("title=[Yeast] Missing / Update request")
+        assertThat(decoded).contains("- **Category:** Yeast")
+        assertThat(decoded).contains("_(please enter name)_")
     }
 }

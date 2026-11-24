@@ -27,7 +27,13 @@ Provide an offline-first, sub-millisecond reference viewer for the official BJCP
 - [x] **Press & Hold Inline Expansion**: Pressing and holding (or tapping the arrow) on a base style card expands it inline to reveal its sub-styles (1A, 1B, 1C, 1D...).
 - [x] **Clean Category Cards**: Minimalist base style headers displaying style number prefix and name without clutter or unnecessary hints.
 - [x] **Top-Level Category Detail Page**: Single-tapping a base style category opens `CategoryDetailScreen` showing category title, sub-style count, spec summary ranges (ABV, IBU, SRM), and sub-style list.
-- [x] **Context-Aware Back Navigation State**: Returning via Back from any sub-page leaves only that sub-page's section expanded on the top-level list while collapsing other sections.
+- [x] **Context-Aware Back Navigation State**: Returning via Back (top bar or system back) from
+  `StyleDetailScreen` restores the saved scroll position (`rememberFilterResetLazyListState`) and
+  expanded category on `StyleListScreen` right at the previously selected `StyleCard` brief view,
+  resetting scroll to top only when search, filters, or guideline actually change.
+- [x] **Base-Style-Dependent Ingredient Fallback**: On `StyleDetailScreen` for `BJCP_2021` specialty
+  styles where hops and/or malts vary by declared base style (Categories `29`–`34`), display a
+  concise single-line fallback note rather than inventing arbitrary ingredient mappings.
 - [x] **Auto-Scroll on Category Expansion**: Expanding a parent category automatically scrolls it up if necessary so that at least 1.5 sub-cards (or 1 if only 1 exists) are immediately visible in the viewport without requiring manual scrolling.
 
 ### Search & Filtering

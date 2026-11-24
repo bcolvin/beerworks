@@ -69,12 +69,16 @@ Provide an offline-first, technically detailed reference database of canonical b
   - Borderless pill search input with leading search icon, clear trailing icon (when query non-blank), no placeholder hint text, keyboard search IME action, and auto-dismiss keyboard on list scroll.
 - [x] **Quick-Filter Strip (`quickFilterStrip` slot)**: Horizontal scrollable chips for **Microorganism Classification** (toggle on/off, without 'All' chip):
   - `Ale`, `Lager`, `Wheat`, `Kveik`, `Wild / Brett`, `Bacteria`, `Wine / Mead / Cider`
-- [x] **Filter Sheet (`YeastFilterSheet`)**: Bottom modal sheet with header `"Filter Yeast"`, `"Reset All"` action button, and `"Apply Filters"` primary button containing:
+- [x] **Filter Sheet (`YeastFilterSheet`)**: Bottom modal sheet with header `"Filter"`,
+  `"Reset All"` action button, containing:
   1. **Microorganism Classification** (toggle chips: Ale, Lager, Wheat, Kveik, Wild / Brett, Bacteria, Wine / Mead / Cider)
-  2. **Flocculation Tier** (toggle chips: Low, Medium, High, Very High)
-  3. **Minimum Attenuation %** (Slider from 60% to 90%)
-  4. **Minimum Alcohol Tolerance** (Slider from 5% to 18% ABV)
-  *(Note: No Form chips and no STA1/POF toggles, keeping filter sheet uncluttered).*
+  2. **Ester & Fermentation Profile** (toggle chips: `Clean / Neutral`, `Subtle Esters`,
+     `Fruity / High Esters`, `Spicy / Phenolic`, `Tart / Sour`, `Funky / Wild`, driven by radar
+     scores and `isPhenolic`)
+  3. **Flocculation Tier** (toggle chips: Low, Medium, Medium-High, High, Very High)
+  4. **Minimum Attenuation %** (Slider from 60% to 95%)
+  5. **Minimum Alcohol Tolerance** (Slider from 5% to 18% ABV)
+     *(Note: No Form chips and no raw STA1/POF toggles, keeping filter sheet uncluttered).*
 - [x] **Glanceable `YeastCard` Items (`IngredientCardScaffold`)**:
   - Strict 4-row vertical layout (`GEMINI.md`):
     1. Header row: Origin country flag + bold strain name on the left, `YeastClassificationBadge` (`IngredientBadge`) aligned to the top right.

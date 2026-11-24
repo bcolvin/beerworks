@@ -31,10 +31,12 @@ data class HopFilterCriteria(
 
 /**
  * Defines the canonical hop sensory filter options and matches hops against their 8-axis
- * radar scores (at >= [RADAR_THRESHOLD]) or non-8-axis descriptors for `"Other"`.
+ * radar scores (at >= [RADAR_THRESHOLD] for primary axes, >= [GRASSY_RADAR_THRESHOLD] for
+ * Grassy) or non-8-axis descriptors for `"Other"`.
  */
 object HopSensoryProfileFilter {
-    const val RADAR_THRESHOLD = 2.5f
+    const val RADAR_THRESHOLD = 3.5f
+    const val GRASSY_RADAR_THRESHOLD = 2.5f
 
     val OPTIONS: List<String> = listOf(
         "Citrus",
@@ -66,16 +68,26 @@ object HopSensoryProfileFilter {
         option = RegexOption.IGNORE_CASE
     )
 
+    fun score(entity: HopVarietyEntity, sensoryOption: String): Float {
+        return when (sensoryOption) {
+            "Citrus" -> entity.radarCitrus ?: 0f
+            "Tropical" -> entity.radarTropical ?: 0f
+            "Floral" -> entity.radarFloral ?: 0f
+            "Herbal" -> entity.radarHerbal ?: 0f
+            "Spicy" -> entity.radarSpicy ?: 0f
+            "Piney" -> entity.radarPiney ?: 0f
+            "Earthy" -> entity.radarEarthy ?: 0f
+            "Grassy" -> entity.radarGrassy ?: 0f
+            else -> 0f
+        }
+    }
+
     fun matches(entity: HopVarietyEntity, sensoryOption: String): Boolean {
         return when (sensoryOption) {
-            "Citrus" -> (entity.radarCitrus ?: 0f) >= RADAR_THRESHOLD
-            "Tropical" -> (entity.radarTropical ?: 0f) >= RADAR_THRESHOLD
-            "Floral" -> (entity.radarFloral ?: 0f) >= RADAR_THRESHOLD
-            "Herbal" -> (entity.radarHerbal ?: 0f) >= RADAR_THRESHOLD
-            "Spicy" -> (entity.radarSpicy ?: 0f) >= RADAR_THRESHOLD
-            "Piney" -> (entity.radarPiney ?: 0f) >= RADAR_THRESHOLD
-            "Earthy" -> (entity.radarEarthy ?: 0f) >= RADAR_THRESHOLD
-            "Grassy" -> (entity.radarGrassy ?: 0f) >= RADAR_THRESHOLD
+            "Citrus", "Tropical", "Floral", "Herbal", "Spicy", "Piney", "Earthy" ->
+                score(entity, sensoryOption) >= RADAR_THRESHOLD
+
+            "Grassy" -> score(entity, sensoryOption) >= GRASSY_RADAR_THRESHOLD
             "Other" -> OTHER_DESCRIPTOR_REGEX.containsMatchIn(entity.descriptors)
             else -> entity.sensoryCategories.contains(sensoryOption, ignoreCase = true)
         }

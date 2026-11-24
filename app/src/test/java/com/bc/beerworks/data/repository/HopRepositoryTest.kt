@@ -175,10 +175,50 @@ class HopRepositoryTest {
         assertThat(tropicalHops).hasSize(1)
         assertThat(tropicalHops[0].id).isEqualTo("citra")
 
-        val pineyHops =
-            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Piney")).first()
-        assertThat(pineyHops).hasSize(1)
-        assertThat(pineyHops[0].id).isEqualTo("cascade")
+        val floralHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Floral"))
+                .first()
+        assertThat(floralHops).hasSize(1)
+        assertThat(floralHops[0].id).isEqualTo("cascade")
+    }
+
+    @Test
+    fun getFilteredHops_earthyThresholdExcludesLowEarthyAndSortsStrongestFirst() = runTest {
+        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+        val chinookLike = testCascadeEntity.copy(
+            id = "chinook",
+            name = "Chinook",
+            radarPiney = 4.9f,
+            radarEarthy = 2.5f
+        )
+        val challengerLike = testCascadeEntity.copy(
+            id = "challenger",
+            name = "Challenger",
+            radarEarthy = 3.6f
+        )
+        val fuggleLike = testCascadeEntity.copy(
+            id = "fuggle",
+            name = "Fuggle",
+            radarEarthy = 4.8f
+        )
+        val northernBrewerLike = testCascadeEntity.copy(
+            id = "northern_brewer",
+            name = "Northern Brewer",
+            radarEarthy = 4.2f
+        )
+        val fakeHopDao =
+            FakeHopDao(listOf(challengerLike, chinookLike, fuggleLike, northernBrewerLike))
+        val repository =
+            HopRepository(fakeHopDao, FakeHopStyleCrossRefDao(), emptyStyleLookup, testDispatcher)
+
+        val earthyHops =
+            repository.getFilteredHops(HopFilterCriteria(selectedSensoryCategory = "Earthy"))
+                .first()
+        assertThat(earthyHops.map { it.id }).containsExactly(
+            "fuggle",
+            "northern_brewer",
+            "challenger"
+        )
     }
 
     @Test
