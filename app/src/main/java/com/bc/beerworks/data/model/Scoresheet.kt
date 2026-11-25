@@ -13,6 +13,8 @@ private val MEAD_STRENGTH_VALUES = listOf("Hydromel", "Standard", "Sack")
 private val CIDER_SWEETNESS_VALUES = listOf("Dry", "Medium-Dry", "Medium", "Medium-Sweet", "Sweet")
 private val CIDER_STRENGTH_VALUES = listOf("Session", "Standard", "High Gravity")
 private val FINISH_VALUES = listOf("Dry", "Balanced", "Sweet")
+private val AFTERTASTE_VALUES = listOf("Clean", "Lingering", "Bitter", "Sweet", "Tart")
+private val LEGS_VALUES = listOf("Light", "Med", "Heavy")
 
 @Immutable
 enum class ScoresheetDiscipline(
@@ -54,8 +56,8 @@ enum class ScoresheetDiscipline(
         sweetnessOptions = emptyList(),
         strengthOptions = emptyList(),
         aromaTip = "Evaluate malt, hops, fermentation esters/phenols, and any other aromatic components against the target style.",
-        appearanceTip = "Evaluate color, clarity, head size, head retention, and head color against the target style.",
-        flavorTip = "Evaluate malt, hops, bitterness, fermentation character, balance, and finish/aftertaste against the target style.",
+        appearanceTip = "Evaluate color, clarity, head size, head retention, head color, head texture, and legs against the target style.",
+        flavorTip = "Evaluate malt, hops, bitterness, fermentation character, balance, finish, and aftertaste against the target style.",
         mouthfeelTip = "Evaluate body, carbonation, alcoholic warmth, creaminess, and astringency against the target style.",
         overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the brewer."
     ),
@@ -77,7 +79,7 @@ enum class ScoresheetDiscipline(
         strengthOptions = MEAD_STRENGTH_VALUES,
         aromaTip = "Evaluate honey aromatics, esters/floral notes, special ingredients, fermentation character, and alcohol presence against the target style.",
         appearanceTip = "Evaluate color, clarity, legs/viscosity, and carbonation against the target style.",
-        flavorTip = "Evaluate honey expression, sweetness, acidity, tannin, body, carbonation, alcohol warmth, balance, and finish against the target style.",
+        flavorTip = "Evaluate honey expression, sweetness, acidity, tannin, body, carbonation, alcohol warmth, balance, finish, and aftertaste against the target style.",
         mouthfeelTip = "",
         overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the meadmaker."
     ),
@@ -99,7 +101,7 @@ enum class ScoresheetDiscipline(
         strengthOptions = CIDER_STRENGTH_VALUES,
         aromaTip = "Evaluate apple/pear fruit aromatics, esters, special ingredients, oak/wood, fermentation character, and alcohol presence against the target style.",
         appearanceTip = "Evaluate color, clarity, legs/viscosity, and carbonation against the target style.",
-        flavorTip = "Evaluate apple/pear character, sweetness, acidity, tannin/astringency, body, carbonation, alcohol warmth, balance, and finish against the target style.",
+        flavorTip = "Evaluate apple/pear character, sweetness, acidity, tannin/astringency, body, carbonation, alcohol warmth, balance, finish, and aftertaste against the target style.",
         mouthfeelTip = "",
         overallTip = "Summarize drinking pleasure, stylistic accuracy, technical merit, and actionable feedback for the cidermaker."
     );
@@ -221,6 +223,20 @@ enum class ScoresheetDescriptor(
         ScoresheetDiscipline.BJCP_BEER,
         listOf("White", "Ivory", "Beige", "Tan")
     ),
+    APPEARANCE_HEAD_TEXTURE(
+        "appearance_head_texture",
+        "Head Texture",
+        ScoresheetSection.APPEARANCE,
+        ScoresheetDiscipline.BJCP_BEER,
+        listOf("Creamy", "Rocky", "Moussy", "Coarse")
+    ),
+    APPEARANCE_LEGS(
+        "appearance_legs",
+        "Legs",
+        ScoresheetSection.APPEARANCE,
+        ScoresheetDiscipline.BJCP_BEER,
+        LEGS_VALUES
+    ),
 
     // Beer — Flavor
     FLAVOR_MALT("flavor_malt", "Malt", ScoresheetSection.FLAVOR, ScoresheetDiscipline.BJCP_BEER),
@@ -236,10 +252,17 @@ enum class ScoresheetDescriptor(
     ),
     FLAVOR_FINISH(
         "flavor_finish",
-        "Finish / Aftertaste",
+        "Finish",
         ScoresheetSection.FLAVOR,
         ScoresheetDiscipline.BJCP_BEER,
         FINISH_VALUES
+    ),
+    FLAVOR_AFTERTASTE(
+        "flavor_aftertaste",
+        "Aftertaste",
+        ScoresheetSection.FLAVOR,
+        ScoresheetDiscipline.BJCP_BEER,
+        AFTERTASTE_VALUES
     ),
 
     // Beer — Mouthfeel
@@ -282,7 +305,7 @@ enum class ScoresheetDescriptor(
         "Legs / Viscosity",
         ScoresheetSection.APPEARANCE,
         ScoresheetDiscipline.BJCP_MEAD,
-        listOf("Light", "Med", "Heavy")
+        LEGS_VALUES
     ),
     MEAD_APPEARANCE_CARBONATION(
         "mead_appearance_carbonation",
@@ -333,6 +356,13 @@ enum class ScoresheetDescriptor(
         ScoresheetDiscipline.BJCP_MEAD,
         FINISH_VALUES
     ),
+    MEAD_FLAVOR_AFTERTASTE(
+        "mead_flavor_aftertaste",
+        "Aftertaste",
+        ScoresheetSection.FLAVOR,
+        ScoresheetDiscipline.BJCP_MEAD,
+        AFTERTASTE_VALUES
+    ),
 
     // Cider — Aroma
     CIDER_AROMA_APPLE_PEAR("cider_aroma_apple_pear", "Apple / Pear", ScoresheetSection.AROMA, ScoresheetDiscipline.BJCP_CIDER),
@@ -362,7 +392,7 @@ enum class ScoresheetDescriptor(
         "Legs / Viscosity",
         ScoresheetSection.APPEARANCE,
         ScoresheetDiscipline.BJCP_CIDER,
-        listOf("Light", "Med", "Heavy")
+        LEGS_VALUES
     ),
     CIDER_APPEARANCE_CARBONATION(
         "cider_appearance_carbonation",
@@ -413,6 +443,13 @@ enum class ScoresheetDescriptor(
         ScoresheetSection.FLAVOR,
         ScoresheetDiscipline.BJCP_CIDER,
         FINISH_VALUES
+    ),
+    CIDER_FLAVOR_AFTERTASTE(
+        "cider_flavor_aftertaste",
+        "Aftertaste",
+        ScoresheetSection.FLAVOR,
+        ScoresheetDiscipline.BJCP_CIDER,
+        AFTERTASTE_VALUES
     );
 
     fun cycle(current: String?): String? = cycleOption(current, options)

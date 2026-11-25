@@ -276,4 +276,85 @@ class ScoresheetModelTest {
         )
         assertThat(ciderAroma).doesNotContain(ScoresheetDescriptor.AROMA_MALT, ScoresheetDescriptor.MEAD_AROMA_HONEY)
     }
+
+    @Test
+    fun scoresheetDescriptor_beerAppearanceIncludesHeadTextureAndLegs() {
+        val beerAppearance = ScoresheetDescriptor.forSection(
+            ScoresheetSection.APPEARANCE,
+            ScoresheetDiscipline.BJCP_BEER
+        )
+
+        assertThat(beerAppearance).contains(
+            ScoresheetDescriptor.APPEARANCE_HEAD_TEXTURE,
+            ScoresheetDescriptor.APPEARANCE_LEGS
+        )
+        assertThat(ScoresheetDescriptor.APPEARANCE_HEAD_TEXTURE.options)
+            .containsExactly("Creamy", "Rocky", "Moussy", "Coarse")
+        assertThat(ScoresheetDescriptor.APPEARANCE_LEGS.options)
+            .containsExactly("Light", "Med", "Heavy")
+    }
+
+    @Test
+    fun scoresheetDescriptor_flavorSplitsFinishAndAftertasteAcrossAllDisciplines() {
+        val beerFlavor = ScoresheetDescriptor.forSection(
+            ScoresheetSection.FLAVOR,
+            ScoresheetDiscipline.BJCP_BEER
+        )
+        val meadFlavor = ScoresheetDescriptor.forSection(
+            ScoresheetSection.FLAVOR,
+            ScoresheetDiscipline.BJCP_MEAD
+        )
+        val ciderFlavor = ScoresheetDescriptor.forSection(
+            ScoresheetSection.FLAVOR,
+            ScoresheetDiscipline.BJCP_CIDER
+        )
+
+        assertThat(beerFlavor).contains(
+            ScoresheetDescriptor.FLAVOR_FINISH,
+            ScoresheetDescriptor.FLAVOR_AFTERTASTE
+        )
+        assertThat(ScoresheetDescriptor.FLAVOR_FINISH.label).isEqualTo("Finish")
+        assertThat(ScoresheetDescriptor.FLAVOR_AFTERTASTE.options)
+            .containsExactly("Clean", "Lingering", "Bitter", "Sweet", "Tart")
+
+        assertThat(meadFlavor).contains(
+            ScoresheetDescriptor.MEAD_FLAVOR_FINISH,
+            ScoresheetDescriptor.MEAD_FLAVOR_AFTERTASTE
+        )
+        assertThat(ScoresheetDescriptor.MEAD_FLAVOR_AFTERTASTE.options)
+            .containsExactly("Clean", "Lingering", "Bitter", "Sweet", "Tart")
+
+        assertThat(ciderFlavor).contains(
+            ScoresheetDescriptor.CIDER_FLAVOR_FINISH,
+            ScoresheetDescriptor.CIDER_FLAVOR_AFTERTASTE
+        )
+        assertThat(ScoresheetDescriptor.CIDER_FLAVOR_AFTERTASTE.options)
+            .containsExactly("Clean", "Lingering", "Bitter", "Sweet", "Tart")
+
+        // Cycle check on Aftertaste
+        var value: String? = null
+        val cycled = mutableListOf<String?>()
+        repeat(6) {
+            value = ScoresheetDescriptor.FLAVOR_AFTERTASTE.cycle(value)
+            cycled.add(value)
+        }
+        assertThat(cycled).containsExactly("Clean", "Lingering", "Bitter", "Sweet", "Tart", null)
+    }
+
+    @Test
+    fun formatForShare_includesHeadTextureLegsFinishAndAftertasteWhenSet() {
+        val beer = BeerScoresheet(
+            entryTitle = "Barleywine Reserve",
+            descriptorValues = mapOf(
+                ScoresheetDescriptor.APPEARANCE_HEAD_TEXTURE.key to "Creamy",
+                ScoresheetDescriptor.APPEARANCE_LEGS.key to "Heavy",
+                ScoresheetDescriptor.FLAVOR_FINISH.key to "Sweet",
+                ScoresheetDescriptor.FLAVOR_AFTERTASTE.key to "Lingering"
+            )
+        )
+
+        val shared = beer.formatForShare()
+        assertThat(shared).contains("Appearance: Head Texture: Creamy, Legs: Heavy")
+        assertThat(shared).contains("Flavor: Finish: Sweet, Aftertaste: Lingering")
+    }
 }

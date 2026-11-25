@@ -39,7 +39,12 @@ Enable cider judges and cidermakers to create, edit, delete, search, filter, and
   - **Cider `ScoresheetDescriptor`s**:
     - **Aroma** (`0–10`): `Apple / Pear`, `Fruity / Esters`, `Spices / Adjuncts`, `Oak / Wood`, `Alcohol`, `Fermentation` (`Low / Med / High`).
     - **Appearance** (`0–6`): `Color` (`Pale / Yellow / Gold / Amber / Copper / Pink / Red`), `Clarity` (`Opaque / Hazy / Brilliant`), `Legs / Viscosity` (`Light / Med / Heavy`), `Carbonation` (`Still / Pétillant / Sparkling`).
-    - **Flavor** (`0–24`): `Apple / Pear`, `Spices / Adjuncts`, `Oak / Wood`, `Sweetness` (`Dry / Medium-Dry / Medium / Medium-Sweet / Sweet`), `Acidity` (`Low / Med / High`), `Tannin / Astringency` (`Low / Med / High`), `Body` (`Thin / Med / Full`), `Carbonation` (`Still / Pétillant / Sparkling`), `Alcohol Warmth` (`Low / Med / High`), `Balance` (`Sweet / Balanced / Tart-Tannic`), `Finish` (`Dry / Balanced / Sweet`).
+    - **Flavor** (`0–24`): `Apple / Pear`, `Spices / Adjuncts`, `Oak / Wood`, `Sweetness`
+      (`Dry / Medium-Dry / Medium / Medium-Sweet / Sweet`), `Acidity` (`Low / Med / High`),
+      `Tannin / Astringency` (`Low / Med / High`), `Body` (`Thin / Med / Full`), `Carbonation`
+      (`Still / Pétillant / Sparkling`), `Alcohol Warmth` (`Low / Med / High`), `Balance`
+      (`Sweet / Balanced / Tart-Tannic`), `Finish` (`Dry / Balanced / Sweet`), `Aftertaste`
+      (`Clean / Lingering / Bitter / Sweet / Tart`).
   - `formatForShare()`: Generates `"BJCP Cider Scoresheet"` plain-text summary with `Cidermaker`, populated `Additional Information` lines only when set, the 4-section breakdown (`Aroma / 10`, `Appearance / 6`, `Flavor / 24`, `Overall Impression / 10`), impressions, descriptors, off-flavors, and notes.
 - [x] **Room Persistence (`ScoresheetEntity.kt`)**:
   - Round-trip `FourSectionScoresheet` (`BJCP_CIDER`) cleanly through the existing `scoresheets` table (`declaredCarbonation`, `declaredSweetness`, `declaredStrength`, `specialIngredients`) without requiring a schema migration.

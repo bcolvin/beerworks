@@ -37,7 +37,13 @@ Enable beer judges and brewers to record, edit, delete, search, and share **Scor
   - `ScoresheetDiscipline`: `BJCP_BEER` (`"BJCP Beer"`, `"Beer"`, `"🍺"`), `BJCP_MEAD` (`"BJCP Mead"`, `"Mead"`, `"🐝"`), and `BJCP_CIDER` (`"BJCP Cider"`, `"Cider"`, `"🍏"`), owning section score bounds (`aromaMax`, `appearanceMax`, `flavorMax`, `mouthfeelMax`, `overallMax`), maker/field labels, fallback section tips, and Mead/Cider declared classification options. `fromStorageValue()` resolves discipline names and defaults null/unknown values to `BJCP_BEER` (with no short-form vs. long-form split).
   - `Scoresheet`: `id`, `discipline: ScoresheetDiscipline`, `entryTitle` (Entry # or Beer Name), `brewer` (optional), `styleId` (optional `BJCP_2021` link), `styleName`, `styleNumber`, `evaluatedAtMillis`, integer section scores (`aromaScore` 0–12, `appearanceScore` 0–3, `flavorScore` 0–20, `mouthfeelScore` 0–5, `overallScore` 0–10; all starting at `0`), optional per-section notes (`aromaNotes`, `appearanceNotes`, `flavorNotes`, `mouthfeelNotes`, `overallNotes`), `bottleInspectionOk` (Boolean), `bottleInspectionNotes`, 0–10 impressions (`stylisticAccuracy`, `technicalMerit`, `intangibles`; all starting at `0`), `descriptorValues: Map<String, String>`, `offFlavorLevels: Map<String, IntensityLevel>`, and `updatedAtMillis`, plus shared `copyCommon`, `hasJudgingData`, and `sanitizedForSave` operations.
   - Computed `totalScore` (`/50`) and `scoringTier` (`BjcpScoringTier`: Outstanding 45–50, Excellent 38–44, Very Good 30–37, Good 21–29, Fair 14–20, Problematic 0–13 with official descriptions).
-  - `ScoresheetDescriptor`: Section-grouped tap-cycle descriptors for `Aroma` (`Malt`, `Hops`, `Fermentation Character`), `Appearance` (`Color`, `Clarity`, `Head Size`, `Head Retention`, `Head Color`), `Flavor` (`Malt`, `Hops`, `Bitterness`, `Fermentation Character`, `Balance`, `Finish / Aftertaste`), and `Mouthfeel` (`Body`, `Carbonation`, `Warmth`, `Creaminess`, `Astringency`).
+  - `ScoresheetDescriptor`: Section-grouped tap-cycle descriptors for `Aroma` (`Malt`, `Hops`,
+    `Fermentation Character`), `Appearance` (`Color`, `Clarity`, `Head Size`, `Head Retention`,
+    `Head Color`, `Head Texture` [`Creamy / Rocky / Moussy / Coarse`], `Legs` [
+    `Light / Med / Heavy`]), `Flavor` (`Malt`, `Hops`, `Bitterness`, `Fermentation Character`,
+    `Balance`, `Finish` [`Dry / Balanced / Sweet`], `Aftertaste` [
+    `Clean / Lingering / Bitter / Sweet / Tart`]), and `Mouthfeel` (`Body`, `Carbonation`, `Warmth`,
+    `Creaminess`, `Astringency`).
   - `IntensityLevel`: 4-state cycle (`Unset → Low → Medium → High → Unset`) for Off-Flavors.
   - `formatForShare()`: Generates a formatted plain-text summary for the Android Sharesheet prefixed with `"${discipline.displayName} Scoresheet"`.
 - [x] **Room Database (`BeerworksDatabase` v12 → v13)**:

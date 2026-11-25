@@ -22,8 +22,8 @@ android {
         applicationId = "com.bc.beerworks"
         minSdk = 29
         targetSdk = 36
-        versionCode = 5
-        versionName = "0.2"
+        versionCode = 7
+        versionName = "0.11.24"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -39,7 +39,11 @@ Enable mead judges and meadmakers to create, edit, delete, search, filter, and s
   - **Mead `ScoresheetDescriptor`s**:
     - **Aroma** (`0–10`): `Honey`, `Floral / Fruity`, `Spices / Adjuncts`, `Alcohol`, `Fermentation` (`Low / Med / High`).
     - **Appearance** (`0–6`): `Color` (`Straw / Gold / Amber / Dark / Pink / Red / Purple`), `Clarity` (`Opaque / Hazy / Brilliant`), `Legs / Viscosity` (`Light / Med / Heavy`), `Carbonation` (`Still / Pétillant / Sparkling`).
-    - **Flavor** (`0–24`): `Honey`, `Spices / Adjuncts`, `Sweetness` (`Dry / Semi-Sweet / Sweet`), `Acidity` (`Low / Med / High`), `Tannin / Astringency` (`Low / Med / High`), `Body` (`Light / Med / Full`), `Carbonation` (`Still / Pétillant / Sparkling`), `Alcohol Warmth` (`Low / Med / High`), `Balance` (`Sweet / Balanced / Acidic`), `Finish` (`Dry / Balanced / Sweet`).
+    - **Flavor** (`0–24`): `Honey`, `Spices / Adjuncts`, `Sweetness` (`Dry / Semi-Sweet / Sweet`),
+      `Acidity` (`Low / Med / High`), `Tannin / Astringency` (`Low / Med / High`), `Body`
+      (`Light / Med / Full`), `Carbonation` (`Still / Pétillant / Sparkling`), `Alcohol Warmth`
+      (`Low / Med / High`), `Balance` (`Sweet / Balanced / Acidic`), `Finish`
+      (`Dry / Balanced / Sweet`), `Aftertaste` (`Clean / Lingering / Bitter / Sweet / Tart`).
   - `formatForShare()`: Generates `"BJCP Mead Scoresheet"` plain-text summary including populated `Additional Information` lines only when set, the 4-section breakdown (`Aroma / 10`, `Appearance / 6`, `Flavor / 24`, `Overall Impression / 10`), impressions, descriptors, off-flavors, and notes.
 - [x] **Room Database (`BeerworksDatabase` v13 → v14)**:
   - Extend `ScoresheetEntity` with `declaredCarbonation`, `declaredSweetness`, `declaredStrength`, and `specialIngredients` columns (`TEXT NOT NULL DEFAULT ''`), migrated non-destructively via `MIGRATION_13_14`.
